@@ -1,0 +1,66 @@
+<%= form_for(article, remote: true) do |f| %>
+<% if article.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(article.errors.count, "error") %>
+      prohibited this article from being saved:</h2>
+
+    <ul>
+      <% article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="view">
+  <div class="col-xs-5 col-sm-5">
+    <div class="col-md-11">
+    <div class="form-group">
+    <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :기사종류 %>
+      <%= f.select :kind, ['기사', '사진', '기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :제목 %>
+      <!-- <%= f.text_field :title, class: 'form-control' %> -->
+      <%= f.text_field :title, size: 34, class: "form-control title", autocomplete: 'off' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label '글쓴이'%>
+      <%= f.text_field :reporter, size: 20, class: "form-control", autocomplete: 'off' %>
+    </div>
+
+    <% if  article.show_quote_box?%>
+      <div class="form-group">
+        <%= f.label '발문'%>
+        <%= f.text_area :quote, rows: "3", class: 'form-control', autocomplete: 'off' %>
+      </div>
+    <% end %>
+
+    <div class="form-group-body">
+      <%= f.label :본문 %>
+      <%= f.text_area :body, col: "40", rows: "20", class: 'form-control shinmoon', autocomplete: 'off' %>
+    </div>
+
+    <div class="field">
+      <%= f.text_field :image, type: "hidden" %>
+    </div>
+
+    <div class="field">
+      <%= f.text_field :has_profile_image, type: "hidden" %>
+    </div>
+  </div>
+  </div>
+  <div class="col-xs-7 col-sm-7">
+  <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span></div>
+  <%= render 'show_preview', article: @working_article %>
+  </div>      
+</div>
+
+</nav>
+<% end %>

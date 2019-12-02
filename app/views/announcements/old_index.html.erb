@@ -1,0 +1,22 @@
+<h3>안내문</h3>
+
+<table class="responsive nowrap table table-hover" id="dttb-announcements" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="name">이름</th>
+      <th data-data="kind">종류</th>
+      <th data-data="title">제목</th>
+      <th data-data="subtitle">부제목</th>
+      <th data-data="column">단</th>
+      <th data-data="lines">라인수</th>
+      <th data-data="page">페이지</th>
+      <th data-data="color">칼러</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to '새 안내문', new_announcement_path %>

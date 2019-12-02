@@ -1,0 +1,12 @@
+<%= link_to "/working_articles/#{@working_article.id}" do %>
+  <span class='zoom' id='ex1'>
+    <%= image_tag @working_article.jpg_image_path, style: "width: 100%;", class: "border" %>
+  </span>
+<% end %>
+<%= render 'character_count', article: @working_article %>
+<br>
+<% if @working_article.article_info && @working_article.article_info[:overflow_text] && @working_article.article_info[:overflow_text] !=""%>
+  <div align="center" style="color:red;">
+    <%= @working_article.article_info[:overflow_text].html_safe%>
+  </div>
+<% end %>

@@ -1,0 +1,34 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Date:</strong>
+  <%= @ad_plan.date %>
+</p>
+
+<p>
+  <strong>Page number:</strong>
+  <%= @ad_plan.page_number %>
+</p>
+
+<p>
+  <strong>Ad type:</strong>
+  <%= @ad_plan.ad_type %>
+</p>
+
+<p>
+  <strong>Advertiser:</strong>
+  <%= @ad_plan.advertiser %>
+</p>
+
+<p>
+  <strong>Color page:</strong>
+  <%= @ad_plan.color_page %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @ad_plan.comment %>
+</p>
+
+<%= link_to 'Edit', edit_ad_plan_path(@ad_plan) %> |
+<%= link_to 'Back', ad_plans_path %>

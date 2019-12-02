@@ -1,0 +1,24 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Klass:</strong>
+  <%= @stroke_style.klass %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @stroke_style.name %>
+</p>
+
+<p>
+  <strong>Stroke:</strong>
+  <%= @stroke_style.stroke %>
+</p>
+
+<p>
+  <strong>Publication:</strong>
+  <%= @stroke_style.publication %>
+</p>
+
+<%= link_to 'Edit', edit_stroke_style_path(@stroke_style) %> |
+<%= link_to 'Back', stroke_styles_path %>

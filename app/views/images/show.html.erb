@@ -1,0 +1,35 @@
+<!-- p id="notice"><%= notice %></p-->
+<p>
+  <strong>Column:</strong>
+  <%= @image.column %>
+</p>
+<p>
+  <strong>Row:</strong>
+  <%= @image.row %>
+</p>
+<p>
+  <strong>Height adjustment:</strong>
+  <%= @image.extra_height_in_lines %>
+</p>
+<p>
+  <strong>Image path:</strong>
+  <%= @image.image_path %>
+</p>
+<p>
+  <strong>Caption title:</strong>
+  <%= @image.caption_title %>
+</p>
+<p>
+  <strong>Caption:</strong>
+  <%= @image.caption %>
+</p>
+<p>
+  <strong>Position:</strong>
+  <%= @image.position %>
+</p>
+<p>
+  <strong>Article:</strong>
+  <%= @image.working_article %>
+</p>
+<%= link_to 'Edit', edit_image_path(@image) %> |
+<%= link_to 'Back', images_path %>

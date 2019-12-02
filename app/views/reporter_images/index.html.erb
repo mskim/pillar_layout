@@ -1,0 +1,19 @@
+<h1>Reporter Images</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-reporter_images" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="user">User</th>
+      <th data-data="title">Title</th>
+      <th data-data="caption">Caption</th>
+      <th data-data="source">Source</th>
+      <th data-data="reporter_image">Reporter image</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Reporter Image', new_reporter_image_path %>

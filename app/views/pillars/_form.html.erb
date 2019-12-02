@@ -1,0 +1,22 @@
+<%= simple_form_for(@pillar) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :grid_x %>
+    <%= f.input :grid_y %>
+    <%= f.input :column %>
+    <%= f.input :row %>
+    <%= f.input :order %>
+    <%= f.input :box_count %>
+    <%= f.input :layout_with_pillar_path %>
+    <%= f.input :layout %>
+    <%= f.input :profile %>
+    <%= f.input :finger_print %>
+    <%= f.association :region %>
+    <%= f.input :region_type %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

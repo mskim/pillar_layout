@@ -1,0 +1,10 @@
+
+<div align='center'>
+  <h3>기사 배정 수정</h3>
+
+  <%= render 'form', article_plan: @article_plan %>
+  <br>
+  <div align='center'>
+    <%= link_to '이전으로', page_plan_path(@article_plan.page_plan), method: :get, class: "btn btn-sm btn-success"  %>
+  </div>
+</div>

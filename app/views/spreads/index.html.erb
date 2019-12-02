@@ -1,0 +1,49 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<h1>Spreads</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Issue</th>
+      <th>Left page</th>
+      <th>Right page</th>
+      <th>Ad box</th>
+      <th>Color page</th>
+      <th>Width</th>
+      <th>Height</th>
+      <th>Left margin</th>
+      <th>Top margin</th>
+      <th>Right margin</th>
+      <th>Bottom margin</th>
+      <th>Page gutter</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @spreads.each do |spread| %>
+      <tr>
+        <td><%= spread.issue %></td>
+        <td><%= spread.left_page_id %></td>
+        <td><%= spread.right_page_id %></td>
+        <td><%= spread.ad_box_id %></td>
+        <td><%= spread.color_page %></td>
+        <td><%= spread.width %></td>
+        <td><%= spread.height %></td>
+        <td><%= spread.left_margin %></td>
+        <td><%= spread.top_margin %></td>
+        <td><%= spread.right_margin %></td>
+        <td><%= spread.bottom_margin %></td>
+        <td><%= spread.page_gutter %></td>
+        <td><%= link_to 'Show', spread %></td>
+        <td><%= link_to 'Edit', edit_spread_path(spread) %></td>
+        <td><%= link_to 'Destroy', spread, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Spread', new_spread_path %>

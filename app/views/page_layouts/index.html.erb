@@ -1,0 +1,28 @@
+<h1>Page Layouts</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-page_layouts" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="doc_width">Doc width</th>
+      <th data-data="doc_height">Doc height</th>
+      <th data-data="ad_type">Ad type</th>
+      <th data-data="page_type">Page type</th>
+      <th data-data="column">Column</th>
+      <th data-data="row">Row</th>
+      <th data-data="pillar_count">Pillar count</th>
+      <th data-data="grid_width">Grid width</th>
+      <th data-data="grid_height">Grid height</th>
+      <th data-data="gutter">Gutter</th>
+      <th data-data="margin">Margin</th>
+      <th data-data="layout">Layout</th>
+      <th data-data="layout_with_pillar_path">Layout with pillar path</th>
+      <th data-data="like">Like</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Page Layout', new_page_layout_path %>

@@ -1,0 +1,2 @@
+module ReporterGraphicsHelper
+end

@@ -1,0 +1,31 @@
+
+<h3 align="center">기사 배정: <%= @page_plan.section_name %>(<%= @page_plan.page_number %>)</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>기사 번호</th>
+      <th>담당기자</th>
+      <th style="text-align:center;">제목</th>
+      <th>예상 자수</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @page_plan.article_plans.each do |article_plan| %>
+      <tr>
+      <td style="text-align:center;"><%= article_plan.order %></td>
+          <td style="text-align:left;"><%= article_plan.reporter %></td>
+          <td style="text-align:left;"><%= article_plan.title %></td>
+          <td style="text-align:center;"><%= article_plan.char_count %></td>
+          <td><%= button_to " 수정", edit_article_plan_path(article_plan), method: :get, class: "btn btn-sm btn-warning" %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<div align='center'>
+  <%= link_to '이전으로', current_plan_issue_path(Issue.last.id), method: :get, class: "btn btn-sm btn-success"  %>
+  <%= link_to '확정 통보', current_plan_issue_path(Issue.last.id), method: :get, class: "btn btn-sm btn-danger"  %>
+</div>

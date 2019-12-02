@@ -1,0 +1,21 @@
+
+<div align="center">
+<%= simple_form_for(@announcement) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: "이름"   %>
+    <%= f.input :title, label: "제목"   %>
+    <%= f.input :column, label: "댠수"   %>
+    <%= f.input :lines, label: "행수" %>
+    <%= f.input :page, label: "페이지" %>
+    <%= f.input :color, label: "컬러" %>
+    <%= f.input :script %>
+    <%= f.association :publication %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+</div>

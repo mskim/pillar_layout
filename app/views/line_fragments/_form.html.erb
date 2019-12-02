@@ -1,0 +1,22 @@
+<%= simple_form_for(@line_fragment) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :working_article %>
+    <%= f.association :paragraph %>
+    <%= f.input :order %>
+    <%= f.input :column %>
+    <%= f.input :line_type %>
+    <%= f.input :x %>
+    <%= f.input :y %>
+    <%= f.input :width %>
+    <%= f.input :height %>
+    <%= f.input :tokens %>
+    <%= f.input :text_area_x %>
+    <%= f.input :text_area_width %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

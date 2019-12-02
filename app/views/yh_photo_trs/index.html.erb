@@ -1,0 +1,34 @@
+<div class="container">
+  <h3 class="display-4 text-center mb-3">번역 외신 사진</h3>
+  <form class="form-inline d-flex justify-content-center">
+    <%= search_form_for @q do |f| %>
+      <div class="form-group">
+        <%= f.select(:category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_picture_category]), {include_blank: '카테고리 선택'}, {class: "custom-select"}) %>
+      </div>
+      <div class="input-group col-6">
+        <%= f.text_field :title_or_body_or_source_cont, placeholder: "검색어를 입력하세요.", class: "form-control" %>
+        <div class="input-group-append">
+          <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
+            <span><i class="fa fa-search" aria-hidden="true"></i> 사진 검색</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </form>
+</div>
+<div class="w-100">
+  <br>
+  <div class="card-columns">
+    <% @yh_photo_trs.each do |yh_photo_tr| %>
+      <div class="card text-center">
+        <%= link_to (image_tag yh_photo_tr.thumb_path, class: "img-crop"), yh_photo_tr_path(yh_photo_tr) %>
+        <div class="card-footer">
+          <h6 class="card-title text-center"><%= yh_photo_tr.title %></h6>
+          <small class="text-muted"><%= yh_photo_tr.created_at.strftime("%y-%m-%d %H:%M") %></small>
+          <p class="font-weight-bold"><%= yh_photo_tr.source %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= paginate @yh_photo_trs, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
+</div>

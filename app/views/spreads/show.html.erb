@@ -1,0 +1,64 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Issue:</strong>
+  <%= @spread.issue %>
+</p>
+
+<p>
+  <strong>Left page:</strong>
+  <%= @spread.left_page_id %>
+</p>
+
+<p>
+  <strong>Right page:</strong>
+  <%= @spread.right_page_id %>
+</p>
+
+<p>
+  <strong>Ad box:</strong>
+  <%= @spread.ad_box_id %>
+</p>
+
+<p>
+  <strong>Color page:</strong>
+  <%= @spread.color_page %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @spread.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @spread.height %>
+</p>
+
+<p>
+  <strong>Left margin:</strong>
+  <%= @spread.left_margin %>
+</p>
+
+<p>
+  <strong>Top margin:</strong>
+  <%= @spread.top_margin %>
+</p>
+
+<p>
+  <strong>Right margin:</strong>
+  <%= @spread.right_margin %>
+</p>
+
+<p>
+  <strong>Bottom margin:</strong>
+  <%= @spread.bottom_margin %>
+</p>
+
+<p>
+  <strong>Page gutter:</strong>
+  <%= @spread.page_gutter %>
+</p>
+
+<%= link_to 'Edit', edit_spread_path(@spread) %> |
+<%= link_to 'Back', spreads_path %>

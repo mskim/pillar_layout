@@ -1,0 +1,104 @@
+<%= form_for(text_style) do |f| %>
+  <% if text_style.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(text_style.errors.count, "error") %> prohibited this text_style from being saved:</h2>
+
+      <ul>
+      <% text_style.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '단락 스타일' %>
+    <%= f.text_field :korean_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label '단락 스타일 영문명' %>
+    <%= f.text_field :english %>
+  </div>
+
+  <div class="field">
+    <%= f.label '서체 이름' %>
+    <%= f.text_field :font_family %>
+  </div>
+
+  <div class="field">
+    <%= f.label '서체 포스트스크립 이름' %>
+    <%= f.text_field :font %>
+  </div>
+
+  <div class="field">
+    <%= f.label '크기' %>
+    <%= f.text_field :font_size %>
+  </div>
+
+  <div class="field">
+    <%= f.label '컬러' %>
+    <%= f.text_field :text_color %>
+  </div>
+
+  <div class="field">
+    <%= f.label '정렬' %>
+    <%= f.text_field :alignment %>
+  </div>
+
+  <div class="field">
+    <%= f.label '자간' %>
+    <%= f.text_field :tracking %>
+  </div>
+
+  <div class="field">
+    <%= f.label '어간' %>
+    <%= f.text_field :space_width %>
+  </div>
+
+  <div class="field">
+    <%= f.label '장평' %>
+    <%= f.text_field :scale %>
+  </div>
+
+  <div class="field">
+    <%= f.label '행간' %>
+    <%= f.text_field :text_line_spacing %>
+  </div>
+
+  <div class="field">
+    <%= f.label '글위 행간' %>
+    <%= f.number_field :space_before_in_lines %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label '글이래 행간' %>
+    <%= f.number_field :space_after_in_lines %>
+  </div>
+
+  <div class="field">
+    <%= f.label '글높이 행간' %>
+    <%= f.number_field :text_height_in_lines %>
+  </div>
+
+  <div class="field">
+    <%= f.label '박스 디자인' %>
+    <%= f.text_area :box_attributes, cols: "100", rows: "3", font_size: "16px"%>
+  </div>
+
+  <div class="field">
+    <%= f.label '유동적 단락 스타일' %>
+    <%= f.text_area :graphic_attributes, cols: "100", rows: "3", font_size: "16px"%>
+  </div>
+
+  <div class="field">
+    <%= f.label '입력시 단락표시 방법' %>
+    <%= f.text_field :markup %>
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-sm btn-success">저장</button>
+  </div>
+
+<% end %>

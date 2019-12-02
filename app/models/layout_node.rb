@@ -1,0 +1,2 @@
+class LayoutNode < ApplicationRecord
+end

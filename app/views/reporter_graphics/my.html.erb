@@ -1,0 +1,16 @@
+<h3 class="text-center">나의 그래픽</h3>
+<div align="center">
+  <%= paginate @reporter_graphics %>
+</div>
+<div class="view">
+  <% @reporter_graphics.each do |picture| %>
+    <div class="col-md-2">
+      <a href="<%=  reporter_graphic_path(picture) %>"><img style="object-fit:cover",  src="<%= picture.preview_path %>" width="200px" height="200px"></img></a>
+    <p align="center"><%= picture.title %></p>
+  </div>
+<% end %>
+</div>
+<div align="center">
+  <%= link_to '신규', new_reporter_graphic_path, user: @user %>
+  <%= paginate @reporter_graphics %>
+</div>

@@ -1,0 +1,12 @@
+<%= simple_form_for(@heading_bg_image) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :heading_bg_image %>
+    <%= f.association :page_heading %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

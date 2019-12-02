@@ -1,0 +1,34 @@
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+<h3>돌출 광고</h3>
+
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>날짜</th>
+      <th>광고주</th>
+      <th>파일명</th>
+ 
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @heading_ad_images.each do |heading_ad_image| %>
+      <tr>
+        <td><%= heading_ad_image.date %></td>
+        <td><%= heading_ad_image.advertiser %></td>
+        <td><%= heading_ad_image.heading_ad_image.path %></td>
+        <td><%= heading_ad_image.x %></td>
+        <td><%= link_to '오늘 광고 설정', today_heading_ad_image_path(heading_ad_image)%></td>
+        <td><%= link_to '수정', edit_heading_ad_image_path(heading_ad_image) %></td>
+        <td><%= link_to '삭제', heading_ad_image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '신규 돌출 광고', new_heading_ad_image_path %>
+</div>

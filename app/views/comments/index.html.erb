@@ -1,0 +1,22 @@
+<h1>Comments</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-comments" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="name">Name</th>
+      <th data-data="text">Text</th>
+      <th data-data="image">Image</th>
+      <th data-data="x_value">X value</th>
+      <th data-data="y_value">Y value</th>
+      <th data-data="width">Width</th>
+      <th data-data="height">Height</th>
+      <th data-data="proof">Proof</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Comment', new_comment_path %>

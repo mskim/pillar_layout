@@ -1,0 +1,52 @@
+
+<h3 align="center">기사 배정: <%= @page.section_name %>(<%= @page.page_number %>면)</h3>
+@stories: <%= @stories.length%>
+
+
+  <div class='col-xs-12 col-md-12'>
+
+      <div class='col-xs-12 col-md-4'>
+        <div class='col-xs-9 col-md-9'>
+        <%= raw @page.to_story_svg %>
+        <h4 align='center'><a href='<%= page_path(@page)%>'><%= "#{@page.page_number}" %></a></h4>
+
+        </div>
+      </div>
+      <div class='col-xs-9 col-md-8 table_h300'>
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th style="text-align:center;">순서</th>
+          <th style="text-align:center;">기자</th>
+          <th style="text-align:center;">제목</th>
+          <th style="text-align:center;">예상 글자수</th>
+          <th style="text-align:center;">기사배정</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @page.working_articles.sort_by{|a| a.order}.each do |working_article| %>
+          <% if working_article.story %>
+          <tr style="background-color:skyblue;">
+          <% else  %>
+          <tr>
+          <% end  %>
+            <td style="text-align:center;"><%= working_article.order %></td>
+            <td style="text-align:center;"><%= working_article.reporter %></td>
+            <td><%= working_article.title %></td>
+            <td style="text-align:center;"><%= working_article.approximate_char_count %></td>
+            <td style="text-align:center;"><%= button_to '배정', change_story_working_article_path(working_article), method: :get, class: "btn btn-sm btn-primary" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+
+
+
+
+<!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="btn-group" role="group" aria-label="기능">
+   <%= link_to "이전으로", page_path(@page), method: :get, class: "btn btn-default btn-sm" %>
+  </div>
+</nav>

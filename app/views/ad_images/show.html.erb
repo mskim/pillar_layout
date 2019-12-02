@@ -1,0 +1,25 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Ad type:</strong>
+  <%= @ad_image.ad_type %>
+</p>
+
+<p>
+  <strong>Column:</strong>
+  <%= @ad_image.column %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @ad_image.row %>
+</p>
+
+<p>
+  <strong>Page:</strong>
+  <%= @ad_image.page_number %>
+</p>
+
+
+<%= link_to 'Edit', edit_ad_image_path(@ad_image) %> |
+<%= link_to 'Back', ad_images_path %>

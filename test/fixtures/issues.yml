@@ -1,0 +1,36 @@
+# == Schema Information
+#
+# Table name: issues
+#
+#  id             :integer          not null, primary key
+#  date           :date
+#  number         :string
+#  plan           :text
+#  publication_id :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  slug           :string
+#
+# Indexes
+#
+#  index_issues_on_publication_id  (publication_id)
+#  index_issues_on_slug            (slug) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (publication_id => publications.id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2017-05-26
+  number: MyString
+  plan: MyText
+  publication: one
+
+two:
+  date: 2017-05-26
+  number: MyString
+  plan: MyText
+  publication: two

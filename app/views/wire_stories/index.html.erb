@@ -1,0 +1,47 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<h1>Wire Stories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Send date</th>
+      <th>Content</th>
+      <th>Category code</th>
+      <th>Category name</th>
+      <th>Region code</th>
+      <th>Region name</th>
+      <th>Credit</th>
+      <th>Source</th>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Issue</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wire_stories.each do |wire_story| %>
+      <tr>
+        <td><%= wire_story.send_date %></td>
+        <td><%= wire_story.content_id %></td>
+        <td><%= wire_story.category_code %></td>
+        <td><%= wire_story.category_name %></td>
+        <td><%= wire_story.region_code %></td>
+        <td><%= wire_story.region_name %></td>
+        <td><%= wire_story.credit %></td>
+        <td><%= wire_story.source %></td>
+        <td><%= wire_story.title %></td>
+        <td><%= wire_story.body %></td>
+        <td><%= wire_story.issue %></td>
+        <td><%= link_to 'Show', wire_story %></td>
+        <td><%= link_to 'Edit', edit_wire_story_path(wire_story) %></td>
+        <td><%= link_to 'Destroy', wire_story, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wire Story', new_wire_story_path %>

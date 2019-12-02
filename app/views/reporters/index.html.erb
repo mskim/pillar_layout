@@ -1,0 +1,35 @@
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+
+<h3>기자 리스트</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>기자명</th>
+      <th>이메일</th>
+      <th>직책</th>
+      <th>담당팀</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reporters.each do |reporter| %>
+      <tr>
+        <td><%= reporter.name %></td>
+        <td><%= reporter.email %></td>
+        <td><%= reporter.title %></td>
+        <td><%= reporter.reporter_group.section %></td>
+        <td><%= link_to 'Show', reporter %></td>
+        <td><%= link_to 'Edit', edit_reporter_path(reporter) %></td>
+        <td><%= link_to 'Destroy', reporter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= button_to '신규기자 추가', new_reporter_path, method: :get, class: "btn btn-sm btn-success" %>
+
+</div>
+
+<br>

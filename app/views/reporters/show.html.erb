@@ -1,0 +1,24 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Name:</strong>
+  <%= @reporter.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @reporter.email %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @reporter.title %>
+</p>
+
+<p>
+  <strong>Reporter group:</strong>
+  <%= @reporter.reporter_group %>
+</p>
+
+<%= link_to 'Edit', edit_reporter_path(@reporter) %> |
+<%= link_to 'Back', reporters_path %>

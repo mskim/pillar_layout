@@ -1,0 +1,56 @@
+<%= form_for(article) do |f| %>
+  <% if article.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+      <ul>
+      <% article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :문패 %>
+    <%= f.text_field :subject_head, class: ' subject_head_input' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :제목 %>
+    <%= f.text_field :title, class: 'title_input' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :부제목 %>
+    <%= f.text_field :subtitle, class: 'subtile_title_input'%>
+  </div>
+
+  <div class="field">
+    <%= f.label :기자명 %>
+    <%= f.text_field :reporter %>
+  </div>
+
+  <div class="field">
+    <%= f.label :본문 %>
+    <%= f.text_area :body, cols: "150", rows: "30", font_size: "16px"%>
+  </div>
+
+
+  <div class="field">
+    <%= f.text_field :image, type: "hidden" %>
+  </div>
+
+  <div class="field">
+    <%= f.text_field :has_profile_image, type: "hidden" %>
+  </div>
+
+  <div class="field">
+    <%= f.text_field :quote, type: "hidden" %>
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-sm btn-primary">저장</button>
+  </div>
+
+<% end %>

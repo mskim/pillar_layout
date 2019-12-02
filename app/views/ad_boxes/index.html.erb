@@ -1,0 +1,35 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<h1>Ad Boxes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column</th>
+      <th>Row</th>
+      <th>Ad type</th>
+      <th>Advertiser</th>
+      <th>Page</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ad_boxes.each do |ad_box| %>
+      <tr>
+        <td><%= ad_box.column %></td>
+        <td><%= ad_box.row %></td>
+        <td><%= ad_box.ad_type %></td>
+        <td><%= ad_box.advertiser %></td>
+        <td><%= ad_box.page %></td>
+        <td><%= link_to 'Show', ad_box %></td>
+        <td><%= link_to 'Edit', edit_ad_box_path(ad_box) %></td>
+        <td><%= link_to 'Destroy', ad_box, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ad Box', new_ad_box_path %>

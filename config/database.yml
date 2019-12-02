@@ -1,0 +1,51 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+# default: &default
+#   adapter: sqlite3
+#   pool: 5
+#   timeout: 5000
+#
+# development:
+#   <<: *default
+#   database: db/development.sqlite3
+#
+# test:
+#   <<: *default
+#   database: db/test.sqlite3
+#
+# production:
+#   <<: *default
+#   database: db/production.sqlite3
+
+# The port of the remote server (this is always 5432).
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: <%= ENV['USER'] %>
+  password:
+
+  # 내일 신문 서버 주소
+  # host: 211.115.91.213
+  # port: 5432
+  # timeout: 5000
+
+development:
+  <<: *default
+  database: style_guide_development
+  username: <%= ENV['USER'] %>
+
+test:
+  <<: *default
+  database: style_guide__test
+  username: <%= ENV['USER'] %>
+
+production:
+  <<: *default
+  database: style_guide_production
+  username: <%= ENV['USER'] %>

@@ -1,0 +1,13 @@
+<h4 align="center">기사 그래픽</h4>
+
+<% if @yh_graphics && @yh_graphics.count > 0%>
+  <div class="view">
+    <% @yh_graphics.each do |yh_graphic| %>
+      <div class="col-xs-5 col-sm-3">
+        <a href="<%= yh_graphic_path(yh_graphic) %>"><img class="img-crop" src="<%= yh_graphic.thumb_path %>"></img></a>
+        <p align="center"><%= yh_graphic.title %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+

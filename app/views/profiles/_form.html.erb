@@ -1,0 +1,22 @@
+<%= simple_form_for(profile) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title, label: "분류", :collection => ["기고", "정치시평"], include_blank: false %>
+    <%= f.input :name, label: "이름" %>
+    <%= f.input :work, label: "소속" %>
+    <%= f.input :position, label: "직책" %>
+    <%= f.input :profile_image, label: "EPS선택" %>
+    <%= f.input :profile_jpg_image, label: "JPG선택" %>
+    <%= f.association :publication , :as => :hidden, input_html: {value: 1}%>
+  </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<div class="btn-group" role="group" aria-label="기능">
+  <%= link_to "이전으로", profiles_path, method: :get, class: "btn btn-default btn-sm" %>
+  <%= f.button :submit, value: "저장", class: "btn btn-primary btn-sm" %>
+  <%= link_to '삭제', @profiles, method: :delete, data: { confirm: '정말 삭제하겠습니까?' }, class: "btn btn-default btn-sm" %>
+</div>
+</nav>
+
+<% end %>

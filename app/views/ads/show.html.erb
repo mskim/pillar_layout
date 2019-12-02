@@ -1,0 +1,21 @@
+  <!-- p id="notice"><%= notice %></p-->
+  <div class="col-xs-6 col-md-4">
+    <div class="col-xs-6 col-md-5">
+      <strong>이름 </strong><%= @ad.name %><br>
+      <%= raw @ad.to_svg %><br>
+      <strong>행 </strong><%= @ad.column %><br>
+      <strong>열 </strong><%= @ad.row %><br>
+      <strong>페이지 단 </strong><%= @ad.page_columns %><br>
+  </div>
+
+</div>
+  <div class="col-xs-6 col-md-4">
+    <div class="col-xs-6 col-md-5">
+      <%= render 'form', ad: @ad %>
+    </div>
+  </div>
+
+
+
+<%= link_to 'Edit', edit_ad_path(@ad) %> |
+<%= link_to 'Back', ads_path %>

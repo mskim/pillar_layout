@@ -1,0 +1,14 @@
+<%= simple_form_for(@article_plan) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :order %>
+    <%= f.input :reporter, collection: @reporters %>
+    <%= f.input :title %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

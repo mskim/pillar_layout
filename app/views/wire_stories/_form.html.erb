@@ -1,0 +1,21 @@
+<%= simple_form_for(@wire_story) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :send_date %>
+    <%= f.input :content_id %>
+    <%= f.input :category_code %>
+    <%= f.input :category_name %>
+    <%= f.input :region_code %>
+    <%= f.input :region_name %>
+    <%= f.input :credit %>
+    <%= f.input :source %>
+    <%= f.input :title %>
+    <%= f.input :body %>
+    <%= f.association :issue %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

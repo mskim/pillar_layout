@@ -1,0 +1,24 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Page number:</strong>
+  <%= @section_heading.page_number %>
+</p>
+
+<p>
+  <strong>Section name:</strong>
+  <%= @section_heading.section_name %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @section_heading.date %>
+</p>
+
+<p>
+  <strong>Layout:</strong>
+  <%= @section_heading.layout %>
+</p>
+
+<%= link_to 'Edit', edit_section_heading_path(@section_heading) %> |
+<%= link_to 'Back', section_headings_path %>

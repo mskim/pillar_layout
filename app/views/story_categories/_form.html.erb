@@ -1,0 +1,17 @@
+<%= simple_form_for(@story_category) do |f| %>
+  <ul>
+  <% @story_category.errors.full_messages.each do |message| %>
+  <li><%= message %></li>
+  <% end %>
+</ul>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: "기사 대분류 이름" %>
+    <%= f.input :code, label: "기사 대분류 코드" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

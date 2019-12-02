@@ -1,0 +1,55 @@
+<!-- p id="notice"><%= notice %></p-->
+<p>
+  <strong>Grid x:</strong>
+  <%= @graphic.grid_x %>
+</p>
+<p>
+  <strong>Grid y:</strong>
+  <%= @graphic.grid_y %>
+</p>
+<p>
+  <strong>Column:</strong>
+  <%= @graphic.column %>
+</p>
+<p>
+  <strong>Row:</strong>
+  <%= @graphic.row %>
+</p>
+<p>
+  <strong>Extra height in lines:</strong>
+  <%= @graphic.extra_height_in_lines %>
+</p>
+<p>
+  <strong>Graphic:</strong>
+  <%= @graphic.storage_graphic %>
+</p>
+<p>
+  <strong>Caption:</strong>
+  <%= @graphic.caption %>
+</p>
+<p>
+  <strong>Source:</strong>
+  <%= @graphic.source %>
+</p>
+<p>
+  <strong>Position:</strong>
+  <%= @graphic.position %>
+</p>
+<p>
+  <strong>Page number:</strong>
+  <%= @graphic.page_number %>
+</p>
+<p>
+  <strong>Story number:</strong>
+  <%= @graphic.story_number %>
+</p>
+<p>
+  <strong>Working article:</strong>
+  <%= @graphic.working_article %>
+</p>
+<p>
+  <strong>Issue:</strong>
+  <%= @graphic.issue_id %>
+</p>
+<%= link_to 'Edit', edit_graphic_path(@graphic) %> |
+<%= link_to 'Back', graphics_path %>

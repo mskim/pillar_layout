@@ -1,0 +1,23 @@
+<div class="container mt-5">
+  <h3 class="text-center">연합 그래픽</h3>
+  <%= search_form_for @q do |f| %>
+    <%= f.label '카테고리' %>
+    <%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_graphic_category]), :include_blank => '전체' %>
+    <%= f.submit %>
+  <% end %>
+  <br>
+  <div class="card-columns">
+    <% @yh_graphics.each do |yh_graphic| %>
+      <div class="card">
+        <%= link_to (image_tag yh_graphic.thumb_path, class: "img-crop"), yh_graphic_path(yh_graphic) %>
+        <div class="card-body" style="height: 50px;">
+          <h5 class="card-title text-center"><%= yh_graphic.title %></h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted"><%= yh_graphic.created_at.strftime("%y-%m-%d %H:%M") %></small>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= paginate @yh_graphics, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
+</div>

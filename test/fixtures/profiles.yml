@@ -1,0 +1,43 @@
+# == Schema Information
+#
+# Table name: profiles
+#
+#  id                :bigint(8)        not null, primary key
+#  name              :string
+#  profile_image     :string
+#  work              :string
+#  position          :string
+#  email             :string
+#  publication_id    :bigint(8)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  title             :string
+#  category_code     :integer
+#  profile_jpg_image :string
+#
+# Indexes
+#
+#  index_profiles_on_publication_id  (publication_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (publication_id => publications.id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  profile_image: MyString
+  work: MyString
+  position: MyString
+  email: MyString
+  publication: one
+
+two:
+  name: MyString
+  profile_image: MyString
+  work: MyString
+  position: MyString
+  email: MyString
+  publication: two

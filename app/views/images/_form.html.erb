@@ -1,0 +1,135 @@
+<div class="col-xs-12 col-sm-6 frame-2">
+  <div class="col-xs-12 col-sm-12 frame-1">
+    <%= form_for(image, :html => { :multipart => true }) do |f| %> <% if
+    image.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= pluralize(image.errors.count, "error") %> prohibited this image from
+          being saved:
+        </h2>
+        <ul>
+          <% image.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="col-xs-5 col-sm-5">
+      <div class="actions">
+        <%= f.button "저장", type: :submit, class: "btn btn-primary btn-sm" %>
+        <%= link_to '삭제', image, method: :delete, data: { confirm: 'Are you
+        sure?' }, class: "btn btn-sm btn-danger" %>
+      </div>
+      <div class="field">
+        <%= f.label :종류 %> <%= f.select :image_kind, %w[일반 인물_좌 인물_우
+        그릅], {include_blank: false}, {onChange: 'this.form.submit();'} %>
+        <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
+      </div>
+      <div class="field">
+        <%= f.label :기사와_관련없는_사진 %><%= f.check_box :not_related %>
+      </div>
+      <div class="field">
+        <%= f.label :사진정렬 %><%= f.select :fit_type, %w[최적 가로 세로
+        욱여넣기], {include_blank: false} %>
+      </div>
+      <% if @working_article.kind != '사진' %>
+        <div class="field" style="width:70px; float:left;">
+          <%= f.label :위치 %>
+          <div style="font-size: 11px;">
+            <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %>
+            <%= f.radio_button :position, 0, title: "제목위" %>
+            <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %><br />
+            <%= f.radio_button :position, 1, title: "좌상단" %>
+            <%= f.radio_button :position, 2, title: "중상단" %>
+            <%= f.radio_button :position, 3, title: "우상단" %><br />
+            <%= f.radio_button :position, 4, title: "좌" %>
+            <%= f.radio_button :position, 5, title: "중앙" %>
+            <%= f.radio_button :position, 6, title: "우" %><br />
+            <%= f.radio_button :position, 7, title: "좌하단"%>
+            <%= f.radio_button :position, 8, title: "중하단" %>
+            <%= f.radio_button :position, 9, title: "우하단" %><br />
+          </div>
+        </div>
+      <% end %>
+      <div class="field" style="width:70px; display:inline-block;">
+        <%= f.label :기준점 %>
+        <div style="font-size: 11px;">
+          <%= f.radio_button :zoom_direction, 1, title: "좌상단" %>
+          <%= f.radio_button :zoom_direction, 2, title: "중상단" %>
+          <%= f.radio_button :zoom_direction, 3, title: "우상단" %><br />
+          <%= f.radio_button :zoom_direction, 4, title: "좌" %>
+          <%= f.radio_button :zoom_direction, 5, title: "중앙" %>
+          <%= f.radio_button :zoom_direction, 6, title: "우" %><br />
+          <%= f.radio_button :zoom_direction, 7, title: "좌하단"%>
+          <%= f.radio_button :zoom_direction, 8, title: "중하단" %>
+          <%= f.radio_button :zoom_direction, 9, title: "우하단" %><br />
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-7 col-sm-7">
+      <div class="col-xs-12 col-sm-12">
+        <%= image.size_string %>
+        <% if image.storage_image.attached? %>
+          <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
+          <%= image_tag image.storage_image, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
+        <% else%>
+          <%= image_tag image.empty_image_url, :width => "100%", style: "padding-bottom:20px" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="class"></div>
+    <div class="col-xs-12 col-sm-12">
+      <% if @working_article.kind != '사진' %>
+        <div class="field">
+          <%= f.label :가로시작_단 %><%= f.text_field :x_grid, style: "width:35px", class: 'form-control' %>
+          <%= f.label :테두리 %>
+          <%= f.check_box :draw_frame %>
+        </div>
+        <div class="field">
+          <%= f.label :크기 %>
+          <%= f.text_field :column, style: "width:40px", class: 'form-control' %>단 x
+          <%= f.text_field :row, style: "width:40px", class: 'form-control' %>열
+          <%= f.text_field :extra_height_in_lines, style: "width:50px", class: 'form-control' %>행 추가
+        </div>
+      <% end %>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+      <div class="field">
+        <!-- %= f.label '사진제목과 설명' %-->
+        <%= f.text_field :caption_title, cols: "60", placeholder: "사진제목",
+        class:'form-control', autocomplete: 'off' %> <%= f.text_area :caption,
+        cols: "50", rows: "5", font_size: "12px", placeholder:"사진설명을 여러줄
+        입력할 수 있습니다", class: 'form-control' , autocomplete: 'off'%>
+        <%= f.text_field :source, placeholder: "사진출처", class: 'form-control', autocomplete: 'off' %>
+      </div>
+      <div class="actions">
+        <%= f.button "저장", type: :submit, id: "updateSize", class: "btn btn-primary btn-sm" %>
+        <%= link_to '삭제', image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %>
+      </div>
+      <div class="field">
+        <label class="btn btn-warning btn-sm">
+          사진 파일 바꾸기 <%= f.file_field :storage_image, style: "display: none;" %>
+        </label>
+        <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly" />
+      </div>
+      <% if image.crop_x.present? %>
+        <%= link_to "크롭수정", crop_image_path(image), id: "cropEditBtn", class: "btn btn-sm btn-success" %>
+      <% else %>
+        <%= link_to "크롭생성", crop_image_path(image), id: "cropCreateBtn", class: "btn btn-sm btn-success" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<div class="btn-group" role="group" aria-label="기능">
+<%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+<%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+<%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-default btn-sm" %>
+<%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-default btn-sm" %>
+</div>
+<div class="btn-group btn-right" role="group" aria-label="기능">
+    <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-sm", remote: true, data:{disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+</div>
+</nav>
+<% end %>

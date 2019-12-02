@@ -1,0 +1,24 @@
+<!-- p id="notice"><%= notice %></p-->
+<h3 align="center">외신 사진</h3>
+<%= search_form_for @q do |f| %>
+<%= f.label '카테고리' %>
+<%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_picture_category]), :include_blank => '전체' %>
+<%= f.submit %>
+<% end %>
+<br>
+
+<div class="view">
+  <% @yh_photo_fr_ynas.each do |yh_photo_fr_yna| %>
+    <div class="col-xs-5 col-sm-2">
+      <a href="<%= yh_photo_fr_yna_path(yh_photo_fr_yna) %>"><img class="img-crop" src="<%= yh_photo_fr_yna.thumb_path %>"></img></a>
+      <div align="center" style="height: 50px;"><%= yh_photo_fr_yna.title %></div>
+      <p align="center"><%= yh_photo_fr_yna.source %></p>
+
+    </div>
+  <% end %>
+</div>
+
+<div class="col-xs-12 col-sm-12" align="center">
+  <%= paginate @yh_photo_fr_ynas %>
+</div>
+

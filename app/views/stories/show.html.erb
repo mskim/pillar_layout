@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-md-10">
+      <h3 class="text-center">
+        <%= @story.date.to_s %>: <%= @story.summitted_section %>
+      </h3>
+      <% if @story.selected %>
+        <h3>페이지:<%= @story.working_article.page.page_number%>-<%= @story.working_article.order%></h3>
+        <%= render 'selected', story: @story, working_article: @working_article %>
+      <% else %>
+        <div class ="col-md-12">
+          <%= render 'form', story: @story %>
+        </div>
+      <% end %>
+      <div class ="col-md-12">
+        <%= render 'yh_pictures/my', yh_pictures: @my_pictures %>
+      </div>
+      <div class ="col-md-12">
+        <%= render 'yh_graphics/my', yh_graphics: @my_graphics%>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>

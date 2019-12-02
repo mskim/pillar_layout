@@ -1,0 +1,13 @@
+<%= simple_form_for(@ad_booking) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :publication, value: 1%>
+    <%= f.input :date %>
+    <%= f.input :ad_list,  :input_html => { 'rows' => 25, 'cols' => 50 }%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

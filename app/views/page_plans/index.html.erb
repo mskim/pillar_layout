@@ -1,0 +1,43 @@
+<!-- p id="notice"><%= notice %></p-->
+<h3 align="center">면 배열표</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>페이지</th>
+      <th>면 이름</th>
+      <th>기사 수</th>
+      <th>광고</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @page_plans.each do |page_plan| %>
+      <% if page_plan.color_page %>
+        <tr style="background-color:pink;">
+      <% else %>
+        <tr style="background-color:white;">
+      <% end %>
+          <td style="text-align:center;"><%= page_plan.page_number %></td>
+          <td style="text-align:center;"><%= page_plan.section_name %></td>
+          <td style="text-align:center;"><%= page_plan.story_count %></td>
+          <td style="text-align:center;"><%= page_plan.ad_type %></td>
+          <% if page_plan.need_update? %>
+            <td><%= button_to "적용", update_page_page_plan_path(page_plan), method: :get, class: "btn btn-sm btn-danger" %></td>
+          <% else %>
+            <td><%= button_to "완료", "#", method: :get, class: "btn btn-sm btn-success" %></td>
+          <% end %>
+          <td><%= button_to "레이아웃 수정", edit_page_plan_path(page_plan), method: :get, class: "btn btn-sm btn-warning" %></td>
+          <td><%= button_to "기사 배정", page_plan_path(page_plan), method: :get, class: "btn btn-sm btn-success" %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+
+<div align="center">
+  <%= link_to "페이지 생성", update_plan_issue_path(Issue.last.id), method: :get, class: "btn-group btn btn-sm btn-info" , align: "center"%>
+</div>

@@ -1,0 +1,11 @@
+<h4 class="text-center">기사 사진</h4>
+<% if @yh_pictures && @yh_pictures.count > 0 %>
+  <div class="view">
+    <% @yh_pictures.each do |yh_picture| %>
+      <div class="col-xs-5 col-sm-3">
+        <a href="<%= yh_picture_path(yh_picture) %>"><img class="img-crop" src="<%= yh_picture.thumb_path %>"></img></a>
+      <p align="center"><%= yh_picture.title %></p>
+    </div>
+  <% end %>
+</div>
+<% end %>

@@ -1,0 +1,2 @@
+module HeadingBgImagesHelper
+end

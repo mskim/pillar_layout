@@ -1,0 +1,22 @@
+<!-- p id="notice"><%= notice %></p-->
+<h3 align="center">PR보도자료</h3>
+<%= search_form_for @q do |f| %>
+<%= f.label '카테고리' %>
+<%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_pr_category]), :include_blank => '전체' %>
+<%= f.submit %>
+<% end %>
+<br>
+
+<div class="view">
+  <% @yh_prs.each do |yh_pr| %>
+    <div class="col-xs-5 col-sm-2">
+      <a href="<%= yh_pr_path(yh_pr) %>"><img class="img-crop" src="<%= yh_pr.thumb_path %>"></img></a>
+      <div align="center" style="height: 50px;"><%= yh_pr.title %></div>
+    </div>
+  <% end %>
+</div>
+
+<div class="col-xs-12 col-sm-12" align="center">
+  <%= paginate @yh_prs %>
+</div>
+

@@ -1,0 +1,5110 @@
+rjob 2018 5 1
++++++++ Installed Fonts List +++++++
+---------------
+familyName:.Al Bayan PUA
+displayName:.Al Bayan PUA Plain
+postscritpName:.AlBayanPUA
+---------------
+familyName:.Al Bayan PUA
+displayName:.Al Bayan PUA Bold
+postscritpName:.AlBayanPUA-Bold
+---------------
+familyName:.Al Nile PUA
+displayName:.Al Nile PUA
+postscritpName:.AlNilePUA
+---------------
+familyName:.Al Nile PUA
+displayName:.Al Nile PUA Bold
+postscritpName:.AlNilePUA-Bold
+---------------
+familyName:.Al Tarikh PUA
+displayName:.Al Tarikh PUA
+postscritpName:.AlTarikhPUA
+---------------
+familyName:.Apple Color Emoji UI
+displayName:.Apple Color Emoji UI
+postscritpName:.AppleColorEmojiUI
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Bold
+postscritpName:.AppleSDGothicNeoI-Bold
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:Apple SD GothicNeo ExtraBold
+postscritpName:.AppleSDGothicNeoI-ExtraBold
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Heavy
+postscritpName:.AppleSDGothicNeoI-Heavy
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Light
+postscritpName:.AppleSDGothicNeoI-Light
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Medium
+postscritpName:.AppleSDGothicNeoI-Medium
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Regular
+postscritpName:.AppleSDGothicNeoI-Regular
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI SemiBold
+postscritpName:.AppleSDGothicNeoI-SemiBold
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI Thin
+postscritpName:.AppleSDGothicNeoI-Thin
+---------------
+familyName:.Apple SD Gothic NeoI
+displayName:.Apple SD Gothic NeoI UltraLight
+postscritpName:.AppleSDGothicNeoI-UltraLight
+---------------
+familyName:.Arial Hebrew Desk Interface
+displayName:.Arial Hebrew Desk Interface
+postscritpName:.ArialHebrewDeskInterface
+---------------
+familyName:.Arial Hebrew Desk Interface
+displayName:.Arial Hebrew Desk Interface Bold
+postscritpName:.ArialHebrewDeskInterface-Bold
+---------------
+familyName:.Arial Hebrew Desk Interface
+displayName:.Arial Hebrew Desk Interface Light
+postscritpName:.ArialHebrewDeskInterface-Light
+---------------
+familyName:.Baghdad PUA
+displayName:.Baghdad PUA
+postscritpName:.BaghdadPUA
+---------------
+familyName:.Beirut PUA
+displayName:.Beirut PUA
+postscritpName:.BeirutPUA
+---------------
+familyName:.Damascus PUA
+displayName:.Damascus PUA
+postscritpName:.DamascusPUA
+---------------
+familyName:.Damascus PUA
+displayName:.Damascus PUA Bold
+postscritpName:.DamascusPUABold
+---------------
+familyName:.Damascus PUA
+displayName:.Damascus PUA Light
+postscritpName:.DamascusPUALight
+---------------
+familyName:.Damascus PUA
+displayName:.Damascus PUA Medium
+postscritpName:.DamascusPUAMedium
+---------------
+familyName:.Damascus PUA
+displayName:.Damascus PUA Semi Bold
+postscritpName:.DamascusPUASemiBold
+---------------
+familyName:.DecoType Naskh PUA
+displayName:.DecoType Naskh PUA
+postscritpName:.DecoTypeNaskhPUA
+---------------
+familyName:.Diwan Kufi PUA
+displayName:.Diwan Kufi PUA
+postscritpName:.DiwanKufiPUA
+---------------
+familyName:.Farah PUA
+displayName:.Farah PUA
+postscritpName:.FarahPUA
+---------------
+familyName:.Geeza Pro Interface
+displayName:.Geeza Pro Interface Regular
+postscritpName:.GeezaProInterface
+---------------
+familyName:.Geeza Pro Interface
+displayName:.Geeza Pro Interface Bold
+postscritpName:.GeezaProInterface-Bold
+---------------
+familyName:.Geeza Pro Interface
+displayName:.Geeza Pro Interface Light
+postscritpName:.GeezaProInterface-Light
+---------------
+familyName:.Geeza Pro PUA
+displayName:.Geeza Pro PUA Bold
+postscritpName:.GeezaProPUA-Bold
+---------------
+familyName:.Geeza Pro PUA
+displayName:.Geeza Pro PUA
+postscritpName:.GeezaProPUA-Regular
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Bold
+postscritpName:.HelveticaNeueDeskInterface-Bold
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Bold Italic
+postscritpName:.HelveticaNeueDeskInterface-BoldItalic
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Heavy
+postscritpName:.HelveticaNeueDeskInterface-Heavy
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Italic
+postscritpName:.HelveticaNeueDeskInterface-Italic
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Light
+postscritpName:.HelveticaNeueDeskInterface-Light
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Medium Italic P4
+postscritpName:.HelveticaNeueDeskInterface-MediumItalicP4
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Medium P4
+postscritpName:.HelveticaNeueDeskInterface-MediumP4
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Regular
+postscritpName:.HelveticaNeueDeskInterface-Regular
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface Thin
+postscritpName:.HelveticaNeueDeskInterface-Thin
+---------------
+familyName:.Helvetica Neue DeskInterface
+displayName:.Helvetica Neue DeskInterface UltraLight
+postscritpName:.HelveticaNeueDeskInterface-UltraLightP2
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W0
+postscritpName:.HiraKakuInterface-W0
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W1
+postscritpName:.HiraKakuInterface-W1
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W2
+postscritpName:.HiraKakuInterface-W2
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W3
+postscritpName:.HiraKakuInterface-W3
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W4
+postscritpName:.HiraKakuInterface-W4
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W5
+postscritpName:.HiraKakuInterface-W5
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W6
+postscritpName:.HiraKakuInterface-W6
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W7
+postscritpName:.HiraKakuInterface-W7
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W8
+postscritpName:.HiraKakuInterface-W8
+---------------
+familyName:.Hiragino Kaku Gothic Interface
+displayName:.Hiragino Kaku Gothic Interface W9
+postscritpName:.HiraKakuInterface-W9
+---------------
+familyName:.Hiragino Sans GB Interface
+displayName:.Hiragino Sans GB Interface W3
+postscritpName:.HiraginoSansGBInterface-W3
+---------------
+familyName:.Hiragino Sans GB Interface
+displayName:.Hiragino Sans GB Interface W6
+postscritpName:.HiraginoSansGBInterface-W6
+---------------
+familyName:.Keyboard
+displayName:.Keyboard
+postscritpName:.Keyboard
+---------------
+familyName:.KufiStandardGK PUA
+displayName:.KufiStandardGK PUA
+postscritpName:.KufiStandardGKPUA
+---------------
+familyName:.Lucida Grande UI
+displayName:.Lucida Grande UI Regular
+postscritpName:.LucidaGrandeUI
+---------------
+familyName:.Lucida Grande UI
+displayName:.Lucida Grande UI Bold
+postscritpName:.LucidaGrandeUI-Bold
+---------------
+familyName:.Muna PUA
+displayName:.Muna PUA
+postscritpName:.MunaPUA
+---------------
+familyName:.Muna PUA
+displayName:.Muna PUA Black
+postscritpName:.MunaPUABlack
+---------------
+familyName:.Muna PUA
+displayName:.Muna PUA Bold
+postscritpName:.MunaPUABold
+---------------
+familyName:.Nadeem PUA
+displayName:.Nadeem PUA
+postscritpName:.NadeemPUA
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Light
+postscritpName:.PingFangHK-Light
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Medium
+postscritpName:.PingFangHK-Medium
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Regular
+postscritpName:.PingFangHK-Regular
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Semibold
+postscritpName:.PingFangHK-Semibold
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Thin
+postscritpName:.PingFangHK-Thin
+---------------
+familyName:.PingFang HK
+displayName:.PingFang HK Ultralight
+postscritpName:.PingFangHK-Ultralight
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Light
+postscritpName:.PingFangSC-Light
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Medium
+postscritpName:.PingFangSC-Medium
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Regular
+postscritpName:.PingFangSC-Regular
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Semibold
+postscritpName:.PingFangSC-Semibold
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Thin
+postscritpName:.PingFangSC-Thin
+---------------
+familyName:.PingFang SC
+displayName:.PingFang SC Ultralight
+postscritpName:.PingFangSC-Ultralight
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Light
+postscritpName:.PingFangTC-Light
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Medium
+postscritpName:.PingFangTC-Medium
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Regular
+postscritpName:.PingFangTC-Regular
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Semibold
+postscritpName:.PingFangTC-Semibold
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Thin
+postscritpName:.PingFangTC-Thin
+---------------
+familyName:.PingFang TC
+displayName:.PingFang TC Ultralight
+postscritpName:.PingFangTC-Ultralight
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Black
+postscritpName:.SFCompactDisplay-Black
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Bold
+postscritpName:.SFCompactDisplay-Bold
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Heavy
+postscritpName:.SFCompactDisplay-Heavy
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Light
+postscritpName:.SFCompactDisplay-Light
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Medium
+postscritpName:.SFCompactDisplay-Medium
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Regular
+postscritpName:.SFCompactDisplay-Regular
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Semibold
+postscritpName:.SFCompactDisplay-Semibold
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Thin
+postscritpName:.SFCompactDisplay-Thin
+---------------
+familyName:.SF Compact Display
+displayName:.SF Compact Display Ultralight
+postscritpName:.SFCompactDisplay-Ultralight
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Black
+postscritpName:.SFCompactRounded-Black
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Bold
+postscritpName:.SFCompactRounded-Bold
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Heavy
+postscritpName:.SFCompactRounded-Heavy
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Light
+postscritpName:.SFCompactRounded-Light
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Medium
+postscritpName:.SFCompactRounded-Medium
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Regular
+postscritpName:.SFCompactRounded-Regular
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Semibold
+postscritpName:.SFCompactRounded-Semibold
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Thin
+postscritpName:.SFCompactRounded-Thin
+---------------
+familyName:.SF Compact Rounded
+displayName:.SF Compact Rounded Ultralight
+postscritpName:.SFCompactRounded-Ultralight
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Bold
+postscritpName:.SFCompactText-Bold
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Bold Italic
+postscritpName:.SFCompactText-BoldItalic
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Heavy
+postscritpName:.SFCompactText-Heavy
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Heavy Italic
+postscritpName:.SFCompactText-HeavyItalic
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Italic
+postscritpName:.SFCompactText-Italic
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Light
+postscritpName:.SFCompactText-Light
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Light Italic
+postscritpName:.SFCompactText-LightItalic
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Medium
+postscritpName:.SFCompactText-Medium
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Medium Italic
+postscritpName:.SFCompactText-MediumItalic
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Regular
+postscritpName:.SFCompactText-Regular
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Semibold
+postscritpName:.SFCompactText-Semibold
+---------------
+familyName:.SF Compact Text
+displayName:.SF Compact Text Semibold Italic
+postscritpName:.SFCompactText-SemiboldItalic
+---------------
+familyName:.SF NS Display
+displayName:System Font Regular
+postscritpName:.SFNSDisplay
+---------------
+familyName:.SF NS Display
+displayName:System Font Black
+postscritpName:.SFNSDisplay-Black
+---------------
+familyName:.SF NS Display
+displayName:System Font Bold
+postscritpName:.SFNSDisplay-Bold
+---------------
+familyName:.SF NS Display
+displayName:System Font Heavy
+postscritpName:.SFNSDisplay-Heavy
+---------------
+familyName:.SF NS Display
+displayName:System Font Light
+postscritpName:.SFNSDisplay-Light
+---------------
+familyName:.SF NS Display
+displayName:System Font Medium
+postscritpName:.SFNSDisplay-Medium
+---------------
+familyName:.SF NS Display
+displayName:System Font Semibold
+postscritpName:.SFNSDisplay-Semibold
+---------------
+familyName:.SF NS Display
+displayName:System Font Thin
+postscritpName:.SFNSDisplay-Thin
+---------------
+familyName:.SF NS Display
+displayName:System Font Ultralight
+postscritpName:.SFNSDisplay-Ultralight
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Black
+postscritpName:.SFNSDisplayCondensed-Black
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Bold
+postscritpName:.SFNSDisplayCondensed-Bold
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Heavy
+postscritpName:.SFNSDisplayCondensed-Heavy
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Light
+postscritpName:.SFNSDisplayCondensed-Light
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Medium
+postscritpName:.SFNSDisplayCondensed-Medium
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Regular
+postscritpName:.SFNSDisplayCondensed-Regular
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Semibold
+postscritpName:.SFNSDisplayCondensed-Semibold
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Thin
+postscritpName:.SFNSDisplayCondensed-Thin
+---------------
+familyName:.SF NS Display Condensed
+displayName:.SF NS Display Condensed Ultralight
+postscritpName:.SFNSDisplayCondensed-Ultralight
+---------------
+familyName:.SF NS Text
+displayName:System Font Regular
+postscritpName:.SFNSText
+---------------
+familyName:.SF NS Text
+displayName:System Font Bold
+postscritpName:.SFNSText-Bold
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Bold Italic
+postscritpName:.SFNSText-BoldItalic
+---------------
+familyName:.SF NS Text
+displayName:System Font Heavy
+postscritpName:.SFNSText-Heavy
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Heavy Italic
+postscritpName:.SFNSText-HeavyItalic
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Italic
+postscritpName:.SFNSText-Italic
+---------------
+familyName:.SF NS Text
+displayName:System Font Light
+postscritpName:.SFNSText-Light
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Light Italic
+postscritpName:.SFNSText-LightItalic
+---------------
+familyName:.SF NS Text
+displayName:System Font Medium
+postscritpName:.SFNSText-Medium
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Medium Italic
+postscritpName:.SFNSText-MediumItalic
+---------------
+familyName:.SF NS Text
+displayName:System Font Semibold
+postscritpName:.SFNSText-Semibold
+---------------
+familyName:.SF NS Text
+displayName:System Font Italic Semibold Italic
+postscritpName:.SFNSText-SemiboldItalic
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Bold
+postscritpName:.SFNSTextCondensed-Bold
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Heavy
+postscritpName:.SFNSTextCondensed-Heavy
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Light
+postscritpName:.SFNSTextCondensed-Light
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Medium
+postscritpName:.SFNSTextCondensed-Medium
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Regular
+postscritpName:.SFNSTextCondensed-Regular
+---------------
+familyName:.SF NS Text Condensed
+displayName:.SF NS Text Condensed Semibold
+postscritpName:.SFNSTextCondensed-Semibold
+---------------
+familyName:.Sana PUA
+displayName:.Sana PUA
+postscritpName:.SanaPUA
+---------------
+familyName:.Savoye LET CC.
+displayName:Savoye LET Plain CC.:1.0
+postscritpName:.SavoyeLetPlainCC
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro Bold
+postscritpName:ACaslonPro-Bold
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro Bold Italic
+postscritpName:ACaslonPro-BoldItalic
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro Italic
+postscritpName:ACaslonPro-Italic
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro
+postscritpName:ACaslonPro-Regular
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro Semibold
+postscritpName:ACaslonPro-Semibold
+---------------
+familyName:Adobe Caslon Pro
+displayName:Adobe Caslon Pro Semibold Italic
+postscritpName:ACaslonPro-SemiboldItalic
+---------------
+familyName:Adobe Garamond Pro
+displayName:Adobe Garamond Pro Bold
+postscritpName:AGaramondPro-Bold
+---------------
+familyName:Adobe Garamond Pro
+displayName:Adobe Garamond Pro Bold Italic
+postscritpName:AGaramondPro-BoldItalic
+---------------
+familyName:Adobe Garamond Pro
+displayName:Adobe Garamond Pro Italic
+postscritpName:AGaramondPro-Italic
+---------------
+familyName:Adobe Garamond Pro
+displayName:Adobe Garamond Pro
+postscritpName:AGaramondPro-Regular
+---------------
+familyName:Abadi MT Condensed Extra Bold
+displayName:Abadi MT Condensed Extra Bold
+postscritpName:AbadiMT-CondensedExtraBold
+---------------
+familyName:Abadi MT Condensed Light
+displayName:Abadi MT Condensed Light
+postscritpName:AbadiMT-CondensedLight
+---------------
+familyName:Adobe Arabic
+displayName:Adobe Arabic Bold
+postscritpName:AdobeArabic-Bold
+---------------
+familyName:Adobe Arabic
+displayName:Adobe Arabic Bold Italic
+postscritpName:AdobeArabic-BoldItalic
+---------------
+familyName:Adobe Arabic
+displayName:Adobe Arabic Italic
+postscritpName:AdobeArabic-Italic
+---------------
+familyName:Adobe Arabic
+displayName:Adobe Arabic Regular
+postscritpName:AdobeArabic-Regular
+---------------
+familyName:Adobe Devanagari
+displayName:Adobe Devanagari Bold
+postscritpName:AdobeDevanagari-Bold
+---------------
+familyName:Adobe Devanagari
+displayName:Adobe Devanagari Bold Italic
+postscritpName:AdobeDevanagari-BoldItalic
+---------------
+familyName:Adobe Devanagari
+displayName:Adobe Devanagari Italic
+postscritpName:AdobeDevanagari-Italic
+---------------
+familyName:Adobe Devanagari
+displayName:Adobe Devanagari
+postscritpName:AdobeDevanagari-Regular
+---------------
+familyName:Adobe Fan Heiti Std
+displayName:Adobe Fan Heiti Std B
+postscritpName:AdobeFanHeitiStd-Bold
+---------------
+familyName:Adobe Fangsong Std
+displayName:Adobe Fangsong Std R
+postscritpName:AdobeFangsongStd-Regular
+---------------
+familyName:Adobe Gothic Std
+displayName:Adobe Gothic Std B
+postscritpName:AdobeGothicStd-Bold
+---------------
+familyName:Adobe Hebrew
+displayName:Adobe Hebrew Bold
+postscritpName:AdobeHebrew-Bold
+---------------
+familyName:Adobe Hebrew
+displayName:Adobe Hebrew Bold Italic
+postscritpName:AdobeHebrew-BoldItalic
+---------------
+familyName:Adobe Hebrew
+displayName:Adobe Hebrew Italic
+postscritpName:AdobeHebrew-Italic
+---------------
+familyName:Adobe Hebrew
+displayName:Adobe Hebrew Regular
+postscritpName:AdobeHebrew-Regular
+---------------
+familyName:Adobe Heiti Std
+displayName:Adobe Heiti Std R
+postscritpName:AdobeHeitiStd-Regular
+---------------
+familyName:Adobe Kaiti Std
+displayName:Adobe Kaiti Std R
+postscritpName:AdobeKaitiStd-Regular
+---------------
+familyName:Adobe Ming Std
+displayName:Adobe Ming Std L
+postscritpName:AdobeMingStd-Light
+---------------
+familyName:Adobe Myungjo Std
+displayName:Adobe Myungjo Std M
+postscritpName:AdobeMyungjoStd-Medium
+---------------
+familyName:Adobe Naskh
+displayName:Adobe Naskh Medium
+postscritpName:AdobeNaskh-Medium
+---------------
+familyName:Adobe Song Std
+displayName:Adobe Song Std L
+postscritpName:AdobeSongStd-Light
+---------------
+familyName:Al Bayan
+displayName:Al Bayan Plain
+postscritpName:AlBayan
+---------------
+familyName:Al Bayan
+displayName:Al Bayan Bold
+postscritpName:AlBayan-Bold
+---------------
+familyName:Al Nile
+displayName:Al Nile
+postscritpName:AlNile
+---------------
+familyName:Al Nile
+displayName:Al Nile Bold
+postscritpName:AlNile-Bold
+---------------
+familyName:Al Tarikh
+displayName:Al Tarikh Regular
+postscritpName:AlTarikh
+---------------
+familyName:American Typewriter
+displayName:American Typewriter
+postscritpName:AmericanTypewriter
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Bold
+postscritpName:AmericanTypewriter-Bold
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Condensed
+postscritpName:AmericanTypewriter-Condensed
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Condensed Bold
+postscritpName:AmericanTypewriter-CondensedBold
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Condensed Light
+postscritpName:AmericanTypewriter-CondensedLight
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Light
+postscritpName:AmericanTypewriter-Light
+---------------
+familyName:American Typewriter
+displayName:American Typewriter Semibold
+postscritpName:AmericanTypewriter-Semibold
+---------------
+familyName:Andale Mono
+displayName:Andale Mono
+postscritpName:AndaleMono
+---------------
+familyName:Apple Chancery
+displayName:Apple Chancery
+postscritpName:Apple-Chancery
+---------------
+familyName:Apple Braille
+displayName:Apple Braille
+postscritpName:AppleBraille
+---------------
+familyName:Apple Braille
+displayName:Apple Braille Outline 6 Dot
+postscritpName:AppleBraille-Outline6Dot
+---------------
+familyName:Apple Braille
+displayName:Apple Braille Outline 8 Dot
+postscritpName:AppleBraille-Outline8Dot
+---------------
+familyName:Apple Braille
+displayName:Apple Braille Pinpoint 6 Dot
+postscritpName:AppleBraille-Pinpoint6Dot
+---------------
+familyName:Apple Braille
+displayName:Apple Braille Pinpoint 8 Dot
+postscritpName:AppleBraille-Pinpoint8Dot
+---------------
+familyName:Apple Color Emoji
+displayName:Apple Color Emoji
+postscritpName:AppleColorEmoji
+---------------
+familyName:AppleGothic
+displayName:AppleGothic Regular
+postscritpName:AppleGothic
+---------------
+familyName:AppleMyungjo
+displayName:AppleMyungjo Regular
+postscritpName:AppleMyungjo
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Bold
+postscritpName:AppleSDGothicNeo-Bold
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD GothicNeo ExtraBold
+postscritpName:AppleSDGothicNeo-ExtraBold
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Heavy
+postscritpName:AppleSDGothicNeo-Heavy
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Light
+postscritpName:AppleSDGothicNeo-Light
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Medium
+postscritpName:AppleSDGothicNeo-Medium
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Regular
+postscritpName:AppleSDGothicNeo-Regular
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo SemiBold
+postscritpName:AppleSDGothicNeo-SemiBold
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo Thin
+postscritpName:AppleSDGothicNeo-Thin
+---------------
+familyName:Apple SD Gothic Neo
+displayName:Apple SD Gothic Neo UltraLight
+postscritpName:AppleSDGothicNeo-UltraLight
+---------------
+familyName:Apple Symbols
+displayName:Apple Symbols
+postscritpName:AppleSymbols
+---------------
+familyName:.Aqua Kana
+displayName:.Aqua Kana
+postscritpName:AquaKana
+---------------
+familyName:.Aqua Kana
+displayName:.Aqua Kana Bold
+postscritpName:AquaKana-Bold
+---------------
+familyName:Arial Black
+displayName:Arial Black
+postscritpName:Arial-Black
+---------------
+familyName:Arial
+displayName:Arial Bold Italic
+postscritpName:Arial-BoldItalicMT
+---------------
+familyName:Arial
+displayName:Arial Bold
+postscritpName:Arial-BoldMT
+---------------
+familyName:Arial
+displayName:Arial Italic
+postscritpName:Arial-ItalicMT
+---------------
+familyName:Arial Hebrew
+displayName:Arial Hebrew
+postscritpName:ArialHebrew
+---------------
+familyName:Arial Hebrew
+displayName:Arial Hebrew Bold
+postscritpName:ArialHebrew-Bold
+---------------
+familyName:Arial Hebrew
+displayName:Arial Hebrew Light
+postscritpName:ArialHebrew-Light
+---------------
+familyName:Arial Hebrew Scholar
+displayName:Arial Hebrew Scholar
+postscritpName:ArialHebrewScholar
+---------------
+familyName:Arial Hebrew Scholar
+displayName:Arial Hebrew Scholar Bold
+postscritpName:ArialHebrewScholar-Bold
+---------------
+familyName:Arial Hebrew Scholar
+displayName:Arial Hebrew Scholar Light
+postscritpName:ArialHebrewScholar-Light
+---------------
+familyName:Arial
+displayName:Arial
+postscritpName:ArialMT
+---------------
+familyName:Arial Narrow
+displayName:Arial Narrow
+postscritpName:ArialNarrow
+---------------
+familyName:Arial Narrow
+displayName:Arial Narrow Bold
+postscritpName:ArialNarrow-Bold
+---------------
+familyName:Arial Narrow
+displayName:Arial Narrow Bold Italic
+postscritpName:ArialNarrow-BoldItalic
+---------------
+familyName:Arial Narrow
+displayName:Arial Narrow Italic
+postscritpName:ArialNarrow-Italic
+---------------
+familyName:Arial Rounded MT Bold
+displayName:Arial Rounded MT Bold
+postscritpName:ArialRoundedMTBold
+---------------
+familyName:Arial Unicode MS
+displayName:Arial Unicode MS
+postscritpName:ArialUnicodeMS
+---------------
+familyName:Athelas
+displayName:Athelas Bold
+postscritpName:Athelas-Bold
+---------------
+familyName:Athelas
+displayName:Athelas Bold Italic
+postscritpName:Athelas-BoldItalic
+---------------
+familyName:Athelas
+displayName:Athelas Italic
+postscritpName:Athelas-Italic
+---------------
+familyName:Athelas
+displayName:Athelas Regular
+postscritpName:Athelas-Regular
+---------------
+familyName:Avenir
+displayName:Avenir Black
+postscritpName:Avenir-Black
+---------------
+familyName:Avenir
+displayName:Avenir Black Oblique
+postscritpName:Avenir-BlackOblique
+---------------
+familyName:Avenir
+displayName:Avenir Book
+postscritpName:Avenir-Book
+---------------
+familyName:Avenir
+displayName:Avenir Book Oblique
+postscritpName:Avenir-BookOblique
+---------------
+familyName:Avenir
+displayName:Avenir Heavy
+postscritpName:Avenir-Heavy
+---------------
+familyName:Avenir
+displayName:Avenir Heavy Oblique
+postscritpName:Avenir-HeavyOblique
+---------------
+familyName:Avenir
+displayName:Avenir Light
+postscritpName:Avenir-Light
+---------------
+familyName:Avenir
+displayName:Avenir Light Oblique
+postscritpName:Avenir-LightOblique
+---------------
+familyName:Avenir
+displayName:Avenir Medium
+postscritpName:Avenir-Medium
+---------------
+familyName:Avenir
+displayName:Avenir Medium Oblique
+postscritpName:Avenir-MediumOblique
+---------------
+familyName:Avenir
+displayName:Avenir Oblique
+postscritpName:Avenir-Oblique
+---------------
+familyName:Avenir
+displayName:Avenir Roman
+postscritpName:Avenir-Roman
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Bold
+postscritpName:AvenirNext-Bold
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Bold Italic
+postscritpName:AvenirNext-BoldItalic
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Demi Bold
+postscritpName:AvenirNext-DemiBold
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Demi Bold Italic
+postscritpName:AvenirNext-DemiBoldItalic
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Heavy
+postscritpName:AvenirNext-Heavy
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Heavy Italic
+postscritpName:AvenirNext-HeavyItalic
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Italic
+postscritpName:AvenirNext-Italic
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Medium
+postscritpName:AvenirNext-Medium
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Medium Italic
+postscritpName:AvenirNext-MediumItalic
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Regular
+postscritpName:AvenirNext-Regular
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Ultra Light
+postscritpName:AvenirNext-UltraLight
+---------------
+familyName:Avenir Next
+displayName:Avenir Next Ultra Light Italic
+postscritpName:AvenirNext-UltraLightItalic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Bold
+postscritpName:AvenirNextCondensed-Bold
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Bold Italic
+postscritpName:AvenirNextCondensed-BoldItalic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Demi Bold
+postscritpName:AvenirNextCondensed-DemiBold
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Demi Bold Italic
+postscritpName:AvenirNextCondensed-DemiBoldItalic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Heavy
+postscritpName:AvenirNextCondensed-Heavy
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Heavy Italic
+postscritpName:AvenirNextCondensed-HeavyItalic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Italic
+postscritpName:AvenirNextCondensed-Italic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Medium
+postscritpName:AvenirNextCondensed-Medium
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Medium Italic
+postscritpName:AvenirNextCondensed-MediumItalic
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Regular
+postscritpName:AvenirNextCondensed-Regular
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Ultra Light
+postscritpName:AvenirNextCondensed-UltraLight
+---------------
+familyName:Avenir Next Condensed
+displayName:Avenir Next Condensed Ultra Light Italic
+postscritpName:AvenirNextCondensed-UltraLightItalic
+---------------
+familyName:Ayuthaya
+displayName:Ayuthaya
+postscritpName:Ayuthaya
+---------------
+familyName:Baghdad
+displayName:Baghdad Regular
+postscritpName:Baghdad
+---------------
+familyName:Bangla MN
+displayName:Bangla MN
+postscritpName:BanglaMN
+---------------
+familyName:Bangla MN
+displayName:Bangla MN Bold
+postscritpName:BanglaMN-Bold
+---------------
+familyName:Bangla Sangam MN
+displayName:Bangla Sangam MN
+postscritpName:BanglaSangamMN
+---------------
+familyName:Bangla Sangam MN
+displayName:Bangla Sangam MN Bold
+postscritpName:BanglaSangamMN-Bold
+---------------
+familyName:Baskerville Old Face
+displayName:Baskerville Old Face
+postscritpName:BaskOldFace
+---------------
+familyName:Baskerville
+displayName:Baskerville
+postscritpName:Baskerville
+---------------
+familyName:Baskerville
+displayName:Baskerville Bold
+postscritpName:Baskerville-Bold
+---------------
+familyName:Baskerville
+displayName:Baskerville Bold Italic
+postscritpName:Baskerville-BoldItalic
+---------------
+familyName:Baskerville
+displayName:Baskerville Italic
+postscritpName:Baskerville-Italic
+---------------
+familyName:Baskerville
+displayName:Baskerville SemiBold
+postscritpName:Baskerville-SemiBold
+---------------
+familyName:Baskerville
+displayName:Baskerville SemiBold Italic
+postscritpName:Baskerville-SemiBoldItalic
+---------------
+familyName:Batang
+displayName:Batang
+postscritpName:Batang
+---------------
+familyName:Bauhaus 93
+displayName:Bauhaus 93
+postscritpName:Bauhaus93
+---------------
+familyName:Beirut
+displayName:Beirut Regular
+postscritpName:Beirut
+---------------
+familyName:Bell MT
+displayName:Bell MT
+postscritpName:BellMT
+---------------
+familyName:Bell MT
+displayName:Bell MT Bold
+postscritpName:BellMTBold
+---------------
+familyName:Bell MT
+displayName:Bell MT Italic
+postscritpName:BellMTItalic
+---------------
+familyName:Bernard MT Condensed
+displayName:Bernard MT Condensed
+postscritpName:BernardMT-Condensed
+---------------
+familyName:Big Caslon
+displayName:Big Caslon Medium
+postscritpName:BigCaslon-Medium
+---------------
+familyName:Birch Std
+displayName:Birch Std
+postscritpName:BirchStd
+---------------
+familyName:Blackoak Std
+displayName:Blackoak Std
+postscritpName:BlackoakStd
+---------------
+familyName:Bodoni Ornaments
+displayName:Bodoni Ornaments
+postscritpName:BodoniOrnamentsITCTT
+---------------
+familyName:Bodoni 72
+displayName:Bodoni 72 Bold
+postscritpName:BodoniSvtyTwoITCTT-Bold
+---------------
+familyName:Bodoni 72
+displayName:Bodoni 72 Book
+postscritpName:BodoniSvtyTwoITCTT-Book
+---------------
+familyName:Bodoni 72
+displayName:Bodoni 72 Book Italic
+postscritpName:BodoniSvtyTwoITCTT-BookIta
+---------------
+familyName:Bodoni 72 Oldstyle
+displayName:Bodoni 72 Oldstyle Bold
+postscritpName:BodoniSvtyTwoOSITCTT-Bold
+---------------
+familyName:Bodoni 72 Oldstyle
+displayName:Bodoni 72 Oldstyle Book
+postscritpName:BodoniSvtyTwoOSITCTT-Book
+---------------
+familyName:Bodoni 72 Oldstyle
+displayName:Bodoni 72 Oldstyle Book Italic
+postscritpName:BodoniSvtyTwoOSITCTT-BookIt
+---------------
+familyName:Bodoni 72 Smallcaps
+displayName:Bodoni 72 Smallcaps Book
+postscritpName:BodoniSvtyTwoSCITCTT-Book
+---------------
+familyName:Book Antiqua
+displayName:Book Antiqua
+postscritpName:BookAntiqua
+---------------
+familyName:Book Antiqua
+displayName:Book Antiqua Bold
+postscritpName:BookAntiqua-Bold
+---------------
+familyName:Book Antiqua
+displayName:Book Antiqua Bold Italic
+postscritpName:BookAntiqua-BoldItalic
+---------------
+familyName:Book Antiqua
+displayName:Book Antiqua Italic
+postscritpName:BookAntiqua-Italic
+---------------
+familyName:Bookman Old Style
+displayName:Bookman Old Style
+postscritpName:BookmanOldStyle
+---------------
+familyName:Bookman Old Style
+displayName:Bookman Old Style Bold
+postscritpName:BookmanOldStyle-Bold
+---------------
+familyName:Bookman Old Style
+displayName:Bookman Old Style Bold Italic
+postscritpName:BookmanOldStyle-BoldItalic
+---------------
+familyName:Bookman Old Style
+displayName:Bookman Old Style Italic
+postscritpName:BookmanOldStyle-Italic
+---------------
+familyName:Bookshelf Symbol 7
+displayName:Bookshelf Symbol 7
+postscritpName:BookshelfSymbolSeven
+---------------
+familyName:Bradley Hand
+displayName:Bradley Hand Bold
+postscritpName:BradleyHandITCTT-Bold
+---------------
+familyName:Braggadocio
+displayName:Braggadocio
+postscritpName:Braggadocio
+---------------
+familyName:Britannic Bold
+displayName:Britannic Bold
+postscritpName:BritannicBold
+---------------
+familyName:Brush Script MT
+displayName:Brush Script MT Italic
+postscritpName:BrushScriptMT
+---------------
+familyName:Brush Script Std
+displayName:Brush Script Std Medium
+postscritpName:BrushScriptStd
+---------------
+familyName:Calibri
+displayName:Calibri
+postscritpName:Calibri
+---------------
+familyName:Calibri
+displayName:Calibri Bold
+postscritpName:Calibri-Bold
+---------------
+familyName:Calibri
+displayName:Calibri Bold Italic
+postscritpName:Calibri-BoldItalic
+---------------
+familyName:Calibri
+displayName:Calibri Italic
+postscritpName:Calibri-Italic
+---------------
+familyName:Calisto MT
+displayName:Calisto MT Bold
+postscritpName:CalisMTBol
+---------------
+familyName:Calisto MT
+displayName:Calisto MT
+postscritpName:CalistoMT
+---------------
+familyName:Calisto MT
+displayName:Calisto MT Bold Italic
+postscritpName:CalistoMT-BoldItalic
+---------------
+familyName:Calisto MT
+displayName:Calisto MT Italic
+postscritpName:CalistoMT-Italic
+---------------
+familyName:Cambria
+displayName:Cambria
+postscritpName:Cambria
+---------------
+familyName:Cambria
+displayName:Cambria Bold
+postscritpName:Cambria-Bold
+---------------
+familyName:Cambria
+displayName:Cambria Bold Italic
+postscritpName:Cambria-BoldItalic
+---------------
+familyName:Cambria
+displayName:Cambria Italic
+postscritpName:Cambria-Italic
+---------------
+familyName:Cambria Math
+displayName:Cambria Math
+postscritpName:CambriaMath
+---------------
+familyName:Candara
+displayName:Candara
+postscritpName:Candara
+---------------
+familyName:Candara
+displayName:Candara Bold
+postscritpName:Candara-Bold
+---------------
+familyName:Candara
+displayName:Candara Bold Italic
+postscritpName:Candara-BoldItalic
+---------------
+familyName:Candara
+displayName:Candara Italic
+postscritpName:Candara-Italic
+---------------
+familyName:Century
+displayName:Century
+postscritpName:Century
+---------------
+familyName:Century Gothic
+displayName:Century Gothic
+postscritpName:CenturyGothic
+---------------
+familyName:Century Gothic
+displayName:Century Gothic Bold
+postscritpName:CenturyGothic-Bold
+---------------
+familyName:Century Gothic
+displayName:Century Gothic Bold Italic
+postscritpName:CenturyGothic-BoldItalic
+---------------
+familyName:Century Gothic
+displayName:Century Gothic Italic
+postscritpName:CenturyGothic-Italic
+---------------
+familyName:Century Schoolbook
+displayName:Century Schoolbook
+postscritpName:CenturySchoolbook
+---------------
+familyName:Century Schoolbook
+displayName:Century Schoolbook Bold
+postscritpName:CenturySchoolbook-Bold
+---------------
+familyName:Century Schoolbook
+displayName:Century Schoolbook Bold Italic
+postscritpName:CenturySchoolbook-BoldItalic
+---------------
+familyName:Century Schoolbook
+displayName:Century Schoolbook Italic
+postscritpName:CenturySchoolbook-Italic
+---------------
+familyName:Chalkboard
+displayName:Chalkboard
+postscritpName:Chalkboard
+---------------
+familyName:Chalkboard
+displayName:Chalkboard Bold
+postscritpName:Chalkboard-Bold
+---------------
+familyName:Chalkboard SE
+displayName:Chalkboard SE Bold
+postscritpName:ChalkboardSE-Bold
+---------------
+familyName:Chalkboard SE
+displayName:Chalkboard SE Light
+postscritpName:ChalkboardSE-Light
+---------------
+familyName:Chalkboard SE
+displayName:Chalkboard SE Regular
+postscritpName:ChalkboardSE-Regular
+---------------
+familyName:Chalkduster
+displayName:Chalkduster
+postscritpName:Chalkduster
+---------------
+familyName:Chaparral Pro
+displayName:Chaparral Pro Bold
+postscritpName:ChaparralPro-Bold
+---------------
+familyName:Chaparral Pro
+displayName:Chaparral Pro Bold Italic
+postscritpName:ChaparralPro-BoldIt
+---------------
+familyName:Chaparral Pro
+displayName:Chaparral Pro Italic
+postscritpName:ChaparralPro-Italic
+---------------
+familyName:Chaparral Pro
+displayName:Chaparral Pro Light Italic
+postscritpName:ChaparralPro-LightIt
+---------------
+familyName:Chaparral Pro
+displayName:Chaparral Pro
+postscritpName:ChaparralPro-Regular
+---------------
+familyName:Charlemagne Std
+displayName:Charlemagne Std Bold
+postscritpName:CharlemagneStd-Bold
+---------------
+familyName:Charter
+displayName:Charter Black
+postscritpName:Charter-Black
+---------------
+familyName:Charter
+displayName:Charter Black Italic
+postscritpName:Charter-BlackItalic
+---------------
+familyName:Charter
+displayName:Charter Bold
+postscritpName:Charter-Bold
+---------------
+familyName:Charter
+displayName:Charter Bold Italic
+postscritpName:Charter-BoldItalic
+---------------
+familyName:Charter
+displayName:Charter Italic
+postscritpName:Charter-Italic
+---------------
+familyName:Charter
+displayName:Charter Roman
+postscritpName:Charter-Roman
+---------------
+familyName:ChosunilboNM
+displayName:ChosunilboNM
+postscritpName:ChosunilboNM
+---------------
+familyName:cmex10
+displayName:cmex10
+postscritpName:Cmex10
+---------------
+familyName:cmmi10
+displayName:cmmi10
+postscritpName:Cmmi10
+---------------
+familyName:cmr10
+displayName:cmr10
+postscritpName:Cmr10
+---------------
+familyName:cmsy10
+displayName:cmsy10
+postscritpName:Cmsy10
+---------------
+familyName:Cochin
+displayName:Cochin
+postscritpName:Cochin
+---------------
+familyName:Cochin
+displayName:Cochin Bold
+postscritpName:Cochin-Bold
+---------------
+familyName:Cochin
+displayName:Cochin Bold Italic
+postscritpName:Cochin-BoldItalic
+---------------
+familyName:Cochin
+displayName:Cochin Italic
+postscritpName:Cochin-Italic
+---------------
+familyName:Colonna MT
+displayName:Colonna MT
+postscritpName:ColonnaMT
+---------------
+familyName:Comic Sans MS
+displayName:Comic Sans MS
+postscritpName:ComicSansMS
+---------------
+familyName:Comic Sans MS
+displayName:Comic Sans MS Bold
+postscritpName:ComicSansMS-Bold
+---------------
+familyName:Consolas
+displayName:Consolas
+postscritpName:Consolas
+---------------
+familyName:Consolas
+displayName:Consolas Bold
+postscritpName:Consolas-Bold
+---------------
+familyName:Consolas
+displayName:Consolas Bold Italic
+postscritpName:Consolas-BoldItalic
+---------------
+familyName:Consolas
+displayName:Consolas Italic
+postscritpName:Consolas-Italic
+---------------
+familyName:Constantia
+displayName:Constantia
+postscritpName:Constantia
+---------------
+familyName:Constantia
+displayName:Constantia Bold
+postscritpName:Constantia-Bold
+---------------
+familyName:Constantia
+displayName:Constantia Bold Italic
+postscritpName:Constantia-BoldItalic
+---------------
+familyName:Constantia
+displayName:Constantia Italic
+postscritpName:Constantia-Italic
+---------------
+familyName:Cooper Black
+displayName:Cooper Black
+postscritpName:CooperBlackMS
+---------------
+familyName:Cooper Std
+displayName:Cooper Std Black
+postscritpName:CooperBlackStd
+---------------
+familyName:Cooper Std
+displayName:Cooper Std Black Italic
+postscritpName:CooperBlackStd-Italic
+---------------
+familyName:Copperplate
+displayName:Copperplate
+postscritpName:Copperplate
+---------------
+familyName:Copperplate
+displayName:Copperplate Bold
+postscritpName:Copperplate-Bold
+---------------
+familyName:Copperplate
+displayName:Copperplate Light
+postscritpName:Copperplate-Light
+---------------
+familyName:Copperplate Gothic Bold
+displayName:Copperplate Gothic Bold
+postscritpName:CopperplateGothic-Bold
+---------------
+familyName:Copperplate Gothic Light
+displayName:Copperplate Gothic Light
+postscritpName:CopperplateGothic-Light
+---------------
+familyName:Corbel
+displayName:Corbel
+postscritpName:Corbel
+---------------
+familyName:Corbel
+displayName:Corbel Bold
+postscritpName:Corbel-Bold
+---------------
+familyName:Corbel
+displayName:Corbel Bold Italic
+postscritpName:Corbel-BoldItalic
+---------------
+familyName:Corbel
+displayName:Corbel Italic
+postscritpName:Corbel-Italic
+---------------
+familyName:Corsiva Hebrew
+displayName:Corsiva Hebrew
+postscritpName:CorsivaHebrew
+---------------
+familyName:Corsiva Hebrew
+displayName:Corsiva Hebrew Bold
+postscritpName:CorsivaHebrew-Bold
+---------------
+familyName:Courier
+displayName:Courier
+postscritpName:Courier
+---------------
+familyName:Courier
+displayName:Courier Bold
+postscritpName:Courier-Bold
+---------------
+familyName:Courier
+displayName:Courier Bold Oblique
+postscritpName:Courier-BoldOblique
+---------------
+familyName:Courier
+displayName:Courier Oblique
+postscritpName:Courier-Oblique
+---------------
+familyName:Courier New
+displayName:Courier New Bold Italic
+postscritpName:CourierNewPS-BoldItalicMT
+---------------
+familyName:Courier New
+displayName:Courier New Bold
+postscritpName:CourierNewPS-BoldMT
+---------------
+familyName:Courier New
+displayName:Courier New Italic
+postscritpName:CourierNewPS-ItalicMT
+---------------
+familyName:Courier New
+displayName:Courier New
+postscritpName:CourierNewPSMT
+---------------
+familyName:Curlz MT
+displayName:Curlz MT
+postscritpName:CurlzMT
+---------------
+familyName:DIN Alternate
+displayName:DIN Alternate Bold
+postscritpName:DINAlternate-Bold
+---------------
+familyName:DIN Condensed
+displayName:DIN Condensed Bold
+postscritpName:DINCondensed-Bold
+---------------
+familyName:Damascus
+displayName:Damascus Regular
+postscritpName:Damascus
+---------------
+familyName:Damascus
+displayName:Damascus Bold
+postscritpName:DamascusBold
+---------------
+familyName:Damascus
+displayName:Damascus Light
+postscritpName:DamascusLight
+---------------
+familyName:Damascus
+displayName:Damascus Medium
+postscritpName:DamascusMedium
+---------------
+familyName:Damascus
+displayName:Damascus Semi Bold
+postscritpName:DamascusSemiBold
+---------------
+familyName:DecoType Naskh
+displayName:DecoType Naskh Regular
+postscritpName:DecoTypeNaskh
+---------------
+familyName:Desdemona
+displayName:Desdemona
+postscritpName:Desdemona
+---------------
+familyName:Devanagari MT
+displayName:Devanagari MT
+postscritpName:DevanagariMT
+---------------
+familyName:Devanagari MT
+displayName:Devanagari MT Bold
+postscritpName:DevanagariMT-Bold
+---------------
+familyName:Devanagari Sangam MN
+displayName:Devanagari Sangam MN
+postscritpName:DevanagariSangamMN
+---------------
+familyName:Devanagari Sangam MN
+displayName:Devanagari Sangam MN Bold
+postscritpName:DevanagariSangamMN-Bold
+---------------
+familyName:Didot
+displayName:Didot
+postscritpName:Didot
+---------------
+familyName:Didot
+displayName:Didot Bold
+postscritpName:Didot-Bold
+---------------
+familyName:Didot
+displayName:Didot Italic
+postscritpName:Didot-Italic
+---------------
+familyName:Diwan Kufi
+displayName:Diwan Kufi Regular
+postscritpName:DiwanKufi
+---------------
+familyName:Mishafi
+displayName:Mishafi Regular
+postscritpName:DiwanMishafi
+---------------
+familyName:Mishafi Gold
+displayName:Mishafi Gold Regular
+postscritpName:DiwanMishafiGold
+---------------
+familyName:Diwan Thuluth
+displayName:Diwan Thuluth Regular
+postscritpName:DiwanThuluth
+---------------
+familyName:Edwardian Script ITC
+displayName:Edwardian Script ITC
+postscritpName:EdwardianScriptITC
+---------------
+familyName:Engravers MT
+displayName:Engravers MT
+postscritpName:EngraversMT
+---------------
+familyName:Engravers MT
+displayName:Engravers MT Bold
+postscritpName:EngraversMT-Bold
+---------------
+familyName:eufm10
+displayName:eufm10
+postscritpName:Eufm10
+---------------
+familyName:Euphemia UCAS
+displayName:Euphemia UCAS
+postscritpName:EuphemiaUCAS
+---------------
+familyName:Euphemia UCAS
+displayName:Euphemia UCAS Bold
+postscritpName:EuphemiaUCAS-Bold
+---------------
+familyName:Euphemia UCAS
+displayName:Euphemia UCAS Italic
+postscritpName:EuphemiaUCAS-Italic
+---------------
+familyName:Eurostile
+displayName:Eurostile Bold
+postscritpName:EurostileBold
+---------------
+familyName:Eurostile
+displayName:Eurostile
+postscritpName:EurostileRegular
+---------------
+familyName:Farah
+displayName:Farah Regular
+postscritpName:Farah
+---------------
+familyName:Farisi
+displayName:Farisi Regular
+postscritpName:Farisi
+---------------
+familyName:Footlight MT Light
+displayName:Footlight MT Light
+postscritpName:FootlightMTLight
+---------------
+familyName:Franklin Gothic Book
+displayName:Franklin Gothic Book
+postscritpName:FranklinGothic-Book
+---------------
+familyName:Franklin Gothic Book
+displayName:Franklin Gothic Book Italic
+postscritpName:FranklinGothic-BookItalic
+---------------
+familyName:Franklin Gothic Medium
+displayName:Franklin Gothic Medium
+postscritpName:FranklinGothic-Medium
+---------------
+familyName:Franklin Gothic Medium
+displayName:Franklin Gothic Medium Italic
+postscritpName:FranklinGothic-MediumItalic
+---------------
+familyName:Futura
+displayName:Futura Bold
+postscritpName:Futura-Bold
+---------------
+familyName:Futura
+displayName:Futura Condensed ExtraBold
+postscritpName:Futura-CondensedExtraBold
+---------------
+familyName:Futura
+displayName:Futura Condensed Medium
+postscritpName:Futura-CondensedMedium
+---------------
+familyName:Futura
+displayName:Futura Medium
+postscritpName:Futura-Medium
+---------------
+familyName:Futura
+displayName:Futura Medium Italic
+postscritpName:Futura-MediumItalic
+---------------
+familyName:GB18030 Bitmap
+displayName:GB18030 Bitmap
+postscritpName:GB18030Bitmap
+---------------
+familyName:Gabriola
+displayName:Gabriola
+postscritpName:Gabriola
+---------------
+familyName:Garamond
+displayName:Garamond
+postscritpName:Garamond
+---------------
+familyName:Garamond
+displayName:Garamond Bold
+postscritpName:Garamond-Bold
+---------------
+familyName:Garamond
+displayName:Garamond Italic
+postscritpName:Garamond-Italic
+---------------
+familyName:Geeza Pro
+displayName:Geeza Pro Regular
+postscritpName:GeezaPro
+---------------
+familyName:Geeza Pro
+displayName:Geeza Pro Bold
+postscritpName:GeezaPro-Bold
+---------------
+familyName:Geneva
+displayName:Geneva
+postscritpName:Geneva
+---------------
+familyName:Gentium Plus
+displayName:Gentium Plus
+postscritpName:GentiumPlus
+---------------
+familyName:Gentium Plus
+displayName:Gentium Plus Italic
+postscritpName:GentiumPlus-Italic
+---------------
+familyName:Georgia
+displayName:Georgia
+postscritpName:Georgia
+---------------
+familyName:Georgia
+displayName:Georgia Bold
+postscritpName:Georgia-Bold
+---------------
+familyName:Georgia
+displayName:Georgia Bold Italic
+postscritpName:Georgia-BoldItalic
+---------------
+familyName:Georgia
+displayName:Georgia Italic
+postscritpName:Georgia-Italic
+---------------
+familyName:Giddyup Std
+displayName:Giddyup Std
+postscritpName:GiddyupStd
+---------------
+familyName:Gill Sans
+displayName:Gill Sans
+postscritpName:GillSans
+---------------
+familyName:Gill Sans
+displayName:Gill Sans Bold
+postscritpName:GillSans-Bold
+---------------
+familyName:Gill Sans
+displayName:Gill Sans Bold Italic
+postscritpName:GillSans-BoldItalic
+---------------
+familyName:Gill Sans
+displayName:Gill Sans Italic
+postscritpName:GillSans-Italic
+---------------
+familyName:Gill Sans
+displayName:Gill Sans Light
+postscritpName:GillSans-Light
+---------------
+familyName:Gill Sans
+displayName:Gill Sans Light Italic
+postscritpName:GillSans-LightItalic
+---------------
+familyName:Gill Sans
+displayName:Gill Sans SemiBold
+postscritpName:GillSans-SemiBold
+---------------
+familyName:Gill Sans
+displayName:Gill Sans SemiBold Italic
+postscritpName:GillSans-SemiBoldItalic
+---------------
+familyName:Gill Sans
+displayName:Gill Sans UltraBold
+postscritpName:GillSans-UltraBold
+---------------
+familyName:Gill Sans MT
+displayName:Gill Sans MT
+postscritpName:GillSansMT
+---------------
+familyName:Gill Sans MT
+displayName:Gill Sans MT Bold
+postscritpName:GillSansMT-Bold
+---------------
+familyName:Gill Sans MT
+displayName:Gill Sans MT Bold Italic
+postscritpName:GillSansMT-BoldItalic
+---------------
+familyName:Gill Sans MT
+displayName:Gill Sans MT Italic
+postscritpName:GillSansMT-Italic
+---------------
+familyName:Gloucester MT Extra Condensed
+displayName:Gloucester MT Extra Condensed
+postscritpName:GloucesterMT-ExtraCondensed
+---------------
+familyName:Goudy Old Style
+displayName:Goudy Old Style Bold
+postscritpName:GoudyOldStyleT-Bold
+---------------
+familyName:Goudy Old Style
+displayName:Goudy Old Style Italic
+postscritpName:GoudyOldStyleT-Italic
+---------------
+familyName:Goudy Old Style
+displayName:Goudy Old Style
+postscritpName:GoudyOldStyleT-Regular
+---------------
+familyName:Gujarati MT
+displayName:Gujarati MT
+postscritpName:GujaratiMT
+---------------
+familyName:Gujarati MT
+displayName:Gujarati MT Bold
+postscritpName:GujaratiMT-Bold
+---------------
+familyName:Gujarati Sangam MN
+displayName:Gujarati Sangam MN
+postscritpName:GujaratiSangamMN
+---------------
+familyName:Gujarati Sangam MN
+displayName:Gujarati Sangam MN Bold
+postscritpName:GujaratiSangamMN-Bold
+---------------
+familyName:Gulim
+displayName:Gulim
+postscritpName:Gulim
+---------------
+familyName:Gurmukhi MN
+displayName:Gurmukhi MN
+postscritpName:GurmukhiMN
+---------------
+familyName:Gurmukhi MN
+displayName:Gurmukhi MN Bold
+postscritpName:GurmukhiMN-Bold
+---------------
+familyName:Gurmukhi Sangam MN
+displayName:Gurmukhi Sangam MN
+postscritpName:GurmukhiSangamMN
+---------------
+familyName:Gurmukhi Sangam MN
+displayName:Gurmukhi Sangam MN Bold
+postscritpName:GurmukhiSangamMN-Bold
+---------------
+familyName:Haettenschweiler
+displayName:Haettenschweiler
+postscritpName:Haettenschweiler
+---------------
+familyName:smHangSer
+displayName:smHangSer Medium
+postscritpName:HangSer
+---------------
+familyName:Harrington
+displayName:Harrington
+postscritpName:Harrington
+---------------
+familyName:smHeadT
+displayName:smHeadT Bold
+postscritpName:HeadT
+---------------
+familyName:smHeadT
+displayName:smHeadT Medium
+postscritpName:HeadTR
+---------------
+familyName:Helvetica
+displayName:Helvetica
+postscritpName:Helvetica
+---------------
+familyName:Helvetica
+displayName:Helvetica Bold
+postscritpName:Helvetica-Bold
+---------------
+familyName:Helvetica
+displayName:Helvetica Bold Oblique
+postscritpName:Helvetica-BoldOblique
+---------------
+familyName:Helvetica
+displayName:Helvetica Light
+postscritpName:Helvetica-Light
+---------------
+familyName:Helvetica
+displayName:Helvetica Light Oblique
+postscritpName:Helvetica-LightOblique
+---------------
+familyName:Helvetica
+displayName:Helvetica Oblique
+postscritpName:Helvetica-Oblique
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue
+postscritpName:HelveticaNeue
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Bold
+postscritpName:HelveticaNeue-Bold
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Bold Italic
+postscritpName:HelveticaNeue-BoldItalic
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Condensed Black
+postscritpName:HelveticaNeue-CondensedBlack
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Condensed Bold
+postscritpName:HelveticaNeue-CondensedBold
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Italic
+postscritpName:HelveticaNeue-Italic
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Light
+postscritpName:HelveticaNeue-Light
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Light Italic
+postscritpName:HelveticaNeue-LightItalic
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Medium
+postscritpName:HelveticaNeue-Medium
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Medium Italic
+postscritpName:HelveticaNeue-MediumItalic
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Thin
+postscritpName:HelveticaNeue-Thin
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue Thin Italic
+postscritpName:HelveticaNeue-ThinItalic
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue UltraLight
+postscritpName:HelveticaNeue-UltraLight
+---------------
+familyName:Helvetica Neue
+displayName:Helvetica Neue UltraLight Italic
+postscritpName:HelveticaNeue-UltraLightItalic
+---------------
+familyName:Herculanum
+displayName:Herculanum
+postscritpName:Herculanum
+---------------
+familyName:Hiragino Kaku Gothic Pro
+displayName:Hiragino Kaku Gothic Pro W3
+postscritpName:HiraKakuPro-W3
+---------------
+familyName:Hiragino Kaku Gothic Pro
+displayName:Hiragino Kaku Gothic Pro W6
+postscritpName:HiraKakuPro-W6
+---------------
+familyName:Hiragino Kaku Gothic ProN
+displayName:Hiragino Kaku Gothic ProN W3
+postscritpName:HiraKakuProN-W3
+---------------
+familyName:Hiragino Kaku Gothic ProN
+displayName:Hiragino Kaku Gothic ProN W6
+postscritpName:HiraKakuProN-W6
+---------------
+familyName:Hiragino Kaku Gothic Std
+displayName:Hiragino Kaku Gothic Std W8
+postscritpName:HiraKakuStd-W8
+---------------
+familyName:Hiragino Kaku Gothic StdN
+displayName:Hiragino Kaku Gothic StdN W8
+postscritpName:HiraKakuStdN-W8
+---------------
+familyName:Hiragino Maru Gothic Pro
+displayName:Hiragino Maru Gothic Pro W4
+postscritpName:HiraMaruPro-W4
+---------------
+familyName:Hiragino Maru Gothic ProN
+displayName:Hiragino Maru Gothic ProN W4
+postscritpName:HiraMaruProN-W4
+---------------
+familyName:Hiragino Mincho Pro
+displayName:Hiragino Mincho Pro W3
+postscritpName:HiraMinPro-W3
+---------------
+familyName:Hiragino Mincho Pro
+displayName:Hiragino Mincho Pro W6
+postscritpName:HiraMinPro-W6
+---------------
+familyName:Hiragino Mincho ProN
+displayName:Hiragino Mincho ProN W3
+postscritpName:HiraMinProN-W3
+---------------
+familyName:Hiragino Mincho ProN
+displayName:Hiragino Mincho ProN W6
+postscritpName:HiraMinProN-W6
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W0
+postscritpName:HiraginoSans-W0
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W1
+postscritpName:HiraginoSans-W1
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W2
+postscritpName:HiraginoSans-W2
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W3
+postscritpName:HiraginoSans-W3
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W4
+postscritpName:HiraginoSans-W4
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W5
+postscritpName:HiraginoSans-W5
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W6
+postscritpName:HiraginoSans-W6
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W7
+postscritpName:HiraginoSans-W7
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W8
+postscritpName:HiraginoSans-W8
+---------------
+familyName:Hiragino Sans
+displayName:Hiragino Sans W9
+postscritpName:HiraginoSans-W9
+---------------
+familyName:Hiragino Sans GB
+displayName:Hiragino Sans GB W3
+postscritpName:HiraginoSansGB-W3
+---------------
+familyName:Hiragino Sans GB
+displayName:Hiragino Sans GB W6
+postscritpName:HiraginoSansGB-W6
+---------------
+familyName:Hobo Std
+displayName:Hobo Std Medium
+postscritpName:HoboStd
+---------------
+familyName:Hoefler Text
+displayName:Hoefler Text Black
+postscritpName:HoeflerText-Black
+---------------
+familyName:Hoefler Text
+displayName:Hoefler Text Black Italic
+postscritpName:HoeflerText-BlackItalic
+---------------
+familyName:Hoefler Text
+displayName:Hoefler Text Italic
+postscritpName:HoeflerText-Italic
+---------------
+familyName:Hoefler Text
+displayName:Hoefler Text Ornaments
+postscritpName:HoeflerText-Ornaments
+---------------
+familyName:Hoefler Text
+displayName:Hoefler Text
+postscritpName:HoeflerText-Regular
+---------------
+familyName:ITF Devanagari
+displayName:ITF Devanagari Bold
+postscritpName:ITFDevanagari-Bold
+---------------
+familyName:ITF Devanagari
+displayName:ITF Devanagari Book
+postscritpName:ITFDevanagari-Book
+---------------
+familyName:ITF Devanagari
+displayName:ITF Devanagari Demi
+postscritpName:ITFDevanagari-Demi
+---------------
+familyName:ITF Devanagari
+displayName:ITF Devanagari Light
+postscritpName:ITFDevanagari-Light
+---------------
+familyName:ITF Devanagari
+displayName:ITF Devanagari Medium
+postscritpName:ITFDevanagari-Medium
+---------------
+familyName:ITF Devanagari Marathi
+displayName:ITF Devanagari Marathi Bold
+postscritpName:ITFDevanagariMarathi-Bold
+---------------
+familyName:ITF Devanagari Marathi
+displayName:ITF Devanagari Marathi Book
+postscritpName:ITFDevanagariMarathi-Book
+---------------
+familyName:ITF Devanagari Marathi
+displayName:ITF Devanagari Marathi Demi
+postscritpName:ITFDevanagariMarathi-Demi
+---------------
+familyName:ITF Devanagari Marathi
+displayName:ITF Devanagari Marathi Light
+postscritpName:ITFDevanagariMarathi-Light
+---------------
+familyName:ITF Devanagari Marathi
+displayName:ITF Devanagari Marathi Medium
+postscritpName:ITFDevanagariMarathi-Medium
+---------------
+familyName:Impact
+displayName:Impact
+postscritpName:Impact
+---------------
+familyName:Imprint MT Shadow
+displayName:Imprint MT Shadow
+postscritpName:ImprintMT-Shadow
+---------------
+familyName:InaiMathi
+displayName:InaiMathi
+postscritpName:InaiMathi
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Black
+postscritpName:IowanOldStyle-Black
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Black Italic
+postscritpName:IowanOldStyle-BlackItalic
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Bold
+postscritpName:IowanOldStyle-Bold
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Bold Italic
+postscritpName:IowanOldStyle-BoldItalic
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Italic
+postscritpName:IowanOldStyle-Italic
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Roman
+postscritpName:IowanOldStyle-Roman
+---------------
+familyName:Iowan Old Style
+displayName:Iowan Old Style Titling
+postscritpName:IowanOldStyle-Titling
+---------------
+familyName:HeadLineA
+displayName:HeadLineA Regular
+postscritpName:JCHEadA
+---------------
+familyName:PilGi
+displayName:PilGi Regular
+postscritpName:JCfg
+---------------
+familyName:GungSeo
+displayName:GungSeo Regular
+postscritpName:JCkg
+---------------
+familyName:PCMyungjo
+displayName:PCMyungjo Regular
+postscritpName:JCsmPC
+---------------
+familyName:smJogakT
+displayName:smJogakT Bold
+postscritpName:JKTB
+---------------
+familyName:smJogakT
+displayName:smJogakT DemiBold
+postscritpName:JKTD
+---------------
+familyName:smJogakT
+displayName:smJogakT Medium
+postscritpName:JKTM
+---------------
+familyName:smJogakT
+displayName:smJogakT Light
+postscritpName:JKTR
+---------------
+familyName:smJohabP
+displayName:smJohabP Medium
+postscritpName:JohabRP
+---------------
+familyName:Kailasa
+displayName:Kailasa Regular
+postscritpName:Kailasa
+---------------
+familyName:Kailasa
+displayName:Kailasa Bold
+postscritpName:Kailasa-Bold
+---------------
+familyName:Kannada MN
+displayName:Kannada MN
+postscritpName:KannadaMN
+---------------
+familyName:Kannada MN
+displayName:Kannada MN Bold
+postscritpName:KannadaMN-Bold
+---------------
+familyName:Kannada Sangam MN
+displayName:Kannada Sangam MN
+postscritpName:KannadaSangamMN
+---------------
+familyName:Kannada Sangam MN
+displayName:Kannada Sangam MN Bold
+postscritpName:KannadaSangamMN-Bold
+---------------
+familyName:Kefa
+displayName:Kefa Bold
+postscritpName:Kefa-Bold
+---------------
+familyName:Kefa
+displayName:Kefa Regular
+postscritpName:Kefa-Regular
+---------------
+familyName:Khmer MN
+displayName:Khmer MN
+postscritpName:KhmerMN
+---------------
+familyName:Khmer MN
+displayName:Khmer MN Bold
+postscritpName:KhmerMN-Bold
+---------------
+familyName:Khmer Sangam MN
+displayName:Khmer Sangam MN
+postscritpName:KhmerSangamMN
+---------------
+familyName:Kino MT
+displayName:Kino MT
+postscritpName:KinoMT
+---------------
+familyName:KoPubBatang_Pro
+displayName:KoPubBatang_Pro Bold
+postscritpName:KoPubBatangPB
+---------------
+familyName:KoPubBatang_Pro
+displayName:KoPubBatang_Pro Light
+postscritpName:KoPubBatangPL
+---------------
+familyName:KoPubBatang_Pro
+displayName:KoPubBatang_Pro Medium
+postscritpName:KoPubBatangPM
+---------------
+familyName:KoPubDotum_Pro
+displayName:KoPubDotum_Pro Bold
+postscritpName:KoPubDotumPB
+---------------
+familyName:KoPubDotum_Pro
+displayName:KoPubDotum_Pro Light
+postscritpName:KoPubDotumPL
+---------------
+familyName:KoPubDotum_Pro
+displayName:KoPubDotum_Pro Medium
+postscritpName:KoPubDotumPM
+---------------
+familyName:Kohinoor Bangla
+displayName:Kohinoor Bangla Bold
+postscritpName:KohinoorBangla-Bold
+---------------
+familyName:Kohinoor Bangla
+displayName:Kohinoor Bangla Light
+postscritpName:KohinoorBangla-Light
+---------------
+familyName:Kohinoor Bangla
+displayName:Kohinoor Bangla Medium
+postscritpName:KohinoorBangla-Medium
+---------------
+familyName:Kohinoor Bangla
+displayName:Kohinoor Bangla
+postscritpName:KohinoorBangla-Regular
+---------------
+familyName:Kohinoor Bangla
+displayName:Kohinoor Bangla Semibold
+postscritpName:KohinoorBangla-Semibold
+---------------
+familyName:Kohinoor Devanagari
+displayName:Kohinoor Devanagari Bold
+postscritpName:KohinoorDevanagari-Bold
+---------------
+familyName:Kohinoor Devanagari
+displayName:Kohinoor Devanagari Light
+postscritpName:KohinoorDevanagari-Light
+---------------
+familyName:Kohinoor Devanagari
+displayName:Kohinoor Devanagari Medium
+postscritpName:KohinoorDevanagari-Medium
+---------------
+familyName:Kohinoor Devanagari
+displayName:Kohinoor Devanagari Regular
+postscritpName:KohinoorDevanagari-Regular
+---------------
+familyName:Kohinoor Devanagari
+displayName:Kohinoor Devanagari Semibold
+postscritpName:KohinoorDevanagari-Semibold
+---------------
+familyName:Kohinoor Telugu
+displayName:Kohinoor Telugu Bold
+postscritpName:KohinoorTelugu-Bold
+---------------
+familyName:Kohinoor Telugu
+displayName:Kohinoor Telugu Light
+postscritpName:KohinoorTelugu-Light
+---------------
+familyName:Kohinoor Telugu
+displayName:Kohinoor Telugu Medium
+postscritpName:KohinoorTelugu-Medium
+---------------
+familyName:Kohinoor Telugu
+displayName:Kohinoor Telugu
+postscritpName:KohinoorTelugu-Regular
+---------------
+familyName:Kohinoor Telugu
+displayName:Kohinoor Telugu Semibold
+postscritpName:KohinoorTelugu-Semibold
+---------------
+familyName:Kokonor
+displayName:Kokonor Regular
+postscritpName:Kokonor
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N B
+postscritpName:KozGoPr6N-Bold
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N EL
+postscritpName:KozGoPr6N-ExtraLight
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N H
+postscritpName:KozGoPr6N-Heavy
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N L
+postscritpName:KozGoPr6N-Light
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N M
+postscritpName:KozGoPr6N-Medium
+---------------
+familyName:Kozuka Gothic Pr6N
+displayName:Kozuka Gothic Pr6N R
+postscritpName:KozGoPr6N-Regular
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro B
+postscritpName:KozGoPro-Bold
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro EL
+postscritpName:KozGoPro-ExtraLight
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro H
+postscritpName:KozGoPro-Heavy
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro L
+postscritpName:KozGoPro-Light
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro M
+postscritpName:KozGoPro-Medium
+---------------
+familyName:Kozuka Gothic Pro
+displayName:Kozuka Gothic Pro R
+postscritpName:KozGoPro-Regular
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N B
+postscritpName:KozMinPr6N-Bold
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N EL
+postscritpName:KozMinPr6N-ExtraLight
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N H
+postscritpName:KozMinPr6N-Heavy
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N L
+postscritpName:KozMinPr6N-Light
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N M
+postscritpName:KozMinPr6N-Medium
+---------------
+familyName:Kozuka Mincho Pr6N
+displayName:Kozuka Mincho Pr6N R
+postscritpName:KozMinPr6N-Regular
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro B
+postscritpName:KozMinPro-Bold
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro EL
+postscritpName:KozMinPro-ExtraLight
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro H
+postscritpName:KozMinPro-Heavy
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro L
+postscritpName:KozMinPro-Light
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro M
+postscritpName:KozMinPro-Medium
+---------------
+familyName:Kozuka Mincho Pro
+displayName:Kozuka Mincho Pro R
+postscritpName:KozMinPro-Regular
+---------------
+familyName:Krungthep
+displayName:Krungthep
+postscritpName:Krungthep
+---------------
+familyName:KufiStandardGK
+displayName:KufiStandardGK Regular
+postscritpName:KufiStandardGK
+---------------
+familyName:Lao MN
+displayName:Lao MN
+postscritpName:LaoMN
+---------------
+familyName:Lao MN
+displayName:Lao MN Bold
+postscritpName:LaoMN-Bold
+---------------
+familyName:Lao Sangam MN
+displayName:Lao Sangam MN
+postscritpName:LaoSangamMN
+---------------
+familyName:.LastResort
+displayName:.LastResort
+postscritpName:LastResort
+---------------
+familyName:Wide Latin
+displayName:Wide Latin
+postscritpName:LatinWide
+---------------
+familyName:Letter Gothic Std
+displayName:Letter Gothic Std Medium
+postscritpName:LetterGothicStd
+---------------
+familyName:Letter Gothic Std
+displayName:Letter Gothic Std Bold
+postscritpName:LetterGothicStd-Bold
+---------------
+familyName:Letter Gothic Std
+displayName:Letter Gothic Std Bold Slanted
+postscritpName:LetterGothicStd-BoldSlanted
+---------------
+familyName:Letter Gothic Std
+displayName:Letter Gothic Std Slanted
+postscritpName:LetterGothicStd-Slanted
+---------------
+familyName:Lithos Pro
+displayName:Lithos Pro Black
+postscritpName:LithosPro-Black
+---------------
+familyName:Lithos Pro
+displayName:Lithos Pro
+postscritpName:LithosPro-Regular
+---------------
+familyName:Lucida Blackletter
+displayName:Lucida Blackletter
+postscritpName:LucidaBlackletter
+---------------
+familyName:Lucida Bright
+displayName:Lucida Bright
+postscritpName:LucidaBright
+---------------
+familyName:Lucida Bright
+displayName:Lucida Bright Demibold
+postscritpName:LucidaBright-Demi
+---------------
+familyName:Lucida Bright
+displayName:Lucida Bright Demibold Italic
+postscritpName:LucidaBright-DemiItalic
+---------------
+familyName:Lucida Bright
+displayName:Lucida Bright Italic
+postscritpName:LucidaBright-Italic
+---------------
+familyName:Lucida Calligraphy
+displayName:Lucida Calligraphy Italic
+postscritpName:LucidaCalligraphy-Italic
+---------------
+familyName:Lucida Console
+displayName:Lucida Console
+postscritpName:LucidaConsole
+---------------
+familyName:Lucida Fax
+displayName:Lucida Fax Regular
+postscritpName:LucidaFax
+---------------
+familyName:Lucida Fax
+displayName:Lucida Fax Demibold
+postscritpName:LucidaFax-Demi
+---------------
+familyName:Lucida Fax
+displayName:Lucida Fax Demibold Italic
+postscritpName:LucidaFax-DemiItalic
+---------------
+familyName:Lucida Fax
+displayName:Lucida Fax Italic
+postscritpName:LucidaFax-Italic
+---------------
+familyName:Lucida Grande
+displayName:Lucida Grande
+postscritpName:LucidaGrande
+---------------
+familyName:Lucida Grande
+displayName:Lucida Grande Bold
+postscritpName:LucidaGrande-Bold
+---------------
+familyName:Lucida Handwriting
+displayName:Lucida Handwriting Italic
+postscritpName:LucidaHandwriting-Italic
+---------------
+familyName:Lucida Sans
+displayName:Lucida Sans Regular
+postscritpName:LucidaSans
+---------------
+familyName:Lucida Sans
+displayName:Lucida Sans Demibold Roman
+postscritpName:LucidaSans-Demi
+---------------
+familyName:Lucida Sans
+displayName:Lucida Sans Demibold Italic
+postscritpName:LucidaSans-DemiItalic
+---------------
+familyName:Lucida Sans
+displayName:Lucida Sans Italic
+postscritpName:LucidaSans-Italic
+---------------
+familyName:Lucida Sans Typewriter
+displayName:Lucida Sans Typewriter Regular
+postscritpName:LucidaSans-Typewriter
+---------------
+familyName:Lucida Sans Typewriter
+displayName:Lucida Sans Typewriter Bold
+postscritpName:LucidaSans-TypewriterBold
+---------------
+familyName:Lucida Sans Typewriter
+displayName:Lucida Sans Typewriter Bold Oblique
+postscritpName:LucidaSans-TypewriterBoldOblique
+---------------
+familyName:Lucida Sans Typewriter
+displayName:Lucida Sans Typewriter Oblique
+postscritpName:LucidaSans-TypewriterOblique
+---------------
+familyName:Lucida Sans Unicode
+displayName:Lucida Sans Unicode
+postscritpName:LucidaSansUnicode
+---------------
+familyName:Luminari
+displayName:Luminari
+postscritpName:Luminari-Regular
+---------------
+familyName:MS Gothic
+displayName:MS Gothic
+postscritpName:MS-Gothic
+---------------
+familyName:MS Mincho
+displayName:MS Mincho
+postscritpName:MS-Mincho
+---------------
+familyName:MS PGothic
+displayName:MS PGothic
+postscritpName:MS-PGothic
+---------------
+familyName:MS PMincho
+displayName:MS PMincho
+postscritpName:MS-PMincho
+---------------
+familyName:MS Reference Sans Serif
+displayName:MS Reference Sans Serif
+postscritpName:MSReferenceSansSerif
+---------------
+familyName:MS Reference Specialty
+displayName:MS Reference Specialty
+postscritpName:MSReferenceSpecialty
+---------------
+familyName:MT Extra
+displayName:MT Extra
+postscritpName:MT-Extra
+---------------
+familyName:Malayalam MN
+displayName:Malayalam MN
+postscritpName:MalayalamMN
+---------------
+familyName:Malayalam MN
+displayName:Malayalam MN Bold
+postscritpName:MalayalamMN-Bold
+---------------
+familyName:Malayalam Sangam MN
+displayName:Malayalam Sangam MN
+postscritpName:MalayalamSangamMN
+---------------
+familyName:Malayalam Sangam MN
+displayName:Malayalam Sangam MN Bold
+postscritpName:MalayalamSangamMN-Bold
+---------------
+familyName:Marion
+displayName:Marion Bold
+postscritpName:Marion-Bold
+---------------
+familyName:Marion
+displayName:Marion Italic
+postscritpName:Marion-Italic
+---------------
+familyName:Marion
+displayName:Marion Regular
+postscritpName:Marion-Regular
+---------------
+familyName:Marker Felt
+displayName:Marker Felt Thin
+postscritpName:MarkerFelt-Thin
+---------------
+familyName:Marker Felt
+displayName:Marker Felt Wide
+postscritpName:MarkerFelt-Wide
+---------------
+familyName:Marlett
+displayName:Marlett
+postscritpName:Marlett
+---------------
+familyName:Matura MT Script Capitals
+displayName:Matura MT Script Capitals
+postscritpName:MaturaMTScriptCapitals
+---------------
+familyName:Meiryo
+displayName:Meiryo
+postscritpName:Meiryo
+---------------
+familyName:Meiryo
+displayName:Meiryo Bold
+postscritpName:Meiryo-Bold
+---------------
+familyName:Meiryo
+displayName:Meiryo Bold Italic
+postscritpName:Meiryo-BoldItalic
+---------------
+familyName:Meiryo
+displayName:Meiryo Italic
+postscritpName:Meiryo-Italic
+---------------
+familyName:Menlo
+displayName:Menlo Bold
+postscritpName:Menlo-Bold
+---------------
+familyName:Menlo
+displayName:Menlo Bold Italic
+postscritpName:Menlo-BoldItalic
+---------------
+familyName:Menlo
+displayName:Menlo Italic
+postscritpName:Menlo-Italic
+---------------
+familyName:Menlo
+displayName:Menlo Regular
+postscritpName:Menlo-Regular
+---------------
+familyName:Mesquite Std
+displayName:Mesquite Std Medium
+postscritpName:MesquiteStd
+---------------
+familyName:Microsoft Sans Serif
+displayName:Microsoft Sans Serif
+postscritpName:MicrosoftSansSerif
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Bold
+postscritpName:MinionPro-Bold
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Bold Cond
+postscritpName:MinionPro-BoldCn
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Bold Cond Italic
+postscritpName:MinionPro-BoldCnIt
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Bold Italic
+postscritpName:MinionPro-BoldIt
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Italic
+postscritpName:MinionPro-It
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Medium
+postscritpName:MinionPro-Medium
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Medium Italic
+postscritpName:MinionPro-MediumIt
+---------------
+familyName:Minion Pro
+displayName:Minion Pro
+postscritpName:MinionPro-Regular
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Semibold
+postscritpName:MinionPro-Semibold
+---------------
+familyName:Minion Pro
+displayName:Minion Pro Semibold Italic
+postscritpName:MinionPro-SemiboldIt
+---------------
+familyName:Mistral
+displayName:Mistral
+postscritpName:Mistral
+---------------
+familyName:smMoeumO
+displayName:smMoeumO Bold
+postscritpName:MmOB
+---------------
+familyName:smMoeumO
+displayName:smMoeumO DemiBold
+postscritpName:MmOD
+---------------
+familyName:smMoeumO
+displayName:smMoeumO Light
+postscritpName:MmOL
+---------------
+familyName:smMoeumO
+displayName:smMoeumO Medium
+postscritpName:MmOR
+---------------
+familyName:Modern No. 20
+displayName:Modern No. 20
+postscritpName:Modern-Regular
+---------------
+familyName:smMokPan
+displayName:smMokPan Medium
+postscritpName:MokPan
+---------------
+familyName:Monaco
+displayName:Monaco
+postscritpName:Monaco
+---------------
+familyName:Monotype Corsiva
+displayName:Monotype Corsiva
+postscritpName:MonotypeCorsiva
+---------------
+familyName:Gurmukhi MT
+displayName:Gurmukhi MT
+postscritpName:MonotypeGurmukhi
+---------------
+familyName:Monotype Sorts
+displayName:Monotype Sorts
+postscritpName:MonotypeSorts
+---------------
+familyName:msam10
+displayName:msam10
+postscritpName:Msam10
+---------------
+familyName:msbm10
+displayName:msbm10
+postscritpName:Msbm10
+---------------
+familyName:Mshtakan
+displayName:Mshtakan
+postscritpName:Mshtakan
+---------------
+familyName:Mshtakan
+displayName:Mshtakan Bold
+postscritpName:MshtakanBold
+---------------
+familyName:Mshtakan
+displayName:Mshtakan BoldOblique
+postscritpName:MshtakanBoldOblique
+---------------
+familyName:Mshtakan
+displayName:Mshtakan Oblique
+postscritpName:MshtakanOblique
+---------------
+familyName:Muna
+displayName:Muna Regular
+postscritpName:Muna
+---------------
+familyName:Muna
+displayName:Muna Black
+postscritpName:MunaBlack
+---------------
+familyName:Muna
+displayName:Muna Bold
+postscritpName:MunaBold
+---------------
+familyName:Myanmar MN
+displayName:Myanmar MN
+postscritpName:MyanmarMN
+---------------
+familyName:Myanmar MN
+displayName:Myanmar MN Bold
+postscritpName:MyanmarMN-Bold
+---------------
+familyName:Myanmar Sangam MN
+displayName:Myanmar Sangam MN
+postscritpName:MyanmarSangamMN
+---------------
+familyName:Myanmar Sangam MN
+displayName:Myanmar Sangam MN Bold
+postscritpName:MyanmarSangamMN-Bold
+---------------
+familyName:Myriad Arabic
+displayName:Myriad Arabic Bold
+postscritpName:MyriadArabic-Bold
+---------------
+familyName:Myriad Arabic
+displayName:Myriad Arabic Bold Italic
+postscritpName:MyriadArabic-BoldIt
+---------------
+familyName:Myriad Arabic
+displayName:Myriad Arabic Italic
+postscritpName:MyriadArabic-It
+---------------
+familyName:Myriad Arabic
+displayName:Myriad Arabic
+postscritpName:MyriadArabic-Regular
+---------------
+familyName:Myriad Hebrew
+displayName:Myriad Hebrew Bold
+postscritpName:MyriadHebrew-Bold
+---------------
+familyName:Myriad Hebrew
+displayName:Myriad Hebrew Bold Italic
+postscritpName:MyriadHebrew-BoldIt
+---------------
+familyName:Myriad Hebrew
+displayName:Myriad Hebrew Italic
+postscritpName:MyriadHebrew-It
+---------------
+familyName:Myriad Hebrew
+displayName:Myriad Hebrew
+postscritpName:MyriadHebrew-Regular
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Bold
+postscritpName:MyriadPro-Bold
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Bold Condensed
+postscritpName:MyriadPro-BoldCond
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Bold Condensed Italic
+postscritpName:MyriadPro-BoldCondIt
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Bold Italic
+postscritpName:MyriadPro-BoldIt
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Condensed
+postscritpName:MyriadPro-Cond
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Condensed Italic
+postscritpName:MyriadPro-CondIt
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Italic
+postscritpName:MyriadPro-It
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro
+postscritpName:MyriadPro-Regular
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Semibold
+postscritpName:MyriadPro-Semibold
+---------------
+familyName:Myriad Pro
+displayName:Myriad Pro Semibold Italic
+postscritpName:MyriadPro-SemiboldIt
+---------------
+familyName:Nadeem
+displayName:Nadeem Regular
+postscritpName:Nadeem
+---------------
+familyName:Nanum Brush Script
+displayName:Nanum Brush Script
+postscritpName:NanumBrush
+---------------
+familyName:Nanum Gothic
+displayName:NanumGothic
+postscritpName:NanumGothic
+---------------
+familyName:Nanum Gothic
+displayName:NanumGothic Bold
+postscritpName:NanumGothicBold
+---------------
+familyName:Nanum Gothic
+displayName:NanumGothic ExtraBold
+postscritpName:NanumGothicExtraBold
+---------------
+familyName:Nanum Myeongjo
+displayName:NanumMyeongjo
+postscritpName:NanumMyeongjo
+---------------
+familyName:Nanum Myeongjo
+displayName:NanumMyeongjo Bold
+postscritpName:NanumMyeongjoBold
+---------------
+familyName:Nanum Myeongjo
+displayName:NanumMyeongjo ExtraBold
+postscritpName:NanumMyeongjoExtraBold
+---------------
+familyName:Nanum Pen Script
+displayName:Nanum Pen Script
+postscritpName:NanumPen
+---------------
+familyName:New Peninim MT
+displayName:New Peninim MT
+postscritpName:NewPeninimMT
+---------------
+familyName:New Peninim MT
+displayName:New Peninim MT Bold
+postscritpName:NewPeninimMT-Bold
+---------------
+familyName:New Peninim MT
+displayName:New Peninim MT Bold Inclined
+postscritpName:NewPeninimMT-BoldInclined
+---------------
+familyName:New Peninim MT
+displayName:New Peninim MT Inclined
+postscritpName:NewPeninimMT-Inclined
+---------------
+familyName:News Gothic MT
+displayName:News Gothic MT
+postscritpName:NewsGothicMT
+---------------
+familyName:News Gothic MT
+displayName:News Gothic MT Bold
+postscritpName:NewsGothicMT-Bold
+---------------
+familyName:News Gothic MT
+displayName:News Gothic MT Italic
+postscritpName:NewsGothicMT-Italic
+---------------
+familyName:Noteworthy
+displayName:Noteworthy Bold
+postscritpName:Noteworthy-Bold
+---------------
+familyName:Noteworthy
+displayName:Noteworthy Light
+postscritpName:Noteworthy-Light
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Bold
+postscritpName:NuevaStd-Bold
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Bold Condensed
+postscritpName:NuevaStd-BoldCond
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Bold Condensed Italic
+postscritpName:NuevaStd-BoldCondItalic
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Condensed
+postscritpName:NuevaStd-Cond
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Condensed Italic
+postscritpName:NuevaStd-CondItalic
+---------------
+familyName:Nueva Std
+displayName:Nueva Std Italic
+postscritpName:NuevaStd-Italic
+---------------
+familyName:OCR A Std
+displayName:OCR A Std
+postscritpName:OCRAStd
+---------------
+familyName:Onyx
+displayName:Onyx
+postscritpName:Onyx
+---------------
+familyName:Optima
+displayName:Optima Bold
+postscritpName:Optima-Bold
+---------------
+familyName:Optima
+displayName:Optima Bold Italic
+postscritpName:Optima-BoldItalic
+---------------
+familyName:Optima
+displayName:Optima ExtraBlack
+postscritpName:Optima-ExtraBlack
+---------------
+familyName:Optima
+displayName:Optima Italic
+postscritpName:Optima-Italic
+---------------
+familyName:Optima
+displayName:Optima Regular
+postscritpName:Optima-Regular
+---------------
+familyName:Orator Std
+displayName:Orator Std Medium
+postscritpName:OratorStd
+---------------
+familyName:Orator Std
+displayName:Orator Std Slanted
+postscritpName:OratorStd-Slanted
+---------------
+familyName:Oriya MN
+displayName:Oriya MN
+postscritpName:OriyaMN
+---------------
+familyName:Oriya MN
+displayName:Oriya MN Bold
+postscritpName:OriyaMN-Bold
+---------------
+familyName:Oriya Sangam MN
+displayName:Oriya Sangam MN
+postscritpName:OriyaSangamMN
+---------------
+familyName:Oriya Sangam MN
+displayName:Oriya Sangam MN Bold
+postscritpName:OriyaSangamMN-Bold
+---------------
+familyName:PMingLiU
+displayName:PMingLiU
+postscritpName:PMingLiU
+---------------
+familyName:PT Mono
+displayName:PT Mono Bold
+postscritpName:PTMono-Bold
+---------------
+familyName:PT Mono
+displayName:PT Mono
+postscritpName:PTMono-Regular
+---------------
+familyName:PT Sans
+displayName:PT Sans Bold
+postscritpName:PTSans-Bold
+---------------
+familyName:PT Sans
+displayName:PT Sans Bold Italic
+postscritpName:PTSans-BoldItalic
+---------------
+familyName:PT Sans Caption
+displayName:PT Sans Caption
+postscritpName:PTSans-Caption
+---------------
+familyName:PT Sans Caption
+displayName:PT Sans Caption Bold
+postscritpName:PTSans-CaptionBold
+---------------
+familyName:PT Sans
+displayName:PT Sans Italic
+postscritpName:PTSans-Italic
+---------------
+familyName:PT Sans Narrow
+displayName:PT Sans Narrow
+postscritpName:PTSans-Narrow
+---------------
+familyName:PT Sans Narrow
+displayName:PT Sans Narrow Bold
+postscritpName:PTSans-NarrowBold
+---------------
+familyName:PT Sans
+displayName:PT Sans
+postscritpName:PTSans-Regular
+---------------
+familyName:PT Serif
+displayName:PT Serif Bold
+postscritpName:PTSerif-Bold
+---------------
+familyName:PT Serif
+displayName:PT Serif Bold Italic
+postscritpName:PTSerif-BoldItalic
+---------------
+familyName:PT Serif Caption
+displayName:PT Serif Caption
+postscritpName:PTSerif-Caption
+---------------
+familyName:PT Serif Caption
+displayName:PT Serif Caption Italic
+postscritpName:PTSerif-CaptionItalic
+---------------
+familyName:PT Serif
+displayName:PT Serif Italic
+postscritpName:PTSerif-Italic
+---------------
+familyName:PT Serif
+displayName:PT Serif
+postscritpName:PTSerif-Regular
+---------------
+familyName:Palatino
+displayName:Palatino Bold
+postscritpName:Palatino-Bold
+---------------
+familyName:Palatino
+displayName:Palatino Bold Italic
+postscritpName:Palatino-BoldItalic
+---------------
+familyName:Palatino
+displayName:Palatino Italic
+postscritpName:Palatino-Italic
+---------------
+familyName:Palatino
+displayName:Palatino
+postscritpName:Palatino-Roman
+---------------
+familyName:Palatino Linotype
+displayName:Palatino Linotype Bold
+postscritpName:PalatinoLinotype-Bold
+---------------
+familyName:Palatino Linotype
+displayName:Palatino Linotype Bold Italic
+postscritpName:PalatinoLinotype-BoldItalic
+---------------
+familyName:Palatino Linotype
+displayName:Palatino Linotype Italic
+postscritpName:PalatinoLinotype-Italic
+---------------
+familyName:Palatino Linotype
+displayName:Palatino Linotype
+postscritpName:PalatinoLinotype-Roman
+---------------
+familyName:Papyrus
+displayName:Papyrus
+postscritpName:Papyrus
+---------------
+familyName:Papyrus
+displayName:Papyrus Condensed
+postscritpName:Papyrus-Condensed
+---------------
+familyName:Perpetua
+displayName:Perpetua
+postscritpName:Perpetua
+---------------
+familyName:Perpetua
+displayName:Perpetua Bold
+postscritpName:Perpetua-Bold
+---------------
+familyName:Perpetua
+displayName:Perpetua Bold Italic
+postscritpName:Perpetua-BoldItalic
+---------------
+familyName:Perpetua
+displayName:Perpetua Italic
+postscritpName:Perpetua-Italic
+---------------
+familyName:Perpetua Titling MT
+displayName:Perpetua Titling MT Bold
+postscritpName:PerpetuaTitlingMT-Bold
+---------------
+familyName:Perpetua Titling MT
+displayName:Perpetua Titling MT Light
+postscritpName:PerpetuaTitlingMT-Light
+---------------
+familyName:Phosphate
+displayName:Phosphate Inline
+postscritpName:Phosphate-Inline
+---------------
+familyName:Phosphate
+displayName:Phosphate Solid
+postscritpName:Phosphate-Solid
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Light
+postscritpName:PingFangHK-Light
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Medium
+postscritpName:PingFangHK-Medium
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Regular
+postscritpName:PingFangHK-Regular
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Semibold
+postscritpName:PingFangHK-Semibold
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Thin
+postscritpName:PingFangHK-Thin
+---------------
+familyName:PingFang HK
+displayName:PingFang HK Ultralight
+postscritpName:PingFangHK-Ultralight
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Light
+postscritpName:PingFangSC-Light
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Medium
+postscritpName:PingFangSC-Medium
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Regular
+postscritpName:PingFangSC-Regular
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Semibold
+postscritpName:PingFangSC-Semibold
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Thin
+postscritpName:PingFangSC-Thin
+---------------
+familyName:PingFang SC
+displayName:PingFang SC Ultralight
+postscritpName:PingFangSC-Ultralight
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Light
+postscritpName:PingFangTC-Light
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Medium
+postscritpName:PingFangTC-Medium
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Regular
+postscritpName:PingFangTC-Regular
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Semibold
+postscritpName:PingFangTC-Semibold
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Thin
+postscritpName:PingFangTC-Thin
+---------------
+familyName:PingFang TC
+displayName:PingFang TC Ultralight
+postscritpName:PingFangTC-Ultralight
+---------------
+familyName:Plantagenet Cherokee
+displayName:Plantagenet Cherokee
+postscritpName:PlantagenetCherokee
+---------------
+familyName:Playbill
+displayName:Playbill
+postscritpName:Playbill
+---------------
+familyName:Poplar Std
+displayName:Poplar Std Black
+postscritpName:PoplarStd
+---------------
+familyName:Prestige Elite Std
+displayName:Prestige Elite Std Bold
+postscritpName:PrestigeEliteStd-Bd
+---------------
+familyName:smRGRa
+displayName:smRGRa Bold
+postscritpName:RGra
+---------------
+familyName:Raanana
+displayName:Raanana
+postscritpName:Raanana
+---------------
+familyName:Raanana
+displayName:Raanana Bold
+postscritpName:RaananaBold
+---------------
+familyName:Rockwell
+displayName:Rockwell
+postscritpName:Rockwell
+---------------
+familyName:Rockwell
+displayName:Rockwell Bold
+postscritpName:Rockwell-Bold
+---------------
+familyName:Rockwell
+displayName:Rockwell Bold Italic
+postscritpName:Rockwell-BoldItalic
+---------------
+familyName:Rockwell Extra Bold
+displayName:Rockwell Extra Bold
+postscritpName:Rockwell-ExtraBold
+---------------
+familyName:Rockwell
+displayName:Rockwell Italic
+postscritpName:Rockwell-Italic
+---------------
+familyName:Rosewood Std
+displayName:Rosewood Std
+postscritpName:RosewoodStd-Regular
+---------------
+familyName:smShinJohabT
+displayName:smShinJohabT Bold
+postscritpName:SJohabTB
+---------------
+familyName:smShinJohabT
+displayName:smShinJohabT Light
+postscritpName:SJohabTL
+---------------
+familyName:smShinJohabT
+displayName:smShinJohabT Medium
+postscritpName:SJohabTM
+---------------
+familyName:Heiti SC
+displayName:Heiti SC Light
+postscritpName:STHeitiSC-Light
+---------------
+familyName:Heiti SC
+displayName:Heiti SC Medium
+postscritpName:STHeitiSC-Medium
+---------------
+familyName:Heiti TC
+displayName:Heiti TC Light
+postscritpName:STHeitiTC-Light
+---------------
+familyName:Heiti TC
+displayName:Heiti TC Medium
+postscritpName:STHeitiTC-Medium
+---------------
+familyName:STIXGeneral
+displayName:STIXGeneral-Bold
+postscritpName:STIXGeneral-Bold
+---------------
+familyName:STIXGeneral
+displayName:STIXGeneral-BoldItalic
+postscritpName:STIXGeneral-BoldItalic
+---------------
+familyName:STIXGeneral
+displayName:STIXGeneral-Italic
+postscritpName:STIXGeneral-Italic
+---------------
+familyName:STIXGeneral
+displayName:STIXGeneral-Regular
+postscritpName:STIXGeneral-Regular
+---------------
+familyName:STIXIntegralsD
+displayName:STIXIntegralsD-Bold
+postscritpName:STIXIntegralsD-Bold
+---------------
+familyName:STIXIntegralsD
+displayName:STIXIntegralsD-Regular
+postscritpName:STIXIntegralsD-Regular
+---------------
+familyName:STIXIntegralsSm
+displayName:STIXIntegralsSm-Bold
+postscritpName:STIXIntegralsSm-Bold
+---------------
+familyName:STIXIntegralsSm
+displayName:STIXIntegralsSm-Regular
+postscritpName:STIXIntegralsSm-Regular
+---------------
+familyName:STIXIntegralsUp
+displayName:STIXIntegralsUp-Bold
+postscritpName:STIXIntegralsUp-Bold
+---------------
+familyName:STIXIntegralsUp
+displayName:STIXIntegralsUp-Regular
+postscritpName:STIXIntegralsUp-Regular
+---------------
+familyName:STIXIntegralsUpD
+displayName:STIXIntegralsUpD-Bold
+postscritpName:STIXIntegralsUpD-Bold
+---------------
+familyName:STIXIntegralsUpD
+displayName:STIXIntegralsUpD-Regular
+postscritpName:STIXIntegralsUpD-Regular
+---------------
+familyName:STIXIntegralsUpSm
+displayName:STIXIntegralsUpSm-Bold
+postscritpName:STIXIntegralsUpSm-Bold
+---------------
+familyName:STIXIntegralsUpSm
+displayName:STIXIntegralsUpSm-Regular
+postscritpName:STIXIntegralsUpSm-Regular
+---------------
+familyName:STIXNonUnicode
+displayName:STIXNonUnicode-Bold
+postscritpName:STIXNonUnicode-Bold
+---------------
+familyName:STIXNonUnicode
+displayName:STIXNonUnicode-BoldItalic
+postscritpName:STIXNonUnicode-BoldItalic
+---------------
+familyName:STIXNonUnicode
+displayName:STIXNonUnicode-Italic
+postscritpName:STIXNonUnicode-Italic
+---------------
+familyName:STIXNonUnicode
+displayName:STIXNonUnicode-Regular
+postscritpName:STIXNonUnicode-Regular
+---------------
+familyName:STIXSizeFiveSym
+displayName:STIXSizeFiveSym-Regular
+postscritpName:STIXSizeFiveSym-Regular
+---------------
+familyName:STIXSizeFourSym
+displayName:STIXSizeFourSym-Bold
+postscritpName:STIXSizeFourSym-Bold
+---------------
+familyName:STIXSizeFourSym
+displayName:STIXSizeFourSym-Regular
+postscritpName:STIXSizeFourSym-Regular
+---------------
+familyName:STIXSizeOneSym
+displayName:STIXSizeOneSym-Bold
+postscritpName:STIXSizeOneSym-Bold
+---------------
+familyName:STIXSizeOneSym
+displayName:STIXSizeOneSym-Regular
+postscritpName:STIXSizeOneSym-Regular
+---------------
+familyName:STIXSizeThreeSym
+displayName:STIXSizeThreeSym-Bold
+postscritpName:STIXSizeThreeSym-Bold
+---------------
+familyName:STIXSizeThreeSym
+displayName:STIXSizeThreeSym-Regular
+postscritpName:STIXSizeThreeSym-Regular
+---------------
+familyName:STIXSizeTwoSym
+displayName:STIXSizeTwoSym-Bold
+postscritpName:STIXSizeTwoSym-Bold
+---------------
+familyName:STIXSizeTwoSym
+displayName:STIXSizeTwoSym-Regular
+postscritpName:STIXSizeTwoSym-Regular
+---------------
+familyName:STIXVariants
+displayName:STIXVariants-Bold
+postscritpName:STIXVariants-Bold
+---------------
+familyName:STIXVariants
+displayName:STIXVariants-Regular
+postscritpName:STIXVariants-Regular
+---------------
+familyName:STSong
+displayName:STSong
+postscritpName:STSong
+---------------
+familyName:Songti SC
+displayName:Songti SC Black
+postscritpName:STSongti-SC-Black
+---------------
+familyName:Songti SC
+displayName:Songti SC Bold
+postscritpName:STSongti-SC-Bold
+---------------
+familyName:Songti SC
+displayName:Songti SC Light
+postscritpName:STSongti-SC-Light
+---------------
+familyName:Songti SC
+displayName:Songti SC Regular
+postscritpName:STSongti-SC-Regular
+---------------
+familyName:Songti TC
+displayName:Songti TC Bold
+postscritpName:STSongti-TC-Bold
+---------------
+familyName:Songti TC
+displayName:Songti TC Light
+postscritpName:STSongti-TC-Light
+---------------
+familyName:Songti TC
+displayName:Songti TC Regular
+postscritpName:STSongti-TC-Regular
+---------------
+familyName:Sana
+displayName:Sana Regular
+postscritpName:Sana
+---------------
+familyName:smSatGat
+displayName:smSatGat Light
+postscritpName:SatGat
+---------------
+familyName:Sathu
+displayName:Sathu
+postscritpName:Sathu
+---------------
+familyName:Savoye LET
+displayName:Savoye LET Plain:1.0
+postscritpName:SavoyeLetPlain
+---------------
+familyName:Seravek
+displayName:Seravek
+postscritpName:Seravek
+---------------
+familyName:Seravek
+displayName:Seravek Bold
+postscritpName:Seravek-Bold
+---------------
+familyName:Seravek
+displayName:Seravek Bold Italic
+postscritpName:Seravek-BoldItalic
+---------------
+familyName:Seravek
+displayName:Seravek ExtraLight
+postscritpName:Seravek-ExtraLight
+---------------
+familyName:Seravek
+displayName:Seravek ExtraLight Italic
+postscritpName:Seravek-ExtraLightItalic
+---------------
+familyName:Seravek
+displayName:Seravek Italic
+postscritpName:Seravek-Italic
+---------------
+familyName:Seravek
+displayName:Seravek Light
+postscritpName:Seravek-Light
+---------------
+familyName:Seravek
+displayName:Seravek Light Italic
+postscritpName:Seravek-LightItalic
+---------------
+familyName:Seravek
+displayName:Seravek Medium
+postscritpName:Seravek-Medium
+---------------
+familyName:Seravek
+displayName:Seravek Medium Italic
+postscritpName:Seravek-MediumItalic
+---------------
+familyName:Shinmoon
+displayName:Shinmoon
+postscritpName:Shinmoon
+---------------
+familyName:Shree Devanagari 714
+displayName:Shree Devanagari 714
+postscritpName:ShreeDev0714
+---------------
+familyName:Shree Devanagari 714
+displayName:Shree Devanagari 714 Bold
+postscritpName:ShreeDev0714-Bold
+---------------
+familyName:Shree Devanagari 714
+displayName:Shree Devanagari 714 Bold Italic
+postscritpName:ShreeDev0714-Bold-Italic
+---------------
+familyName:Shree Devanagari 714
+displayName:Shree Devanagari 714 Italic
+postscritpName:ShreeDev0714-Italic
+---------------
+familyName:SignPainter
+displayName:SignPainter-HouseScript
+postscritpName:SignPainter-HouseScript
+---------------
+familyName:SignPainter
+displayName:SignPainter-HouseScript Semibold
+postscritpName:SignPainter-HouseScriptSemibold
+---------------
+familyName:Silom
+displayName:Silom
+postscritpName:Silom
+---------------
+familyName:SimSun
+displayName:SimSun
+postscritpName:SimSun
+---------------
+familyName:Sinhala MN
+displayName:Sinhala MN
+postscritpName:SinhalaMN
+---------------
+familyName:Sinhala MN
+displayName:Sinhala MN Bold
+postscritpName:SinhalaMN-Bold
+---------------
+familyName:Sinhala Sangam MN
+displayName:Sinhala Sangam MN
+postscritpName:SinhalaSangamMN
+---------------
+familyName:Sinhala Sangam MN
+displayName:Sinhala Sangam MN Bold
+postscritpName:SinhalaSangamMN-Bold
+---------------
+familyName:Skia
+displayName:Skia Regular
+postscritpName:Skia-Regular
+---------------
+familyName:Skia
+displayName:Skia Black
+postscritpName:Skia-Regular_Black
+---------------
+familyName:Skia
+displayName:Skia Black Condensed
+postscritpName:Skia-Regular_Black-Condensed
+---------------
+familyName:Skia
+displayName:Skia Black Extended
+postscritpName:Skia-Regular_Black-Extended
+---------------
+familyName:Skia
+displayName:Skia Bold
+postscritpName:Skia-Regular_Bold
+---------------
+familyName:Skia
+displayName:Skia Condensed
+postscritpName:Skia-Regular_Condensed
+---------------
+familyName:Skia
+displayName:Skia Extended
+postscritpName:Skia-Regular_Extended
+---------------
+familyName:Skia
+displayName:Skia Light
+postscritpName:Skia-Regular_Light
+---------------
+familyName:Skia
+displayName:Skia Light Condensed
+postscritpName:Skia-Regular_Light-Condensed
+---------------
+familyName:Skia
+displayName:Skia Light Extended
+postscritpName:Skia-Regular_Light-Extended
+---------------
+familyName:Snell Roundhand
+displayName:Snell Roundhand
+postscritpName:SnellRoundhand
+---------------
+familyName:Snell Roundhand
+displayName:Snell Roundhand Black
+postscritpName:SnellRoundhand-Black
+---------------
+familyName:Snell Roundhand
+displayName:Snell Roundhand Bold
+postscritpName:SnellRoundhand-Bold
+---------------
+familyName:smSongMyung
+displayName:smSongMyung Medium
+postscritpName:SongMyung
+---------------
+familyName:smSooryo
+displayName:smSooryo Bold
+postscritpName:SrBB
+---------------
+familyName:smSooryo
+displayName:smSooryo DemiBold
+postscritpName:SrBD
+---------------
+familyName:smSooryo
+displayName:smSooryo Light
+postscritpName:SrBL
+---------------
+familyName:smSooryo
+displayName:smSooryo Medium
+postscritpName:SrBR
+---------------
+familyName:Stencil
+displayName:Stencil
+postscritpName:Stencil
+---------------
+familyName:Stencil Std
+displayName:Stencil Std Bold
+postscritpName:StencilStd
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Bold
+postscritpName:SukhumvitSet-Bold
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Light
+postscritpName:SukhumvitSet-Light
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Medium
+postscritpName:SukhumvitSet-Medium
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Semi Bold
+postscritpName:SukhumvitSet-SemiBold
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Text
+postscritpName:SukhumvitSet-Text
+---------------
+familyName:Sukhumvit Set
+displayName:Sukhumvit Set Thin
+postscritpName:SukhumvitSet-Thin
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Black
+postscritpName:Superclarendon-Black
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Black Italic
+postscritpName:Superclarendon-BlackItalic
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Bold
+postscritpName:Superclarendon-Bold
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Bold Italic
+postscritpName:Superclarendon-BoldItalic
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Italic
+postscritpName:Superclarendon-Italic
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Light
+postscritpName:Superclarendon-Light
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Light Italic
+postscritpName:Superclarendon-LightItalic
+---------------
+familyName:Superclarendon
+displayName:Superclarendon Regular
+postscritpName:Superclarendon-Regular
+---------------
+familyName:Symbol
+displayName:Symbol
+postscritpName:Symbol
+---------------
+familyName:Tahoma
+displayName:Tahoma
+postscritpName:Tahoma
+---------------
+familyName:Tahoma
+displayName:Tahoma Negreta
+postscritpName:Tahoma-Bold
+---------------
+familyName:Tamil MN
+displayName:Tamil MN
+postscritpName:TamilMN
+---------------
+familyName:Tamil MN
+displayName:Tamil MN Bold
+postscritpName:TamilMN-Bold
+---------------
+familyName:Tamil Sangam MN
+displayName:Tamil Sangam MN
+postscritpName:TamilSangamMN
+---------------
+familyName:Tamil Sangam MN
+displayName:Tamil Sangam MN Bold
+postscritpName:TamilSangamMN-Bold
+---------------
+familyName:TeamViewer13
+displayName:TeamViewer13
+postscritpName:TeamViewer13
+---------------
+familyName:Tekton Pro
+displayName:Tekton Pro Bold
+postscritpName:TektonPro-Bold
+---------------
+familyName:Tekton Pro
+displayName:Tekton Pro Bold Condensed
+postscritpName:TektonPro-BoldCond
+---------------
+familyName:Tekton Pro
+displayName:Tekton Pro Bold Extended
+postscritpName:TektonPro-BoldExt
+---------------
+familyName:Tekton Pro
+displayName:Tekton Pro Bold Oblique
+postscritpName:TektonPro-BoldObl
+---------------
+familyName:Telugu MN
+displayName:Telugu MN
+postscritpName:TeluguMN
+---------------
+familyName:Telugu MN
+displayName:Telugu MN Bold
+postscritpName:TeluguMN-Bold
+---------------
+familyName:Telugu Sangam MN
+displayName:Telugu Sangam MN
+postscritpName:TeluguSangamMN
+---------------
+familyName:Telugu Sangam MN
+displayName:Telugu Sangam MN Bold
+postscritpName:TeluguSangamMN-Bold
+---------------
+familyName:Thonburi
+displayName:Thonburi
+postscritpName:Thonburi
+---------------
+familyName:Thonburi
+displayName:Thonburi Bold
+postscritpName:Thonburi-Bold
+---------------
+familyName:Thonburi
+displayName:Thonburi Light
+postscritpName:Thonburi-Light
+---------------
+familyName:Times
+displayName:Times Bold
+postscritpName:Times-Bold
+---------------
+familyName:Times
+displayName:Times Bold Italic
+postscritpName:Times-BoldItalic
+---------------
+familyName:Times
+displayName:Times Italic
+postscritpName:Times-Italic
+---------------
+familyName:Times
+displayName:Times Roman
+postscritpName:Times-Roman
+---------------
+familyName:Times New Roman
+displayName:Times New Roman Bold Italic
+postscritpName:TimesNewRomanPS-BoldItalicMT
+---------------
+familyName:Times New Roman
+displayName:Times New Roman Bold
+postscritpName:TimesNewRomanPS-BoldMT
+---------------
+familyName:Times New Roman
+displayName:Times New Roman Italic
+postscritpName:TimesNewRomanPS-ItalicMT
+---------------
+familyName:Times New Roman
+displayName:Times New Roman
+postscritpName:TimesNewRomanPSMT
+---------------
+familyName:Trajan Pro
+displayName:Trajan Pro Bold
+postscritpName:TrajanPro-Bold
+---------------
+familyName:Trajan Pro
+displayName:Trajan Pro
+postscritpName:TrajanPro-Regular
+---------------
+familyName:Trattatello
+displayName:Trattatello
+postscritpName:Trattatello
+---------------
+familyName:Trebuchet MS
+displayName:Trebuchet MS Bold Italic
+postscritpName:Trebuchet-BoldItalic
+---------------
+familyName:Trebuchet MS
+displayName:Trebuchet MS
+postscritpName:TrebuchetMS
+---------------
+familyName:Trebuchet MS
+displayName:Trebuchet MS Bold
+postscritpName:TrebuchetMS-Bold
+---------------
+familyName:Trebuchet MS
+displayName:Trebuchet MS Italic
+postscritpName:TrebuchetMS-Italic
+---------------
+familyName:Tw Cen MT
+displayName:Tw Cen MT Bold
+postscritpName:TwCenMT-Bold
+---------------
+familyName:Tw Cen MT
+displayName:Tw Cen MT Bold Italic
+postscritpName:TwCenMT-BoldItalic
+---------------
+familyName:Tw Cen MT
+displayName:Tw Cen MT Italic
+postscritpName:TwCenMT-Italic
+---------------
+familyName:Tw Cen MT
+displayName:Tw Cen MT
+postscritpName:TwCenMT-Regular
+---------------
+familyName:smType
+displayName:smType Bold
+postscritpName:TypeB
+---------------
+familyName:smType
+displayName:smType DemiBold
+postscritpName:TypeD
+---------------
+familyName:smType
+displayName:smType Light
+postscritpName:TypeL
+---------------
+familyName:smType
+displayName:smType Medium
+postscritpName:TypeM
+---------------
+familyName:Minsoo
+displayName:Unnamed Regular
+postscritpName:Unnamed-Regular
+---------------
+familyName:Verdana
+displayName:Verdana
+postscritpName:Verdana
+---------------
+familyName:Verdana
+displayName:Verdana Bold
+postscritpName:Verdana-Bold
+---------------
+familyName:Verdana
+displayName:Verdana Bold Italic
+postscritpName:Verdana-BoldItalic
+---------------
+familyName:Verdana
+displayName:Verdana Italic
+postscritpName:Verdana-Italic
+---------------
+familyName:smWallin
+displayName:smWallin Bold
+postscritpName:Wallin
+---------------
+familyName:Waseem
+displayName:Waseem Regular
+postscritpName:Waseem
+---------------
+familyName:Waseem
+displayName:Waseem Light
+postscritpName:WaseemLight
+---------------
+familyName:Webdings
+displayName:Webdings
+postscritpName:Webdings
+---------------
+familyName:Wingdings
+displayName:Wingdings
+postscritpName:Wingdings-Regular
+---------------
+familyName:Wingdings 2
+displayName:Wingdings 2
+postscritpName:Wingdings2
+---------------
+familyName:Wingdings 3
+displayName:Wingdings 3
+postscritpName:Wingdings3
+---------------
+familyName:YoonV 2002Std_OTF
+displayName:
+postscritpName:YDV2002Std
+---------------
+familyName:YoonV AsphaltStd_OTF
+displayName:
+postscritpName:YDVAsphaltStdB
+---------------
+familyName:YoonV AsphaltStd_OTF
+displayName:
+postscritpName:YDVAsphaltStdL
+---------------
+familyName:YoonV BingjeomStd_OTF
+displayName:
+postscritpName:YDVBingStdB
+---------------
+familyName:YoonV BingjeomStd_OTF
+displayName:
+postscritpName:YDVBingStdL
+---------------
+familyName:YoonV BoramStd_OTF
+displayName:
+postscritpName:YDVBoramStdB
+---------------
+familyName:YoonV BoramStd_OTF
+displayName:
+postscritpName:YDVBoramStdL
+---------------
+familyName:YoonV BoramStd_OTF
+displayName:
+postscritpName:YDVBoramStdM
+---------------
+familyName:YoonV BultangothicStd_OTF
+displayName:
+postscritpName:YDVBurnStdB
+---------------
+familyName:YoonV BultangothicStd_OTF
+displayName:
+postscritpName:YDVBurnStdG
+---------------
+familyName:YoonV BultangothicStd_OTF
+displayName:
+postscritpName:YDVBurnStdW
+---------------
+familyName:YoonV ChamMyungjoStd_OTF
+displayName:
+postscritpName:YDVCMjoStdB
+---------------
+familyName:YoonV ChamMyungjoStd_OTF
+displayName:
+postscritpName:YDVCMjoStdL
+---------------
+familyName:YoonV ChamMyungjoStd_OTF
+displayName:
+postscritpName:YDVCMjoStdM
+---------------
+familyName:YoonV GalchaeBStd_OTF
+displayName:
+postscritpName:YDVCheersBStd10
+---------------
+familyName:YoonV GalchaeBStd_OTF
+displayName:
+postscritpName:YDVCheersBStd20
+---------------
+familyName:YoonV GalchaeBStd_OTF
+displayName:
+postscritpName:YDVCheersBStd30
+---------------
+familyName:YoonV GalchaeMStd_OTF
+displayName:
+postscritpName:YDVCheersMStd10
+---------------
+familyName:YoonV GalchaeMStd_OTF
+displayName:
+postscritpName:YDVCheersMStd20
+---------------
+familyName:YoonV GalchaeMStd_OTF
+displayName:
+postscritpName:YDVCheersMStd30
+---------------
+familyName:YoonV ChungKiwaStd_OTF
+displayName:
+postscritpName:YDVChungStdB
+---------------
+familyName:YoonV ChungKiwaStd_OTF
+displayName:
+postscritpName:YDVChungStdCB
+---------------
+familyName:YoonV ChungKiwaStd_OTF
+displayName:
+postscritpName:YDVChungStdL
+---------------
+familyName:YoonV ChungKiwaStd_OTF
+displayName:
+postscritpName:YDVChungStdM
+---------------
+familyName:YoonV YulibyeolStd_OTF
+displayName:
+postscritpName:YDVCrystalStdB
+---------------
+familyName:YoonV YulibyeolStd_OTF
+displayName:
+postscritpName:YDVCrystalStdL
+---------------
+familyName:YoonV YulibyeolStd_OTF
+displayName:
+postscritpName:YDVCrystalStdM
+---------------
+familyName:YoonV MeolijeongcheStd_OTF
+displayName:
+postscritpName:YDVCstreStdB
+---------------
+familyName:YoonV MeolijeongcheStd_OTF
+displayName:
+postscritpName:YDVCstreStdL
+---------------
+familyName:YoonV MeolijeongcheStd_OTF
+displayName:
+postscritpName:YDVCstreStdM
+---------------
+familyName:YoonV MeolijeongcheStd_OTF
+displayName:
+postscritpName:YDVCstreStdUL
+---------------
+familyName:YoonV PpeokkugiStd_OTF
+displayName:
+postscritpName:YDVCuckStdB
+---------------
+familyName:YoonV PpeokkugiStd_OTF
+displayName:
+postscritpName:YDVCuckStdL
+---------------
+familyName:YoonV PpeokkugiStd_OTF
+displayName:
+postscritpName:YDVCuckStdM
+---------------
+familyName:YoonV DeotiponteuStd_OTF
+displayName:
+postscritpName:YDVDirtyStdB
+---------------
+familyName:YoonV DeotiponteuStd_OTF
+displayName:
+postscritpName:YDVDirtyStdL
+---------------
+familyName:YoonV DeotiponteuStd_OTF
+displayName:
+postscritpName:YDVDirtyStdM
+---------------
+familyName:YoonV SanullimStd_OTF
+displayName:
+postscritpName:YDVEchoStdB
+---------------
+familyName:YoonV SanullimStd_OTF
+displayName:
+postscritpName:YDVEchoStdL
+---------------
+familyName:YoonV SanullimStd_OTF
+displayName:
+postscritpName:YDVEchoStdM
+---------------
+familyName:YoonV GaeulStd_OTF
+displayName:
+postscritpName:YDVFallStdB
+---------------
+familyName:YoonV GaeulStd_OTF
+displayName:
+postscritpName:YDVFallStdL
+---------------
+familyName:YoonV GaeulStd_OTF
+displayName:
+postscritpName:YDVFallStdM
+---------------
+familyName:YoonV BulkkotStd_OTF
+displayName:
+postscritpName:YDVFireStdB
+---------------
+familyName:YoonV BulkkotStd_OTF
+displayName:
+postscritpName:YDVFireStdL
+---------------
+familyName:YoonV BulkkotStd_OTF
+displayName:
+postscritpName:YDVFireStdM
+---------------
+familyName:YoonV JayuBStd_OTF
+displayName:
+postscritpName:YDVFreeBStd10
+---------------
+familyName:YoonV JayuBStd_OTF
+displayName:
+postscritpName:YDVFreeBStd20
+---------------
+familyName:YoonV JayuBStd_OTF
+displayName:
+postscritpName:YDVFreeBStd30
+---------------
+familyName:YoonV JayuLStd_OTF
+displayName:
+postscritpName:YDVFreeLStd10
+---------------
+familyName:YoonV JayuLStd_OTF
+displayName:
+postscritpName:YDVFreeLStd20
+---------------
+familyName:YoonV JayuLStd_OTF
+displayName:
+postscritpName:YDVFreeLStd30
+---------------
+familyName:YoonV JayuMStd_OTF
+displayName:
+postscritpName:YDVFreeMStd10
+---------------
+familyName:YoonV JayuMStd_OTF
+displayName:
+postscritpName:YDVFreeMStd20
+---------------
+familyName:YoonV JayuMStd_OTF
+displayName:
+postscritpName:YDVFreeMStd30
+---------------
+familyName:YoonV MaengkkongiStd_OTF
+displayName:
+postscritpName:YDVFrogStdB
+---------------
+familyName:YoonV MaengkkongiStd_OTF
+displayName:
+postscritpName:YDVFrogStdL
+---------------
+familyName:YoonV MaengkkongiOStd_OTF
+displayName:
+postscritpName:YDVFrogStdOB
+---------------
+familyName:YoonV MaengkkongiOStd_OTF
+displayName:
+postscritpName:YDVFrogStdOL
+---------------
+familyName:YoonV GaldaeStd_OTF
+displayName:
+postscritpName:YDVGalStdB
+---------------
+familyName:YoonV GaldaeStd_OTF
+displayName:
+postscritpName:YDVGalStdL
+---------------
+familyName:YoonV GaldaeStd_OTF
+displayName:YoonV GaldaeStd_OTF Medium
+postscritpName:YDVGalStdM
+---------------
+familyName:YoonV GochujamjaliStd_OTF
+displayName:
+postscritpName:YDVGamStdB
+---------------
+familyName:YoonV GochujamjaliStd_OTF
+displayName:
+postscritpName:YDVGamStdL
+---------------
+familyName:YoonV GochujamjaliStd_OTF
+displayName:
+postscritpName:YDVGamStdM
+---------------
+familyName:YoonV GasinamuIIStd_OTF
+displayName:
+postscritpName:YDVGasiIIStdB
+---------------
+familyName:YoonV GasinamuIIStd_OTF
+displayName:
+postscritpName:YDVGasiIIStdL
+---------------
+familyName:YoonV GasinamuIIStd_OTF
+displayName:
+postscritpName:YDVGasiIIStdM
+---------------
+familyName:YoonV SonyeoStd_OTF
+displayName:
+postscritpName:YDVGirlStdB
+---------------
+familyName:YoonV SonyeoStd_OTF
+displayName:
+postscritpName:YDVGirlStdL
+---------------
+familyName:YoonV SonyeoStd_OTF
+displayName:
+postscritpName:YDVGirlStdM
+---------------
+familyName:YoonV GoindolStd_OTF
+displayName:
+postscritpName:YDVGoinStdB
+---------------
+familyName:YoonV GoindolStd_OTF
+displayName:
+postscritpName:YDVGoinStdL
+---------------
+familyName:YoonV GoindolStd_OTF
+displayName:
+postscritpName:YDVGoinStdM
+---------------
+familyName:YoonV GompangiStd_OTF
+displayName:
+postscritpName:YDVGomStdB
+---------------
+familyName:YoonV GompangiStd_OTF
+displayName:
+postscritpName:YDVGomStdL
+---------------
+familyName:YoonV GompangiStd_OTF
+displayName:
+postscritpName:YDVGomStdM
+---------------
+familyName:YoonV NoliteoBStd_OTF
+displayName:
+postscritpName:YDVGroundBStd10
+---------------
+familyName:YoonV NoliteoBStd_OTF
+displayName:
+postscritpName:YDVGroundBStd20
+---------------
+familyName:YoonV NoliteoBStd_OTF
+displayName:
+postscritpName:YDVGroundBStd30
+---------------
+familyName:YoonV NoliteoLStd_OTF
+displayName:
+postscritpName:YDVGroundLStd10
+---------------
+familyName:YoonV NoliteoLStd_OTF
+displayName:
+postscritpName:YDVGroundLStd20
+---------------
+familyName:YoonV NoliteoLStd_OTF
+displayName:
+postscritpName:YDVGroundLStd30
+---------------
+familyName:YoonV NoliteoMStd_OTF
+displayName:
+postscritpName:YDVGroundMStd10
+---------------
+familyName:YoonV NoliteoMStd_OTF
+displayName:
+postscritpName:YDVGroundMStd20
+---------------
+familyName:YoonV NoliteoMStd_OTF
+displayName:
+postscritpName:YDVGroundMStd30
+---------------
+familyName:YoonV HaheomaeulStd_OTF
+displayName:
+postscritpName:YDVHahoeStdB
+---------------
+familyName:YoonV HaheomaeulStd_OTF
+displayName:
+postscritpName:YDVHahoeStdL
+---------------
+familyName:YoonV HaheomaeulStd_OTF
+displayName:
+postscritpName:YDVHahoeStdM
+---------------
+familyName:YoonV HoheupStd_OTF
+displayName:
+postscritpName:YDVHohupStdB
+---------------
+familyName:YoonV HoheupStd_OTF
+displayName:
+postscritpName:YDVHohupStdM
+---------------
+familyName:YoonV AiliseuStd_OTF
+displayName:
+postscritpName:YDVIrisStdB
+---------------
+familyName:YoonV AiliseuStd_OTF
+displayName:
+postscritpName:YDVIrisStdL
+---------------
+familyName:YoonV AiliseuStd_OTF
+displayName:
+postscritpName:YDVIrisStdM
+---------------
+familyName:YoonV KkachijibStd_OTF
+displayName:
+postscritpName:YDVKachiStdB
+---------------
+familyName:YoonV KkachijibStd_OTF
+displayName:
+postscritpName:YDVKachiStdL
+---------------
+familyName:YoonV KkachijibStd_OTF
+displayName:
+postscritpName:YDVKachiStdM
+---------------
+familyName:YoonV KkokkomaStd_OTF
+displayName:
+postscritpName:YDVKidStdB
+---------------
+familyName:YoonV KkokkomaStd_OTF
+displayName:
+postscritpName:YDVKidStdL
+---------------
+familyName:YoonV KkokkomaStd_OTF
+displayName:
+postscritpName:YDVKidStdM
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd01
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd02
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd03
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd04
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd05
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd06
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd07
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd08
+---------------
+familyName:YoonV MatrixStd_OTF
+displayName:
+postscritpName:YDVMatrixStd09
+---------------
+familyName:YoonV UlimokgakStd_OTF
+displayName:
+postscritpName:YDVMokStdB
+---------------
+familyName:YoonV UlimokgakStd_OTF
+displayName:
+postscritpName:YDVMokStdL
+---------------
+familyName:YoonV UlimokgakStd_OTF
+displayName:
+postscritpName:YDVMokStdM
+---------------
+familyName:YoonV WolgwangStd_OTF
+displayName:
+postscritpName:YDVMoonStdB
+---------------
+familyName:YoonV WolgwangStd_OTF
+displayName:
+postscritpName:YDVMoonStdL
+---------------
+familyName:YoonV WolgwangStd_OTF
+displayName:
+postscritpName:YDVMoonStdM
+---------------
+familyName:YoonV NudeupeonchiStd_OTF
+displayName:
+postscritpName:YDVNudeGoStd
+---------------
+familyName:YoonV NudeupeonchiStd_OTF
+displayName:
+postscritpName:YDVNudeMjStd
+---------------
+familyName:YoonV TalmyeongjoIIStd_OTF
+displayName:
+postscritpName:YDVOffIIStdB
+---------------
+familyName:YoonV TalmyeongjoIIStd_OTF
+displayName:
+postscritpName:YDVOffIIStdEB
+---------------
+familyName:YoonV TalmyeongjoIIStd_OTF
+displayName:
+postscritpName:YDVOffIIStdL
+---------------
+familyName:YoonV TalmyungjoStd_OTF
+displayName:
+postscritpName:YDVOffmStdB
+---------------
+familyName:YoonV TalmyungjoStd_OTF
+displayName:
+postscritpName:YDVOffmStdL
+---------------
+familyName:YoonV SiinStd_OTF
+displayName:
+postscritpName:YDVPoemStdB
+---------------
+familyName:YoonV SiinStd_OTF
+displayName:
+postscritpName:YDVPoemStdL
+---------------
+familyName:YoonV SiinStd_OTF
+displayName:
+postscritpName:YDVPoemStdM
+---------------
+familyName:YoonV PungseonStd_OTF
+displayName:
+postscritpName:YDVPoongStdM
+---------------
+familyName:YoonV PungseonStd_OTF
+displayName:
+postscritpName:YDVPoongStdS
+---------------
+familyName:YoonV PeonchiStd_OTF
+displayName:
+postscritpName:YDVPuMStd
+---------------
+familyName:YoonV PeonchiStd_OTF
+displayName:
+postscritpName:YDVPuStd
+---------------
+familyName:YoonV BargainsaleStd_OTF
+displayName:
+postscritpName:YDVSaleStdB
+---------------
+familyName:YoonV BargainsaleStd_OTF
+displayName:
+postscritpName:YDVSaleStdL
+---------------
+familyName:YoonV BargainsaleStd_OTF
+displayName:
+postscritpName:YDVSaleStdM
+---------------
+familyName:YoonV SaojeongStd_OTF
+displayName:
+postscritpName:YDVSaoStdB
+---------------
+familyName:YoonV SaojeongStd_OTF
+displayName:
+postscritpName:YDVSaoStdL
+---------------
+familyName:YoonV SaojeongStd_OTF
+displayName:
+postscritpName:YDVSaoStdM
+---------------
+familyName:YoonV SaojeongStd_OTF
+displayName:
+postscritpName:YDVSaoStdUL
+---------------
+familyName:YoonV SapphireIIStd_OTF
+displayName:
+postscritpName:YDVSapphIIStdB
+---------------
+familyName:YoonV SapphireIIStd_OTF
+displayName:
+postscritpName:YDVSapphIIStdL
+---------------
+familyName:YoonV SapphireIIStd_OTF
+displayName:
+postscritpName:YDVSapphIIStdM
+---------------
+familyName:YoonV DalpaengiStd_OTF
+displayName:
+postscritpName:YDVSnailStdB
+---------------
+familyName:YoonV DalpaengiStd_OTF
+displayName:
+postscritpName:YDVSnailStdL
+---------------
+familyName:YoonV DalpaengiStd_OTF
+displayName:
+postscritpName:YDVSnailStdM
+---------------
+familyName:YoonV SosulgaStd_OTF
+displayName:
+postscritpName:YDVSosStdB
+---------------
+familyName:YoonV SosulgaStd_OTF
+displayName:
+postscritpName:YDVSosStdL
+---------------
+familyName:YoonV SosulgaStd_OTF
+displayName:
+postscritpName:YDVSosStdM
+---------------
+familyName:YoonV SwiliStd_OTF
+displayName:
+postscritpName:YDVSwiriStdB
+---------------
+familyName:YoonV SwiliStd_OTF
+displayName:
+postscritpName:YDVSwiriStdL
+---------------
+familyName:YoonV SwiliStd_OTF
+displayName:
+postscritpName:YDVSwiriStdM
+---------------
+familyName:YoonV TaMyungjoStd_OTF
+displayName:
+postscritpName:YDVTMjoStdB
+---------------
+familyName:YoonV TaMyungjoStd_OTF
+displayName:
+postscritpName:YDVTMjoStdL
+---------------
+familyName:YoonV TaMyungjoStd_OTF
+displayName:
+postscritpName:YDVTMjoStdM
+---------------
+familyName:YoonV TaebaeksanmaekBStd_OTF
+displayName:
+postscritpName:YDVTaebekBStd10
+---------------
+familyName:YoonV TaebaeksanmaekBStd_OTF
+displayName:
+postscritpName:YDVTaebekBStd20
+---------------
+familyName:YoonV TaebaeksanmaekBStd_OTF
+displayName:
+postscritpName:YDVTaebekBStd30
+---------------
+familyName:YoonV TaebaeksanmaekCBStd_OTF
+displayName:
+postscritpName:YDVTaebekCBStd10
+---------------
+familyName:YoonV TaebaeksanmaekCBStd_OTF
+displayName:
+postscritpName:YDVTaebekCBStd20
+---------------
+familyName:YoonV TaebaeksanmaekCBStd_OTF
+displayName:
+postscritpName:YDVTaebekCBStd30
+---------------
+familyName:YoonV YeogosijeolBStd_OTF
+displayName:
+postscritpName:YDVTeensBStd10
+---------------
+familyName:YoonV YeogosijeolBStd_OTF
+displayName:
+postscritpName:YDVTeensBStd20
+---------------
+familyName:YoonV YeogosijeolBStd_OTF
+displayName:
+postscritpName:YDVTeensBStd30
+---------------
+familyName:YoonV YeogosijeolMStd_OTF
+displayName:
+postscritpName:YDVTeensMStd10
+---------------
+familyName:YoonV YeogosijeolMStd_OTF
+displayName:
+postscritpName:YDVTeensMStd20
+---------------
+familyName:YoonV YeogosijeolMStd_OTF
+displayName:
+postscritpName:YDVTeensMStd30
+---------------
+familyName:YoonV GatmaulStd_OTF
+displayName:
+postscritpName:YDVTownStdB
+---------------
+familyName:YoonV GatmaulStd_OTF
+displayName:
+postscritpName:YDVTownStdL
+---------------
+familyName:YoonV GatmaulStd_OTF
+displayName:
+postscritpName:YDVTownStdM
+---------------
+familyName:YoonV WongoStd_OTF
+displayName:
+postscritpName:YDVWongoStdB
+---------------
+familyName:YoonV WongoStd_OTF
+displayName:
+postscritpName:YDVWongoStdL
+---------------
+familyName:YoonV WongoStd_OTF
+displayName:
+postscritpName:YDVWongoStdM
+---------------
+familyName:YoonV OuriSinmunStd_OTF
+displayName:
+postscritpName:YDVWriSinStd
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd11
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd115
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd12
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd125
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd13
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd135
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd14
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd145
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd15
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd155
+---------------
+familyName:YoonV YoonGothic100Std_OTF
+displayName:
+postscritpName:YDVYGOStd16
+---------------
+familyName:YoonV YoonGothic105Std_OTF
+displayName:
+postscritpName:YDVYGOStd165
+---------------
+familyName:YoonV YoonGothic200Std_OTF
+displayName:
+postscritpName:YDVYGOStd22
+---------------
+familyName:YoonV YoonGothic200Std_OTF
+displayName:
+postscritpName:YDVYGOStd23
+---------------
+familyName:YoonV YoonGothic200Std_OTF
+displayName:
+postscritpName:YDVYGOStd24
+---------------
+familyName:YoonV YoonGothic200Std_OTF
+displayName:
+postscritpName:YDVYGOStd25
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd31
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd32
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd33
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd34
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd35
+---------------
+familyName:YoonV YoonGothic300Std_OTF
+displayName:
+postscritpName:YDVYGOStd36
+---------------
+familyName:YoonV YoonGothic500Std_OTF
+displayName:
+postscritpName:YDVYGOStd52
+---------------
+familyName:YoonV YoonGothic500Std_OTF
+displayName:
+postscritpName:YDVYGOStd53
+---------------
+familyName:YoonV YoonGothic500Std_OTF
+displayName:
+postscritpName:YDVYGOStd54
+---------------
+familyName:YoonV YoonGothic500Std_OTF
+displayName:
+postscritpName:YDVYGOStd55
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd11
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd115
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd12
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd125
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd13
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd135
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd14
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd145
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd15
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd155
+---------------
+familyName:YoonV YoonMyungjo100Std_OTF
+displayName:
+postscritpName:YDVYMjOStd16
+---------------
+familyName:YoonV YoonMyungjo105Std_OTF
+displayName:
+postscritpName:YDVYMjOStd165
+---------------
+familyName:YoonV YoonMyungjo200Std_OTF
+displayName:
+postscritpName:YDVYMjOStd22
+---------------
+familyName:YoonV YoonMyungjo200Std_OTF
+displayName:
+postscritpName:YDVYMjOStd23
+---------------
+familyName:YoonV YoonMyungjo200Std_OTF
+displayName:
+postscritpName:YDVYMjOStd24
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd31
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd32
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd33
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd34
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd35
+---------------
+familyName:YoonV YoonMyungjo300Std_OTF
+displayName:
+postscritpName:YDVYMjOStd36
+---------------
+familyName:YoonV YoonMyungjo400Std_OTF
+displayName:
+postscritpName:YDVYMjOStd42
+---------------
+familyName:YoonV YoonMyungjo400Std_OTF
+displayName:
+postscritpName:YDVYMjOStd44
+---------------
+familyName:YoonV YoonMyungjo400Std_OTF
+displayName:
+postscritpName:YDVYMjOStd45
+---------------
+familyName:YoonV YoonMyungjo500Std_OTF
+displayName:
+postscritpName:YDVYMjOStd52
+---------------
+familyName:YoonV YoonMyungjo500Std_OTF
+displayName:
+postscritpName:YDVYMjOStd53
+---------------
+familyName:YoonV YoonMyungjo500Std_OTF
+displayName:
+postscritpName:YDVYMjOStd54
+---------------
+familyName:YoonV YoonMyungjo500Std_OTF
+displayName:
+postscritpName:YDVYMjOStd55
+---------------
+familyName:YoonV YoonSinmunStd_OTF
+displayName:
+postscritpName:YDVYSinStd
+---------------
+familyName:YoonV YoonCheStd_OTF
+displayName:
+postscritpName:YDVYheadStdB
+---------------
+familyName:YoonV YoonCheStd_OTF
+displayName:
+postscritpName:YDVYheadStdL
+---------------
+familyName:YoonV YoonCheStd_OTF
+displayName:
+postscritpName:YDVYheadStdM
+---------------
+familyName:YoonV YoonCheStd_OTF
+displayName:
+postscritpName:YDVYheadStdUL
+---------------
+familyName:YoonV UnhyeongungStd_OTF
+displayName:
+postscritpName:YDVYhkStdB
+---------------
+familyName:YoonV UnhyeongungStd_OTF
+displayName:
+postscritpName:YDVYhkStdL
+---------------
+familyName:YoonV UnhyeongungStd_OTF
+displayName:
+postscritpName:YDVYhkStdM
+---------------
+familyName:YoonV YellyeoStd_OTF
+displayName:
+postscritpName:YDVYoolStdB
+---------------
+familyName:YoonV YellyeoStd_OTF
+displayName:
+postscritpName:YDVYoolStdL
+---------------
+familyName:YoonV YellyeoStd_OTF
+displayName:
+postscritpName:YDVYoolStdM
+---------------
+familyName:YoonV SJHStd_OTF
+displayName:
+postscritpName:YDVYoonSJHStd
+---------------
+familyName:YoonV SJHStd_OTF
+displayName:
+postscritpName:YDVYoonSJHStdB
+---------------
+familyName:YoonV SJYStd_OTF
+displayName:
+postscritpName:YDVYoonSJYStd
+---------------
+familyName:YoonV SJYStd_OTF
+displayName:
+postscritpName:YDVYoonSJYStdB
+---------------
+familyName:YoonV GodingStd_OTF
+displayName:
+postscritpName:YDVYouthStdB
+---------------
+familyName:YoonV GodingStd_OTF
+displayName:
+postscritpName:YDVYouthStdL
+---------------
+familyName:YoonV GodingStd_OTF
+displayName:
+postscritpName:YDVYouthStdM
+---------------
+familyName:YoonV TalyooncheStd_OTF
+displayName:
+postscritpName:YDVYtalStdB
+---------------
+familyName:YoonV TalyooncheStd_OTF
+displayName:
+postscritpName:YDVYtalStdL
+---------------
+familyName:YoonV TalyooncheStd_OTF
+displayName:
+postscritpName:YDVYtalStdM
+---------------
+familyName:Zapf Dingbats
+displayName:Zapf Dingbats
+postscritpName:ZapfDingbatsITC
+---------------
+familyName:Zapfino
+displayName:Zapfino
+postscritpName:Zapfino
+---------------
+familyName:smGothicP
+displayName:smGothicP W10
+postscritpName:smGothicP-W10
+---------------
+familyName:smGothicP
+displayName:smGothicP W30
+postscritpName:smGothicP-W30
+---------------
+familyName:smGothicP
+displayName:smGothicP W35
+postscritpName:smGothicP-W35
+---------------
+familyName:smGothicP
+displayName:smGothicP W70
+postscritpName:smGothicP-W70
+---------------
+familyName:smGothicP
+displayName:smGothicP W90
+postscritpName:smGothicP-W90
+---------------
+familyName:smGothicR
+displayName:smGothicR W10
+postscritpName:smGothicR-W10
+---------------
+familyName:smGothicR
+displayName:smGothicR W30
+postscritpName:smGothicR-W30
+---------------
+familyName:smGothicR
+displayName:smGothicR W70
+postscritpName:smGothicR-W70
+---------------
+familyName:smGothicR
+displayName:smGothicR W90
+postscritpName:smGothicR-W90
+---------------
+familyName:smGungseoP
+displayName:smGungseoP Medium
+postscritpName:smGungseoP
+---------------
+familyName:smMyungjoP
+displayName:smMyungjoP W10
+postscritpName:smMyungjoP-W10
+---------------
+familyName:smMyungjoP
+displayName:smMyungjoP W30
+postscritpName:smMyungjoP-W30
+---------------
+familyName:smMyungjoP
+displayName:smMyungjoP W70
+postscritpName:smMyungjoP-W70
+---------------
+familyName:smMyungjoP
+displayName:smMyungjoP W90
+postscritpName:smMyungjoP-W90
+---------------
+familyName:smMyungjoR
+displayName:smMyungjoR W10
+postscritpName:smMyungjoR-W10
+---------------
+familyName:smMyungjoR
+displayName:smMyungjoR W30
+postscritpName:smMyungjoR-W30
+---------------
+familyName:smMyungjoR
+displayName:smMyungjoR W70
+postscritpName:smMyungjoR-W70
+---------------
+familyName:smMyungjoR
+displayName:smMyungjoR W90
+postscritpName:smMyungjoR-W90
+---------------
+familyName:smShinMyungjoP
+displayName:smShinMyungjoP W30
+postscritpName:smSMyungjoP-W30
+---------------
+familyName:smShinShinMyungjoP
+displayName:smShinShinMyungjoP W30
+postscritpName:smSSMyungjoP-W30
+---------------
+familyName:smShinShinMyungjoP
+displayName:smShinShinMyungjoP W35
+postscritpName:smSSMyungjoP-W35

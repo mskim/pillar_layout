@@ -1,0 +1,18 @@
+  <div class="col-xs-6 col-md-4">
+    <div class="col-xs-6 col-md-5">
+      <%= raw @combo_ad.to_svg %><br>
+      <strong>- 바탕광고 </strong><%= @combo_ad.base_ad %><br>
+      <strong>- 프로필 </strong><%= @combo_ad.profile %><br>
+      <strong>- 행 </strong><%= @combo_ad.column %><br>
+      <strong>- 열 </strong><%= @combo_ad.row %><br>
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+    <div class="col-xs-6 col-md-5">
+      <%= render 'form', combo_ad: @combo_ad %>
+    </div>
+  </div>
+</div>
+<p align='center'>
+  <%= link_to 'Back', combo_ads_path %>
+</p>

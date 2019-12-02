@@ -1,0 +1,146 @@
+<% # add navigation_links to this file %>
+<!-- ul class="nav navbar-nav navbar-center" -->
+<!-- <li>< link_to '슬라이드쇼', slide_show_issue_path(current_issue) ></li> -->
+<% if current_user && (current_user.role == 'reporter' || current_user.role == 'marketing' || current_user.role == 'chief_editor' || current_user.role == 'team_leader' || current_user.role == 'designer' || current_user.role == 'admin') %>
+  <li class="dropdown nav-item active">
+    <div class="dropdown-toggle nav-link" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= "#{ko_date}" %><span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <% if current_user && (current_user.role == 'marketing' || current_user.role == 'chief_editor' || current_user.role == 'designer' || current_user.role == 'admin') %>
+        <%= link_to '새로운 호 생성', new_issue_path, class: "dropdown-item" %>
+        <div class="dropdown-divider"></div>
+        <%= link_to '면 배열표', current_plan_issue_path(current_issue), class: "dropdown-item" %>
+      <% end %>
+      <%= link_to '출력 현황', print_status_issue_path(current_issue), class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <% if current_user && current_user.role == 'reporter' || current_user.role == 'marketing' %>
+        <% case current_user.group  %>
+        <% when  '1면' %>
+        <%= link_to '<1면> 편집', first_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<1면> 기사배정', first_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '정치' %>
+        <%= link_to '<정치> 편집', second_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<정치> 기사배정', second_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '자치행정' %>
+        <%= link_to '<자치행정> 편집', third_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<자치행정> 기사배정', third_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '자치행정' %>
+        <%= link_to '<국제통일> 편집', fourth_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<국제통일> 기사배정', fourth_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '금융' %>
+        <%= link_to '<금융> 편집', fifth_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<금융> 기사배정', fifth_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '산업' %>
+        <%= link_to '<산업> 편집', sixth_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<산업> 기사배정', sixth_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '정책' %>
+        <%= link_to '<정책> 편집', seventh_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<정책> 기사배정', seventh_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '기획' %>
+        <%= link_to '<기획> 편집', eighth_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<기획> 기사배정', eighth_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+        <% when  '오피니언' %>
+        <%= link_to '<오피니언> 편집', nineth_group_issue_path(current_issue), class: "dropdown-item" %>
+        <%= link_to '<오피니언> 기사배정', nineth_group_stories_issue_path(current_issue), class: "dropdown-item" %>
+      <% end %>
+    <% else %>
+      <%= link_to '전체보기', issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '1면', first_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '정치', second_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '자치행정', third_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '국제통일', fourth_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '금융', fifth_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '산업', sixth_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '정책', seventh_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '기획', eighth_group_issue_path(current_issue), class: "dropdown-item" %>
+      <%= link_to '오피니언', nineth_group_issue_path(current_issue), class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '돌출 광고', heading_ad_images_path, class: "dropdown-item" %>
+      <%= link_to '전면 광고', ad_group_issue_path(current_issue), class: "dropdown-item" %>
+    <% end %>
+    <% if Issue.last.spread %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '양면(12-13)', spread_issue_path(current_issue), class: "dropdown-item" %>
+    <% end %>
+  </div>
+</li>
+<% if current_user && (current_user.role == 'reporter' || current_user.role == 'team_leader' || current_user.role == 'chief_editor' || current_user.role == 'designer' || current_user.role == 'admin') %>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">기사작성<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '나의 기사', my_stories_path, class: "dropdown-item" %>
+      <%= link_to '나의 사진', my_reporter_images_path, class: "dropdown-item" %>
+      <%= link_to '나의 그래픽', my_reporter_graphics_path, class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '그래픽 의뢰', my_graphic_requests_path, class: "dropdown-item" %>
+    </div>
+  </li>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" data-toggle="dropdown">연합뉴스<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '연합 국내취재 기사', yh_articles_path, class: "dropdown-item" %>
+      <%= link_to '연합 국내취재 사진', yh_pictures_path, class: "dropdown-item" %>
+      <%= link_to '번역 외신 사진', yh_photo_trs_path, class: "dropdown-item" %>
+      <%= link_to '외신 사진', yh_photo_fr_ynas_path, class: "dropdown-item" %>
+      <%= link_to '연합 그래픽', yh_graphics_path, class: "dropdown-item" %>
+      <%= link_to 'PR보도자료', yh_prs_path, class: "dropdown-item" %>
+    </div>
+  </li>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" data-toggle="dropdown">검색<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '지난호 보기', issues_path, class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '기사 제목/본문 검색', working_articles_path, class: "dropdown-item" %>
+      <%= link_to '페이지 검색', pages_path, class: "dropdown-item" %>
+    </div>
+  </li>
+<% end %>
+<% if current_user && (current_user.role == 'designer' || current_user.role == 'admin') %>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" data-toggle="dropdown">광고<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '광고 예약', ad_bookings_path, class: "dropdown-item" %>
+      <%= link_to '광고 검색', ad_plans_path, class: "dropdown-item" %>
+    </div>
+  </li>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" data-toggle="dropdown">디자인 편집<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '그래픽 의뢰', graphic_requests_path, class: "dropdown-item" %>
+      <!-- link_to '그래픽 의뢰', reporter_graphics_path -->
+      <div class="dropdown-divider"></div>
+      <%= link_to '매체 정보', publication_path(1), class: "dropdown-item" %>
+      <%= link_to '서체 목록', text_styles_path, class: "dropdown-item" %>
+      <%= link_to '페이지 템플렛', sections_path, class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '광고 목록', ads_path, class: "dropdown-item" %>
+      <%= link_to '합성광고 템플렛', combo_ads_path, class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '1면 면머리', heading_bg_images_path, class: "dropdown-item" %>
+    </div>
+  </li>
+  <li class="dropdown nav-item">
+    <div class="dropdown-toggle nav-link" data-toggle="dropdown">기자정보<span class="caret"></span></div>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <%= link_to '오피니언 저자', opinion_writers_path, class: "dropdown-item" %>
+      <%= link_to '기고 저자', profiles_path, class: "dropdown-item" %>
+      <%= link_to '색션별 팀장', reporter_groups_path, class: "dropdown-item" %>
+      <%= link_to '기자', reporter_profile_users_path, class: "dropdown-item" %>
+      <!--li>< link_to '전문가 저자', experts_path ></li -->
+    </div>
+  </li>
+<% end %>
+<!-- <%= link_to '면머리', page_headings_path, class: "dropdown-item" %> -->
+<li class="nav-item">
+  <%= link_to '도움말', home_help_path, class: "nav-link" %>
+</li>
+<% end %>
+<% if user_signed_in? %>
+  <li class="nav-item">
+    <%= link_to "<#{current_user.name}> 로그아웃", destroy_user_session_path, method: :delete, class: "nav-link"%>
+  </li>
+<% else %>
+  <li class="nav-item">
+    <%= link_to '로그인', new_user_session_path, class: "nav-link" %>
+  </li>
+<% end %>

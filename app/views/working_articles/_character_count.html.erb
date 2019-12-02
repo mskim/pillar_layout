@@ -1,0 +1,21 @@
+<% if @working_article.article_info && @working_article.article_info[:overflow_text] && @working_article.article_info[:overflow_text] !=""%>
+<div align="center">본문 글자수:
+    <%= @working_article.character_count %> | 박스 추가 행:
+    <%= @working_article.extended_line_count %> | 발문 추가:
+    <%= @working_article.quote_box_size %> | 넘친줄 수:
+    <%=  @working_article.article_info[:overflow_line_count] %>
+  </div>
+<% elsif @working_article.article_info && @working_article.article_info[:empty_lines] %>
+<div align="center">본문 글자수:
+  <%= @working_article.character_count %> | 박스 추가 행:
+  <%= @working_article.extended_line_count %> | 발문 추가:
+  <%= @working_article.quote_box_size %> | 빈줄 수:
+  <%= @working_article.article_info[:empty_lines] %>
+</div>
+<% else %>
+<div align="center">본문 글자수:
+  <%= @working_article.character_count %> | 박스 추가 행:
+  <%= @working_article.extended_line_count %> | 발문 추가:
+  <%= @working_article.quote_box_size %>
+</div>
+<% end %>

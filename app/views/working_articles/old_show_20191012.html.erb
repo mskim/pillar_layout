@@ -1,0 +1,376 @@
+<div class="view">
+  <!-- p id="notice"></p-->
+  <%= form_for(@working_article, remote: true) do |f| %>
+    <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="기능">
+        <%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+        <%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+        <%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-default btn-sm" %>
+        <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-default btn-sm" %>
+      </div>
+      <div class="btn-group btn-right" role="group" aria-label="기능">
+        <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-sm", remote:true, data:{disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+      </div>
+    </nav>
+    <div class="view">
+      <div class="col-xs-12 col-md-12" style="padding-bottom: 40px;" width="100%">
+        <input class="input_e" id="tab9" type="radio" name="tabs">
+        <label class="taplabel" for="tab9">
+          <% if @working_article.page.page_number == 1 %><%= "#{@working_article.page.section_name}" %>
+          <% else %><%= "#{@working_article.page.section_name}" %>면<% end %>
+        </label>
+        <input class="input_e" id="tab10" type="radio" name="tabs">
+        <label class="taplabel" for="tab10">
+          <% if @working_article.page.page_number == 1 %><%= "#{@working_article.page.section_name}" %>
+          <% else %><%= "#{@working_article.page.section_name}" %>면<% end %> 기사배정</label>
+        <input class="input_e" id="tab5" type="radio" name="tabs">
+        <label class="taplabel" for="tab5"><%= "#{@working_article.page.page_number}" %>면 미리보기</label>
+        <input class="input_e" id="tab11" type="radio" name="tabs">
+        <label class="taplabel" for="tab11"><%= "#{@working_article.order}" %>번 기사배정</label>
+        <input class="input_d" id="tab1" type="radio" name="tabs" checked="checked">
+        <label class="taplabel" for="tab1"><%= "#{@working_article.order}" %>번 기사편집</label>
+        <!--input class="input_e" id="tab4" type="radio" name="tabs"> <label class="taplabel" for="tab4">기사 미리보기</label -->
+        <% if @working_article.page.page_number != 22 && @working_article.page.page_number != 23 %>
+          <input class="input_d" id="tab2" type="radio" name="tabs">
+          <label class="taplabel" for="tab2">사진</label>
+          <input class="input_d" id="tab3" type="radio" name="tabs">
+          <label class="taplabel" for="tab3">그래픽</label>
+        <% end %>
+        <section class="section" id="content9">
+          <!-- 면 -->
+          <div class="col-xs-12 col-sm-12">
+            <% @pages.each do |page| %>
+              <div class="col-xs-6 col-md-3" align='center'>
+                <!--a href="<%= page_path(page) %>"><img src="<%= page.jpg_image_path %>" width="100%"></img></a-->
+                <%= raw page.to_svg_with_jpg %>
+                <% if page.color_page %>
+                  <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-xs" %></h4>
+                <% else %>
+                  <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-default btn-xs" %></h4>
+                <% end %>
+              </div>
+              <!-- true -->
+            <% end %>
+          </div>
+        </section>
+        <section class="section" id="content10">
+          <!-- 면 전체 기사 배정 -->
+          <% @pages.each do |page| %>
+            <div class='col-xs-12 col-sm-12'>
+              <div class='col-xs-12 col-sm-3'>
+                <%= raw page.to_story_svg %>
+                <% if page.color_page %>
+                  <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-xs" %></h4>
+                <% else %>
+                  <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-default btn-xs" %></h4>
+                <% end %>
+              </div>
+              <div class='col-xs-9 col-sm-9 table_h300' align="center">
+                <button type="button" class="btn btn-success"><%= "#{page.section_name} #{page.page_number}페이지 기사 리스트" %></button>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th style="text-align:center;">순서</th>
+                      <th style="text-align:center;">기자</th>
+                      <th style="text-align:center;">제목</th>
+                      <th style="text-align:center;">예상 글자수</th>
+                      <th style="text-align:center;">기사배정</th>
+                      <th style="text-align:center;">기사편집</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% page.working_articles.sort_by{|a| a.order}.each do |working_article| %>
+                      <% if working_article.story %>
+                        <tr style="background-color:skyblue;">
+                        <% else  %>
+                          <tr>
+                          <% end %>
+                          <td style="text-align:center;"><%= working_article.order %></td>
+                          <td style="text-align:center;"><%= working_article.reporter %></td>
+                          <td><%= working_article.title %></td>
+                          <td style="text-align:center;"><%= working_article.approximate_char_count %></td>
+                          <td style="text-align:center;"><%= link_to '배정',change_story_working_article_path(working_article), method: :get, class: "btn btn-primary btn-sm" %></td>
+                          <td style="text-align:center;"><%= link_to '편집',working_article_path(working_article), method: :get, class: "btn btn-info btn-sm" %></td>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              <% end %>
+            </section>
+            <section class="section" id="content5">
+              <!-- 페이지 -->
+              <div class="col-xs-12 col-sm-12">
+                <div class="col-xs-12 col-sm-12">
+                  <%= raw @working_article.page.to_svg_with_jpg %>
+                  <p align="center">
+                    <% if @working_article.page.color_page %>
+                      <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-xs" %></h4>
+                    <% else %>
+                      <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-default btn-xs" %></h4>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section class="section" id="content1">
+              <!-- 기사편집 -->
+              <div class="col-xs-12 col-sm-12">
+                <div class="col-xs-12 col-sm-3">
+                  <%= raw @working_article.page.to_svg_with_jpg %>
+                  <p align="center">
+                    <% if @working_article.page.color_page %>
+                      <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-xs" %></h4>
+                    <% else %>
+                      <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-default btn-xs" %></h4>
+                    <% end %>
+                  </p>
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                  <!-- div class="panel-group" id="accordion" -->
+                  <div class="panel-group">
+                    <div class="panel panel-gray panel-default">
+                      <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">기사편집</a>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div class="panel-body panel-body-dnaeil">
+                          <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>
+                            <%= render 'editorial', article:@working_article, page_number:@working_article.page_number%>
+                          <% elsif @working_article.kind == '기고' || @working_article.kind == 'opinion' %>
+                            <%= render 'opinion', article: @working_article %>
+                          <% else %>
+                            <%= render 'form', article: @working_article %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                    <% if @working_article.page.page_number != 22 && @working_article.page.page_number != 23 %>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">사진 편집</a>
+                          </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                          <div class="panel-body panel-body-dnaeil">
+                            <div class="col-xs-12 col-sm-12">
+                              <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                                <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
+                                  <%= render 'images/form', image: image %>
+                                <% end %>
+                              </div>
+                              <div class="col-xs-12 col-sm-6 frame-2">
+                                <div class="col-xs-12 col-sm-12 frame-1">
+                                  <% if @working_article.images.length < 3 %>
+                                    <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_images'}) do |f| %>
+                                      <%= f.fields_for :images, Image.new do |p| %>
+                                        <br>
+                                        <div class="field">
+                                          <label class="btn btn-warning btn-sm">사진 파일선택<%= p.file_field :image, style: "display:none;", :multiple => true, name: "images[image][]" %></label>
+                                          <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                                        </div>
+                                      <% end %>
+                                      <div class="actions">
+                                        <%= f.button "사진 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                                      </div>
+                                    <% end %>
+                                  <% end %>
+                                  <% link_to "이미지 추가", add_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                                  <% link_to "저자 이미지 추가", add_personal_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">그래픽 편집</a>
+                          </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse">
+                          <div class="panel-body panel-body-dnaeil">
+                            <div class="col-xs-12 col-sm-12">
+                              <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                                <div class="col-xs-12 col-sm-12">
+                                  <div class="col-xs-12 col-sm-12">
+                                    <% if @reporter_graphics.length > 0 %>
+                                      <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
+                                    <% end %>
+                                  </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12">
+                                  <% @working_article.graphics.each do |graphic| %>
+                                    <%= render 'graphics/form', graphic: graphic %>
+                                  <% end %>
+                                  <div class="col-xs-12 col-sm-6 frame-2">
+                                    <div class="col-xs-12 col-sm-12 frame-1">
+                                      <% if  @working_article.graphics.length <= 2 %>
+                                        <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
+                                          <%= f.fields_for :images, Image.new do |p| %>
+                                            <br>
+                                            <div class="field">
+                                              <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", :multiple => true, name:"images[image][]" %>
+                                              </label><input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                                            </div>
+                                          <% end %>
+                                          <div class="actions">
+                                            <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  <% end %>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                      <%= render 'show_preview_by_column', article: @working_article %>
+                    </section>
+                    <section class="section" id="content11">
+                      <!-- 기사배정 -->
+                      <div class="col-sm-12 col-md-12">
+                        <div class="col-sm-12 col-md-5">
+                          <%= render 'change_story_form', article: @working_article, stories: @stories%>
+                        </div>
+                        <div class="col-sm-12 col-md-7">
+                          <p><%= render 'show_preview_by_column', article: @working_article %></p>
+                        </div>
+                      </div>
+                    </section>
+                    <section class="section" id="content2">
+                      <!-- 사진탭 -->
+                      <div class="col-xs-12 col-sm-12">
+                        <div class="col-xs-12 col-sm-3">
+                          <%= raw @working_article.page.to_svg_with_jpg %>
+                          <p align="center">
+                            <% if @working_article.page.color_page %>
+                              <h4 align='center'><%= link_to "#{@working_article.page.page_number}면",
+                                                        page_path(@working_article.page), class: "btn btn-danger btn-xs" %></h4>
+                            <% else %>
+                              <h4 align='center'><%= link_to "#{@working_article.page.page_number}면",
+                                                        page_path(@working_article.page), class: "btn btn-default btn-xs" %></h4>
+                            <% end %>
+                          </p>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                          <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고'%>
+                            <div class="col-xs-12 col-sm-12">
+                              <div class="col-xs-12 col-sm-12">
+                                <% if @reporter_images.length > 0 %>
+                                  <%= render 'reporter_image', reporter_images: @reporter_images %>
+                                <% end %>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                              <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
+                                <%= render 'images/form', image: image %>
+                              <% end %>
+                              <div class="col-xs-12 col-sm-6 frame-2">
+                                <div class="col-xs-12 col-sm-12 frame-1">
+                                  <% if @working_article.images.length < 3 %>
+                                    <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_images'}) do |f| %>
+                                      <%= f.fields_for :images, Image.new do |p| %>
+                                        <br>
+                                        <div class="field">
+                                          <label class="btn btn-warning btn-sm">사진 파일선택<%= p.file_field :image, style: "display:none;", :multiple => true, name: "images[image][]" %></label>
+                                          <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                                        </div>
+                                      <% end %>
+                                      <div class="actions">
+                                        <%= f.button "사진 올리기", issue: @working_article.issue, class: "btn btn-primary
+                                                                btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            <% end %>
+                            <% link_to "이미지 추가", add_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                            <% link_to "저자 이미지 추가", add_personal_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                            <br>
+                            <hr>
+                          <% end %>
+                        </div>
+                      </div>
+                      <p><%= render 'show_preview_by_column', article: @working_article %></p>
+                    </section>
+                    <section class="section" id="content3">
+                      <!-- 그래픽탭 -->
+                      <div class="col-xs-12 col-sm-12">
+                        <div class="col-xs-12 col-sm-3">
+                          <%= raw @working_article.page.to_svg_with_jpg %>
+                          <p align="center">
+                            <% if @working_article.page.color_page %>
+                              <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-xs" %></h4>
+                            <% else %>
+                              <h4 align='center'><%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-default btn-xs" %></h4>
+                            <% end %>
+                          </p>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                          <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                            <div class="col-xs-12 col-sm-12">
+                              <div class="col-xs-12 col-sm-12">
+                                <% if @reporter_graphics.length > 0 %>
+                                  <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
+                                <% end %>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                              <% @working_article.graphics.each do |graphic| %>
+                                <%= render 'graphics/form', graphic: graphic %>
+                              <% end %>
+                              <div class="col-xs-12 col-sm-6 frame-2">
+                                <div class="col-xs-12 col-sm-12 frame-1">
+                                  <% if  @working_article.graphics.length <= 2 %>
+                                    <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
+                                      <%= f.fields_for :images, Image.new do |p| %>
+                                        <br>
+                                        <div class="field">
+                                          <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", :multiple => true, name:"images[image][]" %>
+                                          </label><input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                                        </div>
+                                      <% end %>
+                                      <div class="actions">
+                                        <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            <% end %>
+                            <% link_to "이미지 추가", add_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                            <% link_to "저자 이미지 추가", add_personal_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                          <% end %>
+                        </div>
+                      </div>
+                      <p><%= render 'show_preview_by_column', article: @working_article %></p>
+                    </section>
+                    <section class="section" id="content4">
+                      <div class="col-xs-12 col-sm-4">
+                        <div class="col-xs-12 col-sm-12">
+                          <%= raw @working_article.page.to_svg_with_jpg %>
+                          <p align="center">
+                            <%= @working_article.page.page_number %>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-8">
+                        <%= render 'character_count', article: @working_article %>
+                        <img src="<%= @working_article.jpg_image_path %>"></img>
+                      <%= render 'character_count', article: @working_article %>
+                    </div>
+                    <p><%= render 'show_preview_by_column', article: @working_article %></p>
+                  </section>
+                </div>
+                <!-- div class="col-sm-12 col-md-12" align="center"> <%= render 'show_preview', article: @working_article %> </div -->
+              </div>
+            <% end %>

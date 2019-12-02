@@ -1,0 +1,36 @@
+
+<div align="center">
+  <%= link_to "이전으로", yh_graphics_path, method: :get, class: "btn btn-md btn-success" %>
+  <%= link_to "그래픽 선택", taken_yh_graphic_path, method: :get, class: "btn btn-md btn-primary" %>
+</div>
+<br>
+<div class="view">
+  <div class="col-md-1">
+  </div>
+
+  <div class="col-md-5">
+   <img  src="<%= @yh_graphic.preview_path %>" width="100%"></img>
+  </div>
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-4">
+
+    <h3>
+      <strong>제목:</strong>
+      <%= @yh_graphic.title %>
+    </h3>
+
+    <p>
+      <strong>설명:</strong>
+      <%= @yh_graphic.body %>
+    </p>
+
+    <p>
+      <strong>출고자:</strong>
+      <%= @yh_graphic.taken_by %>
+    </p>
+
+  </div>  
+  </div>  
+
+

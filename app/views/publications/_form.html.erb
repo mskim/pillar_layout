@@ -1,0 +1,133 @@
+  <h3>매체 정보</h3>
+<%= form_for(publication) do |f| %>
+  <% if publication.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(publication.errors.count, "error") %> prohibited this publication from being saved:</h2>
+
+      <ul>
+      <% publication.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="col-md-5">
+        <div class="form-group">
+          <%= f.label :판형 %>
+          <%= f.select :paper_size, ["대판", "베를리너", "타블로이드"], class: 'form-control'%>
+        </div>
+
+        <div class="field">
+          <%= f.label :단위 %>
+          <%= f.select :unit, ["mm"] %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :신문이름 %>
+          <%= f.text_field :name,  class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '가로(mm)' %>
+          <%= f.text_field :width_in_unit,  class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '세로(mm)' %>
+          <%= f.text_field :height_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '왼쪽여백(mm)'%>
+          <%= f.text_field :left_margin_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '윗쪽여백(mm)' %>
+          <%= f.text_field :top_margin_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '오른쪽여백(mm)' %>
+          <%= f.text_field :right_margin_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '아랫쪽여백(mm)' %>
+          <%= f.text_field :bottom_margin_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '단여백(mm)' %>
+          <%= f.text_field :gutter_in_unit, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :그리드별행수 %>
+          <%= f.number_field :lines_per_grid, class: 'form-control' %>
+        </div>
+
+
+    </div>
+    <div class="col-md-1">
+      <p> </p>
+    </div>
+
+    <div class="col-md-5">
+        <div class="field">
+          <%= f.label :페이지수 %>
+          <%= f.number_field :page_count, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :팀이름 %>
+          <p><%= f.text_area :section_names, cols: "35", rows: "8"%></p>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :단종류 %>
+          <p><%= f.text_area :page_columns, cols: "35", rows: "1"%></p>
+        </div>
+
+        <div class="field">
+          <%= f.label :열수 %>
+          <%= f.number_field :row, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '1면 제호 높이(행)' %>
+          <%= f.number_field :front_page_heading_height, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '내지 면머리 높이(행)' %>
+          <%= f.number_field :inner_page_heading_height, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '기사 하단 여백(행)' %>
+          <%= f.number_field :article_bottom_spaces_in_lines, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '기사 테두리선 위치' %>
+          <p><%= f.text_area :article_line_draw_sides, cols: "35", rows: "1"%></p>
+        </div>
+
+        <div class="form-group">
+          <%= f.label '기사 하단 선 굵기(pt)' %>
+          <%= f.text_field :article_line_thickness, class: 'form-control' %>
+        </div>
+
+        <div class="form-inline">
+          <%= f.check_box :draw_divider, class: 'form-control' %>
+          <%= f.label :draw_divider, " <= 기사 분리선 그리기" %>
+        </div>
+
+    </div>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-sm btn-primary">정보 저장</button>
+  </div>
+<% end %>

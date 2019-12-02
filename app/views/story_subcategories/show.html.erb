@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>기사 소분류 이름:</strong>
+  <%= @story_subcategory.name %>
+</p>
+
+<p>
+  <strong>기사 소분류 코드:</strong>
+  <%= @story_subcategory.code %>
+</p>
+
+<p>
+  <strong>기사 대분류:</strong>
+  <%= @story_subcategory.story_category.name %>(<%= @story_subcategory.story_category.code %>)
+</p>
+
+<%= link_to '수정', edit_story_subcategory_path(@story_subcategory) %> |
+<%= link_to '뒤로', story_subcategories_path %>

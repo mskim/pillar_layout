@@ -1,0 +1,33 @@
+<%= form_for(page_heading) do |f| %>
+  <% if page_heading.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(page_heading.errors.count, "error") %> prohibited this page_heading from being saved:</h2>
+
+      <ul>
+      <% page_heading.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :page_number %>
+    <%= f.number_field :page_number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :section_name %>
+    <%= f.text_field :section_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date %>
+    <%= f.text_field :date %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

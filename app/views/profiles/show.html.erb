@@ -1,0 +1,22 @@
+<h3>기고 저자</h3>
+
+  <div class="col-xs-8 col-md-4">
+    <%= render 'form', profile: @profile %>
+  </div>
+  
+  <div class="col-xs-3 col-sm-1">
+    <img width="100%" height="100%" src="<%= @profile.profile_jpg_path %>"></img>
+    <h5 align='center'>기고 저자 원본</h5>
+  </div>
+  <div class="col-xs-12 col-md-3">
+    <% if browser.safari? %>
+      <img width="100%" height="100%" src="<%= @profile.pdf_image_path %>"></img>
+      <% elsif browser.modern?  || browser.ie?%>
+        <img width="100%" height="100%" src="<%= @profile.jpg_image_path %>"></img>
+      <% end %>
+    </div>
+    <div class="col-xs-1 col-md-1">
+      <p></p>
+    </div>
+
+  

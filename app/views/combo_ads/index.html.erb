@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="btn-group" role="group" aria-label="기능">
+    <%= link_to "새항목 생성", new_combo_ad_path, method: :get, class: "btn btn-default btn-sm" %>
+    <%= link_to "다운로드 CSV", combo_ads_path(format: "csv"), method: :get, class: "btn btn-default btn-sm" %>
+  </div>
+</nav>
+
+<div align="center">
+
+<h1>합성광고</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-combo_ads" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="base_ad">기본광고명</th>
+      <th data-data="column">단</th>
+      <th data-data="row">열</th>
+      <th data-data="layout">레이아웃</th>
+      <th data-data="profile">합성광고명</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+</div>

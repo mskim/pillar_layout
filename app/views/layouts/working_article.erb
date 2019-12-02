@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "NewsGo" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Style Guide" %>">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
+    <%= csrf_meta_tags %>
+    <link rel='stylesheet' href='//fonts.googleapis.com/earlyaccess/kopubbatang.css'>
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css'>
+  </head>
+  <body>
+    <style>
+      .content {
+       padding: 0 18px;
+       background-color: white;
+       max-height: 0;
+       overflow: hidden;
+       transition: max-height 0.2s ease-out;
+        }
+    </style>
+    <script>
+      $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
+    <script>
+      function restoreAccordionPanel(storageKey, accordionId) {
+        var activeItem = sessionStorage.getItem(storageKey);
+        if (activeItem) {
+            //remove default collapse settings
+            $(accordionId + " .card-collapse").removeClass('in');
+      
+            //show the account_last visible group
+            $("#" + activeItem).addClass("in");
+        }
+      }
+      
+      function restoreActiveTab(storageKey, tabId) {
+        var activeItem = sessionStorage.getItem(storageKey);
+        if (activeItem) {
+            $(tabId + ' a[href="' + activeItem + '"]').tab('show');
+        }
+      }
+      
+      function saveActiveAccordionPanel(storageKey, e) {
+        sessionStorage.setItem(storageKey, e.target.id);
+      }
+      
+      function saveActiveTab(storageKey, e) {
+        sessionStorage.setItem(storageKey, $(e.target).attr('href'));
+      }
+    </script>
+    <!-- 사진/그래픽 올리기 하고 페이지 새로고침 되어도 탭 유지 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+       if(sessionStorage.selected) {
+       $('#' + sessionStorage.selected).attr('checked', true);
+       }
+       $('.input_d').click(function(){
+        sessionStorage.setItem("selected", this.id);
+       });
+       $('.input_e').click(function(){
+       sessionStorage.clear();
+       });
+       $('.rectfill').click(function(){
+        sessionStorage.clear();
+        });
+      });
+    </script>
+
+    <script>
+  $(function(){
+    var story_subcategory;
+    $('#working_article_subcategory_code').parent().show();
+    story_subcategory = $('#working_article_subcategory_code').html();
+    console.log(story_subcategory);
+    return $('#working_article_category_code').change(function() {
+      var category, escaped_category, options;
+      category = $('#working_article_category_code :selected').text();
+      escaped_category = category.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+      options = $(story_subcategory).filter("optgroup[label=" + escaped_category + "]").html();
+      console.log(options);
+      if (options) {
+        $('#working_article_subcategory_code').html(options);
+        return $('#working_article_subcategory_code').parent().show();
+      } else {
+        $('#working_article_subcategory_code').empty();
+        return $('#working_article_subcategory_code').parent().hide();
+      }
+    });
+  });
+
+  $(document).ready(function() {
+  $("#dttb").dataTable();
+});
+</script> 
+
+    <!-- 클릭된 기사 박스 색상변경 하려고 추가했는데, 모든 기사 박스 색이 같이 변경된다. svg rect를 그리는 소스에 추가해서 그런가본데.. 
+클릭시에만 잠깐 변경되는데 다른 기사 박스 선택전까지 계속 상태 유지하는 방법도 찾아야 함. 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.rectfill').click(function () {
+        $('.rectfill').attr({
+          'fill' : 'pink',
+          'fill-opacity' : '0.4'
+        });
+      });
+    });
+  </script>
+   -->
+    <!-- 파일 올리기 선택시 파일명 표시 -->
+    <script>
+      $(function() {
+      
+      // We can attach the `fileselect` event to all file inputs on the page
+      $(document).on('change', ':file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+      });
+      
+      // We can watch for our custom `fileselect` event like this
+      $(document).ready( function() {
+          $(':file').on('fileselect', function(event, numFiles, label) {
+      
+              var input = $(this).parents('.field').find(':text'),
+                  log = numFiles > 1 ? numFiles + ' files selected' : label;
+      
+              if( input.length ) {
+                  input.val(log);
+              } else {
+                  if( log ) alert(log);
+              }
+      
+          });
+      });
+      
+      });
+    </script>
+    <!-- 기사 폼 선택시 기존 입력된 밸류 삭제 하려고 추가 
+<script>
+$('input[type="text"], textarea').each(function(){
+
+	this.value = $(this).attr('type');
+	$(this).addClass('text-label');
+
+	$(this).focus(function(){
+		if(this.value == $(this).attr('type')) {
+			this.value = '';
+			$(this).removeClass('text-label');
+		}
+	});
+
+	$(this).blur(function(){
+		if(this.value == '') {
+			this.value = $(this).attr('type');
+			$(this).addClass('text-label');
+		}
+	});
+});
+</script> -->
+    <!-- textarea 자동크기조절 -->
+    <script>
+      $(document).ready(function() {
+        $('.wrap').on( 'keyup', 'textarea', function (e){
+          $(this).css('height', 'auto' );
+          $(this).height( this.scrollHeight );
+        });
+        $('.wrap').find( 'textarea' ).keyup();
+      });
+    </script>
+    <header id="header" >
+      <%= render 'layouts/working_navigation' %>
+    </header>
+    <main role="main" id="container"  >
+      <div class="row">
+        <%= render 'layouts/messages' %>
+        <%= yield %>
+      </div>
+    </main>
+    <footer id="footer">
+      <script>
+        $(function () {
+          $('#accordion').on('shown.bs.collapse', function (e) {
+              saveActiveAccordionPanel('accordion-activePanel', e);
+          })
+        });
+        restoreAccordionPanel('accordion-activePanel', '#accordion');
+      </script>
+    </footer>
+  </body>
+</html>

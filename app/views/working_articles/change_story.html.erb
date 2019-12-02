@@ -1,0 +1,42 @@
+<div class="view" align="center">
+    <h3>기사 배정</h3>
+    기사를 배정한다.
+</div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="col-sm-12 col-md-5">
+        <%= render 'change_story_form', article: @working_article , stories: @stories%>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <p><%= render 'show_preview_by_column', article: @working_article %></p>
+    </div>
+</div>
+
+<!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="btn-group" role="group" aria-label="기능">
+    <% case session[:current_group] %>
+    <% when 'first_group' %>
+    <%= link_to "이전으로", first_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'second_group' %>
+    <%= link_to "이전으로", second_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'third_group' %>
+    <%= link_to "이전으로", third_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'fourth_group' %>
+    <%= link_to "이전으로", fourth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'fifth_group' %>
+    <%= link_to "이전으로", fifth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'sixth_group' %>
+    <%= link_to "이전으로", sixth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'seventh_group' %>
+    <%= link_to "이전으로", seventh_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'eighth_group' %>
+    <%= link_to "이전으로", eighth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% when 'nineth_group' %>
+    <%= link_to "이전으로", nineth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% else %>
+    <%= link_to "이전으로", issue_path(@working_article.issue), method: :get, class: "btn btn-default btn-sm" %>
+    <% end %>
+    <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-default btn-sm" %>
+  </div>
+</nav>  

@@ -1,0 +1,20 @@
+<h3 align='center'>그래픽 의뢰 보기</h3>
+
+<table class="responsive nowrap table table-hover" id="dttb-graphic_requests" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="date">Date</th>
+      <th data-data="user">User</th>
+      <th data-data="designer">Designer</th>
+      <th data-data="request">Request</th>
+      <th data-data="data">Data</th>
+      <th data-data="status">Status</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Graphic Request', new_graphic_request_path %>

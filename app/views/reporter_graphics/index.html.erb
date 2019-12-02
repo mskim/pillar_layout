@@ -1,0 +1,39 @@
+
+
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+
+
+<h3 align="center">기자 그래픽</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>제목</th>
+      <th>기자명</th>
+
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reporter_graphics.each do |graphic| %>
+      <tr>
+        <td style="text-align:center;"><%= graphic.title %></td>
+        <td style="text-align:center;"><%= graphic.user.name %></td>
+        <td><%= button_to "보기", edit_reporter_graphic_path(graphic), method: :get, class: "btn btn-sm btn-success" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br>
+
+<div align="center">
+
+  <%= link_to "       ", "#", method: :get, class: "btn-group btn btn-md" , align: "center"%>
+  <%= link_to "새항목 생성", new_reporter_graphic_path, method: :get, class: "btn-group btn btn-sm btn-info" , align: "center"%>
+  <%= link_to "다운로드 CSV", graphics_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" , align: "center"%>
+</div>
+

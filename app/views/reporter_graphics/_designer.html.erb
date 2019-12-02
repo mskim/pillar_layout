@@ -1,0 +1,26 @@
+
+
+<%= form_for(reporter_graphic) do |f| %>
+  <% if reporter_graphic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reporter_graphic.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+      <ul>
+      <% reporter_graphic.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '완성된 그래픽 올리기' %>
+    <%= f.file_field :finished_job %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "저장"%>
+  </div>
+<% end %>
+
+

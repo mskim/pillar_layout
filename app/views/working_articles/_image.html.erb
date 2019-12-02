@@ -1,0 +1,74 @@
+
+
+<% image =article.images.first%>
+<%= form_for(article.images.first) do |f| %>
+  <% if image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(image.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+      <ul>
+      <% image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <div class="field">
+      <%= f.label :사진제목 %>
+      <%= f.text_field :caption_title %>
+    </div>
+    
+
+    <div class="field">
+      <%= f.text_area :caption, cols: "60", rows: "3", font_size: "16px"%>
+    </div>
+
+    <div class="field">
+      <%= f.label :출처 %>
+      <%= f.text_field :source %>
+    </div>
+
+
+
+
+<% end %>
+
+<%= form_for(article, remote: true) do |f| %>
+  <% if article.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+      <ul>
+      <% article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :기사종류 %>
+    <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
+  </div>
+
+<!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+      <ul class="nav navbar-nav navbar-left">
+        <li>
+          <%= link_to "이전으로", page_path(@working_article.page), method: :get, class: "btn btn-sm btn-success" %>
+        </li>
+        <li>
+          <%= f.button "저장", class: "btn btn-sm btn-primary navbar-btn", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+        </li>
+        <li>
+          <%= link_to "페이지 PDF 다운로드", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-sm btn-warning" %>
+        </li>
+        <li>
+          <%= link_to "기사 PDF 다운로드", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+        </li>
+      </ul>
+    </nav>
+
+
+
+<% end %>

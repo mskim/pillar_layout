@@ -1,0 +1,62 @@
+<div class="view">
+  <div class="col-xs-12 col-sm-12" style="padding-bottom: 40px;" width="100%">
+    <input class="input_e" id="tab9" type="radio" name="tabs">
+    <label class="taplabel" for="tab9">
+      <% if @ad_box.page.page_number == 1 %><%= "#{@ad_box.page.section_name}" %>
+      <% else %><%= "#{@ad_box.page.section_name}" %>면
+      <% end %></label>
+    <input class="input_e" id="tab5" type="radio" name="tabs">
+    <label class="taplabel" for="tab5"><%= "#{@ad_box.page.page_number}" %>페이지</label>
+    <input class="input_e" id="tab6" type="radio" name="tabs" checked>
+    <label class="taplabel" for="tab6">광고정보</label>
+    <input class="input_e" id="tab7" type="radio" name="tabs">
+    <label class="taplabel" for="tab7">광고 미리보기</label>
+    <section class="section" id="content9">
+      <div class="col-xs-12 col-md-12">
+        <% @pages.each do |page| %>
+          <div class="col-xs-6 col-md-3" align='center'>
+            <!--a href="<%= page_path(page) %>"><img src="<%= page.jpg_image_path %>" width="100%"></img></a-->
+            <%= raw page.to_svg_with_jpg %>
+            <% if page.color_page %>
+              <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-xs" %></h4>
+            <% else %>
+              <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-default btn-xs" %></h4>
+            <% end %>
+          </div>
+          <!-- true -->
+        <% end %>
+      </div>
+    </section>
+    <section class="section" id="content5">
+      <div class="col-xs-12 col-md-12">
+        <% unless @ad_box.ad_image.nil? %>
+          <%= raw @ad_box.page.to_svg_with_jpg %>
+        <% end %>
+      </div>
+    </section>
+    <!-- true -->
+    <section class="section" id="content6">
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-3 col-md-3">
+          <%= raw @ad_box.page.to_svg_with_jpg %>
+          <% if @ad_box.page.color_page %>
+            <h4 align='center'><%= link_to "#{@ad_box.page.page_number}면", page_path(@ad_box.page), class: "btn btn-danger btn-xs" %></h4>
+          <% else %>
+            <h4 align='center'><%= link_to "#{@ad_box.page.page_number}면", page_path(@ad_box.page), class: "btn btn-default btn-xs" %></h4>
+          <% end %>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+          <h3>광고정보</h3>
+          <%= render 'form', ad_box: @ad_box %>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="content7">
+      <div class="col-xs-12 col-md-12">
+        <div class="col-xs-12 col-md-12">
+          <% if @ad_box.storage_ad_image.attached? %>
+            <%= image_tag url_for(@ad_box.storage_ad_image) %>
+          <% end %>
+        </div>
+      </div>
+    </section>

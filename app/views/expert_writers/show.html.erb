@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @expert_writer.name %>
+</p>
+
+<p>
+  <strong>Work:</strong>
+  <%= @expert_writer.work %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @expert_writer.position %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @expert_writer.email %>
+</p>
+
+<p>
+  <strong>Category code:</strong>
+  <%= @expert_writer.category_code %>
+</p>
+
+<p>
+  <strong>Expert image:</strong>
+  <%= @expert_writer.expert_image %>
+</p>
+
+<p>
+  <strong>Expert jpg image:</strong>
+  <%= @expert_writer.expert_jpg_image %>
+</p>
+
+<%= link_to 'Edit', edit_expert_writer_path(@expert_writer) %> |
+<%= link_to 'Back', expert_writers_path %>

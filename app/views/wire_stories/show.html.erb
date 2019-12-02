@@ -1,0 +1,59 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Send date:</strong>
+  <%= @wire_story.send_date %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @wire_story.content_id %>
+</p>
+
+<p>
+  <strong>Category code:</strong>
+  <%= @wire_story.category_code %>
+</p>
+
+<p>
+  <strong>Category name:</strong>
+  <%= @wire_story.category_name %>
+</p>
+
+<p>
+  <strong>Region code:</strong>
+  <%= @wire_story.region_code %>
+</p>
+
+<p>
+  <strong>Region name:</strong>
+  <%= @wire_story.region_name %>
+</p>
+
+<p>
+  <strong>Credit:</strong>
+  <%= @wire_story.credit %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @wire_story.source %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @wire_story.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @wire_story.body %>
+</p>
+
+<p>
+  <strong>Issue:</strong>
+  <%= @wire_story.issue %>
+</p>
+
+<%= link_to 'Edit', edit_wire_story_path(@wire_story) %> |
+<%= link_to 'Back', wire_stories_path %>

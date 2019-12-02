@@ -1,0 +1,14 @@
+<div class="card text-center">
+  <h5 class="card-header text-light bg-dark">
+    기사 미리보기
+  </h5>
+  <div class="card-body">
+    <h5 class="card-title"><%= @yh_article.title %></h5>
+    <p class="card-text">
+      <%= simple_format(@yh_article.body) %>
+    </p>
+  </div>
+  <div class="card-footer text-muted">
+    <%= @yh_article.created_at.strftime("%y-%m-%d %H:%M") %>
+  </div>
+</div>

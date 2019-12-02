@@ -1,0 +1,15 @@
+<!-- p id="notice"><%= notice %></p-->
+<p>
+  <strong>Publication:</strong>
+  <%= @ad_booking.publication %>
+</p>
+<p>
+  <strong>Date:</strong>
+  <%= @ad_booking.date %>
+</p>
+<p>
+  <strong>Ad list:</strong>
+  <%= @ad_booking.ad_list %>
+</p>
+<%= link_to 'Edit', edit_ad_booking_path(@ad_booking) %> |
+<%= link_to 'Back', ad_bookings_path %>

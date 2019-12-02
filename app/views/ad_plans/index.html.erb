@@ -1,0 +1,23 @@
+<div align="center">
+
+<h3 align='center'>광고 계획</h3>
+
+<table class="responsive nowrap table table-hover" id="dttb-ad_plans" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="date">날짜</th>
+      <th data-data="page_number">페이지</th>
+      <th data-data="ad_type">광고종류</th>
+      <th data-data="advertiser">광고주</th>
+      <th data-data="color_page">칼러</th>
+      <th data-data="comment">비고</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to '신규', new_ad_plan_path, class: "btn btn-warning btn-sm" %>
+</div>

@@ -1,0 +1,49 @@
+<%# add navigation links to this file %>
+
+<!-- ul class="nav navbar-nav navbar-center" -->
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= "#{ko_date}" %><span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <% if current_user %>
+        <li><%= link_to '전체보기111', issue_path(Issue.last.id) %></li>
+        <li><%= link_to '1면', first_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '정치', second_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '자치행정', third_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '국제통일', fourth_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '금융', fifth_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '산업', sixth_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '정책', seventh_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '기획', eighth_group_issue_path(Issue.last.id) %></li>
+        <li><%= link_to '오피니언', nineth_group_issue_path(Issue.last.id) %></li>
+        <li class="divider"></li>
+        <li><%= link_to '전면광고', ad_group_issue_path(Issue.last.id) %></li>
+
+      <% else %>
+        <li><%= link_to '둘러보기', issue_path(Issue.last.id) %></li>
+      <% end %>
+    </ul>
+
+
+</li>
+
+<% if current_user %>
+
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">기자정보<span class="caret"></span></a>
+    <ul class="dropdown-menu" role="menu">
+      <li><%= link_to '오피니언 저자', opinion_writers_path %></li>
+      <li><%= link_to '색션별 팀장', reporter_groups_path %></li>
+      <li><%= link_to '기자', reporters_path %></li>
+    </ul>
+  </li>
+  <li> <%= link_to "다운로드 PDF", download_pdf_page_path(@working_article) %></li>
+
+
+
+
+
+
+
+  <!-- <li><%= link_to '면머리', page_headings_path %></li> -->
+<% end %>

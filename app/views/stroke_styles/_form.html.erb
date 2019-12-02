@@ -1,0 +1,13 @@
+<%= simple_form_for(@stroke_style) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :klass, label: "박스종류 영문이름" %>
+    <%= f.input :name, label: "한글 이름" %>
+    <%= f.input :stroke, label: "테두리 정보" %>
+    <%= f.association :publication, label: "메체" %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, '등록하기',  class: "btn btn-primary btn-sm"  %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 mx-3">
+      <%= render 'form', reporter_image: @reporter_image %>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <h5 class="card-header text-light bg-dark">
+          사진 미리보기
+        </h5>
+        <%= image_tag @reporter_image.thumb_path, class: "card-img-top" %>
+        <div class="card-body">
+          <h5 class="card-title display-4"><%= @reporter_image.title %></h5>
+          <p class="card-text"><%= simple_format(@reporter_image.caption) %></p>
+          <p class="text-secondary text-center font-italic">저작권자(c) 연합뉴스, 무단 전재-재배포 금지</p>
+          <p><%= @reporter_image.section_name %></p>
+        </div>
+        <div class="card-footer">
+          <p class="text-muted">출처: <span class="font-weight-bold"><%= @reporter_image.source %></span></p>
+          <p>섹션: </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div align="center">
+  <%= link_to '이전으로', my_reporter_images_path %>
+  <%= link_to '삭제', @reporter_image, method: :delete, data: { confirm: '정말 삭제하겠습니까?' } %>
+</div>

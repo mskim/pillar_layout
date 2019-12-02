@@ -1,0 +1,21 @@
+<h1>Expert Writers</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-expert_writers" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="name">Name</th>
+      <th data-data="work">Work</th>
+      <th data-data="position">Position</th>
+      <th data-data="email">Email</th>
+      <th data-data="category_code">Category code</th>
+      <th data-data="expert_image">Expert image</th>
+      <th data-data="expert_jpg_image">Expert jpg image</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Expert Writer', new_expert_writer_path %>

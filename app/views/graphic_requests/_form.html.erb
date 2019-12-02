@@ -1,0 +1,66 @@
+
+<%= form_with(model: @graphic_request, local: true) do |f| %>
+  <% if @graphic_request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(graphic_request.errors.count, "error") %> prohibited this graphic_request from being saved:</h2>
+
+      <ul>
+      <% @graphic_request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <%= f.label :날짜 %>
+    <%= f.date_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :진행상황 %>
+    <%= f.text_field :status %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'designer' %>
+    <%= f.select :designer, ['양유미', '한승효','안상현','이지혜','반수희','지선미'], {include_blank: true}%>
+  </div>
+
+  <div class="field">
+    <%= f.label '요청 설명'%>
+    <%= f.text_area :request, cols: 40, rows: 5 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :데이터 %>
+    <%= f.text_area :data, cols: 40, rows: 20 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :'페이지 단'%>
+    <%= f.select :page_column, [5, 6, 7] %>
+  </div>
+  <div class="field">
+    <%= f.label :단 %>
+    <%= f.select :column, [1,2,3,4,5,6,7] %>
+  </div>
+    <div class="field">
+    <%= f.label :열 %>
+    <%= f.select :row, [1, 2, 3, 4, 5, 6, 7] %>
+  </div>
+
+  <div class="actions">
+    <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+  </div>
+  
+
+    <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="btn-group btn-right" role="group" aria-label="기능">
+      <%= link_to "이전으로", my_stories_path, method: :get, class: "btn btn-default btn-sm" %>
+      <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+
+    </div>
+    </nav>
+<% end %>
+

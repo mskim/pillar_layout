@@ -1,0 +1,29 @@
+<%= simple_form_for(@ad_box) do |f| %>
+<%= f.error_notification %>
+
+<div class="form-inputs">
+  <%= f.input :column, label: "단" %>
+  <%= f.input :row, label: "열" %>
+  <%= f.input :ad_type, label: "종류" %>
+  <%= f.input :advertiser, label: "광고주" %>
+  <%= f.input :storage_ad_image, label: "광고 이미지" %>
+</div>
+<div class="form-actions">
+<p></p>
+<%= f.button :submit, "저장하기", accesskey: "s", class: "btn btn-primary btn-sm", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %></div>
+
+<br>
+
+
+<!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<div class="btn-group" role="group" aria-label="기능">
+<%= link_to "교정 전송", send_proof_reading_pdf_page_path(@ad_box.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+<%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@ad_box.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
+<%= link_to "페이지 PDF", download_pdf_page_path(@ad_box.page), method: :get, class: "btn btn-default btn-sm" %>
+<%= link_to "기사 PDF", download_pdf_working_article_path(@ad_box), method: :get, class: "btn btn-default btn-sm" %>
+</div>
+<div class="btn-group btn-right" role="group" aria-label="기능">
+<%= f.button :submit, "저장하기", accesskey: "s", class: "btn btn-primary btn-sm", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %></div>
+</nav>
+<% end %>

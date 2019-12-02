@@ -1,0 +1,34 @@
+
+<div class="view">
+  <div class="col-xs-6 col-md-2">
+      <%= raw @section.to_svg %><br>
+      <strong>- ID </strong><%= @section.id %><br>
+      <strong>- 팀명 </strong><%= @section.section_name %><br>
+      <strong>- 프로필 </strong><%= @section.profile %><br>
+      <strong>- 단 </strong><%= @section.column %><br>
+      <strong>- 열 </strong><%= @section.row %><br>
+      <strong>- 광고종류 </strong><%= @section.ad_type %><br>
+      <strong>- 1면 </strong><%= @section.is_front_page %><br>
+      <strong>- 기사수 </strong><%= @section.story_count %><br>
+      <strong>- 면변호 </strong><%= @section.page_number %><br>
+
+    <!--div class="button-group">
+      <%= link_to "수정", edit_section_path(@section), method: :get, class: "btn btn-sm btn-danger" %>
+      <%= link_to "이전으로", sections_path, method: :get, class: "btn btn-sm btn-primary" %>
+    </div-->
+  </div>
+  <div class="col-xs-12 col-md-4">
+  <div class="col-xs-12 col-md-11">
+
+  <% if File.exist?(@section.pdf_path) %>
+    <p>JPG </p>
+    <%= raw @section.to_svg_with_jpg %><br>
+    <!-- img src="<%= @section.jpg_image_path %>"></img-->
+  <% end %>
+  </div>
+  </div>
+
+  <div class="col-xs-6 col-md-4">
+      <%= render 'form', section: @section %>
+  </div>
+

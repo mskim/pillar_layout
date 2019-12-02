@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Working article:</strong>
+  <%= @line_fragment.working_article %>
+</p>
+
+<p>
+  <strong>Paragraph:</strong>
+  <%= @line_fragment.paragraph %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @line_fragment.order %>
+</p>
+
+<p>
+  <strong>Column:</strong>
+  <%= @line_fragment.column %>
+</p>
+
+<p>
+  <strong>Line type:</strong>
+  <%= @line_fragment.line_type %>
+</p>
+
+<p>
+  <strong>X:</strong>
+  <%= @line_fragment.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @line_fragment.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @line_fragment.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @line_fragment.height %>
+</p>
+
+<p>
+  <strong>Tokens:</strong>
+  <%= @line_fragment.tokens %>
+</p>
+
+<p>
+  <strong>Text area x:</strong>
+  <%= @line_fragment.text_area_x %>
+</p>
+
+<p>
+  <strong>Text area width:</strong>
+  <%= @line_fragment.text_area_width %>
+</p>
+
+<%= link_to 'Edit', edit_line_fragment_path(@line_fragment) %> |
+<%= link_to 'Back', line_fragments_path %>

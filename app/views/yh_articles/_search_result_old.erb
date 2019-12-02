@@ -1,0 +1,33 @@
+<table id="dttb" class="table table-hover table-striped" align="center">
+  <thead>
+    <tr>
+      <th style="text-align:center;">ID</th>
+      <th style="text-align:center;">날짜</th>
+      <th style="text-align:center;">시간</th>
+      <th style="text-align:center;">카테고리</th>
+      <th style="text-align:center;">제목</th>
+      <th style="text-align:center;">선택된 기사</th>
+
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @yh_articles.each do |article| %>
+      <tr>
+        <td style="text-align:center;"><%= article.id %></td>
+        <td style="text-align:center;"><%= article.date %></td>
+        <td style="text-align:center;"><%= article.time %></td>
+        <td style="text-align:center;"><%= eval(article.category)[:name] %></td>
+        <td style="text-align:center;"><%= link_to "#{article.title}", article, method: :get %>
+        </a></td>
+        <td style="text-align:center;"><%= article.taken_by %></td>
+        <td><%= button_to "보기", article, method: :get, class: "btn btn-sm btn-success" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<div>
+<%= paginate @yh_articles, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
+</div>

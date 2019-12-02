@@ -1,0 +1,37 @@
+<!-- p id="notice"><%= notice %></p-->
+
+
+<h3 align="center">면머리</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>페이지</th>
+      <th>팀명</th>
+      <th>날짜</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @page_headings.each do |page_heading| %>
+      <tr>
+        <td><%= page_heading.page_number %></td>
+        <td><%= page_heading.section_name %></td>
+        <td><%= page_heading.date %></td>
+        <td><%= button_to "보기", page_heading, method: :get, class: "btn btn-sm btn-success" %></td>
+        <td><%= button_to "수정", edit_page_heading_path(page_heading), method: :get, class: "btn btn-sm btn-warning" %></td>
+        <td><%= button_to "삭제", page_heading, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<div align="center">
+  <%= button_to "새항목 생성", new_page_heading_path, method: :get, class: "btn btn-sm btn-info" , align: "center"%>
+  <br>
+  <%= button_to "다운로드 CSV", page_headings_path(format: "csv"), method: :get, class: "btn btn-sm btn-warning" , align: "center"%>
+</div>

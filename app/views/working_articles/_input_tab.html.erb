@@ -1,0 +1,59 @@
+<div class="tabbable">
+  <%= @working_article.kind %>
+  <% case @working_article.kind %>
+  <% when '기사' %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">기사</a></li>
+      <li><a href="#tab2" data-toggle="tab">사설</a></li>
+      <li><a href="#tab3" data-toggle="tab">기고</a></li>
+      <li><a href="#tab4" data-toggle="tab">사진</a></li>
+    </ul>
+  <% when '기고' %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">기사</a></li>
+      <li><a href="#tab2" data-toggle="tab">사설</a></li>
+      <li><a href="#tab3" data-toggle="tab">기고</a></li>
+      <li><a href="#tab4" data-toggle="tab">사진</a></li>
+    </ul>
+  <% when '사설' %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">기사</a></li>
+      <li><a href="#tab2" data-toggle="tab">사설</a></li>
+      <li><a href="#tab3" data-toggle="tab">기고</a></li>
+      <li><a href="#tab4" data-toggle="tab">사진</a></li>
+    </ul>
+  <% when '사진' %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">기사</a></li>
+      <li><a href="#tab2" data-toggle="tab">사설</a></li>
+      <li><a href="#tab3" data-toggle="tab">기고</a></li>
+      <li><a href="#tab4" data-toggle="tab">사진</a></li>
+    </ul>
+  <% else %>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">기사</a></li>
+      <li><a href="#tab2" data-toggle="tab">사설</a></li>
+      <li><a href="#tab3" data-toggle="tab">기고</a></li>
+      <li><a href="#tab4" data-toggle="tab">사진</a></li>
+    </ul>
+  <% end %>
+
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <p>기사는 여기에</p>
+      <%= render 'article', article: @working_article %>
+    </div>
+    <div class="tab-pane" id="tab2">
+      <p>기고 여기에</p>
+    </div>
+    <div class="tab-pane" id="tab3">
+      <p>사설 여기에</p>
+    </div>
+    <div class="tab-pane" id="tab4">
+      <p>사진은 여기에</p>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,532 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require chosen-bootstrap
+ *= require cropper.min
+ *= require datatables
+ *= require rails_bootstrap_forms
+ *= require_tree .
+ *= require cropper.min.css
+ *= require_self
+ */
+// @import "bootstrap-sprockets";
+@import "bootstrap";
+@import "working_articles";
+
+html {
+  height: 100% !important;
+}
+
+body {
+  padding-top: 5rem;
+  display: table;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#header,
+#footer {
+  display: table-row;
+  width: 100% !important;
+  height: 1px;
+}
+
+#container {
+  display: table-row;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.card-columns {
+  @include media-breakpoint-only(lg) {
+    column-count: 5;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 6;
+  }
+}
+
+.view {
+  width: 100%;
+  height: 100% !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.col-sm-3 {
+  height: 100%;
+}
+
+.table_h300 {
+  min-height: 300px;
+}
+
+.tables {
+  margin-bottom: 0 !important;
+}
+
+// .space {
+//   padding-top: 30px !important;
+// }
+
+.nav-space {
+  padding-top: 90px;
+  padding-bottom: 30px;
+}
+
+//  textarea.form-control-body {
+//   //  height: 100% !important;
+//    width: 100% !important;
+//    overflow:visible !important;
+//  }
+
+// textarea {
+//   // height: 100% !important;
+//   width:100% !important;
+//   overflow:visible !important;
+// }
+
+.out {
+  width: 100%;
+  text-align: center;
+}
+.in {
+  display: inline-block;
+}
+
+.frame-0 {
+  // background: #e7e7e7;
+  border: 10px solid white;
+  border-radius: 0em;
+  padding: 20px !important;
+  margin-top: 0px !important;
+  margin-bottom: 10px !important;
+}
+
+.frame-1 {
+  // background: #e7e7e7;
+  border: 10px solid white;
+  border-radius: 0em;
+  padding: 20px !important;
+  margin: 0em;
+}
+
+.frame-2 {
+  // background: #e7e7e7;
+  // border: 10px solid white;
+  border-radius: 0em;
+  padding: 20px !important;
+  margin: 0em;
+}
+
+.shinmoon {
+  // font-family: 'shinmoon' !important;
+  font-family: "KoPub Batang" !important;
+  font-size: 22px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  letter-spacing: -1px !important;
+  // columns:12em;
+  // column-gap: 3em;
+  // text-align:justify;
+}
+
+.batang {
+  font-family: "KoPub Batang" !important;
+  font-size: 22px !important;
+  font-weight: 400 !important;
+  letter-spacing: -1px !important;
+}
+
+.title {
+  font-family: "KoPub Batang" !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px !important;
+}
+
+.form-control {
+  font-family: "KoPub Batang";
+  // font-family: "KoPub Dotum";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.4px;
+  display: inline-block;
+}
+
+@font-face {
+  font-family: "KoPub Dotum";
+  font-style: normal;
+  font-weight: 400;
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.eot);
+  src: url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.eot?#iefix)
+      format("embedded-opentype"),
+    url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.woff) format("woff"),
+    url(//cdn.jsdelivr.net/font-kopub/1.0/KoPubDotum-Medium.ttf)
+      format("truetype");
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.3 !important;
+
+  // padding: 5px 10px;
+  // font-size: 12px;
+  // line-height: 1.5;
+  // border-radius: 3px;
+}
+
+#working_article_body {
+  // height: 100% !important;
+}
+
+.wrap {
+  width: 100%;
+  margin-left: -5px !important;
+  margin-right: -5px !important;
+}
+.wrap textarea {
+  width: 100% !important;
+  resize: none;
+  overflow-y: hidden; /* prevents scroll bar flash */
+  padding: 1.1em; /* prevents text jump on Enter keypress */
+  padding-bottom: 0.2em;
+  line-height: 1.6;
+}
+
+.form-group-body {
+  margin-bottom: 5px !important;
+  height: 100% !important;
+}
+
+.form-group {
+  margin-bottom: 0px !important;
+}
+
+//  .alert {
+//    padding: 15px;
+//    margin-bottom: 0px !important;
+//    border: 1px solid transparent;
+//    border-radius: 4px;
+//  }
+
+.notice {
+  padding: 15px;
+  margin-bottom: 0px !important;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.main {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.navbar-fixed-top2 {
+  top: 50px !important;
+  position: fixed !important;
+  border-radius: 0 !important;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  min-height: 40px;
+}
+
+.left {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  margin-left: 10px !important;
+}
+
+.btn-md {
+  margin: 8px !important;
+  padding: 3px 10px !important;
+  color: #fff !important;
+}
+
+.button_to {
+  display: inline-block !important;
+  margin-right: -6px !important;
+}
+
+.large {
+  margin: 8px !important;
+  color: #fff !important;
+}
+
+.btn > a {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: none;
+}
+
+.btn > a:hover {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.btn > a:visited {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.btn-default:visited {
+  color: #000 !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.btn-dnager:visited {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+//  a {color: #fff; text-decoration: none; outline: none}
+//  a:hover, a:active, a:visited {text-decoration: none; color:#fff;}
+
+.btn-default > a:visited {
+  color: #000 !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.btn > a:active {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: none;
+}
+
+.btn-group {
+  margin: 8px !important;
+  // display: block !important;
+}
+
+.btn-danger > a:visited {
+  color: #fff !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+//  .btn-success {
+//    background-color: #5cb85c !important;
+//  }
+
+//  .btn-success:hover {
+//    background-color: #449d44 !important;
+//    border-color: #398439 !important;
+//  }
+
+//  .btn-danger {
+//    background-color: #c9534f !important;
+//  }
+
+//  .btn-danger:hover {
+//    background-color: #c9302c !important;
+//    border-color: #ac2925 !important;
+//  }
+
+//  .btn-warning  {
+//    background-color: #f0ad4e !important;
+//    border-color: #eea236 !important;
+//  }
+
+//  .btn-warning:hover {
+//    background-color: #ec971f !important;
+//    border-color: #d58512 !important;
+//  }
+
+//  .btn-primary  {
+//    background-color: #337ab7 !important;
+//    border-color: #2e6da4 !important;
+//  }
+
+//  .btn-primary:hover {
+//    background-color: #286090 !important;
+//    border-color: #204d74 !important;
+//  }
+
+.navbar-nav2 {
+  margin: 0px;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #fff !important;
+}
+
+.col-sm-6 {
+  padding: 2px !important;
+}
+
+.right {
+  float: right !important;
+}
+
+// .navbar-right {
+//   margin: 0px;
+// }
+
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.float-frame {
+  overflow: hidden;
+}
+
+.float-unit {
+  float: left;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #e1e1e1;
+}
+
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu {
+    background-color: #333;
+  }
+  .navbar-toggle:hover,
+  .navbar-toggle:focus {
+    background-color: #e1e1e1;
+  }
+}
+
+// .btn-primary:visited {
+//   color: #fff;
+// }
+
+.letter {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #df000f;
+  text-align: center;
+  // margin-bottom: 40px;
+  // margin-top: 40px;
+  line-height: 1.7em;
+}
+
+.box {
+  border: solid 1px #bfbfbf;
+  display: inline-block;
+  line-height: 1em;
+  font-size: 16px !important;
+  text-align: center;
+  font-weight: 400;
+  min-width: 18px;
+}
+
+table.link td {
+  line-height: 2.5em;
+  border: 1px solid #c7c7bc;
+  background-color: #ececec;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12px;
+  color: #404040;
+}
+
+table.link td a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+table.link td a:hover {
+  background-color: #f49d9d;
+}
+
+.bootstrap-date {
+  display: inline-block;
+  width: auto;
+}
+
+.icon-color {
+  color: skyblue;
+  &:hover {
+    color: rgb(49, 153, 194);
+  }
+}
+
+a {
+  color: gray;
+  &:hover {
+    color: rgb(79, 77, 77);
+  }
+}

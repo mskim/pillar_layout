@@ -1,0 +1,41 @@
+
+<div align="center">
+  <h4>담당기자 설정</h4>
+</div>
+
+<div class='row'>
+  <% @issue.pages.each do |page| %>
+  <div class ="col-md-1">
+  </div>
+
+  <div class ="col-md-5">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>페이지</th>
+          <th style="text-align:center;">기자</th>
+          <th style="text-align:center;">제목</th>
+          <th style="text-align:center;"> 기사번호</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% page.working_articles.sort_by{|w| w.order}.each do |working_article| %>
+          <tr>
+            <td style="text-align:center;"><%= working_article.page.page_number %></td>
+            <td><%= working_article.reporter %></td>
+            <td><%= working_article.title %></td>
+            <td style="text-align:center;"><%= working_article.order %></td>
+            <td><%= button_to '설정', change_story_working_article_path(working_article), method: :get, class: "btn btn-sm btn-primary" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% end %>
+
+</div>
+
+
+

@@ -1,0 +1,27 @@
+<h1>Heading Bg Images</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Heading bg image</th>
+      <th>Page heading</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @heading_bg_images.each do |heading_bg_image| %>
+      <tr>
+        <td><%= heading_bg_image.heading_bg_image %></td>
+        <td><%= heading_bg_image.page_heading %></td>
+        <td><%= link_to 'Show', heading_bg_image %></td>
+        <td><%= link_to 'Edit', edit_heading_bg_image_path(heading_bg_image) %></td>
+        <td><%= link_to 'Destroy', heading_bg_image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Heading Bg Image', new_heading_bg_image_path %>

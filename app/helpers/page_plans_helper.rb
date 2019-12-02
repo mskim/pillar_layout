@@ -1,0 +1,2 @@
+module PagePlansHelper
+end

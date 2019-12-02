@@ -1,0 +1,38 @@
+<div class="container mt-5">
+  <h3 class="text-center">나의 기사</h3>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>날짜</th>
+        <th>타입</th>
+        <th>제목</th>
+        <th>자수</th>
+        <th>출고된 팀</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stories.each do |story| %>
+        <% if story.selected %>
+          <tr style="background-color:skyblue;">
+          <% else %>
+            <tr>
+            <% end %>
+            <td><%= story.updated_at.strftime("%m-%d %H:%M") %></td>
+            <td><%= story.story_type %></td>
+            <td><%= story.title %></td>
+            <td><%= story.char_count %></td>
+            <td><%= story.summitted_section %></td>
+            <td><%= link_to '수정', story , class: "btn btn-sm btn-warning text-white", method: :get %></td>
+            <td><%= link_to '삭제', story, class: "btn btn-sm btn-danger text-white", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+    <nav class="navbar navbar-light bg-light fixed-bottom">
+      <div class="btn-group" role="group" aria-label="기능">
+        <%= link_to "새로운 기사 작성", new_story_path, method: :get, class: "btn btn-secondary btn-sm text-white" %>
+      </div>
+    </nav>
+  </div>

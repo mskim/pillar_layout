@@ -1,0 +1,57 @@
+
+  <div class ="col-md-6">
+    <% if working_article.kind == '사설' || working_article.kind == 'editorial' %>
+      <%= render 'editorial', article: working_article, page_number:  working_article.page_number%>
+    <% elsif working_article.kind == '기고' || working_article.kind == 'opinion' %>
+      <%= render 'opinion', article: working_article %>
+    <% else %>
+      <%= render 'selected_form', article: working_article %>
+    <% end %>
+    <% if working_article.kind == '기사' %>
+      <div class="row" align='center'>
+      <% working_article.images.each do |image| %>
+        <div class="col-md-4">
+          <p><a href="<%=  edit_image_path(image) %>"><%= image_tag image.image.url, :height => "50%", :width=> "100%"%></a></p>
+          <p><%= link_to '삭제', image, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        </div>
+      <% end %>
+      <%  link_to "이미지 추가", add_image_article_path(working_article), method: :get, class: "btn btn-sm btn-danger" %>
+      <br> 
+      <hr>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-xs-12 col-lg-12">
+      <% if working_article.column == 1 %> 
+      <div class="col-xs-12 col-lg-9"></div>
+      <div class="col-xs-12 col-lg-3"><%= render 'show_story_preview', article: working_article %>
+      </div>
+      <% elsif working_article.column == 2 %> 
+      <div class="col-xs-12 col-lg-7"></div>
+      <div class="col-xs-12 col-lg-5"><%= render 'show_story_preview', article: working_article %>
+      </div>
+      <% elsif working_article.column == 3 %> 
+      <div class="col-xs-12 col-lg-5"></div>
+      <div class="col-xs-12 col-lg-7"><%= render 'show_story_preview', article: working_article %>
+      </div>
+      <% elsif working_article.column == 4 %> 
+      <div class="col-xs-12 col-lg-3"></div>
+      <div class="col-xs-12 col-lg-9"><%= render 'show_story_preview', article: working_article %>
+      </div>
+      <% elsif working_article.column == 5 %>
+      <div class="col-xs-12 col-lg-2"></div>
+      <div class="col-xs-12 col-lg-10"><%= render 'show_story_preview', article: working_article %>
+      </div>          
+      <% elsif working_article.column == 6 %>
+      <div class="col-xs-12 col-lg-12"><%= render 'show_story_preview', article: working_article %>
+      </div>          
+      <% else working_article.column == 7 %> 
+      <div class="col-xs-12 col-lg-12"><%= render 'show_story_preview', article: working_article %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+

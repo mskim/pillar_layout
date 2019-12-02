@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: holidays
+#
+#  id         :bigint(8)        not null, primary key
+#  name       :string
+#  date       :date
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  date: 2018-03-20
+
+two:
+  name: MyString
+  date: 2018-03-20

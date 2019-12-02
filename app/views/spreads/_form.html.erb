@@ -1,0 +1,22 @@
+<%= simple_form_for(@spread) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :issue %>
+    <%= f.input :left_page_id %>
+    <%= f.input :right_page_id %>
+    <%= f.input :ad_box_id %>
+    <%= f.input :color_page %>
+    <%= f.input :width %>
+    <%= f.input :height %>
+    <%= f.input :left_margin %>
+    <%= f.input :top_margin %>
+    <%= f.input :right_margin %>
+    <%= f.input :bottom_margin %>
+    <%= f.input :page_gutter %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

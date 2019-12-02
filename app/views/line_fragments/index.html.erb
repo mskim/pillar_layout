@@ -1,0 +1,26 @@
+<h1>Line Fragments</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-line_fragments" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="working_article">Working article</th>
+      <th data-data="paragraph">Paragraph</th>
+      <th data-data="order">Order</th>
+      <th data-data="column">Column</th>
+      <th data-data="line_type">Line type</th>
+      <th data-data="x">X</th>
+      <th data-data="y">Y</th>
+      <th data-data="width">Width</th>
+      <th data-data="height">Height</th>
+      <th data-data="tokens">Tokens</th>
+      <th data-data="text_area_x">Text area x</th>
+      <th data-data="text_area_width">Text area width</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Line Fragment', new_line_fragment_path %>

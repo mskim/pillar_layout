@@ -1,0 +1,45 @@
+
+
+  <%= form_for(ad_plan) do |f| %>
+    <% if ad_plan.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(ad_plan.errors.count, "error") %> prohibited this ad_plan from being saved:</h2>
+
+        <ul>
+        <% ad_plan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :날짜 %>
+      <%= f.text_field :date %>
+    </div>
+    <div class="field">
+      <%= f.label :페이지 %>
+      <%= f.text_field :page_number %>
+    </div>
+
+    <div class="field">
+      <%= f.label :광고종류 %>
+      <%= f.select :ad_type, %w[광고없음 3단통 4단통 5단통 6단통 7단통 7단15 7단25 8단통 8단27 8단_브릿지 9단21 15단통 15단_브릿지], {include_blank: false} %>
+    </div>
+
+    <div class="field">
+      <%= f.label :광고주 %>
+      <%= f.text_field :advertiser %>
+    </div>
+    <div class="field">
+      <%= f.label :컬러면 %>
+      <%= f.check_box :color_page %>
+    </div>
+    <div class="field">
+      <%= f.label :비고 %>
+      <%= f.text_field :comment %>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="btn btn-sm btn-primary">저장</button>
+    </div>
+  <% end %>

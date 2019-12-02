@@ -1,0 +1,41 @@
+
+
+<%= form_for(reporter_graphic) do |f| %>
+  <% if reporter_graphic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reporter_graphic.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+      <ul>
+      <% reporter_graphic.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="field">
+      <%= f.label :제목%>
+      <%= f.text_field :title, style:"width:60px"%>
+    </div>
+    
+    <div class="field">
+      <%= f.label :켑션 %>
+      <%= f.text_area :caption , cols: "40", rows: "10" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :출처 %>
+      <%= f.text_field :source %>
+    </div>
+
+    <div class="field">
+      <%= f.label :섹션이름 %>
+    <%= f.select :section_name, %w[1면 정치 자치행정 국제통일 금융 산업 정책 기획 오피니언], {include_blank: true} %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "저장"%>
+    </div>
+<% end %>
+
+

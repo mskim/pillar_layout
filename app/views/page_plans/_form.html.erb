@@ -1,0 +1,47 @@
+
+  <div align='center'>
+  <h3><%= @page_plan.page_number %>페이지 내용 수정</h3>
+  <%= form_for(page_plan) do |f| %>
+    <% if page_plan.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(page_plan.errors.count, "error") %> prohibited this page_planpage_plan from being saved:</h2>
+
+        <ul>
+        <% page_plan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :마감시간 %>
+      <%= f.text_field :deadline %>
+    </div>
+    <div class="field">
+      <%= f.label :팀이름 %>
+      <%= f.text_field :section_name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :광고종류 %>
+      <%= f.select :ad_type, %w[광고없음 3단통 4단통 5단통 6단통 7단통 7단15 7단25 8단통 8단27 8단_브릿지 9단21 15단통 15단_브릿지], {include_blank: false} %>
+    </div>
+
+    <div class="field">
+      <%= f.label :광고주 %>
+      <%= f.text_field :advertiser %>
+    </div>
+    <div class="field">
+      <%= f.label :컬러면 %>
+      <%= f.check_box :color_page %>
+    </div>
+</div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="btn-group" role="group" aria-label="기능">
+      <%= link_to '이전으로', current_plan_issue_path(Issue.last.id), method: :get, class: "btn btn-default btn-sm" %>
+      <button type="submit" class="btn btn-sm btn-primary">저장</button>
+    </div>
+  </nav>
+
+  <% end %>

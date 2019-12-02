@@ -1,0 +1,69 @@
+# == Schema Information
+#
+# Table name: publications
+#
+#  id                             :integer          not null, primary key
+#  name                           :string
+#  unit                           :string
+#  paper_size                     :string
+#  width_in_unit                  :float
+#  height_in_unit                 :float
+#  left_margin_in_unit            :float
+#  top_margin_in_unit             :float
+#  right_margin_in_unit           :float
+#  bottom_margin_in_unit          :float
+#  gutter_in_unit                 :float
+#  width                          :float
+#  height                         :float
+#  left_margin                    :float
+#  top_margin                     :float
+#  right_margin                   :float
+#  bottom_margin                  :float
+#  gutter                         :float
+#  lines_per_grid                 :integer
+#  page_count                     :integer
+#  section_names                  :text
+#  page_columns                   :text
+#  row                            :integer
+#  front_page_heading_height      :integer
+#  inner_page_heading_height      :integer
+#  article_bottom_spaces_in_lines :integer
+#  article_line_draw_sides        :text
+#  article_line_thickness         :float
+#  draw_divider                   :boolean
+#  cms_server_url                 :string
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString1
+  paper_size: MyString
+  width: 1114.0157
+  height: 1544.88
+  left_margin: 42.52
+  top_margin: 42.52
+  right_margin: 42.52
+  bottom_margin: 42.52
+  lines_per_grid: 7
+  gutter: 12.75
+  page_count: 24
+  section_names: MyText
+  page_columns: [6,7]
+
+two:
+  name: MyString2
+  paper_size: MyString
+  width: 1.5
+  height: 1.5
+  left_margin: 1.5
+  top_margin: 1.5
+  right_margin: 1.5
+  bottom_margin: 1.5
+  lines_per_grid: 1
+  gutter: 1.5
+  page_count: 1
+  section_names: MyText
+  page_columns: MyString

@@ -1,0 +1,42 @@
+<%= form_for(ad) do |f| %>
+  <% if ad.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ad.errors.count, "error") %> prohibited this ad from being saved:</h2>
+
+      <ul>
+      <% ad.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '이름' %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label '단' %>
+    <%= f.number_field :column %>
+  </div>
+
+  <div class="field">
+    <%= f.label '열' %>
+    <%= f.number_field :row %>
+  </div>
+
+  <div class="field">
+    <%= f.label '면의 가로 단' %>
+    <%= f.text_field :page_columns %>
+  </div>
+
+  <div class="field">
+    <%= f.label '매체 아이디' %>
+    <%= f.text_field :publication_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

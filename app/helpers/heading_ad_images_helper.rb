@@ -1,0 +1,2 @@
+module HeadingAdImagesHelper
+end

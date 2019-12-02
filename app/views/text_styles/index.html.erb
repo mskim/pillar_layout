@@ -1,0 +1,65 @@
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+
+
+<h3 align="center">단락 스타일 정의</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>단락 스타일</th>
+      <th>영문명</th>
+      <th>서체이름</th>
+      <th>포스트스크립 이름</th>
+      <th>크기</th>
+      <th>컬러</th>
+      <th>정렬</th>
+      <th>자간</th>
+      <th>어간</th>
+      <th>장평</th>
+      <th>행간</th>
+      <th>글위 행간</th>
+      <th>글이래 행간</th>
+      <th>글높이 행간</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @text_styles.each do |text_style| %>
+      <tr>
+        <td><%= text_style.korean_name %></td>
+        <td><%= text_style.english %></td>
+        <td><%= text_style.font_family %></td>
+        <td><%= text_style.font %></td>
+        <td style="text-align:center;"><%= text_style.font_size %></td>
+        <td style="text-align:center;"><%= text_style.text_color %></td>
+        <td style="text-align:center;"><%= text_style.alignment %></td>
+        <td style="text-align:center;"><%= text_style.tracking %></td>
+        <td style="text-align:center;"><%= text_style.space_width %></td>
+        <td style="text-align:center;"><%= text_style.scale %></td>
+        <td style="text-align:center;"><%= text_style.text_line_spacing %></td>
+        <td style="text-align:center;"><%= text_style.space_before_in_lines %></td>
+        <td style="text-align:center;"><%= text_style.space_after_in_lines %></td>
+        <td style="text-align:center;"><%= text_style.text_height_in_lines %></td>
+        <td><%= button_to "보기", text_style, method: :get, class: "btn btn-sm btn-success" %></td>
+        <td><%= button_to "복제", duplicate_text_style_path(text_style), method: :get, class: "btn btn-sm btn-primary" %></td>
+        <td><%= button_to "삭제", text_style, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<br>
+
+<div align="center">
+
+  <%= link_to "       ", "#", method: :get, class: "btn-group btn btn-md" , align: "center"%>
+
+  <%= link_to "새항목 생성", new_text_style_path, method: :get, class: "btn-group btn btn-sm btn-info" , align: "center"%>
+  <%= link_to "스타일 적용", save_current_text_styles_path, method: :get, class: "btn-group btn btn-sm btn-danger" , align: "center"%>
+  <%= link_to "다운로드 CSV", text_styles_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" , align: "center"%>
+</div>
+

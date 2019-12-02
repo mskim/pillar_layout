@@ -1,0 +1,41 @@
+<div>
+  <% @reporter_graphic.uploads.each do |upload| %>
+    <% if upload.variable? %>
+      <%= link_to image_tag(upload.variant(resize: "400x400")), upload %>
+    <% elsif upload.previewable? %>
+      <%= link_to image_tag(upload.preview(resize: "400x400")), rails_blob_path(upload, disposition: :attachment) %>
+    <% elsif upload.image? %>
+      <%= link_to image_tag(upload, width: 400), upload %>
+    <% else %>
+      <%= link_to upload.filename, rails_blob_path(upload, disposition: :attachment) %>
+    <% end %>
+  <% end %>
+</div>
+
+
+
+<%= form_for(reporter_graphic) do |f| %>
+  <% if reporter_graphic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reporter_graphic.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+      <ul>
+      <% reporter_graphic.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '그래픽 관련 자료 올리기' %>
+    <%= f.file_field :uploads, multiple: true, class: "form-control" %>
+
+  </div>
+
+  <div class="actions">
+    <%= f.submit "저장"%>
+  </div>
+<% end %>
+
+

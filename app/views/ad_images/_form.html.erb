@@ -1,0 +1,43 @@
+<%= form_for(ad_image) do |f| %>
+  <% if ad_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ad_image.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+      <ul>
+      <% ad_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="view">
+    <div class="col-sm-9">
+      <%= image_tag ad_image.ad_image.url, id: "cropbox" %>
+    </div>
+    <div class="col-sm-3">
+      <div class="field">
+        <%= f.label :페이지 %>
+        <%= f.text_field :page_number %>
+      </div>
+
+      <div class="field">
+        <%= f.label :광고종류 %>
+        <%= f.text_field :ad_type %>
+      </div>
+
+      <div class="field">
+        <%= f.label :단 %>
+        <%= f.number_field :column %>
+      </div>
+
+      <div class="field">
+        <%= f.label :열 %>
+        <%= f.number_field :row %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    </div>
+
+<% end %>

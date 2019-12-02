@@ -1,0 +1,20 @@
+
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Section:</strong>
+  <%= @reporter_group.section %>
+</p>
+
+<p>
+  <strong>Leader:</strong>
+  <%= @reporter_group.leader %>
+</p>
+
+<p>
+  <strong>Page range:</strong>
+  <%= @reporter_group.page_range %>
+</p>
+
+<%= link_to 'Edit', edit_reporter_group_path(@reporter_group) %> |
+<%= link_to 'Back', reporter_groups_path %>

@@ -1,0 +1,84 @@
+<!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="btn-group" role="group" aria-label="기능">
+    <%= link_to "새항목 생성", new_section_path, method: :get, class: "btn btn-default btn-sm" %>
+    <%= link_to "다운로드 CSV", sections_path(format: "csv"), method: :get, class: "btn btn-default btn-sm" %>
+    <%= link_to "Seed 저장", save_sections_path(format: "csv"), method: :get, class: "btn btn-default btn-sm" %>
+    </button>
+  </div>
+</nav>
+
+<div align="center">
+<div class="col-xs-12 col-sm-12">
+
+<h3>페이지 템플릿</h3>
+
+<%= search_form_for @q do |s| %>
+<%= s.label '광고' %>
+<%= s.select :ad_type_eq, Ad.all.uniq { |p| p.name }.collect{|p| p.name}, {include_blank: '전체'} %>
+
+<%= s.label '기사' %>
+<%= s.select :story_count_eq, (1..12), {include_blank: '전체'} %>
+
+<%= s.label '페이지' %>
+<%= s.select :page_number_eq, [100, 101, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],  {include_blank: '전체'} %>
+
+<%= s.label 'ID' %>
+<%= s.text_field :id_eq, style: "width:40px" %>
+
+<%= s.submit "검색", class: "btn btn-sm btn-normal"%>
+<% end %>
+<br>
+
+<table class="table table-striped tables" align="center">
+  <thead>
+    <tr>
+      <th style="text-align:center; width:3%;">ID</th>
+      <th style="text-align:center; width:7%;">프로필</th>
+      <th style="text-align:center; width:5%;">팀명</th>
+      <th style="text-align:center; width:4%;">페이지</th>
+      <th style="text-align:center; width:3%;">단</th>
+      <th style="text-align:center; width:3%;">열</th>
+      <th style="text-align:center; width:7%;">광고</th>
+      <th style="text-align:center; width:3%;">기사</th>
+      <th style="text-align:center; width:40%">위치정보</th>
+      <th style="text-align:center; width:5%;">형태</th>
+      <th style="text-align:center; width:15%;" colspan="3"></th>
+    </tr>
+  </thead>
+  </table>
+
+<% @sections.each do |section| %>
+  <%= form_for(section) do |f| %>
+
+<table class="table table-striped tables" align="center">
+      <tr>
+        <td style="text-align:center; width:3%;"><a href="/sections/<%= section.id %>"><%= section.id %></a></td>
+        <td style="text-align:center; width:7%;"><%= section.profile %></td>
+        <td style="text-align:center; width:5%;"><%= section.section_name %></td>
+        <td style="text-align:center; width:4%;"><%= section.page_number %></td>
+        <td style="text-align:center; width:3%;"><%= section.column %></td>
+        <td style="text-align:center; width:3%;"><%= section.row %></td>
+        <td style="text-align:center; width:7%;"><%= section.ad_type %></td>
+        <td style="text-align:center; width:3%;"><%= section.story_count %></td>
+        <td style="text-align:center; width:40%;"><%= section.layout %></td>
+        <td style="text-align:center; width:5%;"><%= raw section.to_svg_with_jpg %></td>
+        <td style="text-align:center; width:5%;"><%= link_to "수정", section_path(section), method: :get, class: "btn btn-sm btn-warning" %></td>
+        <td style="text-align:center; width:5%;"><%= link_to "복제", duplicate_section_path(section), method: :get, class: "btn btn-sm btn-primary" %></td>
+        <td style="text-align:center; width:5%;"><%= link_to "삭제", section, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger" %></td>
+      </tr>
+</table>
+<% end %>
+<% end %>
+
+<br>
+
+  <div align="center">
+    <%= paginate @sections %>
+  </div>
+</div>
+</div>
+
+<div class="col-xs-12 col-sm-3">
+</div>
+

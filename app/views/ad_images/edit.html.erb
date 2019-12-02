@@ -1,0 +1,15 @@
+<h3>광고정보 수정</h3>
+
+<%= render 'form', ad_image: @ad_image %>
+
+<% if @ad_box %>
+  <div align="center">
+    <%= link_to '광고이미지', ad_images_issue_path(@ad_image.issue) %>
+  </div>
+<% else %>
+  <div align="center">
+    <%= link_to "이전으로", ad_box_path(@ad_image.ad_box), method: :get, class: "btn btn-lg btn-success" %>
+  </div>
+<% end %>
+
+<p> <%= @ad_image.ad_image.url %>    </p>

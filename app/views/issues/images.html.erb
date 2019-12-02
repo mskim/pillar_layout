@@ -1,0 +1,42 @@
+
+
+
+
+<h3><%= @issue.date %>: 사진들</h3>
+
+<%= form_with( model: @issue, :html => { :multipart => true }, :url=> {action: 'upload_images'}) do |f| %>
+
+  <%= f.fields_for :images, Image.new do |p| %>
+    <div class="field">
+      <%= p.label '사진선택' %><br>
+      <h3> <%= p.file_field :image, :multiple => false, name: "images[image][]" %></h3>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.button "사진 올리기", class: "btn btn-primary btn-md", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+  </div>
+<% end %>
+<div class="flex-container">
+  <% @issue_images.each do |image| %>
+    <div class="flex-item">
+      <% if image.used_in_layout %>
+        <button class="btn-success btn btn-xs"><%= image.page_number %>-<%= image.story_number %></button>
+      <% else %>
+        <button class="btn-danger btn btn-xs"><%= image.page_number %>-<%= image.story_number %></button>
+      <% end %>
+      <p> <a href="<%=  edit_image_path(image) %>"><%= image_tag image.image.url(:thumb) %></a></p>
+      <% if image.used_in_layout %>
+        <%= link_to "기사창으로 이동", working_article_path(image.working_article_id), method: :get, class: "btn btn-xs btn-primary" %>|
+        <%= link_to "삭제", image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+      <% else %>
+        <p><%= link_to "삭제", image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
+
+<div align="center">
+  <%= link_to "모든사진 적용하기", place_all_images_path, method: :get, class: "btn-group btn btn-sm btn-success" , align: "center"%>
+</div>

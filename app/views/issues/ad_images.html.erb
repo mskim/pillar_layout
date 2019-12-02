@@ -1,0 +1,75 @@
+<h3 align="center"><%= @issue.date %>: 광고</h3>
+
+  <div class="col-md-2">
+
+  <table class="table table-striped">
+  <thead>
+        <tr>
+          <th>페이지</th>
+          <th>면 이름</th>
+          <th>광고</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @issue_plans_with_ad.each do |page_plan| %>
+          <% if page_plan.color_page %>
+            <tr style="background-color:pink;">
+              <td style="text-align:center;"><%= page_plan.page_number %></td>
+              <td style="text-align:center;"><%= page_plan.section_name %></td>
+              <td style="text-align:center;"><%= page_plan.ad_type %></td>
+              <td style="text-align:center;"><%= page_plan.advertiser %></td>
+           </tr>
+          <% else %>
+            <tr style="background-color:white;">
+              <td style="text-align:center;"><%= page_plan.page_number %></td>
+              <td style="text-align:center;"><%= page_plan.section_name %></td>
+              <td style="text-align:center;"><%= page_plan.ad_type %></td>
+              <td style="text-align:center;"><%= page_plan.advertiser %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div align="center">
+      <%= form_with( model: @issue, :html => { :multipart => true }, :url=> {action: 'upload_ad_images'}) do |f| %>
+
+        <%= f.fields_for :images, AdImage.new do |p| %>
+          <div class="field">
+            <%= p.label '광고 올리기' %><br>
+            <%= p.file_field :image, :multiple => true, name: "ad_images[ad_image][]" %>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+        </div>
+      <% end %>
+    </div>
+
+  <div class="flex-container">
+    <% @issue_ad_images.each do |image| %>
+      <div class="flex-item">
+        <% if image.used_in_layout %>
+          <button class="btn-success btn btn-xs"><%= image.page_number %></button>
+        <% else %>
+          <button class="btn-danger btn btn-xs"><%= image.page_number %></button>
+        <% end %>
+        <p> <a href="<%=  edit_ad_image_path(image) %>"><%= image_tag image.ad_image.url(:thumb) %></a></p>
+        <% if image.used_in_layout %>
+          <%= link_to "기사창으로 이동", ad_image_path(image.ad_image_id), method: :get, class: "btn btn-xs btn-primary" %>|
+          <%= link_to "삭제", image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %>
+        <% else %>
+          <p><%= link_to "삭제", image, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-xs btn-danger" %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+
+<div align="center">
+  <%= link_to "광고 배치", place_all_ad_images_path, method: :get, class: "btn-group btn btn-xs btn-success" , align: "center"%>
+</div>

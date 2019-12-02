@@ -1,0 +1,9 @@
+  <% @articles.each do |article| %>
+  <div class = "col-md-8"  align='left'>
+    <img height="50%" src="<%= article.pdf_image_path %>" p></img>
+  </div>
+  <div class = "col-md-4"  align='left'>
+  </div>   <!-- true -->
+  <% end %>
+
+<%= link_to 'New Article', new_article_path %>

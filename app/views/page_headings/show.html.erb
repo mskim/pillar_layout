@@ -1,0 +1,39 @@
+
+  <div class="col-sm-2 col-md-2">
+    <%= render 'form', page_heading: @page_heading %>
+
+  </div>
+  <div class="col-sm-10 col-md-10">
+    <div align="center">
+
+    <img src="<%= @page_heading.jpg_image_path %>" height="400px"></img>
+    <br>
+    <br>
+
+      <%= form_with( model: @page_heading, :html => { :multipart => true }, :url=> {action: 'upload_images'}) do |f| %>
+        <%= f.fields_for :heading_bg_image, HeadingBgImage.new do |p| %>
+          <div class="field">
+            <%= p.label '배경 이미지 선택' %><br>
+            <h3> <%= p.file_field :heading_bg_image %></h3>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.button "배경 이미지 올리기", class: "btn btn-primary btn-md", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+        </div>
+      <% end %>
+
+    </div>
+
+    <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="btn-group" role="group" aria-label="기능">
+      <%= link_to "이전으로", page_path(@page_heading.page), method: :get, class: "btn btn-sm btn-default" %>
+      <%= button_to "다운로드 배경 PDF", download_pdf_page_heading_path(@page_heading), method: :get, class: "btn btn-sm btn-default" %>
+      <%= button_to "다운로드 헤딩 PDF", download_heading_pdf_page_heading_path(@page_heading), method: :get, class: "btn btn-sm btn-default" %>
+      </div>
+      <div class="btn-group btn-right" role="group" aria-label="기능">
+      <%= link_to '신규 돌출 광고', new_heading_ad_image_path, class: "btn btn-sm btn-default" %>
+      </div>
+    </nav>
+

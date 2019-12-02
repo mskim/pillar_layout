@@ -1,0 +1,24 @@
+<%= simple_form_for(opinion_writer) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: "이름"   %>
+    <%= f.input :title, label: "제목" %>
+    <%= f.input :work, label: "소속" %>
+    <%= f.input :position, label: "직책" %>
+    <%= f.input :email, label: "이메일" %>
+    <%= f.input :category_code, label: "코드" %>
+    <%= f.input :opinion_image, label: "EPS선택" %>
+    <%= f.input :opinion_jpg_image, label: "JPG선택" %>
+    <%= f.input :publication_id, :as => :hidden, input_html: {value: 1} %>
+  </div>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<div class="btn-group" role="group" aria-label="기능">
+  <%= link_to "이전으로", opinion_writers_path, method: :get, class: "btn btn-default btn-sm" %>
+  <%= f.button :submit, class: "btn btn-primary btn-sm", value: "저장" %>
+  <%= link_to '삭제', @opinion_writers, method: :delete, data: { confirm: '정말 삭제하겠습니까?' }, class: "btn btn-default btn-sm" %>
+</div>
+</nav>
+<% end %>

@@ -1,0 +1,34 @@
+<!-- p id="notice"><%= notice %></p-->
+
+<p>
+  <strong>Date:</strong>
+  <%= @graphic_request.date %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @graphic_request.user %>
+</p>
+
+<p>
+  <strong>Designer:</strong>
+  <%= @graphic_request.designer %>
+</p>
+
+<p>
+  <strong>Request:</strong>
+  <%= @graphic_request.request %>
+</p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @graphic_request.data %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @graphic_request.status %>
+</p>
+
+<%= link_to 'Edit', edit_graphic_request_path(@graphic_request) %> |
+<%= link_to 'Back', graphic_requests_path %>

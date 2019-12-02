@@ -1,0 +1,43 @@
+require 'erb'
+
+task :default => :pdf
+erb_file = Rake::FileList["**/*.erb"]
+layout_file = erb_file.pathmap.ext(".rb")
+pdf_files   = erb_file.pathmap.ext(".pdf")
+task :layout => layout_file
+task :pdf => pdf_files
+
+#
+rule '.rb' => '.erb' do |t|
+  # puts "t.name:#{t.name}"
+  @section_name = '테스트'
+  @page_number  = t.name.pathmap("%d").to_i
+  if @page_number == 1
+    @date = '0000년 0월 0일 0요일 (4200호)'
+  else
+    @date = "0000년 0월 0일 0요일"
+  end
+  # puts "@page_number:#{@page_number}"
+  template_file = File.open(t.source){|f| f.read}
+  erb = ERB.new(template_file)
+  rb_content = erb.result(binding)
+  File.open(t.name, 'w'){|f| f.write rb_content}
+  # puts "t.source:#{t.source}"
+end
+#
+rule '.pdf' => '.rb' do |t|
+  # puts "t.name:#{t.name}"
+  # puts "t.source:#{t.source}"
+  # puts "generate pdf..."
+  # puts "t:#{t}"
+  system("cd #{t.name.pathmap("%d")} && /Applications/newsman.app/Contents/MacOS/newsman article .")
+end
+
+#
+rule '.pdf' => '.rb' do |t|
+  # puts "t.name:#{t.name}"
+  # puts "t.source:#{t.source}"
+  # puts "generate pdf..."
+  # puts "t:#{t}"
+  system("cd #{t.name.pathmap("%d")} && /Applications/newsman.app/Contents/MacOS/newsman article .")
+end

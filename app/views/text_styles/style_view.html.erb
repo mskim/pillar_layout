@@ -1,0 +1,28 @@
+<h4>Style View</h4>
+<div align="center">
+  <%= link_to "<< 이전으로 ", text_styles_path, method: :get, class: "btn-group btn btn-md btn-info" , align: "center"%>
+  <%= link_to "결과물 재생성 하기", style_update_text_styles_path, method: :get, class: "btn-group btn btn-md btn-danger" , align: "center"%>
+
+</div>
+
+<% @sample_articles.each do |article| %>
+    <div class = "col-md-6">
+      <% if File.exist?(article.pdf_path) %>
+        <h4>설정갑</h4>
+        <%= button_to "다운로드 PDF", download_pdf_article_path(article), method: :get, class: "btn btn-sm btn-danger" %>
+        <img width="95%" src="<%= article.pdf_image_path %>"></img>
+      <% end %>
+
+    </div>
+    <div class = "col-md-6">
+      <h4>사용자 설정</h4>
+      <% if File.exist?(article.custom_pdf_path) %>
+        <%= button_to "다운로드 PDF", download_pdf_article_path(article), method: :get, class: "btn btn-sm btn-danger" %>
+        <img width="95%" src="<%= article.custom_pdf_image_path %>"></img>
+      <% end %>
+
+    </div>
+
+
+
+<% end %>

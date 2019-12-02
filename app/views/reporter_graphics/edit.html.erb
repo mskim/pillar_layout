@@ -1,0 +1,56 @@
+
+
+
+<p id="notice"><%= notice %></p>
+
+<div align="center">
+<h3>그래픽 수정</h3>
+
+<div class='row'>
+
+  <div class='col-md-3'>
+    <p>
+      <img style="object-fit:cover",  src="<%= @reporter_graphic.preview_path %>" width="200px" height="200px"></img>
+    </p>
+
+    <p>
+      <strong>Title:</strong>
+      <%= @reporter_graphic.title %>
+    </p>
+
+    <p>
+      <strong>Caption:</strong>
+      <%= @reporter_graphic.caption %>
+    </p>
+
+    <p>
+      <strong>Source:</strong>
+      <%= @reporter_graphic.source %>
+    </p>
+
+    <p>
+      <strong>Section name:</strong>
+      <%= @reporter_graphic.section_name %>
+    </p>
+    <%= button_to '다운로드 기자 그래픽', download_reporter_graphic_path(@reporter_graphic), method: :get, class: "btn btn-sm btn-success"%>
+  </div>
+
+  <% if @reporter_graphic.finished_job.attached? %>
+    <div class='col-md-4'>
+      <h3>수정 완료!</h3>
+      <%= image_tag @reporter_graphic.finished_job %>
+    </div>
+  <% else %>
+    <div class='col-md-4'>
+      <h1>수정중 ....</h1>
+    </div>
+  <% end %>
+
+  <div class='col-md-4'>
+    <%= render 'designer', reporter_graphic: @reporter_graphic %>
+  </div>
+</div>
+
+
+<%= link_to 'Back', reporter_graphics_path, method: :get, class: "btn btn-sm btn-primary" %>
+</div>

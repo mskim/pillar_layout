@@ -1,0 +1,39 @@
+---
+:section_name: 1면
+:column: 6
+:row: 15
+:ad_type: 5단통
+:layout:
+- - 0
+  - 1
+  - 3
+  - 3
+  - :images:
+    - :position: 2
+      :extra_height_in_lines: 0
+      :column: 2
+      :row: 2
+      :x_grid: 2
+- - 0
+  - 8
+  - 3
+  - 2
+- - 3
+  - 5
+  - 3
+  - 5
+- - 0
+  - 4
+  - 3
+  - 4
+- - 3
+  - 1
+  - 3
+  - 4
+  - :kind: 사진
+    :graphics:
+    - :position: '3'
+      :extra_height_in_lines: 0
+      :column: 1
+      :row: 2
+      :x_grid: 

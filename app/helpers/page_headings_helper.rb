@@ -1,0 +1,2 @@
+module PageHeadingsHelper
+end

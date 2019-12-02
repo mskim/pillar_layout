@@ -1,0 +1,11 @@
+<h1>1단 기사 </h1>
+  <% @articles.each do |article| %>
+  <div class = "col-md-2"  align='left' style="padding-bottom: 40px;">
+    <p align="center"><%= article.make_profile %></p>
+    <img width="100%" src="<%= article.pdf_image_path %>"></img>
+    <div align="center">
+      <%= link_to "내용수정", article_path(article), method: :get, class: "btn-group  btn-group-sm btn-warning" %>
+      <%= link_to "다운로드 PDF", download_pdf_article_path(article), method: :get, class: "btn-group  btn-group-sm btn-danger" %>
+    </div>
+  </div>
+  <% end %>

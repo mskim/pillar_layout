@@ -1,0 +1,21 @@
+<%= form_for(reporter_image) do |f| %>
+  <% if reporter_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(reporter_image.errors.count, "error") %> prohibited this reporter_image from being saved:</h2>
+
+      <ul>
+      <% reporter_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '섹션이름' %>
+    <%= f.select :section_name, %w[1면 정치 자치행정 국제통일 금융 산업 정책 기획 오피니언], {include_blank: false} %>
+    <%= f.submit "출고"%>
+  </div>
+
+
+<% end %>

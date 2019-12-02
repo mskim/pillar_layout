@@ -1,0 +1,10 @@
+<div class="col-xs-12 col-sm-12">
+  <% reporter_images.each do |picture| %>
+    <div class="col-md-2">
+      <img class="repoter_img_thumb" src="<%= picture.thumb_path %>"></img>
+      <p align="center"><%= picture.title %></p>
+      <!-- p align="center"><%= picture.caption %></p -->
+      <%= link_to '사진 선택', select_reporter_image_working_article_path(@working_article, reporter_image: picture), class: "btn btn-default btn-sm" %>
+    </div>
+  <% end %>
+</div>

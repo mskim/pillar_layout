@@ -1,0 +1,34 @@
+<h>In WorkingArticle Edit</h>
+<div class="row" align='center'>
+  <div class="col-md-4">
+  </div>
+
+  <div class="col-md-4">
+    <%= render 'short_form', article: @working_article , stories: @stories%>
+
+     <% case session[:current_group] %>
+          <% when 'first_group' %>
+            <%= link_to "이전으로", first_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'second_group' %>
+            <%= link_to "이전으로", second_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'third_group' %>
+            <%= link_to "이전으로", third_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'fourth_group' %>
+            <%= link_to "이전으로", fourth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'fifth_group' %>
+            <%= link_to "이전으로", fifth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'sixth_group' %>
+            <%= link_to "이전으로", sixth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'seventh_group' %>
+            <%= link_to "이전으로", seventh_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'eighth_group' %>
+            <%= link_to "이전으로", eighth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% when 'nineth_group' %>
+            <%= link_to "이전으로", nineth_group_stories_issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% else %>
+            <%= link_to "이전으로", issue_path(@working_article.issue), method: :get, class: "btn btn-md btn-success" %>
+          <% end %>
+  </div>
+
+</div>
+

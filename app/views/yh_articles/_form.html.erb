@@ -1,0 +1,73 @@
+<%= simple_form_for(@yh_article) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-row mb-3">
+    <div class="form-group col-md-3">
+      <%= f.label :action, "처리유형 코드:" %>
+      <%= f.input_field :action, class: "form-control", placeholder: "처리유형" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :service_type, "서비스 타입 코드:" %>
+      <%= f.input_field :service_type, class: "form-control", placeholder: "ex) AAR0" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :content_id, "원본 컨텐츠 식별 ID:" %>
+      <%= f.input_field :content_id, class: "form-control", placeholder: "ex) AKR20191105095400083" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :date, "원본 컨텐츠 전송날짜:" %>
+      <%= f.date_field :date, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :time, "원본 컨텐츠 전송시간:" %>
+      <%= f.input_field :time, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :urgency, "긴급 코드:" %>
+      <%= f.input_field :urgency, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :category, "카테고리 코드:" %>
+      <%= f.input_field :category, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :class_code, "내용분류 코드:" %>
+      <%= f.input_field :class_code, class: "form-control", placeholder: "ex) 0101001" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :attriubute_code, "속성 코드:" %>
+      <%= f.input_field :attriubute_code, class: "form-control", placeholder: "ex) 9001001" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :source, "해외통신사 코드:" %>
+      <%= f.input_field :source, class: "form-control", placeholder: "ex) AF" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :credit, "저작권 소유기관 코드:" %>
+      <%= f.input_field :credit, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-3">
+      <%= f.label :region, "지역분류 코드:" %>
+      <%= f.input_field :region, class: "form-control", placeholder: "ex) 7001001" %>
+    </div>
+  </div>
+  <div class="form-group mb-3">
+    <%= f.input_field :title, class: "form-control", placeholder: "연합뉴스 제목 입력하세요" %>
+  </div>
+  <div class="form-group">
+    <%= f.text_area :body, class: "form-control", style: "height: 400px;" %>
+  </div>
+  <div class="form-row mb-3">
+    <div class="form-group col-md-4">
+      <%= f.input_field :writer, class: "form-control", placeholder: "기사 작성자 정보 입력하세요." %>
+    </div>
+    <div class="form-group col-md-4">
+      <%= f.input_field :char_count, class: "form-control", placeholder: "문자 수" %>
+    </div>
+    <div class="form-group col-md-4">
+      <%= f.input_field :taken_by, class: "form-control", placeholder: "제작 중.." %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.button :submit, class: "btn btn-primary btn-lg btn-block" %>
+  </div>
+<% end %>

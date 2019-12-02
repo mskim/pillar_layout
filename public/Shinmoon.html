@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<meta content="en-us" http-equiv="Content-Language"/>
+<title>Shinmoon - Web Font Specimen</title>
+<link rel="stylesheet" type="text/css" media="screen" href="Shinmoon.css" />
+<style type="text/css" media="screen">
+body { font-size: 42px; font-family: "Shinmoon", Georgia; }
+</style>
+</head>
+<body>
+<p contenteditable="true">이제 레일즈에서 view와 controller을 이용해 코딩을 하며 무언가 만들어보도록 하겠습니다. 컨트롤러 그림을 생각해보면 그 안에는 매우 많은 버튼들이 있는데요. 사실 이 컨트롤러는 많은 버튼들로 구성이 되어있다고도 말할 수 있습니다. 즉, 실질적인 기능을 수행하는 건 이 버튼들이고, 이 실질적인 기능을 하는 친구들을 레일즈에서는 액션이라고 부릅니다.
+
+    그냥 우리가 일반적으로 이 콘솔을 가지고 게임을 한다고 가정을 했을 때, 우리는 공격버튼을 눌러서 적을 떄릴수도, 방어 버튼을 눌러서 공격을 막을수도 있을 겁니다. home이라는 컨트롤러를 이용하지만, 어떤 버튼, 어떤 액션을 누르느냐에 따라서 나오는 결과가 다른 것인데요. 이 작은 게임을 우리는 코드로 구현해 보겠습니다. 먼저 컨트롤러를 만들어주겠습니다. rails generate controller 이름으로 컨트롤러를 생성할 수 있습니다. 그리고 안에 파일들을 보시면 모델, 뷰, 컨트롤러 폴더가 있는 걸 확인할 수 있는데요. 우리는 home이라는 이름의 컨트롤러를 만들었기 때문에 당연히 home_controller가 생겼을 겁니다. 그리고 그 컨트롤러를 가지고 어떤 액션을 했을 때 나오는 결과물에 해당하는 view에도 home 폴더가 생겼을 거고요. 즉, 우리가 home 컨트롤러를 가지고 어떤 버튼을, 액션을 누르면 누구를 공격했습니다 혹은 방어했습니다와 같은 결과물이 뷰에 나오게 될겁니다.
+    
+    앞서 공격과 방어 버튼을 예시로 들었으니 지금도 attack과 defense 액션을 만들고, 이와 똑같은 이름으로 view폴더에 .html.erb를 만들어 주겠습니다. 여기서 주의할 점이 있는데요. 레일즈라는 프레임워크는 우리가 쉽게 결과물을 만들수 있는 대신에 일정한 규칙들이 존재한다고 했습니다. 이 부분이 그 규칙에 관한 내용인데요. action에서는 우리가 어떤 데이터를 다룰 때 그 처리과정을 담당하고 view에서는 오로지 그 결과물을 보여줍니다. 즉, 데이터를 가공하는 과정과 결과물을 보여주는 것을 분리해놓은 것인데요. 레일즈에서는 이 action과 view의 이름을 통일시켜주어야 합니다.
+    
+    그리고 파일을 만드시면서 .erb는 무엇인가에 대해 의문을 가지실 수 있는데 루비를 삽입할 수 있는 html이라는 뜻입니다. 이것 말고도 그럼 왜 head랑 body는 안보이냐고도 생각하실 수 있는데, rails에서는 이 application.html.erb라는 파일에서 기본적인 html의 틀을 잡아주고 있습니다. 우리가 만든 index, attack, defense.html.erb의 내용은 모두 yield를 통해 그 가운데로 들어오게 될거구요.
+    
+    이제 첫 페이지를 만들어보겠습니다. 우리가 공격, 방어 버튼을 누를 수 있는 초기 화면이 필요하겠죠? 그걸 index에 구현해보겠습니다. index에 첫 페이지입니다!라고 작성을 해줍니다. 그런데 이렇게 하기만 하면 오류가 뜰텐데요. 우리는 액션과 뷰를 만들 때 항상 경로라는 것을 추가해줘야 합니다. 지금은 우선 초기화면이기 때문에 root로 설정해주겠습니다. 사용자가 처음 우리 서비스에 들어올때 가장 먼제 보게 되는 화면이 index.html.erb라는 뜻입니다. 이 routing, 경로에 대해서는 다음시간에 좀 더 깊게 파보도록 하겠습니다.</p>
+</body>
+</html>

@@ -1,0 +1,346 @@
+---
+- :english: body
+  :font_family: 윤신문명조
+  :font: YDVYSinStd
+  :font_size: '9.6'
+  :text_color: ''
+  :alignment: justified
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: body_gothic
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '9.4'
+  :text_color: ''
+  :alignment: justified
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: running_head
+  :font_family: 윤고딕130
+  :font: YDVYGOStd13
+  :font_size: '9.6'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: quote
+  :font_family: 윤명조130
+  :font: YDVYMjOStd13
+  :font_size: '12.0'
+  :text_color: ''
+  :alignment: center
+  :tracking: "-0.5"
+  :space_width: '6.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: related story
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '9.4'
+  :text_color: ''
+  :alignment: right
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: subject_head
+  :font_family: 윤고딕140
+  :font: YDVYGOStd14
+  :font_size: '14.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '7.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: caption_title
+  :font_family: 윤고딕140
+  :font: YDVYGOStd14
+  :font_size: '8.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '4.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: caption
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '8.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '4.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: source
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '7.0'
+  :text_color: ''
+  :alignment: right
+  :tracking: "-0.5"
+  :space_width: '4.0'
+  :scale: '80.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: reporter
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '8.0'
+  :text_color: ''
+  :alignment: right
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: title_top
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '42.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '21.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines: '2'
+  :text_height_in_lines: '4'
+  :space_after_in_lines: '2'
+  :custom_font:
+  :publication_id: '1'
+- :english: title_4_5
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '32.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '18.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines: '2'
+  :text_height_in_lines: '4'
+  :space_after_in_lines: '2'
+  :custom_font:
+  :publication_id: '1'
+- :english: title_3
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '26.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '13.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines: '2'
+  :text_height_in_lines: '4'
+  :space_after_in_lines: '2'
+  :custom_font:
+  :publication_id: '1'
+- :english: title_2
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '22.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '11.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines: '1'
+  :text_height_in_lines: '3'
+  :space_after_in_lines: '2'
+  :custom_font:
+  :publication_id: '1'
+- :english: title_1
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '15.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '7.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines: '1'
+  :text_height_in_lines: '3'
+  :space_after_in_lines: '2'
+  :custom_font:
+  :publication_id: '1'
+- :english: subtitle_main
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '18.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '9.0'
+  :scale: '100.0'
+  :text_line_spacing: '6.0'
+  :space_before_in_lines: '1'
+  :text_height_in_lines: '2'
+  :space_after_in_lines: '1'
+  :custom_font:
+  :publication_id: '1'
+- :english: subtitle_14
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '14.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '7.0'
+  :scale: '100.0'
+  :text_line_spacing: '7.0'
+  :space_before_in_lines: '1'
+  :text_height_in_lines: '2'
+  :space_after_in_lines: '1'
+  :custom_font:
+  :publication_id: '1'
+- :english: subtitle_12
+  :font_family: 윤명조140
+  :font: YDVYMjOStd14
+  :font_size: '12.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '6.0'
+  :scale: '100.0'
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: news line_title
+  :font_family: 윤고딕120
+  :font: YDVYGOStd12
+  :font_size: '13.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '6.0'
+  :scale:
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: brand naming
+  :font_family: 윤고딕130
+  :font: YDVYMjOStd13
+  :font_size: '13.0'
+  :text_color: ''
+  :alignment: center
+  :tracking: "-0.5"
+  :space_width: '6.0'
+  :scale:
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: subject_head
+  :font_family: 윤고딕140
+  :font: YDVYGOStd14
+  :font_size: '18.0'
+  :text_color: CMYK=100,60,0,0
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '9.0'
+  :scale:
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: subject_head
+  :font_family: 윤고딕140
+  :font: YDVYGOStd14
+  :font_size: '12.0'
+  :text_color: ''
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '6.0'
+  :scale:
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
+- :english: editor's note
+  :font_family: 윤고딕130
+  :font: YDVYGOStd13
+  :font_size: '8.8'
+  :text_color: CMYK=0,0,0,80
+  :alignment: left
+  :tracking: "-0.5"
+  :space_width: '5.0'
+  :scale:
+  :text_line_spacing:
+  :space_before_in_lines:
+  :text_height_in_lines:
+  :space_after_in_lines:
+  :custom_font:
+  :publication_id: '1'
