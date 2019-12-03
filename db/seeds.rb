@@ -1,5 +1,55 @@
 require 'csv'
 require 'yaml'
+
+
+if LayoutNode.count == 0
+  # add actions to db
+  action_yml_path = "#{Rails.root}/public/action.yml"
+  action_hash = YAML.load_file(action_yml_path)
+
+  action_hash.each do |k, v|
+    h = { name: k, actions: v }
+    Action.where(h).first_or_create!
+  end
+  # box with no actions
+  (1..7).to_a.each do |column|
+    (6..15).to_a.each do |row|
+      LayoutNode.where(column: column, row: row).first_or_create
+    end
+  end
+  # box with actions
+  LayoutNode.all.each do |node|
+    Action.all.each do |a|
+      node = LayoutNode.where(column: node.column, row: node.row).create
+      puts "+++++#{node.column}x#{node.row}"
+      puts "++++++a.actions:#{a.actions}"
+      node.set_actions(a.actions)
+    end
+  end
+end
+
+# layout_nodes_csv_path = "#{Rails.root}/public/page_layout.csv"
+# csv_text = File.read(layout_nodes_csv_path)
+# csv = CSV.parse(csv_text)
+# keys  = csv.shift
+# keys.map!{|e| e.to_sym}
+# csv.each do |row|
+#   row_h = Hash[keys.zip row]
+#   n = LayoutNode.where(row_h).first_or_create!
+# end
+
+page_layout_csv_path = "#{Rails.root}/public/page_layout.csv"
+csv_text = File.read(page_layout_csv_path)
+csv = CSV.parse(csv_text)
+keys  = csv.shift
+keys.map!{|e| e.to_sym}
+csv.each do |row|
+  row[2] = eval(row[2])
+  row_h = Hash[keys.zip row]
+  s = PageLayout.where(row_h).first_or_create!
+end
+
+
 section_names = [
   '1면',
   '정치',
@@ -133,24 +183,6 @@ csv.each do |row|
   Profile.where(h).first_or_create
 end
 
-# csv_path = "#{Rails.root}/public/1/section/sections.csv"
-# csv_text = File.read(csv_path)
-# csv = CSV.parse(csv_text)
-# keys  = csv.shift
-# keys.map!{|e| e.to_sym}
-# csv.each do |row|
-#   row_h = Hash[keys.zip row]
-#   # row_h.delete(:divider_position)
-#   # puts "row_h:#{row_h}"
-#   row_h[:publication] = 1
-#   s = Section.where(row_h).first_or_create!
-#   s.create_articles if s
-#   # if s.page_number == 22 || s.page_number == 23
-#   #   # puts "s.id:#{s.id}"
-#   #   # puts "s.layout:#{s.layout}"
-#   #   s.regerate_section_preview
-#   # end
-# end
 
 SECTIONS = [
   '1면',
@@ -164,10 +196,9 @@ SECTIONS = [
   '오피니언',
 ]
 
-issue = Issue.where(id: 1, date: issue_date , number: '00001', publication_id: 1).first_or_create
-issue.make_default_issue_plan if issue
 
 User.create!(name: "김민수", email: "mskimsid@gmail.com", password: 'itis1234', password_confirmation: "itis1234", role: 'admin')
+User.create!(name: "장원호", email: "twinger0885@gmail.com", password: 'itis1234', password_confirmation: "itis1234", role: 'admin')
 User.create!(name: "김형규", email: "hgkim@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 'admin')
 User.create!(name: "양유미", email: "biny@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 'admin')
 User.create!(name: "안상현", email: "shahn@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 'designer')
@@ -263,3 +294,10 @@ end
 
 # load sample YTN articles and images
 # YNewsML.load_ytn_sample
+
+
+issue = Issue.where(id: 1, date: issue_date , number: '00001', publication_id: 1).first_or_create
+if issue
+  issue.make_default_issue_plan 
+  issue.make_pages
+end

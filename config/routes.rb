@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :actions
   resources :layout_nodes
   resources :page_layouts
   resources :pillars

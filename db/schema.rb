@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_223420) do
+ActiveRecord::Schema.define(version: 2019_12_02_235209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
+
+  create_table "actions", force: :cascade do |t|
+    t.string "name"
+    t.text "actions"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -372,6 +379,24 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
 
+  create_table "layout_nodes", force: :cascade do |t|
+    t.string "direction"
+    t.integer "grid_x"
+    t.integer "grid_y"
+    t.integer "column"
+    t.integer "row"
+    t.string "profile"
+    t.string "node_kind"
+    t.string "tag"
+    t.boolean "selected"
+    t.text "actions"
+    t.text "layout"
+    t.text "layout_with_pillar_path"
+    t.integer "box_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "line_fragments", force: :cascade do |t|
     t.bigint "working_article_id"
     t.bigint "paragraph_id"
@@ -413,6 +438,25 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.string "date"
     t.text "layout"
     t.integer "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "page_layouts", force: :cascade do |t|
+    t.float "doc_width"
+    t.float "doc_height"
+    t.string "ad_type"
+    t.string "page_type"
+    t.integer "column"
+    t.integer "row"
+    t.integer "pillar_count"
+    t.float "grid_width"
+    t.float "grid_height"
+    t.float "gutter"
+    t.float "margin"
+    t.text "layout"
+    t.text "layout_with_pillar_path"
+    t.integer "like"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
