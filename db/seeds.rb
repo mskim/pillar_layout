@@ -294,4 +294,5 @@ issue = Issue.where(id: 1, date: issue_date , number: '00001', publication_id: 1
 if issue
   issue.make_default_issue_plan 
   issue.make_pages
+  issue.pages.all.each{|p| p.generate_pdf_with_time_stamp}
 end
