@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_223420) do
+ActiveRecord::Schema.define(version: 2019_12_02_235637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -372,6 +372,24 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
 
+  create_table "layout_nodes", force: :cascade do |t|
+    t.string "direction"
+    t.integer "grid_x"
+    t.integer "grid_y"
+    t.integer "column"
+    t.integer "row"
+    t.string "profile"
+    t.string "node_kind"
+    t.string "tag"
+    t.boolean "selected"
+    t.text "actions"
+    t.text "layout"
+    t.text "layout_with_pillar_path"
+    t.integer "box_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "line_fragments", force: :cascade do |t|
     t.bigint "working_article_id"
     t.bigint "paragraph_id"
@@ -413,6 +431,25 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.string "date"
     t.text "layout"
     t.integer "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "page_layouts", force: :cascade do |t|
+    t.float "doc_width"
+    t.float "doc_height"
+    t.string "ad_type"
+    t.string "page_type"
+    t.integer "column"
+    t.integer "row"
+    t.integer "pillar_count"
+    t.float "grid_width"
+    t.float "grid_height"
+    t.float "gutter"
+    t.float "margin"
+    t.text "layout"
+    t.text "layout_with_pillar_path"
+    t.integer "like"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -874,12 +911,12 @@ ActiveRecord::Schema.define(version: 2019_12_02_223420) do
     t.integer "height_in_lines"
     t.string "by_line"
     t.float "price"
+    t.string "category_name"
+    t.string "subcategory_code"
     t.integer "left_line", default: 0
     t.integer "top_line", default: 0
     t.integer "right_line", default: 0
     t.integer "bottom_line", default: 0
-    t.string "category_name"
-    t.string "subcategory_code"
     t.string "pillar_path"
     t.bigint "pillar_id"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
