@@ -60,7 +60,8 @@ class Page < ApplicationRecord
   after_create :setup
   scope :clone_page, -> {where("clone_name!=?", nil)}
   scope :odd_page, -> {where("clone_name!=?", nil)}
-  
+  serialize :layout, Array
+  serialize :layout_with_pillar_path, Array
   attr_reader :time_stamp
   include PageSplitable
   include PagePrintable
@@ -79,6 +80,10 @@ class Page < ApplicationRecord
 
   def is_front_page?
     page_number == 1
+  end
+
+  def path
+    "#{Rails.root}/public/#{publication_id}/issue/#{date.to_s}/#{page_number}"
   end
 
   def relative_path
@@ -438,8 +443,8 @@ class Page < ApplicationRecord
     h['page_heading_margin_in_lines']   = page_heading_margin_in_lines
     h['ad_type']                        = ad_type || "no_ad"
     h['is_front_page']                  = is_front_page?
-    h['profile']                        = profile
-    h['section_id']                     = id
+    # h['profile']                        = profile
+    # h['section_id']                     = id
     h['page_columns']                   = column
     h['grid_size']                      = [grid_width, grid_height]
     h['lines_per_grid']                 = lines_per_grid
@@ -450,7 +455,7 @@ class Page < ApplicationRecord
     h['right_margin']                   = right_margin
     h['bottom_margin']                  = bottom_margin
     h['gutter']                         = gutter
-    h['story_frames']                   = eval(layout)
+    h['story_frames']                   = layout
     h['article_line_thickness']         = article_line_thickness
     h['draw_divider']                   = true if page_number != 22 || page_number != 23
     h
@@ -596,7 +601,7 @@ class Page < ApplicationRecord
     end
   end
 
-  def create_heading(section)
+  def create_heading
     heading_atts                  = {}
     heading_atts[:page_number]    = page_number
     heading_atts[:section_name]   = display_name || section_name
@@ -705,32 +710,20 @@ class Page < ApplicationRecord
     end
   end
 
-  # def delete_latest_files
-  #   pdf_file_to_delete = Dir.glob("#{path}/section*.pdf")
-  #   jpg_file_to_delte = pdf_file_to_delete.map{|f| f.sub(/pdf$/, "jpg")}
-  #   pdf_file_to_delete.each do |old|
-  #     system("rm #{old}")
-  #   end
-  #   jpg_file_to_delte.each do |old|
-  #     system("rm #{old}")
-  #   end
-  # end
-
   def generate_pdf_with_time_stamp
     puts "in page generate_pdf_with_time_stamp"
     delete_old_files
     stamp_time
-    PageWorker.perform_async(path, @time_stamp)
-    wait_for_stamped_pdf
+    save_pdf
+    # PageWorker.perform_async(path, @time_stamp)
+    # wait_for_stamped_pdf
     # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
   end
 
   def generate_pdf
     puts "generate_pdf for page"
-    PageWorker.perform_async(path, nil)
-
-    # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section ."
-    # copy_outputs_to_site
+    # PageWorker.perform_async(path, nil)
+    save_pdf
   end
 
   def regenerate_pdf
@@ -742,9 +735,6 @@ class Page < ApplicationRecord
       ad_box.generate_pdf
     end
     PageWorker.perform_async(path, nil)
-
-    # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section ."
-    # copy_outputs_to_site
   end
 
   def site_path
@@ -936,12 +926,12 @@ class Page < ApplicationRecord
   end
 
   def setup
-    system "mkdir -p #{path}" unless File.directory?(path)
-    section   = Section.find(template_id)
-    copy_section_template(section)
-    create_heading(section)
+    system "mkdir -p #{path}" unless File.exist?(path)
+    # section   = Section.find(template_id)
+    # copy_section_template(section)
+    create_heading
     create_pillars
-    create_ad_boxes(section)
+    # create_ad_boxes(section)
     save_config_file unless File.exist?(config_path)
     generate_pdf unless File.exist?(pdf_path)
   end
@@ -963,6 +953,59 @@ class Page < ApplicationRecord
         Pillar.where(region: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:3).first_or_create
       end
     end
+  end
+
+  def create_ad_box(ad_type)
+    info = {page_id: self.id, order:1}
+    case ad_type
+    when '15단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 0
+      info[:column] = column
+      info[:row]    = 15
+    when '5단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 10
+      info[:column] = column
+      info[:row]    = 5
+    when '4단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 11
+      info[:column] = column
+      info[:row]    = 4
+    when '3단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 12
+      info[:column] = column
+      info[:row]    = 3
+    when '9단21_홀'
+      info[:grid_x] = 3
+      info[:grid_y] = 6
+      info[:column] = 4
+      info[:row]    = 9
+    when '9단21_짝'
+      info[:grid_x] = 0
+      info[:grid_y] = 6
+      info[:column] = 4
+      info[:row]    = 9
+    when '7단15_홀'
+      info[:grid_x] = 0
+      info[:grid_y] = 8
+      info[:column] = 3
+      info[:row]    = 7
+    when '7단15_짝'
+      info[:grid_x] = 4
+      info[:grid_y] = 8
+      info[:column] = 3
+      info[:row]    = 7
+    else
+      puts "+++++++++ ad_type:#{ad_type}"
+      info[:grid_x] = 0
+      info[:grid_y] = 10
+      info[:column] = column
+      info[:row]    = 5
+    end
+    AdBox.create(info)
   end
 
 
@@ -1002,20 +1045,42 @@ class Page < ApplicationRecord
 
   # 
   def init_page_data
-    if layout
-      # case when layout is given
-    elsif template_id
-      # case when page_template is given
-      layout = PageLayout.find(template_id).layout
-    else
-      # case when no info is given, we start with typical setup
-      if column == 6
-        self.layout = [[0,0,4,10,2], [4,0,2,10,3], '5단통']
-      else
-        self.layout = [[0,0,5,10,2], [5,0,2,10,3], '5단통']
-      end
-    end
-    self.row    = 15 unless row
+    publication               = issue.publication
+    self.publication_id       = publication.id
+    self.date                 = issue.date
+    template                  = PageLayout.find(template_id)      # case when page_template is given
+    self.layout               = template.layout
+    # else
+    #   # case when no info is given, we start with typical setup
+    #   if column == 6
+    #     self.layout = [[0,0,4,10,2], [4,0,2,10,3], '5단통']
+    #   else
+    #     self.layout = [[0,0,5,10,2], [5,0,2,10,3], '5단통']
+    #   end
+    # end
+    self.publication_id         = issue.publication.id
+    # self.profile              = section.profile
+    # self.page_number          = section.page_number
+    # self.section_name         = section.section_name
+    self.column                 = template.column
+    self.ad_type                = template.ad_type
+    self.story_count            = template.story_count
+    self.lines_per_grid         = 7
+    self.article_line_thickness = publication.article_line_thickness 
+    self.page_heading_margin_in_lines = publication.page_heading_margin_in_lines(page_number)
+    self.row                    = 15
+    self.grid_width             = publication.grid_width(column)
+    self.grid_height            = publication.grid_height
+    self.lines_per_grid         = publication.lines_per_grid
+    self.width                  = publication.width
+    self.height                 = publication.height
+    self.left_margin            = publication.left_margin
+    self.top_margin             = publication.top_margin
+    self.right_margin           = publication.right_margin
+    self.bottom_margin          = publication.bottom_margin
+    self.gutter                 = publication.gutter
+    self.article_line_thickness = publication.article_line_thickness
+    self.publication_id         = publication.id
   end
 
   def init_page

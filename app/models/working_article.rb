@@ -85,6 +85,7 @@
 
 class WorkingArticle < ApplicationRecord
   belongs_to :page
+  belongs_to :pillar
   belongs_to :article, optional: true
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
@@ -92,8 +93,8 @@ class WorkingArticle < ApplicationRecord
   # has_many :story_subcategory
   has_one :story
   has_many :proofs
-  before_create :init_atts
-  after_create :setup
+  before_create :init_article
+  after_create :setup_article
   accepts_nested_attributes_for :images
   include ArticleSplitable
   include PageSplitable
@@ -103,6 +104,9 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleAutofit
   include WorkingArticleLayout
   include StorageBackupWorkingArticle
+  include WorkingArticlePillarMethods
+  include PageSavePdf
+
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
@@ -127,9 +131,9 @@ class WorkingArticle < ApplicationRecord
     page.path
   end
 
-  def path
-    page_path + "/#{order}"
-  end
+  # def path
+  #   page_path + "/#{order}"
+  # end
 
   def proof_path
     page_path + "/#{order}/proof"
@@ -306,8 +310,10 @@ class WorkingArticle < ApplicationRecord
     save_article
     delete_old_files
     stamp_time
-    ArticleWorker.perform_async(path, @time_stamp, nil)
-    wait_for_stamped_pdf
+    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
+    # ArticleWorker.perform_async(path, @time_stamp, nil)
+    update_pdf_chain
+    # wait_for_stamped_pdf
   end
 
   def generate_pdf
@@ -712,25 +718,26 @@ class WorkingArticle < ApplicationRecord
     grid_x*grid_y
   end
 
-  def x
-    grid_x*grid_width
-  end
-
-  #TODO add to db field
-
   def body_line_height
     grid_height/7
   end
+  # def x
+  #   grid_x*grid_width
+  # end
 
-  def y
-    y_position =  grid_y*grid_height
-    if top_position?
-      y_position += page_heading_margin_in_lines*body_line_height
-    elsif pushed_line_count && pushed_line_count != 0
-      y_position += pushed_line_count*body_line_height
-    end
-    y_position
-  end
+  #TODO add to db field
+
+
+
+  # def y
+  #   y_position =  grid_y*grid_height
+  #   if top_position?
+  #     y_position += page_heading_margin_in_lines*body_line_height
+  #   elsif pushed_line_count && pushed_line_count != 0
+  #     y_position += pushed_line_count*body_line_height
+  #   end
+  #   y_position
+  # end
 
   # def top_story?
   #   page.page_number == 1 && order == 1
@@ -758,6 +765,7 @@ class WorkingArticle < ApplicationRecord
   def layout_options
     h = {}
     h[:kind]                          = self.kind if kind
+    h[:adjustable_height]             = adjustable_height?
     h[:subtitle_type]                 = self.subtitle_type || '1단' unless kind == '사진'
     h[:heading_columns]               = self.heading_columns if  heading_columns && heading_columns!= column && heading_columns != ""
     if kind == '사설' || kind == 'editorial'
@@ -1215,7 +1223,11 @@ class WorkingArticle < ApplicationRecord
 
 
   def height_in_lines
-    row*7 + extended_line_count - pushed_line_count
+    if extended_line_count && pushed_line_count
+      row*7 + extended_line_count - pushed_line_count
+    else
+      row*7
+    end
   end
 
   def to_row_and_pushed(y_position_in_line)
@@ -1249,47 +1261,33 @@ class WorkingArticle < ApplicationRecord
 
   private
 
-  def init_atts
 
-    unless article
+  def init_article
+    self.grid_width  = page.grid_width
+    self.grid_height = page.grid_height
+    self.column = 4 unless column
+    self.row = 4 unless row
+    self.title = "여기는 #{pillar_order}제목 입니다." unless title
+    self.title = "여기는 #{pillar_order}제목." if column <= 2
+    self.subtitle = '여기는 부제목 입니다.' unless subtitle
+    body_text = '여기는 본문입니다. '*20 
+    body_text += '여기는 본문입니다. '*20 
+    body_text =<<~EOF
+    #{body_text}
 
-    else
-      article_info_hash   = article.attributes
-      article_info_hash   = Hash[article_info_hash.map{ |k, v| [k.to_sym, v] }]
-      self.kind           = article_info_hash[:kind]
-      self.grid_x         = article_info_hash[:grid_x]
-      self.grid_y         = article_info_hash[:grid_y]
-      self.grid_width     = page.grid_width
-      self.grid_height    = page.grid_height
-      self.gutter         = article_info_hash[:gutter]
-      self.column         = article_info_hash[:column]
-      self.row            = article_info_hash[:row]
-      self.is_front_page  = article_info_hash[:is_front_page]
-      self.on_left_edge   = article_info_hash[:on_left_edge]
-      self.on_right_edge  = article_info_hash[:on_right_edge]
-      self.top_story      = article_info_hash[:top_story]
-      self.top_position   = article_info_hash[:top_position]
-      self.page_heading_margin_in_lines = page.page_heading_margin_in_lines
+    #{body_text}
 
-      self.inactive       = false
-      if page_number == 22 && order == 2
-        self.subject_head = '기고'
-      elsif page_number == 23 && order == 2
-        self.subject_head = '내일시론'
-      end
-      # self.page_path      = page.path
-    end
-    self.title          = "#{order}번 제목은 여기에 여기는 제목"
-    self.subtitle       = '부제는 여기에 여기는 부제목 자리'
-    self.reporter       = '홍길동'
-    self.email          = 'gdhong@gmail.com'
-    self.body =<<~EOF
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+    #{body_text}
+
     EOF
+    self.body = body_text unless body
+  end
 
+  def setup_article
+    FileUtils.mkdir_p(path) unless File.exist?(path)
+    make_images_directory
+    save_story
+    save_layout
+    generate_pdf_with_time_stamp
   end
 end

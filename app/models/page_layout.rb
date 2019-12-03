@@ -224,7 +224,7 @@ class PageLayout < ApplicationRecord
   # end
 
   def story_count
-    layout_nodes.map{|p| p.story_count}.reduce(:+)
+    pillars.map{|p| p.story_count}.reduce(:+)
   end
 
   def save_page_layout

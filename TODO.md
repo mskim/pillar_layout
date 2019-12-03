@@ -18,6 +18,18 @@
 
   - body
     - fit_text
+2019_12_4
+  - in seed
+    - LayoutNode generate only for the PageLatout pillar sizes
+  - Pillar update_pdf_chain
+
+
+2019_12_3
+  - layout.rb
+    - on_right_edge
+  - config.yml
+    - grid_size
+  - 광고없음 unicode
 
 2018_10_1
 

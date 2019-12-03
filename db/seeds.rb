@@ -1,43 +1,6 @@
 require 'csv'
 require 'yaml'
 
-
-if LayoutNode.count == 0
-  # add actions to db
-  action_yml_path = "#{Rails.root}/public/action.yml"
-  action_hash = YAML.load_file(action_yml_path)
-
-  action_hash.each do |k, v|
-    h = { name: k, actions: v }
-    Action.where(h).first_or_create!
-  end
-  # box with no actions
-  (1..7).to_a.each do |column|
-    (6..15).to_a.each do |row|
-      LayoutNode.where(column: column, row: row).first_or_create
-    end
-  end
-  # box with actions
-  LayoutNode.all.each do |node|
-    Action.all.each do |a|
-      node = LayoutNode.where(column: node.column, row: node.row).create
-      puts "+++++#{node.column}x#{node.row}"
-      puts "++++++a.actions:#{a.actions}"
-      node.set_actions(a.actions)
-    end
-  end
-end
-
-# layout_nodes_csv_path = "#{Rails.root}/public/page_layout.csv"
-# csv_text = File.read(layout_nodes_csv_path)
-# csv = CSV.parse(csv_text)
-# keys  = csv.shift
-# keys.map!{|e| e.to_sym}
-# csv.each do |row|
-#   row_h = Hash[keys.zip row]
-#   n = LayoutNode.where(row_h).first_or_create!
-# end
-
 page_layout_csv_path = "#{Rails.root}/public/page_layout.csv"
 csv_text = File.read(page_layout_csv_path)
 csv = CSV.parse(csv_text)
@@ -48,6 +11,37 @@ csv.each do |row|
   row_h = Hash[keys.zip row]
   s = PageLayout.where(row_h).first_or_create!
 end
+
+  # add actions to db
+  action_yml_path = "#{Rails.root}/public/action.yml"
+  action_hash = YAML.load_file(action_yml_path)
+  action_hash.each do |k, v|
+    h = { name: k, actions: v }
+    Action.where(h).first_or_create!
+  end
+  # box with no actions
+  # (1..7).to_a.each do |column|
+  #   (6..15).to_a.each do |row|
+  #     LayoutNode.where(column: column, row: row).first_or_create
+  #   end
+  # end
+
+  # get the size that were used in PageLayout only
+  PageLayout.all.each do |pl|
+    pl.pillars.each do |pillar|
+      LayoutNode.where(column: pillar.column, row: pillar.row).first_or_create
+    end
+  end
+
+  # box with actions
+  LayoutNode.all.each do |node|
+    Action.all.each do |a|
+      node = LayoutNode.where(column: node.column, row: node.row).create
+      puts "+++++#{node.column}x#{node.row}"
+      puts "++++++a.actions:#{a.actions}"
+      node.set_actions(a.actions)
+    end
+  end
 
 
 section_names = [

@@ -632,7 +632,6 @@ class LayoutNode < ApplicationRecord
       end
       if target.nil?
         puts "action_item:#{action_item}"
-        binding.pry 
       end
       unless target
         puts "Failed actions:#{actions}"

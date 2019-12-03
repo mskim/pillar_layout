@@ -1,6 +1,8 @@
 class CreatePillars < ActiveRecord::Migration[5.2]
   def change
     create_table :pillars do |t|
+      t.string :direction
+      t.integer :grid_x
       t.integer :grid_x
       t.integer :grid_y
       t.integer :column

@@ -155,7 +155,7 @@ class PagePlan < ApplicationRecord
       parse_section_name
       self.dirty                = true
     else
-      puts " no profile is given, so make a default page"
+      # puts " no profile is given, so make a default page"
       return false
     end
     true

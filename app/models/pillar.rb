@@ -31,6 +31,30 @@ class Pillar < ApplicationRecord
   serialize :layout, Array
   include RectUtils
 
+  def story_count
+    layout.length
+  end
+
+  def update_pdf_chain
+
+  end
+
+  def update_pdf_chain(working_article)
+    upchain_folders = working_article.upchain_folders
+    upchain_folders.each do |upchain|
+      merge_children_pdf(upchain)
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
+  def upchain_folders
+    path_element = pillar_order.split("_")
+    chain = []
+    while path_element.pop do
+      chain << path_element.join("/")
+    end
+    chain
+  end
 
   # this is big deal!!!!!
   # convert layout_with_pillar_path to node tree
@@ -303,7 +327,7 @@ class Pillar < ApplicationRecord
       else
         # this is case when layout_with_pillar_path is Array of Arrays
         layout_with_pillar_path.each do |box|
-          h = {page:region, pillar:self, order: "#{order}_#{box[4]}", grid_x:box[0], grid_y:box[1], column:box[2], row: box[3]}
+          h = {page:region, pillar:self, pillar_order: "#{order}_#{box[4]}", grid_x:box[0], grid_y:box[1], column:box[2], row: box[3]}
           WorkingArticle.where(h).first_or_create
         end
       end

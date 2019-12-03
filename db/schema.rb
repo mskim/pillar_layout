@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2019_12_02_235209) do
-=======
 ActiveRecord::Schema.define(version: 2019_12_02_235637) do
->>>>>>> a425cfeed61f62218772dad5e08e9bdf3e63bb8f
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -385,12 +381,15 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
 
   create_table "layout_nodes", force: :cascade do |t|
     t.string "direction"
+    t.string "ancestry"
     t.integer "grid_x"
     t.integer "grid_y"
     t.integer "column"
     t.integer "row"
     t.string "profile"
+    t.string "finger_print"
     t.string "node_kind"
+    t.integer "order"
     t.string "tag"
     t.boolean "selected"
     t.text "actions"
@@ -922,13 +921,13 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.integer "height_in_lines"
     t.string "by_line"
     t.float "price"
-    t.string "category_name"
-    t.string "subcategory_code"
     t.integer "left_line", default: 0
     t.integer "top_line", default: 0
     t.integer "right_line", default: 0
     t.integer "bottom_line", default: 0
-    t.string "pillar_path"
+    t.string "category_name"
+    t.string "subcategory_code"
+    t.string "pillar_order"
     t.bigint "pillar_id"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"

@@ -182,7 +182,7 @@ class Issue < ApplicationRecord
   end
 
   def make_pages
-    page_plans.each_with_index do |page_plan, _i|
+    page_plans.sort_by{|p| p.page_number}.each_with_index do |page_plan, i|
       if page_plan.page
         if page_plan.need_update?
           if page_plan.page.color_page != page_plan.color_page
@@ -196,9 +196,36 @@ class Issue < ApplicationRecord
         next
       else
         # create new page
-        page_plan.page = Page.create!(issue_id: id, page_plan_id: page_plan.id, page_number: page_plan.page_number, section_name: page_plan.section_name, template_id: page_plan.selected_template_id, color_page: page_plan.color_page)
-        page_plan.dirty = false
-        page_plan.save
+        template = PageLayout.where(ad_type: page_plan.ad_type).first
+        if template
+          h = {}
+          h[:issue_id]      = id
+          h[:page_plan_id]  = page_plan.id
+          h[:page_number]   = page_plan.page_number
+          h[:section_name]  = page_plan.section_name
+          h[:template_id]   = template.id
+          h[:ad_type]       = page_plan.ad_type
+          h[:color_page]    = page_plan.color_page
+          p                 = Page.create!(h)
+          page_plan.page    = p
+          page_plan.dirty   = false
+          page_plan.save
+        else
+          template = PageLayout.where(ad_type: '광고없음').first
+          h = {}
+          h[:issue_id]      = id
+          h[:page_plan_id]  = page_plan.id
+          h[:page_number]   = page_plan.page_number
+          h[:section_name]  = page_plan.section_name
+          h[:template_id]   = template.id
+          h[:ad_type]       = page_plan.ad_type
+          h[:color_page]    = page_plan.color_page
+          p                 = Page.create!(h)
+          page_plan.page    = p
+          page_plan.dirty   = false
+          page_plan.save          
+          puts "we need PageLayout for #{page_plan.ad_type}!!!!!"
+        end
       end
     end
   end

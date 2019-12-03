@@ -21,7 +21,7 @@ RSpec.describe "pillars/edit", type: :view do
   it "renders the edit pillar form" do
     render
 
-    assert_select "form[action=?][method=?]", pillar_path(@pillar), "post" do
+    assert_select "form[action=?][method=?]", pillar_order(@pillar), "post" do
 
       assert_select "input[name=?]", "pillar[grid_x]"
 
