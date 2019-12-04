@@ -18,11 +18,18 @@
 
   - body
     - fit_text
+
 2019_12_4
   - in seed
     - LayoutNode generate only for the PageLatout pillar sizes
   - Pillar update_pdf_chain
+    time stamp pillar pdf
+  - change_position
+    - pillar
+      def change_article_position(currnt_article, new_position)
 
+    - page
+      def change_article_position(currnt_article, new_position)
 
 2019_12_3
   - layout.rb

@@ -1,19 +1,21 @@
-<div class="w-100 p-5">
+<div class="w-100 p-3">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="border shadow">
-        <%= raw @page.to_svg_with_jpg %>
+        <div style="width: 100%;">
+          <%= raw @page.to_svg_with_jpg %>
+        </div>
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
       <% @page.pillars.sort_by{|p| p.order}.each do |pillar| %>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="border shadow" style="width: 100%;">
               <%= raw pillar.to_svg_with_jpg %>
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-10">
             <div class="row">
               <% pillar.choices.each do |choice| %>
                 <div class="card mb-3" style="width: 10rem;">

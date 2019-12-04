@@ -19,7 +19,6 @@
 #  updated_at        :datetime         not null
 #
 
-
 # layout_with_pillar_path
 # a Array of node array [x,y,width,height, ancestry] sorted by by order
 class Pillar < ApplicationRecord
@@ -165,9 +164,27 @@ class Pillar < ApplicationRecord
     end
   end
 
-  def url
-    "/page/#{region.page_number}/#{order}"
+  # def pdf_image_path
+  #   # if @time_stamp
+  #   "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_pdf_basename}"
+  # end
+
+  def publication_id
+    region.publication_id
   end
+
+  def date
+    region.date.to_s
+  end
+
+  def page_number
+    region.page_number
+  end
+
+  def url
+    "/#{publication_id}/issue/#{date}/#{page_number}/#{order}"
+  end
+
 
   def pdf_image_path
     url + "/story.pdf"
