@@ -351,12 +351,19 @@ class Pillar < ApplicationRecord
     end
   end
 
-  def change_layout(node_layout_with_pillar_path)
-    update(layout_with_pillar_path:node_layout_with_pillar_path)
+  def change_layout(new_node_layout_with_pillar_path)
+    if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
+      # delete current pillar folders, if new pillar has less folders than current one
+      Dir.glob("#{path}/**").each_with_index do |folder, i|
+        next if i < new_node_layout_with_pillar_path.length
+        system("rm -rf #{folder}")
+      end
+    end
+    update(layout_with_pillar_path:new_node_layout_with_pillar_path)
     save_pillar_yaml
-    # new_layout_with_pillar_path = node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
+    # new_layout_with_pillar_path = new_node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
     current_articles = working_articles.sort_by{|a| a.order}
-    node_layout_with_pillar_path.each_with_index do |box_info, i|
+    new_node_layout_with_pillar_path.each_with_index do |box_info, i|
       current_article = current_articles[i]
       new_rect  = [box_info[0], box_info[1], box_info[2], box_info[3]]
       new_size  = [box_info[2],box_info[3]]
@@ -377,12 +384,12 @@ class Pillar < ApplicationRecord
         current_article.change_article(box_info)
       else
         puts "create new one ..."
-        h = {page:region, pillar:self, order: "#{box_info[4]}", grid_x:box_info[0], grid_y:box_info[1], column:box_info[2], row: box_info[3]}
+        h = {page:region, pillar:self, pillar_order: new_order, grid_x:box_info[0], grid_y:box_info[1], column:box_info[2], row: box_info[3]}
         w = WorkingArticle.where(h).first_or_create
         w.update_pdf_chain
       end
     end
-
+    region.generate_pdf_with_time_stamp
   end
 
   def init_pillar

@@ -66,12 +66,17 @@ module WorkingArticlePillarMethods
     FileUtils.rm_rf(backup_path)
   end
 
+  def clear_it
+    # 1. clear every file in the directory to backup_path
+    system("cd #{path} && rm *") if File.exist?(path)
+  end
+
   def create_article_folder
     FileUtils.mkdir_p(path) unless File.exist?(path)
   end
 
   def change_article(box_info)
-    move_it
+    clear_it
     h = {}
     h = {}
     h[:grid_x] = box_info[0]
@@ -81,7 +86,6 @@ module WorkingArticlePillarMethods
     h[:pillar_order]  = box_info[4]
     update(h)
     create_article_folder
-    restore
     generate_pdf_with_time_stamp
   end
 
@@ -102,6 +106,7 @@ module WorkingArticlePillarMethods
   end
 
   def update_pdf_chain
+    return unless upchain_folders
     upchain_folders.each do |upchain|
       merge_children_pdf(upchain)
     end
@@ -109,7 +114,9 @@ module WorkingArticlePillarMethods
   end
 
   def upchain_folders
-    return unless pillar_order
+    unless pillar_order
+      return 
+    end
     path_element = pillar_order.split("_")
     chain = []
     while path_element.pop do

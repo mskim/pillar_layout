@@ -20,6 +20,7 @@
     - fit_text
 
 2019_12_4
+  - change_
   - in seed
     - LayoutNode generate only for the PageLatout pillar sizes
   - Pillar update_pdf_chain

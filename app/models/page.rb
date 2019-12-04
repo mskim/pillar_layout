@@ -335,58 +335,6 @@ class Page < ApplicationRecord
     end
   end
 
-  def change_working_articles(section)
-    if section.articles.length == 0
-      # if new page is full page ad, delete working articles from page
-      working_articles.each do |wa|
-        # wa.inactive = true
-        # dettach attached story
-        if wa.story
-          attached_story = wa.story
-          attached_story.working_article_id = nil
-          attached_story.selected = false
-          attached_story.save
-        end
-        wa.destroy
-      end
-    else
-      sorted_articles = section.articles.sort_by {|article| article.order}
-      sorted_articles.each_with_index do |article, i|
-        current = {page_id: self.id, order: i + 1}
-        if wa = WorkingArticle.where(current).first
-          wa.change_article(article)
-          wa.generate_pdf_with_time_stamp
-        else
-          #create new working_articles
-          att = article.attributes
-          att.delete('id')
-          att.delete('created_at')
-          att.delete('updated_at')
-          att.delete('personal_image')
-          att.delete('section_id')
-          att.delete('personal_image')
-          att['page_id']              = self.id
-          att['article_id']           = article.id
-          w = WorkingArticle.create(att)
-          w.generate_pdf_with_time_stamp
-        end
-      end
-      sorted_working_articles = working_articles.sort_by {|article| article.order}
-      sorted_working_articles.each_with_index do |working_article, i|
-        if working_article.order > section.articles.length
-          # dettach attached story
-          if working_article.story
-            attached_story = working_article.story
-            attached_story.working_article_id = nil
-            attached_story.selected = false
-            attached_story.save
-          end
-          working_article.destroy
-        end
-      end
-    end
-  end
-
   def change_ad_boxes(section)
     # assuming only one ad per page,  
     # TODO handle case when there are multiple ads in a page
@@ -588,17 +536,6 @@ class Page < ApplicationRecord
   def copy_ad_folder(section)
     ad_folder = section.path + "/ad"
     system("cp  -r #{ad_folder} #{path}") if File.exist? ad_folder
-  end
-
-  def create_working_articles(section)
-    sorted_articles = section.articles.sort_by {|article| article.order}
-    sorted_articles.each_with_index do |article, i|
-      current = {page_id: self.id, order:i+1}
-      current[:article_id]          = article.id
-      current[:extended_line_count] = article.extended_line_count || 0
-      current[:pushed_line_count]   = article.pushed_line_count || 0
-      w = WorkingArticle.where(current).first_or_create
-    end
   end
 
   def create_heading

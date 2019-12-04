@@ -999,22 +999,6 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
-
-  def change_article(box_info)
-    move_it
-    h = {}
-    h = {}
-    h[:grid_x] = box_info[0]
-    h[:grid_y] = box_info[1]
-    h[:column] = box_info[2]
-    h[:row]    = box_info[3]
-    h[:pillar_order]  = box_info[4]
-    update(h)
-    create_article_folder
-    restore
-    generate_pdf_with_time_stamp
-  end
-
   def growable?
     true
   end
