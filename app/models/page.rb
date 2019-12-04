@@ -936,7 +936,6 @@ class Page < ApplicationRecord
     generate_pdf unless File.exist?(pdf_path)
   end
 
-
   def create_pillars
     layout.each_with_index do |item, i|
       if item.first.class == String
@@ -1008,6 +1007,13 @@ class Page < ApplicationRecord
     AdBox.create(info)
   end
 
+  def position_list
+    positions = []
+    pillars.sort_by{|p| p.order}.each do |p|
+      positions += p.working_articles.map{|w| w.pillar_order}
+    end
+    positions
+  end
 
   private
 
