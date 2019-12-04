@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resources :actions
   resources :layout_nodes
   resources :page_layouts
-  resources :pillars
+  resources :pillars do
+    member do
+      patch :change_layout
+    end
+  end
   resources :comments
   resources :proofs
   resources :story_subcategories

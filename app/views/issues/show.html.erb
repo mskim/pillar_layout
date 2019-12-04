@@ -1,7 +1,7 @@
 <div class="row">
   <% @issue.pages.each do |page| %>
     <div class="col-xs-6 col-md-2" align='center'>
-      <%= link_to (image_tag page.jpg_image_path, style: "width: 100%;", class: "border"), page_path(page) %>
+      <%= link_to (image_tag page.pdf_image_path, style: "width: 100%;", class: "border"), page_path(page) %>
       <!-- %= raw page.to_svg_with_jpg % -->
       <% if page.color_page %>
         <h4 class="text-center"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %></h4>

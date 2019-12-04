@@ -794,7 +794,7 @@ class Page < ApplicationRecord
   end
 
   def page_svg_with_jpg
-    "<image xlink:href='#{jpg_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+    "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
   end
 
   def box_svg_with_jpg

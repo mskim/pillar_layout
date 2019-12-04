@@ -2,14 +2,6 @@
 module WorkingArticlePillarMethods
   extend ActiveSupport::Concern
   
-  def path
-    if pillar_member?
-      page.path + "/#{pillar_order.split("_").join("/")}"
-    else
-      page.path + "/#{pillar_order}"
-    end 
-  end
-
   def rect_with_order
     [grid_x, grid_y, column, row, pillar_order]
   end

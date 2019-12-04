@@ -131,16 +131,20 @@ class WorkingArticle < ApplicationRecord
     page.path
   end
 
-  # def path
-  #   page_path + "/#{order}"
-  # end
+  def path
+    if pillar_member?
+      page.path + "/#{pillar_order.split("_").join("/")}"
+    else
+      page.path + "/#{pillar_order}"
+    end 
+  end
 
   def proof_path
     page_path + "/#{order}/proof"
   end
 
   def url
-    "/#{publication.id}/issue/#{page.issue.date.to_s}/#{page.page_number}/#{order}"
+    "/#{publication.id}/issue/#{page.issue.date.to_s}/#{page.page_number}/#{pillar_order.split("_").join("/")}"
   end
 
   def setup
@@ -167,7 +171,6 @@ class WorkingArticle < ApplicationRecord
     path + "/story.jpg"
   end
 
-
   def latest_pdf_basename
     f = Dir.glob("#{path}/story*.pdf").sort.last
     File.basename(f) if f
@@ -178,8 +181,9 @@ class WorkingArticle < ApplicationRecord
     File.basename(f) if f
   end
 
+
   def pdf_image_path
-    "/#{publication.id}/issue/#{page.issue.date.to_s}/#{page.page_number}/#{order}/#{latest_pdf_basename}"
+    url + "/#{latest_pdf_basename}"
   end
 
   def page_number
@@ -187,7 +191,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def jpg_image_path
-    "/#{publication.id}/issue/#{page.issue.date.to_s}/#{page.page_number}/#{order}/#{latest_jpg_basename}"
+    url + "/#{latest_jpg_basename}"
   end
 
   def image_path
@@ -313,6 +317,7 @@ class WorkingArticle < ApplicationRecord
     system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     # ArticleWorker.perform_async(path, @time_stamp, nil)
     update_pdf_chain
+    page.generate_pdf_with_time_stamp
     # wait_for_stamped_pdf
   end
 

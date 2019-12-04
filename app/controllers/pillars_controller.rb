@@ -61,6 +61,19 @@ class PillarsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /pillars/1/change_layout
+  def change_layout
+    new_choice  = params[:new_choice]
+    node        = LayoutNode.find(new_choice)
+    new_layout  = node.layout_with_pillar_path
+    if @pillar.layout_with_pillar_path == node.layout_with_pillar_path
+      puts "newly selected layout is same as current one!!!"
+    else
+      @pillar.change_layout(new_layout)
+    end
+    redirect_to @pillar.region
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pillar
