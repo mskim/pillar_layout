@@ -1,5 +1,5 @@
 class PillarsController < ApplicationController
-  before_action :set_pillar, only: [:show, :edit, :update, :destroy]
+  before_action :set_pillar, only: [:show, :edit, :update, :destroy, :change_layout]
 
   # GET /pillars
   # GET /pillars.json
@@ -66,11 +66,7 @@ class PillarsController < ApplicationController
     new_choice  = params[:new_choice]
     node        = LayoutNode.find(new_choice)
     new_layout  = node.layout_with_pillar_path
-    if @pillar.layout_with_pillar_path == node.layout_with_pillar_path
-      puts "newly selected layout is same as current one!!!"
-    else
-      @pillar.change_layout(new_layout)
-    end
+    @pillar.change_layout(new_layout)
     redirect_to @pillar.region
   end
 

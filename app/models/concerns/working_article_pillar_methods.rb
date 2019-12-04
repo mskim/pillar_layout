@@ -23,7 +23,8 @@ module WorkingArticlePillarMethods
   end
 
   def pillar_member?
-    pillar_order.include?("_")
+    # true
+    pillar_order && pillar_order.include?("_")
   end
 
   def bottom_member?
@@ -108,6 +109,7 @@ module WorkingArticlePillarMethods
   end
 
   def upchain_folders
+    return unless pillar_order
     path_element = pillar_order.split("_")
     chain = []
     while path_element.pop do

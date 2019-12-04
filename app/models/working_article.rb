@@ -999,28 +999,20 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
-  def change_article(new_article)
-    self.article_id = new_article.id
-    article_info_hash   = new_article.attributes
-    article_info_hash   = Hash[article_info_hash.map{ |k, v| [k.to_sym, v] }]
-    self.kind           = article_info_hash[:kind]
-    self.grid_x         = article_info_hash[:grid_x]
-    self.grid_y         = article_info_hash[:grid_y]
-    self.grid_width     = article_info_hash[:grid_width]
-    self.grid_height    = article_info_hash[:grid_height]
-    self.column         = article_info_hash[:column]
-    self.row            = article_info_hash[:row]
-    self.on_left_edge   = article_info_hash[:on_left_edge]
-    self.on_right_edge  = article_info_hash[:on_right_edge]
-    self.is_front_page  = article_info_hash[:is_front_page]
-    self.top_story      = article_info_hash[:top_story]
-    self.top_position   = article_info_hash[:top_position]
-    self.extended_line_count = article_info_hash[:extended_line_count] || article_info_hash[:extended] || 0
-    self.pushed_line_count = article_info_hash[:pushed_line_count] || article_info_hash[:pushed] || 0
-    self.page_heading_margin_in_lines = article_info_hash[:page_heading_margin_in_lines]
-    self.inactive       = false
-    self.overlap        = article_info_hash[:overlap]
-    self.save
+
+  def change_article(box_info)
+    move_it
+    h = {}
+    h = {}
+    h[:grid_x] = box_info[0]
+    h[:grid_y] = box_info[1]
+    h[:column] = box_info[2]
+    h[:row]    = box_info[3]
+    h[:pillar_order]  = box_info[4]
+    update(h)
+    create_article_folder
+    restore
+    generate_pdf_with_time_stamp
   end
 
   def growable?

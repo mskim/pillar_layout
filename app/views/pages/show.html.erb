@@ -1,27 +1,34 @@
 <div class="w-100 p-3">
-  <div class="row">
-    <div class="col-md-2">
+  <div class="row" style="width: 100%;">
+    <div class="col-md-2 mr-3">
       <div class="border shadow">
         <div style="width: 100%;">
           <%= raw @page.to_svg_with_jpg %>
         </div>
       </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9">
       <% @page.pillars.sort_by{|p| p.order}.each do |pillar| %>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-2 mr-3">
             <div class="border shadow" style="width: 100%;">
               <%= raw pillar.to_svg_with_jpg %>
             </div>
           </div>
-          <div class="col-md-10">
+          <div class="col-md-9">
             <div class="row">
               <% pillar.choices.each do |choice| %>
-                <div class="card mb-3" style="width: 10rem;">
-                  <%= raw choice.to_svg %>
-                  <%= link_to '레이아웃 바꾸기', change_layout_pillar_path(pillar, new_choice: choice), method: :patch, class: "btn btn-danger text-center" %>
-                </div>
+                <% if pillar.layout_with_pillar_path == choice.layout_with_pillar_path %>
+                  <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
+                    <%= raw choice.to_svg %>
+                    <p>선택됨</p>
+                  </div>
+                <% else %>
+                  <div class="card mb-3" style="width: 7rem;">
+                    <%= raw choice.to_svg %>
+                    <%= link_to '변경', change_layout_pillar_path(pillar, new_choice: choice), method: :patch, class: "btn btn-danger text-center rounded-0" %>
+                  </div>
+                <% end %>
               <% end %>
             </div>
           </div>
