@@ -1008,6 +1008,14 @@ class Page < ApplicationRecord
     AdBox.create(info)
   end
 
+  def position_list
+    positions = []
+    pillars.sort_by{|p| p.order}.each do |p|
+      positions += p.working_articles.map{|w| w.pillar_order}
+    end
+    positions
+  end
+
 
   private
 
