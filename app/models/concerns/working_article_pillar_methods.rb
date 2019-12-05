@@ -138,6 +138,7 @@ module WorkingArticlePillarMethods
       folder += "/#{path_from_root}"
       output = folder + "/story.pdf"
       pdfs = Dir.glob("#{folder}/*/story.pdf").sort 
+      puts "pdfs:#{pdfs}"
       if depth == 1
         # if depth == 0
         # this is when it is at the top pillar

@@ -9,8 +9,10 @@ module PageSavePdf
     canvas = pdf_page.canvas
     if page_heading
       puts "printing heading"
-      # image_path = page_heading.pdf_path
-      # canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
+      image_path = page_heading.pdf_path
+      if File.exist?(image_path)
+        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
+      end
     end
     pillars.sort_by{|p| p.order}.each_with_index do |p,i|
       image_path = path + "/#{i + 1}/story.pdf"
@@ -24,8 +26,10 @@ module PageSavePdf
 
     ad_boxes.each do |ad|
       puts "printing ad"
-      # image_path = ad.pdf_path
-      # canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
+      image_path = ad.pdf_path
+      if File.exist?(image_path)
+        canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
+      end
     end
     pdf_path = path + "/section.pdf"
     pdf_doc.write(pdf_path, optimize: true)

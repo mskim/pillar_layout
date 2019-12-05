@@ -651,7 +651,7 @@ class Page < ApplicationRecord
     puts "in page generate_pdf_with_time_stamp"
     delete_old_files
     stamp_time
-    save_pdf
+    save_pdf(time_stamp:true)
     # PageWorker.perform_async(path, @time_stamp)
     # wait_for_stamped_pdf
     # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
@@ -740,7 +740,6 @@ class Page < ApplicationRecord
     # box_element_svg += page_svg
     box_element_svg += page_heading.box_svg if page_number == 1
     working_articles.each do |article|
-      next if article.inactive
       box_element_svg += article.box_svg
     end
     ad_boxes.each do |ad_box|

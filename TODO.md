@@ -19,6 +19,19 @@
   - body
     - fit_text
 
+2019_12_5
+  in working article show
+    tab return to edit
+    move price and other stuff to bottom
+    fix ad_box show  
+    show heading
+  bug when reducing pillar from 5 to 4
+    some article box draw in svg view
+    
+  in Page
+    - create AdBox
+    - create NewsHeading
+
 2019_12_4
   - change_
   - in seed

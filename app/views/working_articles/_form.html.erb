@@ -13,35 +13,6 @@
   <div class="form-group">
     <button name="button" type="submit" class="btn btn-block btn-primary" data-disable-with="<i class='fa fa-spinner fa-spin'></i> 처리중...">저장</button>
   </div>
-  <div class="form-row">
-    <div class="col">
-      <%= f.label "기사 종류" %>
-      <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();', class: "form-control"} %>
-    </div>
-    <div class="col">
-      <%= f.label '가격' %>
-      <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "form-control"} %>
-    </div>
-  </div>
-  <% if @working_article.page.page_number == 1 %>
-    <% if @working_article.category_code %>
-      카테고리: <%= @working_article.category_code %> 서브 카테고리: <%= @working_article.subcategory_code %>
-    <% end %>
-    <div class="form-row">
-      <div class="col">
-        <%= f.label "카테고리" %>
-        <%= f.collection_select :category_code, StoryCategory.order(:code), :code, :name, { include_blank: "선택" }, class: "form-control" %>
-      </div>
-      <div class="col">
-        <%= f.label "서브-카테고리" %>
-        <%= f.grouped_collection_select :subcategory_code, StoryCategory.order(:code), :story_subcategory, :name, :code, :name, { :include_blank => '선택' }, class: "form-control" %>
-      </div>
-    </div>
-  <% elsif @working_article.page.page_number == 10 %>
-    <div class="form-group">
-      <%= f.label '카테고리' %> <%= f.select :subcategory_code, [['금융', 1401], ['산업',1402], ['재정',1403], ['글로벌경제', 1502], ['피플',1404], ['연합뉴스',1000]], { :include_blank => '-- 선택해주세요 --' } %>
-    </div>
-  <% end %>
   <% if article.kind == '사진' %>
     <p>사진 탭에서 사진 올리세요</p>
   <% elsif article.kind == '만평' %>
@@ -115,7 +86,36 @@
       <%= render 'character_count', article: @working_article %>
       <%= f.text_area :body, class: 'form-control shinmoon', style: "height: 450px;", autocomplete: 'off' %>
     </div>
+      <div class="form-row">
+    <div class="col">
+      <%= f.label "기사 종류" %>
+      <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();', class: "form-control"} %>
+    </div>
+    <div class="col">
+      <%= f.label '가격' %>
+      <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "form-control"} %>
+    </div>
+  </div>
+  <% if @working_article.page.page_number == 1 %>
+    <% if @working_article.category_code %>
+      카테고리: <%= @working_article.category_code %> 서브 카테고리: <%= @working_article.subcategory_code %>
+    <% end %>
+    <div class="form-row">
+      <div class="col">
+        <%= f.label "카테고리" %>
+        <%= f.collection_select :category_code, StoryCategory.order(:code), :code, :name, { include_blank: "선택" }, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= f.label "서브-카테고리" %>
+        <%= f.grouped_collection_select :subcategory_code, StoryCategory.order(:code), :story_subcategory, :name, :code, :name, { :include_blank => '선택' }, class: "form-control" %>
+      </div>
+    </div>
+    <% elsif @working_article.page.page_number == 10 %>
     <div class="form-group">
+      <%= f.label '카테고리' %> <%= f.select :subcategory_code, [['금융', 1401], ['산업',1402], ['재정',1403], ['글로벌경제', 1502], ['피플',1404], ['연합뉴스',1000]], { :include_blank => '-- 선택해주세요 --' } %>
+    </div>
+    <% end %>
+    <div class="form-group mt-3">
       <%= f.button "저장", class: "btn btn-block btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
     </div>
   <% end %>
