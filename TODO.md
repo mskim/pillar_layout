@@ -20,6 +20,8 @@
     - fit_text
 
 2019_12_5
+  fix bug when changing pillar
+    need to update size and delete the execess
   in working article show
     tab return to edit
     move price and other stuff to bottom
@@ -27,7 +29,7 @@
     show heading
   bug when reducing pillar from 5 to 4
     some article box draw in svg view
-    
+
   in Page
     - create AdBox
     - create NewsHeading

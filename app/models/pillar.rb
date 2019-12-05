@@ -353,10 +353,13 @@ class Pillar < ApplicationRecord
 
   def change_layout(new_node_layout_with_pillar_path)
     if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
-      # delete current pillar folders, if new pillar has less folders than current one
-      Dir.glob("#{path}/**").each_with_index do |folder, i|
-        next if i < new_node_layout_with_pillar_path.length
-        system("rm -rf #{folder}")
+      # delte execsive working_articles
+      binding.pry
+      delete_count = layout_with_pillar_path.length - new_node_layout_with_pillar_path.length
+      delete_count.times do
+        w =working_articles.last
+        system("rm -rf #{w.path}")
+        w.destroy
       end
     end
     update(layout_with_pillar_path:new_node_layout_with_pillar_path)
