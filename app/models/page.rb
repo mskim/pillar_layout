@@ -651,7 +651,7 @@ class Page < ApplicationRecord
     puts "in page generate_pdf_with_time_stamp"
     delete_old_files
     stamp_time
-    save_pdf(time_stamp:true)
+    save_pdf(time_stamp:@time_stamp)
     # PageWorker.perform_async(path, @time_stamp)
     # wait_for_stamped_pdf
     # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
@@ -913,6 +913,18 @@ class Page < ApplicationRecord
       info[:grid_y] = 12
       info[:column] = column
       info[:row]    = 3
+    when '9단21'
+      if page_number.odd?
+        info[:grid_x] = 3
+        info[:grid_y] = 6
+        info[:column] = 4
+        info[:row]    = 9
+      else
+        info[:grid_x] = 0
+        info[:grid_y] = 6
+        info[:column] = 4
+        info[:row]    = 9
+      end
     when '9단21_홀'
       info[:grid_x] = 3
       info[:grid_y] = 6
@@ -923,6 +935,18 @@ class Page < ApplicationRecord
       info[:grid_y] = 6
       info[:column] = 4
       info[:row]    = 9
+    when '7단15'
+      if page_number.odd?
+        info[:grid_x] = 0
+        info[:grid_y] = 8
+        info[:column] = 3
+        info[:row]    = 7
+      else
+        info[:grid_x] = 4
+        info[:grid_y] = 8
+        info[:column] = 3
+        info[:row]    = 7
+      end
     when '7단15_홀'
       info[:grid_x] = 0
       info[:grid_y] = 8
@@ -934,11 +958,8 @@ class Page < ApplicationRecord
       info[:column] = 3
       info[:row]    = 7
     else
-      puts "+++++++++ ad_type:#{ad_type}"
-      info[:grid_x] = 0
-      info[:grid_y] = 10
-      info[:column] = column
-      info[:row]    = 5
+      puts "+++++++++ unsupported ad_type:#{ad_type}"
+      return
     end
     AdBox.create(info)
   end

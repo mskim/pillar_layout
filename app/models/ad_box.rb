@@ -57,6 +57,7 @@ class AdBox < ApplicationRecord
 
   def setup
     FileUtils.mkdir_p path unless File.exist?(path)
+    generate_pdf_with_time_stamp
   end
 
   def issue

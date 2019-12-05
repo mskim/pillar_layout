@@ -7,13 +7,7 @@ module PageSavePdf
     pdf_doc = HexaPDF::Document.new
     pdf_page = pdf_doc.pages.add([0, 0, width, height])
     canvas = pdf_page.canvas
-    if page_heading
-      puts "printing heading"
-      image_path = page_heading.pdf_path
-      if File.exist?(image_path)
-        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
-      end
-    end
+
     pillars.sort_by{|p| p.order}.each_with_index do |p,i|
       image_path = path + "/#{i + 1}/story.pdf"
       puts "image_path:#{image_path}"
@@ -29,6 +23,13 @@ module PageSavePdf
       image_path = ad.pdf_path
       if File.exist?(image_path)
         canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
+      end
+    end
+    if page_heading
+      puts "printing heading"
+      image_path = page_heading.pdf_path
+      if File.exist?(image_path)
+        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
       end
     end
     pdf_path = path + "/section.pdf"
@@ -66,7 +67,9 @@ module PageSavePdf
     y = doc_height
     image_pages.each do |image_info|
       # canvas.image(image_path, at: [350, -300], height: 200)
-      canvas.image(image_info[2], at: [page.left_margin, y - image_info[1]], height: image_info[1])
+      x = 0
+      #TODO ??????
+      canvas.image(image_info[2], at: [x, y - image_info[1]], height: image_info[1])
       y -= image_info[1]
     end
     doc.write("#{output}", optimize: true)
