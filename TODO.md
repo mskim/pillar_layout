@@ -19,6 +19,16 @@
   - body
     - fit_text
 
+2019_12_7
+  - PageLayout adjust pillar position for front_page
+  - fix top posion article page_heading_height_in_lines
+  - try using ruby pdf 
+  - chnage pillar svg selection view with even height
+    - replace it with page svg with selected_pillar_page
+  - upgrade it to Rails6.1
+  - read only database table
+    - parse wire_service
+    - put selected images to cloud
 
 2019_12_6
   PageHeading

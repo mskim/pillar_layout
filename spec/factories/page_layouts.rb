@@ -14,7 +14,7 @@
 #  layout_with_pillar_path :text
 #  like                    :integer
 #  margin                  :float
-#  page_type               :string
+#  page_type               :integer
 #  pillar_count            :integer
 #  row                     :integer
 #  created_at              :datetime         not null

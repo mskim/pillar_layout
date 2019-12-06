@@ -449,7 +449,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.float "doc_width"
     t.float "doc_height"
     t.string "ad_type"
-    t.string "page_type"
+    t.integer "page_type"
     t.integer "column"
     t.integer "row"
     t.integer "pillar_count"

@@ -4,7 +4,7 @@ class CreatePageLayouts < ActiveRecord::Migration[5.2]
       t.float :doc_width
       t.float :doc_height
       t.string :ad_type
-      t.string :page_type
+      t.integer :page_type
       t.integer :column
       t.integer :row
       t.integer :pillar_count

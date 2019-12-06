@@ -18,15 +18,15 @@
           <div class="col-md-9">
             <div class="row">
               <% pillar.choices.each do |choice| %>
-                <% if pillar.layout_with_pillar_path == choice.layout_with_pillar_path %>
+                <% if pillar.layout_with_pillar_path == choice[0].layout_with_pillar_path %>
                   <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
-                    <%= raw choice.to_svg %>
+                    <%= raw choice[1] %>
                     <p>선택됨</p>
                   </div>
                 <% else %>
                   <div class="card mb-3" style="width: 7rem;">
-                    <%= raw choice.to_svg %>
-                    <%= link_to '변경', change_layout_pillar_path(pillar, new_choice: choice), method: :patch, class: "btn btn-danger text-center rounded-0" %>
+                    <%= raw choice[1] %>
+                    <%= link_to '변경', change_layout_pillar_path(pillar, new_choice: choice[0]), method: :patch, class: "btn btn-danger text-center rounded-0" %>
                   </div>
                 <% end %>
               <% end %>

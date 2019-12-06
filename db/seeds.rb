@@ -1,8 +1,9 @@
 require 'csv'
 require 'yaml'
 
-page_layout_csv_path = "#{Rails.root}/public/page_layout.csv"
+page_layout_csv_path = "#{Rails.root}/public/page_layout2.csv"
 csv_text = File.read(page_layout_csv_path)
+puts csv_text
 csv = CSV.parse(csv_text)
 keys  = csv.shift
 keys.map!{|e| e.to_sym}

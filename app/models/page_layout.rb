@@ -14,7 +14,7 @@
 #  layout_with_pillar_path :text
 #  like                    :integer
 #  margin                  :float
-#  page_type               :string
+#  page_type               :integer
 #  pillar_count            :integer
 #  row                     :integer
 #  created_at              :datetime         not null
@@ -26,6 +26,9 @@
 # 1 first page only
 # 2 even page only
 # 3 odd page only
+# 22 odd page only
+# 23 odd page only
+# with specific page number 
 
 class PageLayout < ApplicationRecord
   has_many :pillars, :as =>:region

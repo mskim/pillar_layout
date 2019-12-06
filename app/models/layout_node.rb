@@ -507,8 +507,20 @@ class LayoutNode < ApplicationRecord
     </svg>
     EOF
   end
+
+  # show selected svg within page  
+  def page_embeded_svg(page_colum, column_offset, row_offset)
+    svg=<<~EOF
+    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_colum*h_scale} #{15*v_scale}' >
+      <rect fill='gray' x='0' y='0' width='#{page_colum*h_scale}' height='#{15*v_scale}' />
+      <rect fill='yellow' x='#{column_offset*h_scale}' y='#{row_offset*v_scale}' width='#{column*h_scale}' height='#{row*v_scale}' />
+      #{layout_svg(column_offset, row_offset)}
+    </svg>
+    EOF
+
+  end
   
-  def layout_svg
+  def layout_svg(column_offset, row_offset)
     s = ""
     layout_array = leaf_node_layout
     layout_array.each do |rect|
@@ -516,7 +528,7 @@ class LayoutNode < ApplicationRecord
         next 
         puts "+++++++ problem at id:#{id}"
       end
-      s += "<rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0])*h_scale}' y='#{(rect[1])*v_scale}' width='#{rect[2]*h_scale}' height='#{rect[3]*v_scale}' />\n"
+      s += "<rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(column_offset + rect[0])*h_scale}' y='#{(row_offset + rect[1])*v_scale}' width='#{rect[2]*h_scale}' height='#{rect[3]*v_scale}' />\n"
     end
     s
   end

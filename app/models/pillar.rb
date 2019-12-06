@@ -190,7 +190,6 @@ class Pillar < ApplicationRecord
     "/#{publication_id}/issue/#{date}/#{page_number}/#{order}"
   end
 
-
   def pdf_image_path
     url + "/story.pdf"
   end
@@ -204,11 +203,19 @@ class Pillar < ApplicationRecord
   end
 
   def x
-    grid_x*region.grid_width
+    grid_x*region.grid_width + region.left_margin
   end
 
   def y
-    grid_y*region.grid_height
+    grid_y*region.grid_height + region.top_margin
+  end
+
+  def page_width
+    region.width
+  end
+
+  def page_height
+    region.height
   end
 
   def width
@@ -266,13 +273,16 @@ class Pillar < ApplicationRecord
   end
 
   def choices
-    LayoutNode.where(column:column, row:row).sort_by{|n| n.box_count}
+    # ad svg
+    nodes = LayoutNode.where(column:column, row:row).sort_by{|n| n.box_count}
+    nodes.map{|n| [n, n.page_embeded_svg(region.column, grid_x, grid_y)]}
   end
 
   def to_svg_with_jpg
     svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{width} #{height}' >
-      <rect fill='white' x='0' y='0' width='#{width}' height='#{height}' />
+    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
+      <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
+      <rect fill='white' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />
       #{box_svg_with_jpg}
     </svg>
     EOF
@@ -281,7 +291,7 @@ class Pillar < ApplicationRecord
   def box_svg_with_jpg
     # +++++ using pdf image for now
     box_element_svg = pillar_svg_with_pdf
-    box_element_svg += "<g transform='translate(#{0},#{0})' >\n"
+    box_element_svg += "<g transform='translate(#{x},#{y})' >\n"
     working_articles.each do |article|
       box_element_svg += article.pillar_svg
     end
@@ -290,7 +300,7 @@ class Pillar < ApplicationRecord
   end
 
   def pillar_svg_with_pdf
-    "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{width}' height='#{height}' />\n"
+    "<image xlink:href='#{pdf_image_path}' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />\n"
   end
 
   def to_svg

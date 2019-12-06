@@ -196,7 +196,28 @@ class Issue < ApplicationRecord
         next
       else
         # create new page
-        template = PageLayout.where(ad_type: page_plan.ad_type).first
+        # page_type
+        # 0 both odd or even page
+        # 1 first page only
+        # 2 even pages 
+        # 3 odd pages 
+        # 11 or with any other  specific page number 
+        # 22 with specific page number 
+        # 23 with specific page number 
+        page_number = i + 1
+        # look for right template
+        # first look for page_number and ad_type specified template 
+        ad_type = page_plan.ad_type.unicode_normalize
+        template = PageLayout.where(page_type:page_number, ad_type: ad_type).first
+        # If not found, look for odd even  tempate 
+        unless template
+          page_type = page_number.odd?  ? "1" : "2"
+          template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
+          unless template
+            page_type = "0"
+            template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
+          end
+        end
         if template
           h = {}
           h[:issue_id]      = id
@@ -210,8 +231,16 @@ class Issue < ApplicationRecord
           page_plan.page    = p
           page_plan.dirty   = false
           page_plan.save
-        else
-          template = PageLayout.where(ad_type: '광고없음').first
+        end
+        unless template
+          # if thing is found, go for ad_type only
+          template = PageLayout.where(ad_type: page_plan.ad_type).first unless template
+        end
+        unless template
+          # if still thing is found, go '광고없음' as last resort!!!
+          ad_type = '광고없음'.unicode_normalize
+          template = PageLayout.where(ad_type: ad_type).first
+          # template = PageLayout.where(ad_type: 'NO_AD').first
           h = {}
           h[:issue_id]      = id
           h[:page_plan_id]  = page_plan.id

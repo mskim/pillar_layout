@@ -323,6 +323,7 @@ class WorkingArticle < ApplicationRecord
     stamp_time
     system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     # ArticleWorker.perform_async(path, @time_stamp, nil)
+    # ArticleRubyWorker.perform_async(path, @time_stamp, nil)
     update_pdf_chain
     page.generate_pdf_with_time_stamp
     # wait_for_stamped_pdf

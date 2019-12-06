@@ -19,14 +19,12 @@ module PageSavePdf
     end
 
     ad_boxes.each do |ad|
-      puts "printing ad"
       image_path = ad.pdf_path
       if File.exist?(image_path)
         canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
       end
     end
     if page_heading
-      puts "printing heading"
       image_path = page_heading.pdf_path
       if File.exist?(image_path)
         canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
