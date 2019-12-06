@@ -2,16 +2,16 @@
 #
 # Table name: ad_plans
 #
-#  id            :bigint(8)        not null, primary key
-#  date          :date
-#  page_number   :integer
+#  id            :bigint           not null, primary key
 #  ad_type       :string
 #  advertiser    :string
 #  color_page    :boolean
 #  comment       :string
+#  date          :date
+#  page_number   :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  ad_booking_id :bigint(8)
+#  ad_booking_id :bigint
 #
 # Indexes
 #

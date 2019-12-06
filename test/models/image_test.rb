@@ -3,39 +3,43 @@
 # Table name: images
 #
 #  id                    :integer          not null, primary key
-#  column                :integer
-#  row                   :integer
-#  extra_height_in_lines :integer          default(0)
-#  image                 :string
-#  caption_title         :string
-#  caption               :string
-#  source                :string
-#  position              :integer
-#  page_number           :integer
-#  story_number          :integer
-#  landscape             :boolean
-#  used_in_layout        :boolean
-#  working_article_id    :integer
-#  issue_id              :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  extra_line            :integer
-#  x_grid                :integer
-#  y_in_lines            :integer
-#  height_in_lines       :integer
-#  draw_frame            :boolean          default(TRUE)
-#  zoom_level            :integer          default(1)
-#  zoom_direction        :integer          default(5)
-#  move_level            :integer
 #  auto_size             :integer
-#  fit_type              :string
-#  image_kind            :string
-#  not_related           :boolean
-#  reporter_image_path   :string
+#  bottom_line           :integer          default(0)
+#  caption               :string
+#  caption_title         :string
+#  column                :integer
+#  crop_h                :integer
+#  crop_w                :integer
 #  crop_x                :integer
 #  crop_y                :integer
-#  crop_w                :integer
-#  crop_h                :integer
+#  draw_frame            :boolean          default(TRUE)
+#  extra_height_in_lines :integer          default(0)
+#  extra_line            :integer
+#  fit_type              :string
+#  height_in_lines       :integer
+#  image                 :string
+#  image_kind            :string
+#  landscape             :boolean
+#  left_line             :integer          default(0)
+#  move_level            :integer
+#  not_related           :boolean
+#  page_number           :integer
+#  position              :integer
+#  reporter_image_path   :string
+#  right_line            :integer          default(0)
+#  row                   :integer
+#  source                :string
+#  story_number          :integer
+#  top_line              :integer          default(0)
+#  used_in_layout        :boolean
+#  x_grid                :integer
+#  y_in_lines            :integer
+#  zoom_direction        :integer          default(5)
+#  zoom_level            :integer          default(1)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  issue_id              :integer
+#  working_article_id    :integer
 #
 
 require 'test_helper'

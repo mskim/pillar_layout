@@ -2,18 +2,18 @@
 #
 # Table name: graphic_requests
 #
-#  id          :bigint(8)        not null, primary key
-#  date        :date
-#  user_id     :bigint(8)
-#  designer    :string
-#  request     :text
-#  data        :text
-#  status      :integer          default("요청")
-#  page_column :integer
+#  id          :bigint           not null, primary key
 #  column      :integer
+#  data        :text
+#  date        :date
+#  designer    :string
+#  page_column :integer
+#  request     :text
 #  row         :integer
+#  status      :integer          default("요청")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  user_id     :bigint
 #
 # Indexes
 #

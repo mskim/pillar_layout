@@ -2,20 +2,20 @@
 #
 # Table name: wire_stories
 #
-#  id            :bigint(8)        not null, primary key
-#  send_date     :date
-#  content_id    :string
+#  id            :bigint           not null, primary key
+#  body          :text
 #  category_code :string
 #  category_name :string
+#  credit        :string
 #  region_code   :string
 #  region_name   :string
-#  credit        :string
+#  send_date     :date
 #  source        :string
 #  title         :string
-#  body          :text
-#  issue_id      :bigint(8)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  content_id    :string
+#  issue_id      :bigint
 #
 # Indexes
 #

@@ -24,7 +24,7 @@
   PageHeading
     top_position?
     front_page pillar box grid_height
-      - page_layout if page_type is 1(front page, make different height)
+      - page_layout if page_type is 1(front page, make different pillar height)
     create layout_rb
     move bg images from page_heading folder
 

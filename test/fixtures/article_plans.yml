@@ -2,14 +2,14 @@
 #
 # Table name: article_plans
 #
-#  id           :bigint(8)        not null, primary key
-#  page_plan_id :bigint(8)
-#  reporter     :string
-#  order        :integer
-#  title        :string
+#  id           :bigint           not null, primary key
 #  char_count   :string
+#  order        :integer
+#  reporter     :string
+#  title        :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  page_plan_id :bigint
 #
 # Indexes
 #

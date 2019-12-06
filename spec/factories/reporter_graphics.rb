@@ -2,23 +2,23 @@
 #
 # Table name: reporter_graphics
 #
-#  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)
-#  title          :string
+#  id             :bigint           not null, primary key
 #  caption        :string
-#  source         :string
-#  wire_pictures  :string
+#  column         :integer
+#  data           :text
+#  designer       :string
+#  extra_height   :integer
+#  request        :text
+#  row            :integer
 #  section_name   :string
+#  source         :string
+#  status         :string
+#  title          :string
 #  used_in_layout :boolean
+#  wire_pictures  :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  column         :integer
-#  row            :integer
-#  extra_height   :integer
-#  status         :string
-#  designer       :string
-#  request        :text
-#  data           :text
+#  user_id        :bigint
 #
 # Indexes
 #

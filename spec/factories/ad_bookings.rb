@@ -2,12 +2,12 @@
 #
 # Table name: ad_bookings
 #
-#  id             :bigint(8)        not null, primary key
-#  publication_id :bigint(8)
-#  date           :date
+#  id             :bigint           not null, primary key
 #  ad_list        :text
+#  date           :date
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  publication_id :bigint
 #
 # Indexes
 #

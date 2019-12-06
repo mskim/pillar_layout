@@ -2,27 +2,25 @@
 #
 # Table name: layout_nodes
 #
-#  id                :bigint           not null, primary key
-#  page_layout_id    :bigint
-#  ancestry          :string
-#  direction         :string
-#  grid_x            :integer
-#  grid_y            :integer
-#  column            :integer
-#  row               :integer
-#  layout_node_id    :integer
-#  profile           :string
-#  finger_print      :string
-#  node_kind         :string
-#  order             :integer
-#  tag               :string
-#  selected          :boolean
-#  actions           :text
-#  layout            :text
+#  id                      :bigint           not null, primary key
+#  actions                 :text
+#  ancestry                :string
+#  box_count               :integer
+#  column                  :integer
+#  direction               :string
+#  finger_print            :string
+#  grid_x                  :integer
+#  grid_y                  :integer
+#  layout                  :text
 #  layout_with_pillar_path :text
-#  box_count         :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  node_kind               :string
+#  order                   :integer
+#  profile                 :string
+#  row                     :integer
+#  selected                :boolean
+#  tag                     :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 
 # layout_with_pillar_path

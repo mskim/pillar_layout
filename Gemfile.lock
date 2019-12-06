@@ -7,6 +7,11 @@ GIT
       nokogiri
       rails (>= 5.2.0)
 
+PATH
+  remote: /Users/mskim/Development/ruby/gems/rlayout
+  specs:
+    rlayout (0.0.3)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -451,6 +456,7 @@ DEPENDENCIES
   rails_layout
   ransack
   rest-client
+  rlayout!
   rspec-rails (~> 3.8)
   rubypants-unicode
   rubyzip (>= 1.0.0)

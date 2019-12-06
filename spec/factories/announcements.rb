@@ -2,20 +2,20 @@
 #
 # Table name: announcements
 #
-#  id             :bigint(8)        not null, primary key
-#  name           :string
-#  kind           :string
-#  title          :string
-#  subtitle       :string
-#  page_column    :integer
-#  column         :integer
-#  lines          :integer
-#  page           :integer
+#  id             :bigint           not null, primary key
 #  color          :string
+#  column         :integer
+#  kind           :string
+#  lines          :integer
+#  name           :string
+#  page           :integer
+#  page_column    :integer
 #  script         :text
-#  publication_id :bigint(8)
+#  subtitle       :string
+#  title          :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  publication_id :bigint
 #
 # Indexes
 #

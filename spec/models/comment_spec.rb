@@ -2,17 +2,17 @@
 #
 # Table name: comments
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
+#  height     :float
+#  image      :string
 #  name       :string
 #  text       :string
-#  image      :string
+#  width      :float
 #  x_value    :float
 #  y_value    :float
-#  width      :float
-#  height     :float
-#  proof_id   :bigint(8)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  proof_id   :bigint
 #
 # Indexes
 #

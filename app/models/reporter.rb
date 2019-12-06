@@ -2,14 +2,14 @@
 #
 # Table name: reporters
 #
-#  id                :bigint(8)        not null, primary key
-#  name              :string
-#  email             :string
-#  title             :string
+#  id                :bigint           not null, primary key
 #  cell              :string
-#  reporter_group_id :bigint(8)
+#  email             :string
+#  name              :string
+#  title             :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  reporter_group_id :bigint
 #
 # Indexes
 #

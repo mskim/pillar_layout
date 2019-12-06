@@ -3,76 +3,87 @@
 # Table name: working_articles
 #
 #  id                           :integer          not null, primary key
+#  announcement_color           :string
+#  announcement_column          :integer
+#  announcement_text            :string
+#  body                         :text
+#  bottom_line                  :integer          default(0)
+#  boxed_subtitle_text          :string
+#  boxed_subtitle_type          :integer
+#  by_line                      :string
+#  category_code                :integer
+#  category_name                :string
+#  column                       :integer
+#  date                         :date
+#  email                        :string
+#  embedded                     :boolean
+#  extended_line_count          :integer
+#  grid_height                  :float
+#  grid_width                   :float
 #  grid_x                       :integer
 #  grid_y                       :integer
-#  column                       :integer
-#  row                          :integer
-#  order                        :integer
-#  kind                         :string
-#  profile                      :string
-#  title                        :text
-#  title_head                   :string
-#  subtitle                     :text
-#  subtitle_head                :string
-#  body                         :text
-#  reporter                     :string
-#  email                        :string
-#  image                        :string
-#  quote                        :text
-#  subject_head                 :string
-#  on_left_edge                 :boolean
-#  on_right_edge                :boolean
-#  is_front_page                :boolean
-#  top_story                    :boolean
-#  top_position                 :boolean
-#  inactive                     :boolean
-#  extended_line_count          :integer
-#  pushed_line_count            :integer
-#  article_id                   :integer
-#  page_id                      :integer
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
-#  quote_box_size               :integer
-#  category_code                :integer
-#  slug                         :string
-#  publication_name             :string
-#  path                         :string
-#  date                         :date
-#  page_number                  :integer
-#  page_heading_margin_in_lines :integer
-#  grid_width                   :float
-#  grid_height                  :float
 #  gutter                       :float
 #  has_profile_image            :boolean
-#  announcement_text            :string
-#  announcement_column          :integer
-#  announcement_color           :string
-#  boxed_subtitle_type          :integer
-#  boxed_subtitle_text          :string
-#  subtitle_type                :string
-#  overlap                      :text
-#  embedded                     :boolean
 #  heading_columns              :integer
-#  quote_position               :integer
-#  quote_x_grid                 :integer
-#  quote_v_extra_space          :integer
-#  quote_alignment              :string
-#  quote_line_type              :string
-#  quote_box_column             :integer
-#  quote_box_type               :integer
-#  quote_box_show               :boolean
-#  y_in_lines                   :integer
 #  height_in_lines              :integer
-#  by_line                      :string
+#  image                        :string
+#  inactive                     :boolean
+#  is_front_page                :boolean
+#  kind                         :string
+#  left_line                    :integer          default(0)
+#  on_left_edge                 :boolean
+#  on_right_edge                :boolean
+#  order                        :integer
+#  overlap                      :text
+#  page_heading_margin_in_lines :integer
+#  page_number                  :integer
+#  path                         :string
+#  pillar_order                 :string
 #  price                        :float
-#  category_name                :string
+#  profile                      :string
+#  publication_name             :string
+#  pushed_line_count            :integer
+#  quote                        :text
+#  quote_alignment              :string
+#  quote_box_column             :integer
+#  quote_box_show               :boolean
+#  quote_box_size               :integer
+#  quote_box_type               :integer
+#  quote_line_type              :string
+#  quote_position               :integer
+#  quote_v_extra_space          :integer
+#  quote_x_grid                 :integer
+#  reporter                     :string
+#  right_line                   :integer          default(0)
+#  row                          :integer
+#  slug                         :string
 #  subcategory_code             :string
+#  subject_head                 :string
+#  subtitle                     :text
+#  subtitle_head                :string
+#  subtitle_type                :string
+#  title                        :text
+#  title_head                   :string
+#  top_line                     :integer          default(0)
+#  top_position                 :boolean
+#  top_story                    :boolean
+#  y_in_lines                   :integer
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  article_id                   :integer
+#  page_id                      :integer
+#  pillar_id                    :bigint
 #
 # Indexes
 #
 #  index_working_articles_on_article_id  (article_id)
 #  index_working_articles_on_page_id     (page_id)
+#  index_working_articles_on_pillar_id   (pillar_id)
 #  index_working_articles_on_slug        (slug) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (pillar_id => pillars.id)
 #
 
 require_relative '../test_helper'

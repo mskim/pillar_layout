@@ -2,35 +2,35 @@
 #
 # Table name: graphics
 #
-#  id                    :bigint(8)        not null, primary key
+#  id                    :bigint           not null, primary key
+#  caption               :string
+#  column                :integer
+#  description           :text
+#  detail_mode           :boolean
+#  draw_frame            :boolean          default(FALSE)
+#  extra_height_in_lines :integer
+#  fit_type              :string
+#  graphic               :string
 #  grid_x                :integer
 #  grid_y                :integer
-#  column                :integer
-#  row                   :integer
-#  extra_height_in_lines :integer
-#  graphic               :string
-#  caption               :string
-#  source                :string
-#  position              :string
+#  height_in_lines       :integer
+#  move_level            :integer
 #  page_number           :integer
+#  position              :string
+#  reporter_graphic_path :string
+#  row                   :integer
+#  source                :string
 #  story_number          :integer
-#  working_article_id    :bigint(8)
-#  issue_id              :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  sub_grid_size         :string
+#  title                 :string
 #  x_grid                :integer
 #  y_in_lines            :integer
-#  height_in_lines       :integer
-#  draw_frame            :boolean          default(FALSE)
-#  detail_mode           :boolean
-#  zoom_level            :integer
 #  zoom_direction        :integer
-#  move_level            :integer
-#  sub_grid_size         :string
-#  fit_type              :string
-#  title                 :string
-#  description           :text
-#  reporter_graphic_path :string
+#  zoom_level            :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  issue_id              :integer
+#  working_article_id    :bigint
 #
 # Indexes
 #

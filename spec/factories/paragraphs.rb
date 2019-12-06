@@ -2,14 +2,14 @@
 #
 # Table name: paragraphs
 #
-#  id                 :bigint(8)        not null, primary key
+#  id                 :bigint           not null, primary key
 #  name               :string
-#  working_article_id :bigint(8)
 #  order              :integer
 #  para_text          :text
 #  tokens             :text
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  working_article_id :bigint
 #
 # Indexes
 #

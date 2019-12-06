@@ -62,10 +62,23 @@ class PageHeading < ApplicationRecord
   def relative_path
     page.relative_path + "/heading"
   end
-
+  
   def setup
-    system("mkidr -p #{path}") unless File.directory?(path)
+    system("mkdir -p #{path}") unless File.directory?(path)
+    system("mkdir -p #{images_path}") unless File.directory?(images_path)
+    copy_page_heading_template
+    generate_pdf
   end
+
+  def copy_page_heading_template
+    system("cp -r #{page_heading_bg_image_folder}/* #{images_path}/")
+    images_path
+  end
+  
+  def page_heading_bg_image_folder
+    publication.path + "/page_heading/#{page_number}/images"
+  end
+  
 
   def images_path
     path + "/images"
@@ -105,10 +118,6 @@ class PageHeading < ApplicationRecord
 
   def grid_y
     0
-  end
-
-  def setup
-    system("mkdir -p #{path}") unless File.directory?(path)
   end
 
   def page_heading_width

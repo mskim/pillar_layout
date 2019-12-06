@@ -2,12 +2,12 @@
 #
 # Table name: story_subcategories
 #
-#  id                :bigint(8)        not null, primary key
-#  name              :string
+#  id                :bigint           not null, primary key
 #  code              :string
-#  story_category_id :bigint(8)
+#  name              :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  story_category_id :bigint
 #
 # Indexes
 #

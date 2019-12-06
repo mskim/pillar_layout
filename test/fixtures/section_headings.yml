@@ -2,14 +2,14 @@
 #
 # Table name: section_headings
 #
-#  id             :bigint(8)        not null, primary key
-#  page_number    :integer
-#  section_name   :string
+#  id             :bigint           not null, primary key
 #  date           :string
 #  layout         :text
-#  publication_id :integer
+#  page_number    :integer
+#  section_name   :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  publication_id :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

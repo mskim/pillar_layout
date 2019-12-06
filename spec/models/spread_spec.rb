@@ -2,21 +2,21 @@
 #
 # Table name: spreads
 #
-#  id            :bigint(8)        not null, primary key
-#  issue_id      :bigint(8)
-#  left_page_id  :integer
-#  right_page_id :integer
-#  ad_box_id     :integer
+#  id            :bigint           not null, primary key
+#  bottom_margin :float
 #  color_page    :boolean
-#  width         :float
 #  height        :float
 #  left_margin   :float
-#  top_margin    :float
-#  right_margin  :float
-#  bottom_margin :float
 #  page_gutter   :float
+#  right_margin  :float
+#  top_margin    :float
+#  width         :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  ad_box_id     :integer
+#  issue_id      :bigint
+#  left_page_id  :integer
+#  right_page_id :integer
 #
 # Indexes
 #

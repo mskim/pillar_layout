@@ -2,18 +2,18 @@
 #
 # Table name: reporter_images
 #
-#  id             :bigint(8)        not null, primary key
-#  user_id        :bigint(8)
-#  title          :string
+#  id             :bigint           not null, primary key
 #  caption        :string
-#  source         :string
+#  kind           :string
 #  reporter_image :string
+#  section_name   :string
+#  source         :string
+#  title          :string
+#  used_in_layout :boolean
+#  wire_pictures  :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  wire_pictures  :string
-#  section_name   :string
-#  used_in_layout :boolean
-#  kind           :string
+#  user_id        :bigint
 #
 # Indexes
 #

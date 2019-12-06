@@ -4,36 +4,37 @@
 #
 # Table name: stories
 #
-#  id                 :bigint(8)        not null, primary key
-#  user_id            :bigint(8)
-#  working_article_id :bigint(8)
-#  date               :date
-#  reporter           :string
-#  group              :string
-#  title              :string
-#  subtitle           :string
-#  quote              :string
+#  id                 :bigint           not null, primary key
+#  backup             :text
 #  body               :string
+#  by_line            :string
+#  category_code      :string
+#  category_name      :string
 #  char_count         :integer
-#  status             :string
+#  date               :date
 #  for_front_page     :boolean
-#  summitted          :boolean
-#  selected           :boolean
-#  published          :boolean
-#  summitted_at       :time
-#  path               :string
-#  order              :integer
+#  group              :string
 #  image_name         :string
+#  kind               :string
+#  order              :integer
+#  path               :string
+#  price              :float
+#  published          :boolean
+#  quote              :string
+#  reporter           :string
+#  selected           :boolean
+#  status             :string
+#  story_type         :string           default("0")
+#  subject_head       :string
+#  subtitle           :string
+#  summitted          :boolean
+#  summitted_at       :time
+#  summitted_section  :string
+#  title              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  summitted_section  :string
-#  category_code      :string
-#  price              :float
-#  backup             :text
-#  subject_head       :string
-#  kind               :string
-#  by_line            :string
-#  category_name      :string
+#  user_id            :bigint
+#  working_article_id :bigint
 #
 # Indexes
 #

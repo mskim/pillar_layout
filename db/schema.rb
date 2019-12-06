@@ -536,6 +536,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
   end
 
   create_table "pillars", force: :cascade do |t|
+    t.string "direction"
     t.integer "grid_x"
     t.integer "grid_y"
     t.integer "column"

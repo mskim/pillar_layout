@@ -2,19 +2,19 @@
 #
 # Table name: opinion_writers
 #
-#  id                :bigint(8)        not null, primary key
+#  id                :bigint           not null, primary key
+#  category_code     :integer
+#  cell              :string
+#  email             :string
 #  name              :string
+#  opinion_image     :string
+#  opinion_jpg_image :string
+#  position          :string
 #  title             :string
 #  work              :string
-#  position          :string
-#  email             :string
-#  cell              :string
-#  opinion_image     :string
-#  publication_id    :bigint(8)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  category_code     :integer
-#  opinion_jpg_image :string
+#  publication_id    :bigint
 #
 # Indexes
 #

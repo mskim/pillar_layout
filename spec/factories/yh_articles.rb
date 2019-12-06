@@ -2,28 +2,28 @@
 #
 # Table name: yh_articles
 #
-#  id              :bigint(8)        not null, primary key
+#  id              :bigint           not null, primary key
 #  action          :string
-#  service_type    :string
-#  content_id      :string
-#  date            :date
-#  time            :string
-#  urgency         :string
-#  category        :string
-#  class_code      :string
 #  attriubute_code :string
-#  source          :string
-#  credit          :string
-#  region          :string
-#  title           :string
 #  body            :text
-#  writer          :string
+#  category        :string
+#  category_code   :string
+#  category_name   :string
 #  char_count      :integer
+#  class_code      :string
+#  credit          :string
+#  date            :date
+#  region          :string
+#  service_type    :string
+#  source          :string
 #  taken_by        :string
+#  time            :string
+#  title           :string
+#  urgency         :string
+#  writer          :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  category_name   :string
-#  category_code   :string
+#  content_id      :string
 #
 
 FactoryBot.define do

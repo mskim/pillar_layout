@@ -2,21 +2,21 @@
 #
 # Table name: line_fragments
 #
-#  id                 :bigint(8)        not null, primary key
-#  working_article_id :bigint(8)
-#  paragraph_id       :bigint(8)
-#  order              :integer
+#  id                 :bigint           not null, primary key
 #  column             :integer
+#  height             :float
 #  line_type          :string
+#  order              :integer
+#  text_area_width    :float
+#  text_area_x        :float
+#  tokens             :text
+#  width              :float
 #  x                  :float
 #  y                  :float
-#  width              :float
-#  height             :float
-#  tokens             :text
-#  text_area_x        :float
-#  text_area_width    :float
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  paragraph_id       :bigint
+#  working_article_id :bigint
 #
 # Indexes
 #

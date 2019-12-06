@@ -4,26 +4,26 @@
 #
 # Table name: yh_pictures
 #
-#  id              :bigint(8)        not null, primary key
+#  id              :bigint           not null, primary key
 #  action          :string
-#  service_type    :string
-#  content_id      :string
-#  date            :date
-#  time            :time
-#  urgency         :string
+#  attriubute_code :string
+#  body            :string
 #  category        :string
 #  class_code      :string
-#  attriubute_code :string
-#  source          :string
-#  credit          :string
-#  region          :string
-#  title           :string
 #  comment         :string
-#  body            :string
+#  credit          :string
+#  date            :date
 #  picture         :string
+#  region          :string
+#  service_type    :string
+#  source          :string
 #  taken_by        :string
+#  time            :time
+#  title           :string
+#  urgency         :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  content_id      :string
 #
 
 class YhPicture < ApplicationRecord

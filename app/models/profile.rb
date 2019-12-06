@@ -2,18 +2,18 @@
 #
 # Table name: profiles
 #
-#  id                :bigint(8)        not null, primary key
-#  name              :string
-#  profile_image     :string
-#  work              :string
-#  position          :string
+#  id                :bigint           not null, primary key
+#  category_code     :integer
 #  email             :string
-#  publication_id    :bigint(8)
+#  name              :string
+#  position          :string
+#  profile_image     :string
+#  profile_jpg_image :string
+#  title             :string
+#  work              :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  title             :string
-#  category_code     :integer
-#  profile_jpg_image :string
+#  publication_id    :bigint
 #
 # Indexes
 #
