@@ -321,15 +321,7 @@ Rails.application.routes.draw do
     end
   end
 
-  match 'hello' => Api::NewsLayout, :via => :get
-  match 'new_issue/:date' => Api::NewsLayout, :via => :get
-  match 'api/v1/issue_plan' => Api::NewsLayout, :via => :get
-  match 'api/v1/page/:date/:page_number' => Api::NewsLayout, :via => :get
-  match 'api/v1/working_article/:date/:page/:order' => Api::NewsLayout, :via => :post
-
-  get 'home/welcome'
   get 'home/help'
-
   resources :articles do
     collection do
       get 'one'
@@ -367,5 +359,5 @@ Rails.application.routes.draw do
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  root 'home#welcome'
+  # root 'home#welcome'
 end

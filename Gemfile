@@ -8,11 +8,11 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.3'
+gem 'rails', '~> 6.0', '>= 6.0.1'
 # Use sqlite3 as the database for Active Record
 # Use ActiveStorage variant
+gem 'bootsnap', require: false
 gem 'mini_magick', '~> 4.8'
-
 gem 'pg', '~> 0.20'
 gem 'sqlite3'
 # Use Puma as the app server
@@ -67,7 +67,6 @@ gem 'griddler'
 # gem 'will_paginate'
 # gem 'will_paginate-bootstrap4'
 # gem 'bootstrap-sass'
-gem 'actiontext', github: 'kobaltz/actiontext', branch: 'archive', require: 'action_text'
 gem 'bootstrap', '~> 4.3.1'
 gem 'bootstrap4-kaminari-views'
 gem 'bootstrap_form'
@@ -125,7 +124,7 @@ gem 'guard-rake'
 gem 'guard-remote-sync', '~> 0.1.0'
 gem 'guard-shell'
 
-gem 'rlayout', :path => "/Users/mskim/Development/ruby/gems/rlayout"
+# gem 'rlayout', :path => "/Users/mskim/Development/ruby/gems/rlayout"
 
 gem 'image_processing', '~> 1.2'
 gem 'simple_calendar', '~> 2.0'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pillars
@@ -27,10 +29,10 @@
 # layout_with_pillar_path
 # a Array of node array [x,y,width,height, ancestry] sorted by by order
 class Pillar < ApplicationRecord
-  belongs_to :region, :polymorphic => true
+  belongs_to :region, polymorphic: true
   has_many :working_articles
-  before_create :init_pillar 
-  after_create :create_articles 
+  before_create :init_pillar
+  after_create :create_articles
   serialize :layout_with_pillar_path, Array
   serialize :layout, Array
   include RectUtils
@@ -39,9 +41,7 @@ class Pillar < ApplicationRecord
     layout.length
   end
 
-  def update_pdf_chain
-
-  end
+  def update_pdf_chain; end
 
   def update_pdf_chain(working_article)
     upchain_folders = working_article.upchain_folders
@@ -52,63 +52,59 @@ class Pillar < ApplicationRecord
   end
 
   def upchain_folders
-    path_element = pillar_order.split("_")
+    path_element = pillar_order.split('_')
     chain = []
-    while path_element.pop do
-      chain << path_element.join("/")
-    end
+    chain << path_element.join('/') while path_element.pop
     chain
   end
 
   # this is big deal!!!!!
   # convert layout_with_pillar_path to node tree
-  # 1. 
+  # 1.
   # given order list, return layout_node
   def generate_node
-    order_collectoin = layout2tag.map{|r| r[4]}
+    order_collectoin = layout2tag.map { |r| r[4] }
     puts "order_collectoin:#{order_collectoin}"
-    node = LayoutNode.create(column:column, row: row , order: order, grid_x:0, grid_y:0)
+    node = LayoutNode.create(column: column, row: row, order: order, grid_x: 0, grid_y: 0)
     if order_collectoin == []
-      return node
+      node
     elsif order_collectoin == %w[1 2]
-      return LayoutNode.make_pillar(column, row, ['h'])
+      LayoutNode.make_pillar(column, row, ['h'])
     elsif order_collectoin == %w[1 2 3]
-      return LayoutNode.make_pillar(column, row, ['h','h'])
+      LayoutNode.make_pillar(column, row, %w[h h])
     elsif order_collectoin == %w[1 2 3_1 3_2]
-      return node.perform_actions(['h','h',['3','v']])
+      return node.perform_actions(['h', 'h', %w[3 v]])
 
-      return node.h_divide.h_divide.v_divide('3')
+      node.h_divide.h_divide.v_divide('3')
     elsif order_collectoin == %w[1 2 3_1 3_2_1 3_2_2]
-      return node.h_divide.h_divide.v_divide('3').h_dived('3_2')
-    else
+      node.h_divide.h_divide.v_divide('3').h_dived('3_2')
     end
   end
 
-
   # convert leaf node layout to layout_with_tag
-  # tag is inserted at fifth element 
+  # tag is inserted at fifth element
   def layout2tag
     # first_level = layout.group_by{|l| [l[0], column]}
     layout_with_tag = []
-    first_level   = 1
-    second_level  = 1
-    third_level   = 1
+    first_level = 1
+    second_level = 1
+    third_level = 1
     current_grid_x = 0
     current_grid_y = 0
 
     layout.each_with_index do |box, i|
       if box[0] == 0 && box[2] == column
-        #first level box
+        # first level box
         with_tag = box.dup
-        with_tag << "#{first_level}"
+        with_tag << first_level.to_s
         layout_with_tag << with_tag
         first_level += 1
-        second_level  = 1
-        third_level   = 1
-      elsif box[0] == 0 
+        second_level = 1
+        third_level = 1
+      elsif box[0] == 0
         # left most second level box
         # check if this is first of third level
-        current_grid_y  = box[1]
+        current_grid_y = box[1]
         if layout.length > i + 1 && layout[i + 1][1] != current_grid_y
           # puts "we have at left most third level box...."
           # do the third level start
@@ -130,7 +126,7 @@ class Pillar < ApplicationRecord
         end
       elsif box[1] == layout[i - 1][1]
         # after left most second level box
-        current_grid_y  = box[1]
+        current_grid_y = box[1]
         if layout.length > i + 1 && layout[i + 1][1] != current_grid_y
           # puts "we have third level after left most ...."
           # do thir level start
@@ -191,11 +187,11 @@ class Pillar < ApplicationRecord
   end
 
   def pdf_image_path
-    url + "/story.pdf"
+    url + '/story.pdf'
   end
 
   def jpg_image_path
-    url + "/story.jpg"
+    url + '/story.jpg'
   end
 
   def create_article_folder
@@ -203,11 +199,11 @@ class Pillar < ApplicationRecord
   end
 
   def x
-    grid_x*region.grid_width + region.left_margin
+    grid_x * region.grid_width + region.left_margin
   end
 
   def y
-    grid_y*region.grid_height + region.top_margin
+    grid_y * region.grid_height + region.top_margin
   end
 
   def page_width
@@ -219,11 +215,11 @@ class Pillar < ApplicationRecord
   end
 
   def width
-    column*region.grid_width
+    column * region.grid_width
   end
 
   def height
-    row*region.grid_height
+    row * region.grid_height
   end
 
   def pillar_yaml
@@ -235,17 +231,17 @@ class Pillar < ApplicationRecord
   end
 
   def config_yml_path
-    path + "/pillar_config.yml"
+    path + '/pillar_config.yml'
   end
 
   def save_pillar_yaml
     system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w'){|f| f.write pillar_yaml}
+    File.open(config_yml_path, 'w') { |f| f.write pillar_yaml }
   end
 
   def save_config_file
     system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w'){|f| f.write pillar_config.to_yaml}
+    File.open(config_yml_path, 'w') { |f| f.write pillar_config.to_yaml }
   end
 
   def self.to_csv(options = {})
@@ -261,7 +257,7 @@ class Pillar < ApplicationRecord
   def self.save_csv
     csv = Pillar.to_csv
     csv_path = "#{Rails.root}/public/pillar.csv"
-    File.open(csv_path, 'w'){|f| f.write csv}
+    File.open(csv_path, 'w') { |f| f.write csv }
   end
 
   def h_scale
@@ -274,17 +270,17 @@ class Pillar < ApplicationRecord
 
   def choices
     # ad svg
-    nodes = LayoutNode.where(column:column, row:row).sort_by{|n| n.box_count}
-    nodes.map{|n| [n, n.page_embeded_svg(region.column, grid_x, grid_y)]}
+    nodes = LayoutNode.where(column: column, row: row).sort_by(&:box_count)
+    nodes.map { |n| [n, n.page_embeded_svg(region.column, grid_x, grid_y)] }
   end
 
   def to_svg_with_jpg
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
-      <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
-      <rect fill='white' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />
-      #{box_svg_with_jpg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
+        <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
+        <rect fill='white' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />
+        #{box_svg_with_jpg}
+      </svg>
     EOF
   end
 
@@ -304,37 +300,35 @@ class Pillar < ApplicationRecord
   end
 
   def to_svg
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{column*h_scale} #{row*v_scale}' >
-      <rect fill='yellow' x='0' y='0' width='#{column*h_scale}' height='#{row*v_scale}' />
-      #{layout_svg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{column * h_scale} #{row * v_scale}' >
+        <rect fill='yellow' x='0' y='0' width='#{column * h_scale}' height='#{row * v_scale}' />
+        #{layout_svg}
+      </svg>
     EOF
   end
 
   def layout_svg
-    s = ""
+    s = ''
     layout_array = layout
     layout_array.each do |rect|
-      if rect.is_a?(Hash)
-        s += box_svg(rect.values.first)
-      else
-        s += box_svg(rect)
-      end
+      s += if rect.is_a?(Hash)
+             box_svg(rect.values.first)
+           else
+             box_svg(rect)
+           end
     end
     s
   end
 
   def box_svg(rect)
-    "<rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0])*h_scale}' y='#{(rect[1])*v_scale}' width='#{rect[2]*h_scale}' height='#{rect[3]*v_scale}' />\n"
+    "<rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0]) * h_scale}' y='#{(rect[1]) * v_scale}' width='#{rect[2] * h_scale}' height='#{rect[3] * v_scale}' />\n"
   end
 
   def upchain_folders
-    path_element = order.split("_")
+    path_element = order.split('_')
     chain = []
-    while path_element.pop do
-      chain << path_element.join("/")
-    end
+    chain << path_element.join('/') while path_element.pop
     chain
   end
 
@@ -342,6 +336,7 @@ class Pillar < ApplicationRecord
     union = pillar_rects.first
     pillar_rects.each_with_index do |rect, i|
       next if i == 0
+
       union = union_rect(union, rect)
     end
     union
@@ -354,12 +349,12 @@ class Pillar < ApplicationRecord
       FileUtils.mkdir_p(path) unless File.exist?(path)
       if layout_with_pillar_path.first.class == Integer
         # this is case when layout_with_pillar_path is Array of 5 element
-        h = {page:region, pillar:self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x:layout_with_pillar_path[0], grid_y:layout_with_pillar_path[1], column:layout_with_pillar_path[2], row: layout_with_pillar_path[3]}
+        h = { page: region, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
         WorkingArticle.where(h).first_or_create
       else
         # this is case when layout_with_pillar_path is Array of Arrays
         layout_with_pillar_path.each do |box|
-          h = {page:region, pillar:self, pillar_order: "#{order}_#{box[4]}", grid_x:box[0], grid_y:box[1], column:box[2], row: box[3]}
+          h = { page: region, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
           WorkingArticle.where(h).first_or_create
         end
       end
@@ -369,26 +364,26 @@ class Pillar < ApplicationRecord
   def change_layout(new_node_layout_with_pillar_path)
     if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
       # delte execsive working_articles
-      binding.pry
+      # binding.pry
       delete_count = layout_with_pillar_path.length - new_node_layout_with_pillar_path.length
       delete_count.times do
-        w =working_articles.last
+        w = working_articles.last
         system("rm -rf #{w.path}")
         w.destroy
       end
     end
-    update(layout_with_pillar_path:new_node_layout_with_pillar_path)
+    update(layout_with_pillar_path: new_node_layout_with_pillar_path)
     save_pillar_yaml
     # new_layout_with_pillar_path = new_node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
-    current_articles = working_articles.sort_by{|a| a.order}
+    current_articles = working_articles.sort_by(&:order)
     new_node_layout_with_pillar_path.each_with_index do |box_info, i|
       current_article = current_articles[i]
-      new_rect  = [box_info[0], box_info[1], box_info[2], box_info[3]]
-      new_size  = [box_info[2],box_info[3]]
+      new_rect = [box_info[0], box_info[1], box_info[2], box_info[3]]
+      new_size = [box_info[2], box_info[3]]
       new_order = "#{order}_#{box_info[4]}"
       box_info[4] = new_order
       if current_article && box_info == current_article.rect_with_order
-        puts "same size and position, no need to chnage anything"
+        puts 'same size and position, no need to chnage anything'
       elsif current_article && new_order == current_article.order
         h = {}
         h[:grid_x] = box_info[0]
@@ -397,12 +392,12 @@ class Pillar < ApplicationRecord
         h[:row] = box_info[3]
         current_article.update(h)
         current_article.generate_pdf_with_time_stamp
-      elsif current_article 
-        puts "change current article order"
+      elsif current_article
+        puts 'change current article order'
         current_article.change_article(box_info)
       else
-        puts "create new one ..."
-        h = {page:region, pillar:self, pillar_order: new_order, grid_x:box_info[0], grid_y:box_info[1], column:box_info[2], row: box_info[3]}
+        puts 'create new one ...'
+        h = { page: region, pillar: self, pillar_order: new_order, grid_x: box_info[0], grid_y: box_info[1], column: box_info[2], row: box_info[3] }
         w = WorkingArticle.where(h).first_or_create
         w.update_pdf_chain
       end
@@ -418,12 +413,7 @@ class Pillar < ApplicationRecord
       if n
         self.layout_with_pillar_path = n.layout_with_pillar_path
         self.finger_print = n.finger_print
-      else
-        
       end
     end
-
   end
-
-
 end
