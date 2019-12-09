@@ -14,7 +14,7 @@ RSpec.describe "yh_articles/index", type: :view do
         :attriubute_code => "Attriubute Code",
         :source => "Source",
         :credit => "Credit",
-        :region => "Region",
+        :page_ref => "page_ref",
         :title => "Title",
         :body => "MyText",
         :writer => "Writer",
@@ -32,7 +32,7 @@ RSpec.describe "yh_articles/index", type: :view do
         :attriubute_code => "Attriubute Code",
         :source => "Source",
         :credit => "Credit",
-        :region => "Region",
+        :page_ref => "page_ref",
         :title => "Title",
         :body => "MyText",
         :writer => "Writer",
@@ -54,7 +54,7 @@ RSpec.describe "yh_articles/index", type: :view do
     assert_select "tr>td", :text => "Attriubute Code".to_s, :count => 2
     assert_select "tr>td", :text => "Source".to_s, :count => 2
     assert_select "tr>td", :text => "Credit".to_s, :count => 2
-    assert_select "tr>td", :text => "Region".to_s, :count => 2
+    assert_select "tr>td", :text => "page_ref".to_s, :count => 2
     assert_select "tr>td", :text => "Title".to_s, :count => 2
     assert_select "tr>td", :text => "MyText".to_s, :count => 2
     assert_select "tr>td", :text => "Writer".to_s, :count => 2

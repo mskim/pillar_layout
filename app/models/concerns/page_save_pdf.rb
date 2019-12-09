@@ -7,12 +7,18 @@ module PageSavePdf
     pdf_doc = HexaPDF::Document.new
     pdf_page = pdf_doc.pages.add([0, 0, width, height])
     canvas = pdf_page.canvas
-
+    if page_heading
+      image_path = page_heading.pdf_path
+      if File.exist?(image_path)
+        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
+      end
+    end
     pillars.sort_by{|p| p.order}.each_with_index do |p,i|
       image_path = path + "/#{i + 1}/story.pdf"
       puts "image_path:#{image_path}"
+      height_shift  = 0
       if File.exist?(image_path)
-        canvas.image(image_path, at: filipped_origin(p), width: p.width, height: p.height)
+        canvas.image(image_path, at: p.filipped_origin, width: p.width, height: p.height - height_shift)
       else
         puts "File not found !!!!:#{image_path}"
       end
@@ -24,12 +30,7 @@ module PageSavePdf
         canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
       end
     end
-    if page_heading
-      image_path = page_heading.pdf_path
-      if File.exist?(image_path)
-        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
-      end
-    end
+
     pdf_path = path + "/section.pdf"
     pdf_doc.write(pdf_path, optimize: true)
     if options[:time_stamp]

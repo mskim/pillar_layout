@@ -138,9 +138,13 @@ class WorkingArticle < ApplicationRecord
     page.path
   end
 
+  def order_to_path
+    "/#{pillar_order.split("_").join("/")}"
+  end
+
   def path
     if pillar_member?
-      page.path + "/#{pillar_order.split("_").join("/")}"
+      page.path + order_to_path
     else
       page.path + "/#{pillar_order}"
     end 
@@ -763,12 +767,6 @@ class WorkingArticle < ApplicationRecord
     false
   end
 
-  def top_position?
-    return true if grid_y == 0
-    return true if grid_y == 1 && page.page_number == 1
-    false
-  end
-
   # def get_page_heading_margin_in_lines
   #   return 0 unless top_position?
   #   page.page_heading_margin_in_lines
@@ -939,19 +937,6 @@ class WorkingArticle < ApplicationRecord
 
   def library_images
     publication.library_images
-  end
-
-  def box_svg
-    # "<a xlink:href='/working_articles/#{id}'><image xlink:href='#{jpg_image_path}' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-    # "<a xlink:href='/working_articles/#{id}'><image xlink:href='#{pdf_image_path}' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-    # "<a xlink:href='/working_articles/#{id}'><rect stroke='black' stroke-width='5' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 20}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
-    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-  end
-
-  def story_svg
-    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 50}' stroke-width='0' ><tspan font-size='150' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='30' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
-    svg += "<a xlink:href='/working_articles/#{id}/change_story'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
   def box_xml
@@ -1274,9 +1259,18 @@ class WorkingArticle < ApplicationRecord
 
   def setup_article
     FileUtils.mkdir_p(path) unless File.exist?(path)
-    make_images_directory
-    save_story
-    save_layout
-    generate_pdf_with_time_stamp
+    copy_from_sample
+    # make_images_directory
+    # generate_pdf_with_time_stamp
+  end
+
+  def copy_from_sample
+    source = "#{Rails.root}/public/1/issue_sample/#{page_number}#{order_to_path}"
+    if File.exist?(pdf_path)
+    elsif File.exist?(source)
+      system("cp -r #{source} #{path}/")
+    else
+      generate_pdf_with_time_stamp
+    end
   end
 end

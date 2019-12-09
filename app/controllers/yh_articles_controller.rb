@@ -88,6 +88,6 @@ class YhArticlesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def yh_article_params
-    params.require(:yh_article).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :body, :writer, :char_count, :taken_by)
+    params.require(:yh_article).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :page_ref, :title, :body, :writer, :char_count, :taken_by)
   end
 end

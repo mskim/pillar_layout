@@ -50,7 +50,6 @@ class ImagesController < ApplicationController
   # PATCH/PUT /images/1.json
   def update
     respond_to do |format|
-      # binding.pry
       if @image.update(image_params)
         # if image_params[:crop_x]
         if @image.working_article_id

@@ -13,7 +13,7 @@ RSpec.describe "yh_graphics/index", type: :view do
         :attriubute_code => "Attriubute Code",
         :source => "Source",
         :credit => "Credit",
-        :region => "Region",
+        :page_ref => "page_ref",
         :title => "Title",
         :comment => "Comment",
         :body => "Body",
@@ -30,7 +30,7 @@ RSpec.describe "yh_graphics/index", type: :view do
         :attriubute_code => "Attriubute Code",
         :source => "Source",
         :credit => "Credit",
-        :region => "Region",
+        :page_ref => "page_ref",
         :title => "Title",
         :comment => "Comment",
         :body => "Body",
@@ -51,7 +51,7 @@ RSpec.describe "yh_graphics/index", type: :view do
     assert_select "tr>td", :text => "Attriubute Code".to_s, :count => 2
     assert_select "tr>td", :text => "Source".to_s, :count => 2
     assert_select "tr>td", :text => "Credit".to_s, :count => 2
-    assert_select "tr>td", :text => "Region".to_s, :count => 2
+    assert_select "tr>td", :text => "page_ref".to_s, :count => 2
     assert_select "tr>td", :text => "Title".to_s, :count => 2
     assert_select "tr>td", :text => "Comment".to_s, :count => 2
     assert_select "tr>td", :text => "Body".to_s, :count => 2

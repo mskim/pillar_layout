@@ -13,7 +13,7 @@ RSpec.describe "yh_articles/show", type: :view do
       :attriubute_code => "Attriubute Code",
       :source => "Source",
       :credit => "Credit",
-      :region => "Region",
+      :page_ref => "page_ref",
       :title => "Title",
       :body => "MyText",
       :writer => "Writer",
@@ -34,7 +34,7 @@ RSpec.describe "yh_articles/show", type: :view do
     expect(rendered).to match(/Attriubute Code/)
     expect(rendered).to match(/Source/)
     expect(rendered).to match(/Credit/)
-    expect(rendered).to match(/Region/)
+    expect(rendered).to match(/page_ref/)
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/MyText/)
     expect(rendered).to match(/Writer/)

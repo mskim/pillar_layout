@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_235637) do
+ActiveRecord::Schema.define(version: 2019_12_07_213231) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -202,6 +202,22 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.boolean "embedded"
     t.integer "y_in_lines"
     t.integer "height_in_lines"
+  end
+
+  create_table "body_lines", force: :cascade do |t|
+    t.integer "order"
+    t.float "x"
+    t.float "y"
+    t.float "width"
+    t.float "height"
+    t.integer "coulumn"
+    t.integer "line_number"
+    t.text "tokens"
+    t.integer "kind"
+    t.bigint "working_article_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["working_article_id"], name: "index_body_lines_on_working_article_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -400,25 +416,6 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "line_fragments", force: :cascade do |t|
-    t.bigint "working_article_id"
-    t.bigint "paragraph_id"
-    t.integer "order"
-    t.integer "column"
-    t.string "line_type"
-    t.float "x"
-    t.float "y"
-    t.float "width"
-    t.float "height"
-    t.text "tokens"
-    t.float "text_area_x"
-    t.float "text_area_width"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["paragraph_id"], name: "index_line_fragments_on_paragraph_id"
-    t.index ["working_article_id"], name: "index_line_fragments_on_working_article_id"
-  end
-
   create_table "opinion_writers", force: :cascade do |t|
     t.string "name"
     t.string "title"
@@ -524,17 +521,6 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.index ["slug"], name: "index_pages_on_slug", unique: true
   end
 
-  create_table "paragraphs", force: :cascade do |t|
-    t.string "name"
-    t.bigint "working_article_id"
-    t.integer "order"
-    t.text "para_text"
-    t.text "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["working_article_id"], name: "index_paragraphs_on_working_article_id"
-  end
-
   create_table "pillars", force: :cascade do |t|
     t.string "direction"
     t.integer "grid_x"
@@ -547,11 +533,11 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.text "layout"
     t.string "profile"
     t.string "finger_print"
-    t.bigint "region_id"
-    t.string "region_type"
+    t.bigint "page_ref_id"
+    t.string "page_ref_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["region_id"], name: "index_pillars_on_region_id"
+    t.index ["page_ref_id"], name: "index_pillars_on_page_ref_id"
   end
 
   create_table "posts", id: :serial, force: :cascade do |t|
@@ -847,8 +833,8 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "content_id"
     t.string "category_code"
     t.string "category_name"
-    t.string "region_code"
-    t.string "region_name"
+    t.string "page_ref_code"
+    t.string "page_ref_name"
     t.string "credit"
     t.string "source"
     t.string "title"
@@ -948,7 +934,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.text "body"
     t.string "writer"
@@ -972,7 +958,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.string "comment"
     t.string "body"
@@ -994,7 +980,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.string "comment"
     t.string "body"
@@ -1016,7 +1002,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.string "comment"
     t.string "body"
@@ -1038,7 +1024,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.string "comment"
     t.string "body"
@@ -1060,7 +1046,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
     t.string "attriubute_code"
     t.string "source"
     t.string "credit"
-    t.string "region"
+    t.string "page_ref"
     t.string "title"
     t.string "comment"
     t.string "body"
@@ -1075,17 +1061,15 @@ ActiveRecord::Schema.define(version: 2019_12_02_235637) do
   add_foreign_key "ad_plans", "ad_bookings"
   add_foreign_key "announcements", "publications"
   add_foreign_key "article_plans", "page_plans"
+  add_foreign_key "body_lines", "working_articles"
   add_foreign_key "comments", "proofs"
   add_foreign_key "graphic_requests", "users"
   add_foreign_key "graphics", "working_articles"
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
-  add_foreign_key "line_fragments", "paragraphs"
-  add_foreign_key "line_fragments", "working_articles"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
-  add_foreign_key "paragraphs", "working_articles"
   add_foreign_key "profiles", "publications"
   add_foreign_key "proofs", "working_articles"
   add_foreign_key "reporter_graphics", "users"

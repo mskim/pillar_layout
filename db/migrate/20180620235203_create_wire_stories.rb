@@ -5,8 +5,8 @@ class CreateWireStories < ActiveRecord::Migration[5.1]
       t.string :content_id
       t.string :category_code
       t.string :category_name
-      t.string :region_code
-      t.string :region_name
+      t.string :page_ref_code
+      t.string :page_ref_name
       t.string :credit
       t.string :source
       t.string :title

@@ -67,7 +67,7 @@ class PillarsController < ApplicationController
     node        = LayoutNode.find(new_choice)
     new_layout  = node.layout_with_pillar_path
     @pillar.change_layout(new_layout)
-    redirect_to @pillar.region
+    redirect_to @pillar.page_ref
   end
 
   private
@@ -78,6 +78,6 @@ class PillarsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pillar_params
-      params.require(:pillar).permit(:grid_x, :grid_y, :column, :row, :order, :box_count, :layout_with_pillar_path, :layout, :profile, :finger_print, :region_id, :region_type)
+      params.require(:pillar).permit(:grid_x, :grid_y, :column, :row, :order, :box_count, :layout_with_pillar_path, :layout, :profile, :finger_print, :page_ref_id, :page_ref_type)
     end
 end

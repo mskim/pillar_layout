@@ -1,0 +1,36 @@
+---
+section_name: 자치행정
+page_heading_margin_in_lines: 3
+ad_type: 광고없음
+is_front_page: false
+page_columns: 6
+grid_size:
+- 171.49606299212348
+- 97.32283464566807
+lines_per_grid: 7.0
+width: 1114.01574803148
+height: 1544.88188976376
+left_margin: 42.5196850393695
+top_margin: 42.5196850393695
+right_margin: 42.5196850393695
+bottom_margin: 42.5196850393695
+gutter: 12.7559055118108
+story_frames:
+- - 0
+  - 0
+  - 2
+  - 15
+  - 5
+- - 2
+  - 0
+  - 2
+  - 15
+  - 5
+- - 4
+  - 0
+  - 2
+  - 15
+  - 5
+- 광고없음
+article_line_thickness: 0.3
+draw_divider: true

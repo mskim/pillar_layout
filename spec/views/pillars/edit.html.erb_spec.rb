@@ -13,8 +13,8 @@ RSpec.describe "pillars/edit", type: :view do
       :layout => "MyText",
       :profile => "MyString",
       :finger_print => "MyString",
-      :region => nil,
-      :region_type => "MyString"
+      :page_ref => nil,
+      :page_ref_type => "MyString"
     ))
   end
 
@@ -43,9 +43,9 @@ RSpec.describe "pillars/edit", type: :view do
 
       assert_select "input[name=?]", "pillar[finger_print]"
 
-      assert_select "input[name=?]", "pillar[region_id]"
+      assert_select "input[name=?]", "pillar[page_ref_id]"
 
-      assert_select "input[name=?]", "pillar[region_type]"
+      assert_select "input[name=?]", "pillar[page_ref_type]"
     end
   end
 end

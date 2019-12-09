@@ -7,8 +7,8 @@
 #  category_code :string
 #  category_name :string
 #  credit        :string
-#  region_code   :string
-#  region_name   :string
+#  page_ref_code :string
+#  page_ref_name :string
 #  send_date     :date
 #  source        :string
 #  title         :string
@@ -86,8 +86,8 @@ class WireStory < ApplicationRecord
 
           if ch.name == "Class"
             puts "we have Class"
-          elsif ch.name == "Region"
-            puts "we have Region"
+          elsif ch.name == "page_ref"
+            puts "we have page_ref"
           elsif ch.name == "Category"
             puts "we have Category"
           else

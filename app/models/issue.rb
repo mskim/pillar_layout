@@ -84,10 +84,14 @@ class Issue < ApplicationRecord
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
-    unless File.directory?(issue_images_path)
-      system "mkdir -p #{issue_images_path}"
-    end
+    copy_from_sample
+    system "mkdir -p #{issue_images_path}" unless File.directory?(issue_images_path)
     system "mkdir -p #{issue_ads_path}" unless File.directory?(issue_ads_path)
+  end
+
+  def copy_from_sample
+    source = "#{Rails.root}/public/1/issue_sample"
+    system("cp -r #{source}/ #{path}/")
   end
 
   DAYS_IN_KOREAN = %w[(일) (월) (화) (수) (목) (금) (토)].freeze

@@ -51,7 +51,7 @@ require 'net/ftp'
 class Page < ApplicationRecord
   belongs_to :issue
   belongs_to :page_plan
-  has_many :pillars, :as =>:region
+  has_many :pillars, :as =>:page_ref
   has_many :working_articles
   has_many :ad_boxes
   has_one :page_heading
@@ -80,6 +80,14 @@ class Page < ApplicationRecord
 
   def is_front_page?
     page_number == 1
+  end
+
+  def body_line_height
+    publication.body_line_height
+  end
+
+  def heading_space
+    page_heading_margin_in_lines*body_line_height
   end
 
   def path
@@ -861,13 +869,21 @@ class Page < ApplicationRecord
 
   end
 
+  def copy_from_sample
+    source = "#{Rails.root}/public/1/issue_sample/#{page_number}"
+    if File.exist?(pdf_path)
+    elsif File.exist?(source)
+      system("cp -r #{source} #{path}/")
+    end
+  end
+
   def setup
     system "mkdir -p #{path}" unless File.exist?(path)
-    # section   = Section.find(template_id)
     # copy_section_template(section)
     create_heading
     create_pillars
     # create_ad_boxes(section)
+    copy_from_sample
     save_config_file unless File.exist?(config_path)
     generate_pdf unless File.exist?(pdf_path)
   end
@@ -883,9 +899,9 @@ class Page < ApplicationRecord
       # elsif item.first[4].class == Hash
       #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
-        Pillar.where(region: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4]).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4]).first_or_create
       elsif item.length == 4
-        Pillar.where(region: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:3).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:3).first_or_create
       end
     end
   end
@@ -979,8 +995,6 @@ class Page < ApplicationRecord
     self.publication_id = issue.publication.id
     self.date         = issue.date
     self.profile      = section.profile
-    # self.page_number  = section.page_number
-    # self.section_name = section.section_name
     self.column       = section.column
     self.row          = section.row
     self.ad_type      = section.ad_type

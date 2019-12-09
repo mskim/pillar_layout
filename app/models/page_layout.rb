@@ -31,7 +31,7 @@
 # with specific page number 
 
 class PageLayout < ApplicationRecord
-  has_many :pillars, :as =>:region
+  has_many :pillars, :as =>:page_ref
   has_one :ad
   before_create :init_page_layout
   after_create :create_pillars
@@ -247,9 +247,9 @@ class PageLayout < ApplicationRecord
       # elsif item.first[4].class == Hash
       #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
-        Pillar.where(region: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4] ).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4] ).first_or_create
       elsif item.length == 4
-        Pillar.where(region: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
       end
     end
   end

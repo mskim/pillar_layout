@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @body_line.order %>
+</p>
+
+<p>
+  <strong>X:</strong>
+  <%= @body_line.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @body_line.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @body_line.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @body_line.height %>
+</p>
+
+<p>
+  <strong>Coulumn:</strong>
+  <%= @body_line.coulumn %>
+</p>
+
+<p>
+  <strong>Line number:</strong>
+  <%= @body_line.line_number %>
+</p>
+
+<p>
+  <strong>Tokens:</strong>
+  <%= @body_line.tokens %>
+</p>
+
+<p>
+  <strong>Overflow:</strong>
+  <%= @body_line.overflow %>
+</p>
+
+<p>
+  <strong>Working aticle:</strong>
+  <%= @body_line.working_aticle_id %>
+</p>
+
+<%= link_to 'Edit', edit_body_line_path(@body_line) %> |
+<%= link_to 'Back', body_lines_path %>

@@ -14,22 +14,22 @@
 #  layout                  :text
 #  layout_with_pillar_path :text
 #  order                   :integer
+#  page_ref_type           :string
 #  profile                 :string
-#  region_type             :string
 #  row                     :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  region_id               :bigint
+#  page_ref_id             :bigint
 #
 # Indexes
 #
-#  index_pillars_on_region_id  (region_id)
+#  index_pillars_on_page_ref_id  (page_ref_id)
 #
 
 # layout_with_pillar_path
 # a Array of node array [x,y,width,height, ancestry] sorted by by order
 class Pillar < ApplicationRecord
-  belongs_to :region, polymorphic: true
+  belongs_to :page_ref, polymorphic: true
   has_many :working_articles
   before_create :init_pillar
   after_create :create_articles
@@ -158,8 +158,8 @@ class Pillar < ApplicationRecord
   end
 
   def path
-    if region.class == Page
-      region.path + "/#{order}"
+    if page_ref.class == Page
+      page_ref.path + "/#{order}"
     else
       "#{Rails.root}/public/pillar/#{column}/#{row}/#{box_count}/#{id}"
     end
@@ -171,15 +171,15 @@ class Pillar < ApplicationRecord
   # end
 
   def publication_id
-    region.publication_id
+    page_ref.publication_id
   end
 
   def date
-    region.date.to_s
+    page_ref.date.to_s
   end
 
   def page_number
-    region.page_number
+    page_ref.page_number
   end
 
   def url
@@ -198,28 +198,42 @@ class Pillar < ApplicationRecord
     FileUtils.mkdir_p(path) unless File.exist?(path)
   end
 
+  def top_position?
+    return true if grid_y == 0 
+    return true if grid_y == 1 && page_ref.page_number == 1
+    false
+  end
+
+  def heading_space
+      page_ref.heading_space
+  end
+
+  def filipped_origin
+    [page_ref.left_margin + grid_x*page_ref.grid_width, page_ref.height - height - y]
+  end
+
   def x
-    grid_x * region.grid_width + region.left_margin
+    grid_x * page_ref.grid_width  + page_ref.left_margin
   end
 
   def y
-    grid_y * region.grid_height + region.top_margin
-  end
-
-  def page_width
-    region.width
-  end
-
-  def page_height
-    region.height
+    grid_y * page_ref.grid_height + heading_space + page_ref.top_margin
   end
 
   def width
-    column * region.grid_width
+    column * page_ref.grid_width
   end
 
   def height
-    row * region.grid_height
+    row * page_ref.grid_height - heading_space
+  end
+
+  def page_width
+    page_ref.width
+  end
+
+  def page_height
+    page_ref.height
   end
 
   def pillar_yaml
@@ -271,7 +285,7 @@ class Pillar < ApplicationRecord
   def choices
     # ad svg
     nodes = LayoutNode.where(column: column, row: row).sort_by(&:box_count)
-    nodes.map { |n| [n, n.page_embeded_svg(region.column, grid_x, grid_y)] }
+    nodes.map { |n| [n, n.page_embeded_svg(page_ref.column, grid_x, grid_y)] }
   end
 
   def to_svg_with_jpg
@@ -343,18 +357,18 @@ class Pillar < ApplicationRecord
   end
 
   def create_articles
-    if region.class == Page
+    if page_ref.class == Page
       save_pillar_yaml
 
       FileUtils.mkdir_p(path) unless File.exist?(path)
       if layout_with_pillar_path.first.class == Integer
         # this is case when layout_with_pillar_path is Array of 5 element
-        h = { page: region, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
+        h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
         WorkingArticle.where(h).first_or_create
       else
         # this is case when layout_with_pillar_path is Array of Arrays
         layout_with_pillar_path.each do |box|
-          h = { page: region, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+          h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
           WorkingArticle.where(h).first_or_create
         end
       end
@@ -364,7 +378,6 @@ class Pillar < ApplicationRecord
   def change_layout(new_node_layout_with_pillar_path)
     if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
       # delte execsive working_articles
-      # binding.pry
       delete_count = layout_with_pillar_path.length - new_node_layout_with_pillar_path.length
       delete_count.times do
         w = working_articles.last
@@ -397,12 +410,12 @@ class Pillar < ApplicationRecord
         current_article.change_article(box_info)
       else
         puts 'create new one ...'
-        h = { page: region, pillar: self, pillar_order: new_order, grid_x: box_info[0], grid_y: box_info[1], column: box_info[2], row: box_info[3] }
+        h = { page: page_ref, pillar: self, pillar_order: new_order, grid_x: box_info[0], grid_y: box_info[1], column: box_info[2], row: box_info[3] }
         w = WorkingArticle.where(h).first_or_create
         w.update_pdf_chain
       end
     end
-    region.generate_pdf_with_time_stamp
+    page_ref.generate_pdf_with_time_stamp
   end
 
   def init_pillar

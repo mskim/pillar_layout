@@ -35,6 +35,10 @@ module WorkingArticlePillarMethods
     grid_y + row
   end
 
+  def top_position?
+    grid_y == 0 && pillar && pillar.top_position?
+  end
+
   def adjustable_height?
     return true unless bottom_member?
   end
@@ -179,7 +183,11 @@ module WorkingArticlePillarMethods
   end
 
   def y
-    y_position =  grid_y*grid_height
+    if pillar
+      y_position = pillar.y + grid_y*grid_height
+    else
+      y_position = grid_y*grid_height
+    end
     if top_position?
       y_position += page_heading_margin_in_lines*body_line_height
     # elsif pushed_line_count && pushed_line_count != 0
@@ -196,6 +204,11 @@ module WorkingArticlePillarMethods
   def box_svg
     svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 20}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
     svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+  end
+
+  def story_svg
+    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 50}' stroke-width='0' ><tspan font-size='150' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='30' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
+    svg += "<a xlink:href='/working_articles/#{id}/change_story'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
   private
@@ -218,12 +231,5 @@ module WorkingArticlePillarMethods
     self.body = body_text unless body
   end
 
-  def setup_article
-    FileUtils.mkdir_p(path) unless File.exist?(path)
-    make_images_directory
-    save_story
-    save_layout
-    generate_pdf_with_time_stamp
-  end
 end
 

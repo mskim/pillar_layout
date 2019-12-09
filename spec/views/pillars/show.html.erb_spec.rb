@@ -13,8 +13,8 @@ RSpec.describe "pillars/show", type: :view do
       :layout => "MyText",
       :profile => "Profile",
       :finger_print => "Finger Print",
-      :region => nil,
-      :region_type => "Region Type"
+      :page_ref => nil,
+      :page_ref_type => "page_ref Type"
     ))
   end
 
@@ -31,6 +31,6 @@ RSpec.describe "pillars/show", type: :view do
     expect(rendered).to match(/Profile/)
     expect(rendered).to match(/Finger Print/)
     expect(rendered).to match(//)
-    expect(rendered).to match(/Region Type/)
+    expect(rendered).to match(/page_ref Type/)
   end
 end

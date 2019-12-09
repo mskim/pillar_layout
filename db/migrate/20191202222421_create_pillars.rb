@@ -3,7 +3,6 @@ class CreatePillars < ActiveRecord::Migration[5.2]
     create_table :pillars do |t|
       t.string :direction
       t.integer :grid_x
-      t.integer :grid_x
       t.integer :grid_y
       t.integer :column
       t.integer :row
@@ -13,8 +12,8 @@ class CreatePillars < ActiveRecord::Migration[5.2]
       t.text :layout
       t.string :profile
       t.string :finger_print
-      t.references :region, polymophic: true
-      t.string :region_type
+      t.references :page_ref, polymophic: true
+      t.string :page_ref_type
 
       t.timestamps
     end

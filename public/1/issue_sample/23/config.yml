@@ -1,0 +1,31 @@
+---
+section_name: 오피니언
+page_heading_margin_in_lines: 4
+ad_type: 5단통
+is_front_page: false
+page_columns: 7
+grid_size:
+- 146.99662542182014
+- 97.32283464566807
+lines_per_grid: 7.0
+width: 1114.01574803148
+height: 1544.88188976376
+left_margin: 42.5196850393695
+top_margin: 42.5196850393695
+right_margin: 42.5196850393695
+bottom_margin: 42.5196850393695
+gutter: 12.7559055118108
+story_frames:
+- - 0
+  - 1
+  - 5
+  - 9
+  - 3
+- - 5
+  - 1
+  - 2
+  - 9
+  - 3
+- 5단통
+article_line_thickness: 0.3
+draw_divider: true

@@ -19,16 +19,49 @@
   - body
     - fit_text
 
-2019_12_7
-  - PageLayout adjust pillar position for front_page
-  - fix top posion article page_heading_height_in_lines
-  - try using ruby pdf 
-  - chnage pillar svg selection view with even height
-    - replace it with page svg with selected_pillar_page
-  - upgrade it to Rails6.1
+2019_12_9
+  - sample_issue
+    copy issue_sample when creating new issue instead of generating
+
+2019_12_8
   - read only database table
     - parse wire_service
     - put selected images to cloud
+
+  - working_article
+    - fix bottom article 
+    - fix ttf font tracking
+
+  - rename page_ref to page_ref 
+
+  - BodyLine
+    references WorkingArticle
+    order:integer
+    x, y, width, height
+    column_index, line_index, overflow:boolean
+    tokens:text serialize :Array
+    
+  - Heading
+    title
+    subtile
+    subject_head
+  
+  - Quote
+    style
+    text
+    column
+
+  - GroupedImage
+    - has_many :images as:imageable
+    - Image as polymophic true as imageable
+
+2019_12_7
+  - upgrade rails to 6.0.1
+  - PageLayout adjust pillar position for front_page
+  - try using ruby pdf 
+  - chnage pillar svg selection view with even height
+    - replace it with page svg with selected_pillar_page
+  - fix top positon article page_heading_height_in_lines
 
 2019_12_6
   PageHeading
@@ -1291,8 +1324,8 @@
     content_id
     category_code
     category_name
-    region_code
-    region_name
+    page_ref_code
+    page_ref_name
     credit
     source
     title

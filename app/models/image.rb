@@ -79,7 +79,7 @@ class Image < ApplicationRecord
   end
 
   def image_ext
-    File.extname(storage_image.blob[:filename])
+    File.extname(storage_image.blob[:filename]) if storage_image.attached?
   end
 
   def empty_image_url

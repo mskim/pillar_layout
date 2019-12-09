@@ -11,8 +11,8 @@
 #  comment         :string
 #  credit          :string
 #  date            :date
+#  page_ref        :string
 #  picture         :string
-#  region          :string
 #  service_type    :string
 #  source          :string
 #  taken_by        :string

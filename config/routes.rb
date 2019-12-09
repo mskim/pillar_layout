@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :body_lines
   resources :actions
   resources :layout_nodes
   resources :page_layouts
@@ -29,7 +30,6 @@ Rails.application.routes.draw do
     end
   end
   resources :line_fragments
-  resources :paragraphs
   resources :expert_writers
   resources :exepert_writers
   resources :reporter_graphics do

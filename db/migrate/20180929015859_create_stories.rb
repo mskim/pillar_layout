@@ -19,7 +19,6 @@ class CreateStories < ActiveRecord::Migration[5.2]
       t.time :summitted_at
       t.string :path
       t.integer :order
-      t.string :path
       t.string :image_name
 
       t.timestamps

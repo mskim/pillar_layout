@@ -12,16 +12,16 @@
 #  layout                  :text
 #  layout_with_pillar_path :text
 #  order                   :integer
+#  page_ref_type           :string
 #  profile                 :string
-#  region_type             :string
 #  row                     :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  region_id               :bigint
+#  page_ref_id             :bigint
 #
 # Indexes
 #
-#  index_pillars_on_region_id  (region_id)
+#  index_pillars_on_page_ref_id  (page_ref_id)
 #
 
 FactoryBot.define do
@@ -36,7 +36,7 @@ FactoryBot.define do
     layout { "MyText" }
     profile { "MyString" }
     finger_print { "MyString" }
-    region { nil }
-    region_type { "MyString" }
+    page_ref { nil }
+    page_ref_type { "MyString" }
   end
 end
