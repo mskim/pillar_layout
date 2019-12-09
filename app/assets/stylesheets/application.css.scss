@@ -46,6 +46,12 @@ body {
   height: 100% !important;
 }
 
+$custom-file-text: (
+  en: "Browse",
+  es: "Elegir",
+  ko: "첨부"
+);
+
 .card-columns {
   @include media-breakpoint-only(lg) {
     column-count: 5;
