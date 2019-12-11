@@ -12,7 +12,7 @@ class CreateYhPhotoFrYnas < ActiveRecord::Migration[5.2]
       t.string :attriubute_code
       t.string :source
       t.string :credit
-      t.string :page_ref
+      t.string :region
       t.string :title
       t.string :comment
       t.string :body

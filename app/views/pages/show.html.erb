@@ -22,7 +22,7 @@
                 <% if pillar.layout_with_pillar_path == choice[0].layout_with_pillar_path %>
                   <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
                     <%= raw choice[1] %>
-                    <p>선택됨</p>
+                    <p>사용중</p>
                   </div>
                 <% else %>
                   <div class="card mb-3" style="width: 7rem;">
@@ -36,6 +36,24 @@
         </div>
         <hr class="mb-5">
       <% end %>
+      <div class="row">
+        <% @page.other_page_layout_choices.each do |page_layout| %>
+          <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
+            <% if @page.template_id == page_layout.id %>
+              <%= raw  page_layout.to_svg%>
+              <p>사용중</p>
+            <% else %>
+              <%= raw  page_layout.to_svg%>
+              <%= link_to '변경', change_page_layout_page_path(@page, new_choice: page_layout), method: :patch, class: "btn btn-danger text-center rounded-0" %>
+
+            <% end %>
+
+          </div>
+        <% end %>
+    </div>
     </div>
   </div>
+
+
+  
 </div>

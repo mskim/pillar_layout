@@ -165,6 +165,9 @@ class Pillar < ApplicationRecord
     end
   end
 
+  def rect
+    [grid_x, grid_y, column, row]
+  end
   # def pdf_image_path
   #   # if @time_stamp
   #   "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_pdf_basename}"
@@ -213,11 +216,11 @@ class Pillar < ApplicationRecord
   end
 
   def x
-    grid_x * page_ref.grid_width  + page_ref.left_margin
+    grid_x * page_ref.grid_width  + page_ref.doc_left_margin
   end
 
   def y
-    grid_y * page_ref.grid_height + heading_space + page_ref.top_margin
+    grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
   end
 
   def width
@@ -323,20 +326,22 @@ class Pillar < ApplicationRecord
   end
 
   def layout_svg
-    s = ''
-    layout_array = layout
-    layout_array.each do |rect|
-      s += if rect.is_a?(Hash)
-             box_svg(rect.values.first)
-           else
-             box_svg(rect)
-           end
-    end
-    s
+    # binding.pry
+    # s = ''
+    # layout_array = layout
+    # layout_array.each do |rect|
+    #   s += if rect.is_a?(Hash)
+    #          box_svg(rect.values.first)
+    #        else
+    #          box_svg(rect)
+    #        end
+    # end
+    # s
+    "<rect fill='yellow' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />\n"
   end
 
   def box_svg(rect)
-    "<rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0]) * h_scale}' y='#{(rect[1]) * v_scale}' width='#{rect[2] * h_scale}' height='#{rect[3] * v_scale}' />\n"
+    "<rect fill='yellow' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0]) * h_scale}' y='#{(rect[1]) * v_scale}' width='#{rect[2] * h_scale}' height='#{rect[3] * v_scale}' />\n"
   end
 
   def upchain_folders

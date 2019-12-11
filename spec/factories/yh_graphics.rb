@@ -11,7 +11,7 @@
 #  comment         :string
 #  credit          :string
 #  date            :date
-#  page_ref        :string
+#  region        :string
 #  picture         :string
 #  service_type    :string
 #  source          :string
@@ -37,7 +37,7 @@ FactoryBot.define do
     attriubute_code { "MyString" }
     source { "MyString" }
     credit { "MyString" }
-    page_ref { "MyString" }
+    region { "MyString" }
     title { "MyString" }
     comment { "MyString" }
     body { "MyString" }

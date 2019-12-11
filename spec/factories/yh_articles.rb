@@ -13,7 +13,7 @@
 #  class_code      :string
 #  credit          :string
 #  date            :date
-#  page_ref        :string
+#  region        :string
 #  service_type    :string
 #  source          :string
 #  taken_by        :string
@@ -39,7 +39,7 @@ FactoryBot.define do
     attriubute_code { "MyString" }
     source { "MyString" }
     credit { "MyString" }
-    page_ref { "MyString" }
+    region { "MyString" }
     title { "MyString" }
     body { "MyText" }
     writer { "MyString" }

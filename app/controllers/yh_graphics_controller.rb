@@ -78,6 +78,6 @@ class YhGraphicsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def yh_graphic_params
-      params.require(:yh_graphic).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :page_ref, :title, :comment, :body, :picture, :taken_by)
+      params.require(:yh_graphic).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :picture, :taken_by)
     end
 end

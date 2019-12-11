@@ -17,7 +17,7 @@ class WireStoriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create wire_story" do
     assert_difference('WireStory.count') do
-      post wire_stories_url, params: { wire_story: { body: @wire_story.body, category_code: @wire_story.category_code, category_name: @wire_story.category_name, content_id: @wire_story.content_id, credit: @wire_story.credit, issue_id: @wire_story.issue_id, page_ref_code: @wire_story.page_ref_code, page_ref_name: @wire_story.page_ref_name, send_date: @wire_story.send_date, source: @wire_story.source, title: @wire_story.title } }
+      post wire_stories_url, params: { wire_story: { body: @wire_story.body, category_code: @wire_story.category_code, category_name: @wire_story.category_name, content_id: @wire_story.content_id, credit: @wire_story.credit, issue_id: @wire_story.issue_id, region_code: @wire_story.region_code, region_name: @wire_story.region_name, send_date: @wire_story.send_date, source: @wire_story.source, title: @wire_story.title } }
     end
 
     assert_redirected_to wire_story_url(WireStory.last)
@@ -34,7 +34,7 @@ class WireStoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update wire_story" do
-    patch wire_story_url(@wire_story), params: { wire_story: { body: @wire_story.body, category_code: @wire_story.category_code, category_name: @wire_story.category_name, content_id: @wire_story.content_id, credit: @wire_story.credit, issue_id: @wire_story.issue_id, page_ref_code: @wire_story.page_ref_code, page_ref_name: @wire_story.page_ref_name, send_date: @wire_story.send_date, source: @wire_story.source, title: @wire_story.title } }
+    patch wire_story_url(@wire_story), params: { wire_story: { body: @wire_story.body, category_code: @wire_story.category_code, category_name: @wire_story.category_name, content_id: @wire_story.content_id, credit: @wire_story.credit, issue_id: @wire_story.issue_id, region_code: @wire_story.region_code, region_name: @wire_story.region_name, send_date: @wire_story.send_date, source: @wire_story.source, title: @wire_story.title } }
     assert_redirected_to wire_story_url(@wire_story)
   end
 

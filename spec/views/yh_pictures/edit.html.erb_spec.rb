@@ -12,7 +12,7 @@ RSpec.describe "yh_pictures/edit", type: :view do
       :attriubute_code => "MyString",
       :source => "MyString",
       :credit => "MyString",
-      :page_ref => "MyString",
+      :region => "MyString",
       :title => "MyString",
       :comment => "MyString",
       :body => "MyString",
@@ -44,7 +44,7 @@ RSpec.describe "yh_pictures/edit", type: :view do
 
       assert_select "input[name=?]", "yh_picture[credit]"
 
-      assert_select "input[name=?]", "yh_picture[page_ref]"
+      assert_select "input[name=?]", "yh_picture[region]"
 
       assert_select "input[name=?]", "yh_picture[title]"
 

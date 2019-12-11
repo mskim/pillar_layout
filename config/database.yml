@@ -35,17 +35,28 @@ default: &default
   # port: 5432
   # timeout: 5000
 
+wire_service:
+  <<: *default
+  database: style_guide_new_development
+  username: apple
+  password:
+  host: 10.9.50.45
+  port: 5432
+  timeout: 5000
+
+
+  
 development:
   <<: *default
   database: style_guide_development
   username: <%= ENV['USER'] %>
 
-test:
-  <<: *default
-  database: style_guide__test
-  username: <%= ENV['USER'] %>
+# test:
+#   <<: *default
+#   database: style_guide__test
+#   username: <%= ENV['USER'] %>
 
-production:
-  <<: *default
-  database: style_guide_production
-  username: <%= ENV['USER'] %>
+# production:
+#   <<: *default
+#   database: style_guide_production
+#   username: <%= ENV['USER'] %>

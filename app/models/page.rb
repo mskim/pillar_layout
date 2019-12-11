@@ -590,6 +590,7 @@ class Page < ApplicationRecord
     page_color_check
   end
 
+
   def change_heading
     section  = Section.find(template_id)
     FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
@@ -690,10 +691,6 @@ class Page < ApplicationRecord
     FileUtils.mkdir_p site_path unless File.exist?(site_path)
     system "cp #{pdf_path} #{site_path}/"
     system "cp #{jpg_path} #{site_path}/"
-  end
-
-  def eval_layout
-    eval(layout)
   end
 
   # other SectionTemplate choices for current page
@@ -904,6 +901,33 @@ class Page < ApplicationRecord
         Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:3).first_or_create
       end
     end
+  end
+
+  def delete_pillars
+
+  end
+
+  # TODO
+  def change_page_layout(new_layout_id)
+    current_layout = layout
+    news_layout = PageLayout.find(new_layout_id.layout)
+    update(layout:layout)
+    delete_pillars
+    create_pillars
+    # change_pillars
+  end
+
+  # other SectionTemplate choices for current page
+  def other_page_layout_choices
+    choices = []
+    if page_number == 1
+      choices =PageLayout.where(ad_type: ad_type, page_type: 1).all
+    else
+      choices = PageLayout.where(ad_type: ad_type).all
+    end
+    # also select page specified template 
+    # choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all
+    choices
   end
 
   def create_ad_box(ad_type)

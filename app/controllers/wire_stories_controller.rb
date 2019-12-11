@@ -69,6 +69,6 @@ class WireStoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def wire_story_params
-      params.require(:wire_story).permit(:send_date, :content_id, :category_code, :category_name, :page_ref_code, :page_ref_name, :credit, :source, :title, :body, :issue_id)
+      params.require(:wire_story).permit(:send_date, :content_id, :category_code, :category_name, :region_code, :region_name, :credit, :source, :title, :body, :issue_id)
     end
 end

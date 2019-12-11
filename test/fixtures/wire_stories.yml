@@ -7,8 +7,8 @@
 #  category_code :string
 #  category_name :string
 #  credit        :string
-#  page_ref_code :string
-#  page_ref_name :string
+#  region_code :string
+#  region_name :string
 #  send_date     :date
 #  source        :string
 #  title         :string
@@ -33,8 +33,8 @@ one:
   content_id: MyString
   category_code: MyString
   category_name: MyString
-  page_ref_code: MyString
-  page_ref_name: MyString
+  region_code: MyString
+  region_name: MyString
   credit: MyString
   source: MyString
   title: MyString
@@ -46,8 +46,8 @@ two:
   content_id: MyString
   category_code: MyString
   category_name: MyString
-  page_ref_code: MyString
-  page_ref_name: MyString
+  region_code: MyString
+  region_name: MyString
   credit: MyString
   source: MyString
   title: MyString

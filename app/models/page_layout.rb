@@ -41,6 +41,22 @@ class PageLayout < ApplicationRecord
   serialize :undo, Array
   include RectUtils
 
+  def top_margin
+    margin
+  end
+
+  def left_margin
+    margin
+  end
+
+  def bottom_margin
+    margin
+  end
+
+  def right_margin
+    margin
+  end
+
   def profile
     "#{column}_#{ad_type}_#{layout_with_pillar_path}"
   end
@@ -392,7 +408,7 @@ class PageLayout < ApplicationRecord
   end
 
   def body_line_height
-    grid_height/grid_line_count
+    grid_height/7
   end
   
   def scale
@@ -413,6 +429,14 @@ class PageLayout < ApplicationRecord
 
   def doc_top_margin
     margin
+  end
+
+  def heading_space
+    if page_type = 1
+      body_line_height*10
+    else
+      body_line_height*3
+    end
   end
 
   def svg_width
@@ -443,7 +467,8 @@ class PageLayout < ApplicationRecord
   def pillars_svg
     s = ""
     pillars.each do |pillar|
-      s += pillar.layout_svg
+      r = pillar.rect
+      s += "<rect fill='yellow' stroke='black' stroke-width='1'  x='#{r[0]*svg_grid_width}' y='#{r[1]*svg_grid_height}' width='#{r[2]*svg_grid_width}' height='#{r[3]*svg_grid_height}' />\n"
     end
     s
   end

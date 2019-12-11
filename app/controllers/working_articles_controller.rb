@@ -277,8 +277,8 @@ class WorkingArticlesController < ApplicationController
   def upload_images
     respond_to do |format|
       format.html do
-        if params[:images]
-          params[:images]['image'].each do |a|
+        if params['working_article']['storage_image']
+          Array(params['working_article']['storage_image']).each do |a|
             @image = @working_article.images.create!(storage_image: a, working_article_id: @working_article.id)
           end
         else

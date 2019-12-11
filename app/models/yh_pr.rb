@@ -12,7 +12,7 @@
 #  comment         :string
 #  credit          :string
 #  date            :date
-#  page_ref        :string
+#  region        :string
 #  service_type    :string
 #  source          :string
 #  taken_by        :string
@@ -25,6 +25,7 @@
 #
 
 class YhPr < ApplicationRecord
+    establish_connection :wire_service
     validates_uniqueness_of :content_id
   
     def source_path

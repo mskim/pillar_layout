@@ -2,7 +2,6 @@ module ArticleSwapable
   extend ActiveSupport::Concern
 
   def swapable_attributes
-    # binding.pry
     atts = attributes.dup
     atts.delete('id')
     atts.delete('create_at')

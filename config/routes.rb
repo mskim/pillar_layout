@@ -274,6 +274,7 @@ Rails.application.routes.draw do
       get 'send_pdf_to_printer'
       get 'assign_stories'
       get 'download_zip'
+      patch 'change_page_layout'
     end
   end
 

@@ -19,6 +19,39 @@
   - body
     - fit_text
 
+  - classified_ad
+  - upload_first_page_heading
+  - download_first_page_heading
+  - heading_maker
+
+2019_12_11
+  - rails app for 
+    -uploading images to DigitalOcean
+  - fix image upload
+
+    has_many_attached :storage_images
+
+  - add table GroupedImage
+    has_many_attached :storage_grouped_images
+    position, direction
+    row, column
+    working_article:references
+  - adjust initial body text length by article area
+  - add proof to page
+    has_many proofs
+    
+    proofs 
+      has_many comments
+      version:integer
+
+    comments
+      belongs_to :proof
+      user, comment, x, y, width, height, color    
+
+2019_12_10
+  - add change page_layout to page view
+  - change_pillars
+
 2019_12_9
   - sample_issue
     copy issue_sample when creating new issue instead of generating
@@ -32,7 +65,7 @@
     - fix bottom article 
     - fix ttf font tracking
 
-  - rename page_ref to page_ref 
+  - rename region to region 
 
   - BodyLine
     references WorkingArticle
@@ -1324,8 +1357,8 @@
     content_id
     category_code
     category_name
-    page_ref_code
-    page_ref_name
+    region_code
+    region_name
     credit
     source
     title

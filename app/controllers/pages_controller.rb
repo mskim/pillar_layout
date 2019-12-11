@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :edit, :update, :destroy, :download_pdf, :save_proof_reading_pdf, :send_pdf_to_printer, :dropbox, :regenerate_pdf, :change_template, :save_current_as_default, :assign_stories,:download_zip]
+  before_action :set_page, only: [:show, :edit, :update, :destroy, :download_pdf, :save_proof_reading_pdf, :send_pdf_to_printer, :dropbox, :regenerate_pdf, :change_template, :save_current_as_default, :assign_stories,:download_zip, :change_layout]
   before_action :authenticate_user!
 
   # GET /pages
@@ -158,6 +158,13 @@ class PagesController < ApplicationController
     set_page
     id = @page.save_as_template
     redirect_to @page, notice: "현 페이지를 템플렛 페이지로 저장 하였습니다. id:#{id}"
+  end
+
+  # TOOD chnage page_layout
+  def change_page_layout
+    new_layout  = params[:new_layout]
+    @page.change_page_layout(new_layout)
+    redirect_to @page.change_page_layout
   end
 
   private

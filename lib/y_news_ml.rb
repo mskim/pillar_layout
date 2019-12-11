@@ -103,7 +103,7 @@ class Metadata
   tag 'Metadata'
   has_one :Urgency, String
   has_one :Category, CodeCategory
-  has_one :page_ref, String
+  has_one :region, String
   has_one :Class, String, tag: 'Class'
   has_one :Attribute, String, tag: 'Attribute'
   has_one :Credit, String
@@ -113,7 +113,7 @@ class Metadata
     h = {}
     h[:urgency] = self.Urgency if self.Urgency
     h[:category] = self.Category.to_hash if self.Category
-    h[:page_ref] = self.page_ref if self.Urgency
+    h[:region] = self.region if self.Urgency
     # h[:class] = self.Class.to_s if self.Class
     h[:credit] = self.Credit if self.Credit
     h[:source] = self.Source if self.Source

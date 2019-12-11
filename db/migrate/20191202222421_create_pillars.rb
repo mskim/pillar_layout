@@ -12,8 +12,8 @@ class CreatePillars < ActiveRecord::Migration[5.2]
       t.text :layout
       t.string :profile
       t.string :finger_print
-      t.references :page_ref, polymophic: true
-      t.string :page_ref_type
+      t.references :region, polymophic: true
+      t.string :region_type
 
       t.timestamps
     end
