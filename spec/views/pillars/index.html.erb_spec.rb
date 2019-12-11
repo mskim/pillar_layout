@@ -14,8 +14,8 @@ RSpec.describe "pillars/index", type: :view do
         :layout => "MyText",
         :profile => "Profile",
         :finger_print => "Finger Print",
-        :region => nil,
-        :region_type => "region Type"
+        :page_ref => nil,
+        :page_ref_type => "page_ref Type"
       ),
       Pillar.create!(
         :grid_x => 2,
@@ -28,8 +28,8 @@ RSpec.describe "pillars/index", type: :view do
         :layout => "MyText",
         :profile => "Profile",
         :finger_print => "Finger Print",
-        :region => nil,
-        :region_type => "region Type"
+        :page_ref => nil,
+        :page_ref_type => "page_ref Type"
       )
     ])
   end
@@ -47,6 +47,6 @@ RSpec.describe "pillars/index", type: :view do
     assert_select "tr>td", :text => "Profile".to_s, :count => 2
     assert_select "tr>td", :text => "Finger Print".to_s, :count => 2
     assert_select "tr>td", :text => nil.to_s, :count => 2
-    assert_select "tr>td", :text => "region Type".to_s, :count => 2
+    assert_select "tr>td", :text => "page_ref Type".to_s, :count => 2
   end
 end
