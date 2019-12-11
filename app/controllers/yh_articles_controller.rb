@@ -8,7 +8,7 @@ class YhArticlesController < ApplicationController
   def index
     @q = YhArticle.ransack(params[:q])
     @yh_articles = @q.result(distinct: true)
-    @yh_articles = @yh_articles.order(:date, :time).page(params[:page]).reverse_order.per(10)
+    @yh_articles = @yh_articles.order(:date, :time).page(params[:page]).reverse_order.per(25)
 
     # @yh_articles = YhArticle.all
     # @yh_article_categories = YhArticle.pluck(:category_name).uniq.sort
@@ -22,7 +22,7 @@ class YhArticlesController < ApplicationController
     @yh_article = YhArticle.find(params[:id])
     # 검색 목록
     @q = YhArticle.ransack(params[:q])
-    @yh_articles = @q.result.order(:date, :time).page(params[:page]).reverse_order.per(10)
+    @yh_articles = @q.result.order(:date, :time).page(params[:page]).reverse_order.per(25)
   end
 
   # GET /yh_articles/new
