@@ -1,4 +1,4 @@
-<%= form_for(image, :html => { :multipart => true }) do |f| %> 
+<%= form_for(image, :html => { :multipart => true }) do |f| %>
   <% if image.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -27,7 +27,7 @@
       <%= f.label :storage_image, class: "custom-file-label", for: "customFileLangHTML", data: {browse: "첨부파일"} %>
     </div>
   </div>
-  <div class="form-group mt-3 p-3 border shadow-sm">            
+  <div class="form-group mt-3 p-3 border shadow-sm">
     <% if image.storage_image.attached? %>
       <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
       <%= image_tag image.storage_image, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
@@ -88,7 +88,7 @@
     </div>
   <% end %>
   <div class="form-group mt-3">
-    <%= f.text_field :caption_title, placeholder: "사진 제목을 입력해주십시오", class:'form-control', autocomplete: 'off' %> 
+    <%= f.text_field :caption_title, placeholder: "사진 제목을 입력해주십시오", class:'form-control', autocomplete: 'off' %>
   </div>
   <div class="form-group mt-3">
     <%= f.text_area :caption, font_size: "12px", placeholder: "사진 설명을 입력해주십시오", class: 'form-control' , style: "height: 350px;", autocomplete: 'off' %>
@@ -103,17 +103,4 @@
     </div>
   </div>
   <hr>
-  <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-  <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="btn-group" role="group" aria-label="기능">
-      <%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
-      <%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-default btn-sm" %>
-      <%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-default btn-sm" %>
-      <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-default btn-sm" %>
-    </div>
-    <hr>
-    <div class="btn-group btn-right" role="group" aria-label="기능">
-      <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-sm", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-    </div>
-  </nav>
 <% end %>
