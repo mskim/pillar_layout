@@ -97,10 +97,7 @@ module PageSvg
     # +++++ using pdf image for now
     box_element_svg = page_svg_with_pdf
     box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
-    # box_element_svg += page_svg
-    # box_element_svg += page_heading.box_svg if page_number == 1
     working_articles.each do |article|
-      # next if article.inactive
       box_element_svg += article.box_svg
     end
     ad_boxes.each do |ad|

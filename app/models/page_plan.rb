@@ -37,7 +37,9 @@ class PagePlan < ApplicationRecord
   belongs_to :issue, optional: true
   has_one :page
   has_many :article_plans
-  before_create :parse_profile
+  # before_create :parse_profile
+  before_create :adjust_ad_type_side
+  
 
   def need_update?
     # check the dirty field and currnent page template id
@@ -90,6 +92,15 @@ class PagePlan < ApplicationRecord
     if section_name =~/\(\s*(.+)\s*\)\s*$/
       self.display_name = $1.to_s
       self.section_name = section_name.split("(").first
+    end
+  end
+
+  def adjust_ad_type_side
+    self.ad_type = self.ad_type.unicode_normalize if self.ad_type
+    if self.ad_type == '9단21'
+      self.ad_type = page_number.odd? ? '9단21_홀' : '9단21_짝'
+    elsif ad_type == '7단15'
+      self.ad_type = page_number.odd? ? '7단15_홀' : '7단15_짝'
     end
   end
 

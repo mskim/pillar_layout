@@ -24,6 +24,21 @@
   - download_first_page_heading
   - heading_maker
 
+2019_12_12
+  - add admin panel where admin can fix
+      user
+      working_article
+        overlap
+        image
+        graphic
+      page
+        section_name
+      issue
+        date, number
+  - fix change_page_layout
+    - show more page_layout_choices
+    - add 9단21 page
+    
 2019_12_11
   - rails app for 
     -uploading images to DigitalOcean

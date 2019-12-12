@@ -40,7 +40,8 @@ wire_service:
   database: style_guide_new_development
   username: apple
   password:
-  host: 10.9.50.45
+  # host: 211.181.172.19 
+  host: 10.9.50.45 # in house ip
   port: 5432
   timeout: 5000
 

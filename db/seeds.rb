@@ -1,7 +1,7 @@
 require 'csv'
 require 'yaml'
 
-page_layout_csv_path = "#{Rails.root}/public/page_layout2.csv"
+page_layout_csv_path = "#{Rails.root}/public/1/page_layout.csv"
 csv_text = File.read(page_layout_csv_path)
 puts csv_text
 csv = CSV.parse(csv_text)
