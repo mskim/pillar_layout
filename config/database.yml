@@ -45,13 +45,10 @@ wire_service:
   port: 5432
   timeout: 5000
 
-
-  
 development:
   <<: *default
   database: style_guide_development
   username: <%= ENV['USER'] %>
-
 # test:
 #   <<: *default
 #   database: style_guide__test
