@@ -1,4 +1,4 @@
-<div class="w-100">
+<div class="w-100" style="margin-bottom: 5em;">
   <ul class="nav nav-tabs justify-content-center mb-3" id="myTab" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="edit" aria-selected="true">
@@ -292,3 +292,11 @@
       </div>
     </div>
   </div>
+  <nav class="navbar navbar-light bg-light fixed-bottom">
+    <div class="btn-group" role="group" aria-label="기능">
+      <%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
+      <%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
+      <%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-secondary btn-sm" %>
+      <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-secondary btn-sm" %>
+    </div>
+  </nav>
