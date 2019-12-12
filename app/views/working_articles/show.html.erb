@@ -7,16 +7,16 @@
     </li>
     <li class="nav-item">
       <a class="nav-link" id="picture-tab" data-toggle="tab" href="#picture" role="tab" aria-controls="picture" aria-selected="false">
-        사진
+        사진 편집
       </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="graphic-tab" data-toggle="tab" href="#graphic" role="tab" aria-controls="graphic" aria-selected="false">
-        그래픽
+        그래픽 편집
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first" aria-selected="false">
+      <a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="false">
         <i class="fa fa-th" aria-hidden="true"></i>
         <% if @working_article.page.page_number == 1 %>
           <%= @working_article.page.section_name %> 카테고리 탭
@@ -26,7 +26,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab" aria-controls="second" aria-selected="false">
+      <a class="nav-link" id="article-batch-tab" data-toggle="tab" href="#article-batch" role="tab" aria-controls="article-batch" aria-selected="false">
         <% if @working_article.page.page_number == 1 %>
           <%= @working_article.page.section_name %>
         <% else %>
@@ -61,107 +61,135 @@
           <% end %>
         </div>
         <div class="col-md-4">
-          <div class="accordion" id="accordionExample">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h2 class="mb-0">
-                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    기사 편집
-                  </button>
-                </h2>
-              </div>
-              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-                  <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>
-                    <%= render 'editorial', article:@working_article, page_number:@working_article.page_number%>
-                  <% elsif @working_article.kind == '기고' || @working_article.kind == 'opinion' %>
-                    <%= render 'opinion', article: @working_article %>
-                  <% else %>
-                    <%= render 'form', article: @working_article %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header" id="headingTwo">
-                <h2 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    사진 편집
-                  </button>
-                </h2>
-              </div>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="card-body">
-                  <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
-                    <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
-                      <%= render 'images/form', image: image %>
-                    <% end %>
-                  <% end %>
-                  <% if @working_article.images.length < 3 %>
-                    <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_images'}) do |f| %>
-                      <%= f.fields_for :images, Image.new do |p| %>
-                        <div class="form-group">
-                          <%= f.label :storage_image, "사진 첨부"%>
-                          <%= f.file_field :storage_image, class: "form-control-file" %>
-                        </div>
-                        <div class="form-group">
-                          <%= f.button "사진 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-                        </div>
-                      <% end %>
-                    <% end %>
-                    <% link_to "이미지 추가", add_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
-                    <% link_to "저자 이미지 추가", add_personal_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="card-header" id="headingThree">
-                <h2 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    그래픽 편집
-                  </button>
-                </h2>
-              </div>
-              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                </div>
-              </div>
+          <div class="card">
+            <h5 class="card-header">
+              기사 편집
+            </h5>
+            <div class="card-body">
+              <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>
+                <%= render 'editorial', article:@working_article, page_number:@working_article.page_number%>
+              <% elsif @working_article.kind == '기고' || @working_article.kind == 'opinion' %>
+                <%= render 'opinion', article: @working_article %>
+              <% else %>
+                <%= render 'form', article: @working_article %>
+              <% end %>
             </div>
           </div>
         </div>
-        <div class="col-md-5 sticky-top">
+        <div class="col-md-5">
           <%= render 'show_preview', article: @working_article %>
         </div>
       </div>
     </div>
-    <!-- 사진 탭 -->
+    <!-- 사진 편집 탭 -->
     <div class="tab-pane fade" id="picture" role="tabpanel" aria-labelledby="picture-tab">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-7">
+      <div class="row" style="width: 100%;">
+        <div class="col-md-3">
+          <% @pages.each do |page| %>
+            <div class="card">
+              <div class="border text-center" style="margin: 5px;">
+                <%= raw page.to_svg_with_jpg %>
+              </div>
+              <div class="card-body text-center">
+                <% if page.color_page %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+                <% else %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-4">
           <div class="card">
-            <div class="text-center border">
-              사진
+            <h5 class="card-header">
+              사진 편집
+            </h5>
+            <div class="card-body">
+              <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
+                  <%= render 'images/form', image: image %>
+                <% end %>
+                <% if @working_article.images.length < 3 %>
+                  <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_images'}) do |f| %>
+                    <%= f.fields_for :images, Image.new do |p| %>
+                      <div class="form-group">
+                        <%= f.label :storage_image, "사진 첨부"%>
+                        <%= f.file_field :storage_image, class: "form-control-file" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.button "사진 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                  <% link_to "이미지 추가", add_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                  <% link_to "저자 이미지 추가", add_personal_image_article_path(@working_article), method: :get, class: "btn btn-sm btn-danger" %>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
+        <div class="col-md-5">
+          <%= render 'show_preview', article: @working_article %>
+        </div>
       </div>
     </div>
-    <!-- 그래픽 -->
+    <!-- 그래픽 편집 탭-->
     <div class="tab-pane fade" id="graphic" role="tabpanel" aria-labelledby="graphic-tab">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-7">
+      <div class="row" style="width: 100%;">
+        <div class="col-md-3">
+          <% @pages.each do |page| %>
+            <div class="card">
+              <div class="border text-center" style="margin: 5px;">
+                <%= raw page.to_svg_with_jpg %>
+              </div>
+              <div class="card-body text-center">
+                <% if page.color_page %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+                <% else %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-4">
           <div class="card">
-            <div class="text-center border">
-              그래픽
+            <h5 class="card-header">
+              그래픽 편집
+            </h5>
+            <div class="card-body">
+              <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                <% if @reporter_graphics.length > 0 %>
+                  <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
+                <% end %>
+                <% @working_article.graphics.each do |graphic| %>
+                  <%= render 'graphics/form', graphic: graphic %>
+                <% end %>
+                <% if  @working_article.graphics.length <= 2 %>
+                  <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
+                    <%= f.fields_for :images, Image.new do |p| %>
+                      <div class="form-group">
+                        <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
+                        <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                      </div>
+                    <% end %>
+                    <div class="actions">
+                      <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
             </div>
           </div>
+        </div>
+        <div class="col-md-5">
+          <%= render 'show_preview', article: @working_article %>
         </div>
       </div>
     </div>
     <!-- 카테고리 탭 -->
-    <div class="tab-pane fade" id="first" role="tabpanel" aria-labelledby="first-tab">
+    <div class="tab-pane fade" id="category" role="tabpanel" aria-labelledby="category-tab">
       <div class="row">
         <div class="col-md-3">
           <% @pages.each do |page| %>
@@ -183,7 +211,7 @@
       </div>
     </div>
     <!-- 해당 페이지 기사 배정 -->
-    <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
+    <div class="tab-pane fade" id="article-batch" role="tabpanel" aria-labelledby="article-batch-tab">
       <div class="row">
         <div class="col-md-3">
           <% @pages.each do |page| %>
