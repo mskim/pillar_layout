@@ -220,7 +220,7 @@ class Pillar < ApplicationRecord
   end
 
   def y
-    grid_y * page_ref.grid_height #+ page_ref.heading_space #+ page_ref.top_margin
+    grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
   end
 
   def width

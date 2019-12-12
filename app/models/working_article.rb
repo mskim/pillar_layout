@@ -1239,6 +1239,7 @@ class WorkingArticle < ApplicationRecord
   def init_article
     self.grid_width  = page.grid_width
     self.grid_height = page.grid_height
+    self.is_front_page = true if page.is_front_page?
     self.column = 4 unless column
     self.row = 4 unless row
     self.title = "여기는 #{pillar_order}제목 입니다." unless title

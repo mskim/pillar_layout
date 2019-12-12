@@ -183,11 +183,13 @@ module WorkingArticlePillarMethods
   end
 
   def y
-    if pillar
-      y_position = pillar.y + grid_y*grid_height
-    else
-      y_position = grid_y*grid_height
-    end
+    # if pillar
+    #   y_position = pillar.y + grid_y*grid_height
+    # else
+    #   y_position = grid_y*grid_height
+    # end
+    y_position = grid_y*grid_height
+
     if top_position?
       y_position += page_heading_margin_in_lines*body_line_height
     # elsif pushed_line_count && pushed_line_count != 0
