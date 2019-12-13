@@ -12,16 +12,16 @@
 #  layout                  :text
 #  layout_with_pillar_path :text
 #  order                   :integer
-#  region_type           :string
+#  page_ref_type           :string
 #  profile                 :string
 #  row                     :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
-#  region_id             :bigint
+#  page_ref_id             :bigint
 #
 # Indexes
 #
-#  index_pillars_on_region_id  (region_id)
+#  index_pillars_on_page_ref_id  (page_ref_id)
 #
 
 require 'rails_helper'

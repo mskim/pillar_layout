@@ -7,8 +7,8 @@
 #  category_code :string
 #  category_name :string
 #  credit        :string
-#  region_code :string
-#  region_name :string
+#  region_code   :string
+#  region_name   :string
 #  send_date     :date
 #  source        :string
 #  title         :string
