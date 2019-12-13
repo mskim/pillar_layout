@@ -4,7 +4,7 @@ class PageLayoutsController < ApplicationController
   # GET /page_layouts
   # GET /page_layouts.json
   def index
-    @page_layouts = PageLayout.all
+    @page_layouts = PageLayout.all.order(:ad_type)
   end
 
   # GET /page_layouts/1
@@ -41,6 +41,9 @@ class PageLayoutsController < ApplicationController
   # PATCH/PUT /page_layouts/1.json
   def update
     respond_to do |format|
+      # binding.pry
+      # page_layout_params['layout'] = eval(page_layout_params['layout'])
+      # binding.pry
       if @page_layout.update(page_layout_params)
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully updated.' }
         format.json { render :show, status: :ok, location: @page_layout }
@@ -69,6 +72,6 @@ class PageLayoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_layout_params
-      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :layout, :layout_with_pillar_path, :like)
+      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :like, :layout_with_pillar_path=>[], :layout=>[])
     end
 end

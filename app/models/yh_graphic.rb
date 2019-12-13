@@ -33,9 +33,12 @@ class YhGraphic < ApplicationRecord
   def source_path
     require 'date'
     today = Date.today
-    today_string = today.strftime('%Y%m%d')
-    @filename_date = content_id.split('/').last.scan(/\d{8}/).first
-    "/wire_source/203_GRAPHIC/#{@filename_date}"
+    today_string = today.strftime("%Y%m%d")
+    filename_date = content_id.split("/").last.scan(/\d{8}/).first
+    year_dir = filename_date.scan(/\d{4}/).first
+    month_dir = filename_date.scan(/\d{4}/).last.scan(/\d{2}/).first
+    day_dir = filename_date.scan(/\d{4}/).last.scan(/\d{2}/).last
+    "/wire_source/203_GRAPHIC/#{year_dir}/#{month_dir}/#{day_dir}"
     # "/Volumes/211.115.91.190/101_KOR/#{Issue.last.date_string}"
     # "/Volumes/211.115.91.190/203_GRAPHIC/#{Issue.last.date_string}"
   end
@@ -44,21 +47,21 @@ class YhGraphic < ApplicationRecord
     return unless picture
 
     full_size = picture.split(' ').first
-    source_path + "/#{full_size}"
+    source_path + "/full/#{full_size}"
   end
 
   def preview_path
     return unless picture
 
     preview = picture.split(' ')[1]
-    source_path + "/#{preview}"
+    source_path + "/pre/#{preview}"
   end
 
   def thumb_path
     return unless picture
 
     thumb = picture.split(' ').last
-    source_path + "/#{thumb}"
+    source_path + "/thumb/#{thumb}"
   end
 
   def taken(user)

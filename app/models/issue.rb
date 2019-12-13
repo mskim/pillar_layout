@@ -215,10 +215,10 @@ class Issue < ApplicationRecord
         template = PageLayout.where(page_type:page_number, ad_type: ad_type).first
         # If not found, look for odd even  tempate 
         unless template
-          page_type = page_number.odd?  ? "1" : "2"
+          page_type = page_number.odd?  ? "101" : "102"
           template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
           unless template
-            page_type = "0"
+            page_type = "100"
             template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
           end
         end

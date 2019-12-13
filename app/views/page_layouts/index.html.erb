@@ -1,28 +1,38 @@
-<h1>Page Layouts</h1>
 
-<table class="responsive nowrap table table-hover" id="dttb-page_layouts" data-sort="true" data-source="<%= url_for(format: :json)%>">
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+
+<h3>페이지 레이아웃</h3>
+
+<table class="table table-striped">
   <thead>
     <tr>
-      <th data-data="doc_width">Doc width</th>
-      <th data-data="doc_height">Doc height</th>
-      <th data-data="ad_type">Ad type</th>
-      <th data-data="page_type">Page type</th>
-      <th data-data="column">Column</th>
-      <th data-data="row">Row</th>
-      <th data-data="pillar_count">Pillar count</th>
-      <th data-data="grid_width">Grid width</th>
-      <th data-data="grid_height">Grid height</th>
-      <th data-data="gutter">Gutter</th>
-      <th data-data="margin">Margin</th>
-      <th data-data="layout">Layout</th>
-      <th data-data="layout_with_pillar_path">Layout with pillar path</th>
-      <th data-data="like">Like</th>
-      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+      <th>그림</th>
+      <th>광고종류</th>
+      <th>페이지</th>
+      <th>컬럼수</th>
+      <th>레이아웃</th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
+  <tbody>
+    <% @page_layouts.each do |page_layout| %>
+      <tr>
+        <td><%= raw page_layout.to_svg %></td>
+        <td><%= page_layout.ad_type %></td>
+        <td><%= page_layout.page_type %></td>
+        <td><%= page_layout.column %></td>
+        <td><%= page_layout.layout %></td>
+        <td><%= link_to 'Show', page_layout %></td>
+        <td><%= link_to 'Edit', edit_page_layout_path(page_layout) %></td>
+        <td><%= link_to 'Destroy', page_layout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+<%= button_to '신규 추가', new_page_layout_path, method: :get, class: "btn btn-sm btn-success" %>
+
+</div>
 
 <br>
-
-<%= link_to 'New Page Layout', new_page_layout_path %>

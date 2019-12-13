@@ -38,7 +38,22 @@
   - fix change_page_layout
     - show more page_layout_choices
     - add 9단21 page
-    
+
+2019_12_13
+  - opinion box
+  - quote_box
+      position
+      column
+      heights_in_line
+      alignment
+      v_alignment
+      sides
+  - text_box
+    - empty_first_column
+
+2019_12_12
+  - add more page_layouts
+  
 2019_12_11
   - rails app for 
     -uploading images to DigitalOcean
