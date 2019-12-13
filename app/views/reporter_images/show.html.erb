@@ -8,7 +8,7 @@
         <h5 class="card-header text-light bg-dark">
           사진 미리보기
         </h5>
-        <%= image_tag @reporter_image.thumb_path, class: "card-img-top" %>
+        <%= image_tag @reporter_image.preview_path, class: "card-img-top" %>
         <div class="card-body">
           <h5 class="card-title display-4"><%= @reporter_image.title %></h5>
           <p class="card-text"><%= simple_format(@reporter_image.caption) %></p>
