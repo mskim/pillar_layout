@@ -8,11 +8,13 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    before_action :authenticate_admin
     before_action :authenticate_user!
+    before_action :authenticate_admin
 
     def authenticate_admin
-      # TODO: Add authentication logic here.
+      unless current_user && access_whitelist
+        redirect_to '/', alert: '인증 실패하였습니다.'
+      end
     end
 
     # Override this value to specify the number of elements to display at a time
@@ -23,8 +25,8 @@ module Admin
 
     private
 
-    def access?
-      current_user.role == 'admin' || current_user.role == 'designer'
+    def access_whitelist
+      current_user.try(:admin?) || current_user.try(:designer?)
     end
   end
 end
