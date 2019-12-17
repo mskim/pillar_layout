@@ -1,4 +1,4 @@
-:column: 2
+:column: 3
 :row: 3
 :is_front_page: <null>
 :top_story: 0
@@ -6,5 +6,4 @@
 :extended_line_count: 0
 :pushed_line_count: 0
 :quote_box_size: 0
-:overflow_line_count: 49
-:overflow_text: 
+:empty_lines: 4

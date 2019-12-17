@@ -39,7 +39,10 @@
     - show more page_layout_choices
     - add 9단21 page
 
-2019_12_13
+
+2019_12_16
+  - redo NewsArticleBox layout
+
   - opinion box
   - quote_box
       position
@@ -50,6 +53,9 @@
       sides
   - text_box
     - empty_first_column
+
+  - administrait
+    - working_article, image, graphic, issue, page, reporter, ad_box
 
 2019_12_12
   - add more page_layouts
@@ -62,6 +68,7 @@
     has_many_attached :storage_images
 
   - add table GroupedImage
+    group_caption, individual_caption
     has_many_attached :storage_grouped_images
     position, direction
     row, column
