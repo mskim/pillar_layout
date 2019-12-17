@@ -1,6 +1,20 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users
+    resources :ad_boxes
+    resources :issues
+    resources :pages
+    resources :page_headings
+    resources :page_plans
+    resources :pillars
+    resources :profiles
+    resources :reporters
+    resources :working_articles
+
+    root to: 'users#index'
+  end
   resources :body_lines
   resources :actions
   resources :layout_nodes
