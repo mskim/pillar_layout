@@ -84,7 +84,7 @@
     <!-- f.label :본문 -->
     <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span><span class="box">&#9656;</span></div>
     <%= render 'character_count', article: @working_article %>
-    <%= f.rich_text_area :body, class: 'form-control shinmoon', style: "height: 450px;", autocomplete: 'off' %>
+    <%= f.text_area :body, class: 'form-control shinmoon', style: "height: 450px;", autocomplete: 'off' %>
   </div>
   <div class="form-row">
     <div class="col">
