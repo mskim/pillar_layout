@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class AdBoxDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -31,7 +33,7 @@ class AdBoxDashboard < Administrate::BaseDashboard
     page_number: Field::Number,
     grid_width: Field::Number.with_options(decimals: 2),
     grid_height: Field::Number.with_options(decimals: 2),
-    gutter: Field::Number.with_options(decimals: 2),
+    gutter: Field::Number.with_options(decimals: 2)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -40,66 +42,63 @@ class AdBoxDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  page
-  spread
-  storage_ad_image_attachment
-  storage_ad_image_blob
+    id
+    page
+    grid_x
+    grid_y
+    column
+    row
+    order
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  page
-  spread
-  storage_ad_image_attachment
-  storage_ad_image_blob
-  id
-  grid_x
-  grid_y
-  column
-  row
-  order
-  ad_type
-  advertiser
-  inactive
-  ad_image
-  created_at
-  updated_at
-  color
-  path
-  date
-  page_heading_margin_in_lines
-  page_number
-  grid_width
-  grid_height
-  gutter
+    id
+    page
+    grid_x
+    grid_y
+    column
+    row
+    order
+    ad_type
+    advertiser
+    inactive
+    ad_image
+    created_at
+    updated_at
+    color
+    path
+    date
+    page_heading_margin_in_lines
+    page_number
+    grid_width
+    grid_height
+    gutter
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  page
-  spread
-  storage_ad_image_attachment
-  storage_ad_image_blob
-  grid_x
-  grid_y
-  column
-  row
-  order
-  ad_type
-  advertiser
-  inactive
-  ad_image
-  color
-  path
-  date
-  page_heading_margin_in_lines
-  page_number
-  grid_width
-  grid_height
-  gutter
+    page
+    grid_x
+    grid_y
+    column
+    row
+    order
+    ad_type
+    advertiser
+    inactive
+    ad_image
+    color
+    path
+    date
+    page_heading_margin_in_lines
+    page_number
+    grid_width
+    grid_height
+    gutter
   ].freeze
 
   # COLLECTION_FILTERS

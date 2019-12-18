@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class PagePlanDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -27,7 +29,7 @@ class PagePlanDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     description: Field::Text,
     deadline: Field::String,
-    display_name: Field::String,
+    display_name: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -36,58 +38,58 @@ class PagePlanDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  issue
-  page
-  article_plans
-  id
+    id
+    issue
+    page
+    article_plans
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  issue
-  page
-  article_plans
-  id
-  page_number
-  section_name
-  selected_template_id
-  column
-  row
-  story_count
-  profile
-  ad_type
-  advertiser
-  color_page
-  dirty
-  created_at
-  updated_at
-  description
-  deadline
-  display_name
+    id
+    issue
+    page
+    article_plans
+    page_number
+    section_name
+    selected_template_id
+    column
+    row
+    story_count
+    profile
+    ad_type
+    advertiser
+    color_page
+    dirty
+    created_at
+    updated_at
+    description
+    deadline
+    display_name
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  issue
-  page
-  article_plans
-  page_number
-  section_name
-  selected_template_id
-  column
-  row
-  story_count
-  profile
-  ad_type
-  advertiser
-  color_page
-  dirty
-  description
-  deadline
-  display_name
+    issue
+    page
+    article_plans
+    page_number
+    section_name
+    selected_template_id
+    column
+    row
+    story_count
+    profile
+    ad_type
+    advertiser
+    color_page
+    dirty
+    description
+    deadline
+    display_name
   ].freeze
 
   # COLLECTION_FILTERS

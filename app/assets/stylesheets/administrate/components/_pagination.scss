@@ -1,18 +1,42 @@
 .pagination {
-  margin-top: $base-spacing;
-  padding-left: $base-spacing;
-  padding-right: $base-spacing;
-  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+}
 
-  .first,
-  .prev,
-  .page,
-  .next,
-  .last {
-    margin: $small-spacing;
-  }
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  border: 1px solid #ddd;
 
-  .current {
-    font-weight: $bold-font-weight;
+  &:hover {
+    background-color: whitesmoke;
   }
+}
+
+.pagination li.active {
+  background-color: rgb(249, 69, 69);
+  float: left;
+  text-decoration: none;
+  a {
+    color: white;
+  }
+}
+
+.pagination-layout {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.pagination li:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pagination li:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }

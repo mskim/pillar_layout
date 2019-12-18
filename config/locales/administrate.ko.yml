@@ -1,0 +1,6 @@
+administrate:
+  actions:
+  confirm: 확인
+  destroy: 삭제
+  Edit: 편집
+  show: 보기
