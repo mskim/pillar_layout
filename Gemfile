@@ -23,7 +23,7 @@ gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -70,6 +70,7 @@ gem 'griddler'
 gem 'administrate'
 gem 'administrate-field-active_storage'
 gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap-kaminari-views'
 gem 'bootstrap4-kaminari-views'
 gem 'bootstrap_form'
 gem 'browser'

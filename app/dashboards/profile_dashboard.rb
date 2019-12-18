@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class ProfileDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -19,7 +21,7 @@ class ProfileDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     title: Field::String,
     category_code: Field::Number,
-    profile_jpg_image: Field::String,
+    profile_jpg_image: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -28,42 +30,41 @@ class ProfileDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  publication
-  id
-  name
-  profile_image
+    id
+    name
+    work
+    title
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  publication
-  id
-  name
-  profile_image
-  work
-  position
-  email
-  created_at
-  updated_at
-  title
-  category_code
-  profile_jpg_image
+    id
+    name
+    profile_image
+    work
+    position
+    email
+    created_at
+    updated_at
+    title
+    category_code
+    profile_jpg_image
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  publication
-  name
-  profile_image
-  work
-  position
-  email
-  title
-  category_code
-  profile_jpg_image
+    publication
+    name
+    profile_image
+    work
+    position
+    email
+    title
+    category_code
+    profile_jpg_image
   ].freeze
 
   # COLLECTION_FILTERS

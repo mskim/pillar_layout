@@ -10,12 +10,11 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    id: Field::Number,
     page: Field::BelongsTo,
     pillar: Field::BelongsTo,
     article: Field::BelongsTo,
-
     proofs: Field::HasMany,
-    id: Field::Number,
     grid_x: Field::Number,
     grid_y: Field::Number,
     column: Field::Number,
@@ -91,21 +90,22 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
+    id
     page
     pillar
-    article
-
+    title
+    subtitle
+    body
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
+    id
     page
     pillar
     article
-
     proofs
-    id
     grid_x
     grid_y
     column
@@ -120,7 +120,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     body
     reporter
     email
-
     quote
     subject_head
     on_left_edge
@@ -182,7 +181,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     page
     pillar
     article
-
     proofs
     grid_x
     grid_y
@@ -198,7 +196,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     body
     reporter
     email
-
     quote
     subject_head
     on_left_edge

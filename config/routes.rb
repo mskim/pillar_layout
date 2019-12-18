@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     resources :issues
     resources :pages
     resources :page_headings
-    resources :page_plans
     resources :pillars
     resources :profiles
     resources :reporters

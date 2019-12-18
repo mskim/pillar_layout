@@ -1,4 +1,6 @@
-require "administrate/base_dashboard"
+# frozen_string_literal: true
+
+require 'administrate/base_dashboard'
 
 class PageDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -45,7 +47,7 @@ class PageDashboard < Administrate::BaseDashboard
     article_line_thickness: Field::Number.with_options(decimals: 2),
     page_heading_margin_in_lines: Field::Number,
     tag: Field::String,
-    display_name: Field::String,
+    display_name: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -54,94 +56,96 @@ class PageDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  issue
-  page_plan
-  pillars
-  working_articles
+    id
+    ad_type
+    issue
+    pillars
+    column
+    working_articles
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  issue
-  page_plan
-  pillars
-  working_articles
-  ad_boxes
-  page_heading
-  id
-  page_number
-  section_name
-  column
-  row
-  ad_type
-  story_count
-  color_page
-  profile
-  template_id
-  created_at
-  updated_at
-  clone_name
-  slug
-  layout
-  publication_id
-  path
-  date
-  grid_width
-  grid_height
-  lines_per_grid
-  width
-  height
-  left_margin
-  top_margin
-  right_margin
-  bottom_margin
-  gutter
-  article_line_thickness
-  page_heading_margin_in_lines
-  tag
-  display_name
+    id
+    issue
+    page_plan
+    pillars
+    working_articles
+    ad_boxes
+    page_heading
+    page_number
+    section_name
+    column
+    row
+    ad_type
+    story_count
+    color_page
+    profile
+    template_id
+    created_at
+    updated_at
+    clone_name
+    slug
+    layout
+    publication_id
+    path
+    date
+    grid_width
+    grid_height
+    lines_per_grid
+    width
+    height
+    left_margin
+    top_margin
+    right_margin
+    bottom_margin
+    gutter
+    article_line_thickness
+    page_heading_margin_in_lines
+    tag
+    display_name
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  issue
-  page_plan
-  pillars
-  working_articles
-  ad_boxes
-  page_heading
-  page_number
-  section_name
-  column
-  row
-  ad_type
-  story_count
-  color_page
-  profile
-  template_id
-  clone_name
-  slug
-  layout
-  publication_id
-  path
-  date
-  grid_width
-  grid_height
-  lines_per_grid
-  width
-  height
-  left_margin
-  top_margin
-  right_margin
-  bottom_margin
-  gutter
-  article_line_thickness
-  page_heading_margin_in_lines
-  tag
-  display_name
+    issue
+    page_plan
+    pillars
+    working_articles
+    ad_boxes
+    page_heading
+    page_number
+    section_name
+    column
+    row
+    ad_type
+    story_count
+    color_page
+    profile
+    template_id
+    clone_name
+    slug
+    layout
+    publication_id
+    path
+    date
+    grid_width
+    grid_height
+    lines_per_grid
+    width
+    height
+    left_margin
+    top_margin
+    right_margin
+    bottom_margin
+    gutter
+    article_line_thickness
+    page_heading_margin_in_lines
+    tag
+    display_name
   ].freeze
 
   # COLLECTION_FILTERS
