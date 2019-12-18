@@ -1,9 +1,8 @@
-<%= render 'issue_pages_layout' %>
-<!-- 
 <div class="w-100 pl-4 pr-4">
   <div class="row">
-    <% @pages.each.each do |page| %>
+    <% @pages.each do |page| %>
       <div class = "col-xs-6 col-md-3 border shadow-sm pt-2"  align='center'>
+        <!--a href="<%=  page_path(page) %>"><img  src="<%= page.jpg_image_path %>" width="100%"></img></a-->
         <div class="border">
           <%= raw page.to_svg_with_jpg %>
         </div>
@@ -15,8 +14,7 @@
           <% end %>
         </p>
       </div>
-
+      <!-- true -->
     <% end %>
   </div>
 </div>
--->
