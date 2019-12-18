@@ -24,7 +24,14 @@
   - download_first_page_heading
   - heading_maker
 
-2019_12_12
+2019_12_18
+  - add more page_layouts by 1, even odd, 
+  - show column in page_layout svg
+  - fix change_page_layout
+  - show more page_layout_choices
+  - add 9단21 page
+
+2019_12_17
   - add admin panel where admin can fix
       user
       working_article
@@ -35,9 +42,7 @@
         section_name
       issue
         date, number
-  - fix change_page_layout
-    - show more page_layout_choices
-    - add 9단21 page
+
 
 
 2019_12_16
@@ -57,9 +62,7 @@
   - administrait
     - working_article, image, graphic, issue, page, reporter, ad_box
 
-2019_12_12
-  - add more page_layouts
-  
+
 2019_12_11
   - rails app for 
     -uploading images to DigitalOcean

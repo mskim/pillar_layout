@@ -426,12 +426,10 @@ class Pillar < ApplicationRecord
   def init_pillar
     profile = "#{column}x#{row}_#{box_count}"
     self.profile = profile
-    if layout_with_pillar_path == []
-      n = LayoutNode.where(profile: profile).first
-      if n
-        self.layout_with_pillar_path = n.layout_with_pillar_path
-        self.finger_print = n.finger_print
-      end
+    n = LayoutNode.where(profile: profile).first
+    if n
+      self.layout_with_pillar_path = n.layout_with_pillar_path
+      self.finger_print = n.finger_print
     end
   end
 end

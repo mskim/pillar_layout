@@ -114,8 +114,6 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticlePillarMethods
   include PageSavePdf
 
-  has_rich_text :body
-
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
