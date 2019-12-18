@@ -1,10 +1,10 @@
 :column: 5
 :row: 3
-:is_front_page: <null>
+:is_front_page: 1
 :top_story: 0
 :top_position: 1
 :extended_line_count: 0
 :pushed_line_count: 0
 :quote_box_size: 0
-:overflow_line_count: 25
+:overflow_line_count: 28
 :overflow_text: 

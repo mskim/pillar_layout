@@ -57,6 +57,14 @@ class PageLayout < ApplicationRecord
     margin
   end
 
+  def pillar_profile
+    s = ""
+    pillars.each do |p|
+      s += p.column.to_s + "/"
+    end
+    s
+  end
+
   def profile
     "#{column}_#{ad_type}_#{layout_with_pillar_path}"
   end

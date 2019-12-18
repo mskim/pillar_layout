@@ -732,7 +732,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def grid_area
-    grid_x*grid_y
+    column*row
   end
 
   def body_line_height
@@ -1245,17 +1245,15 @@ class WorkingArticle < ApplicationRecord
     self.title = "여기는 #{pillar_order}제목 입니다." unless title
     self.title = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle = '여기는 부제목 입니다.' unless subtitle
-    body_text = '여기는 본문입니다. '*20 
-    body_text += '여기는 본문입니다. '*20 
-    body_text =<<~EOF
-    #{body_text}
 
-    #{body_text}
-
-    #{body_text}
-
-    EOF
-    self.body = body_text unless body
+    body_text = ""
+    unit_text = '여기는 본문입니다. '*8 
+    area = self.column*self.row
+    area.times do 
+      body_text += unit_text
+      body_text += "\n\n"
+    end
+    self.body = body_text
   end
 
   def setup_article
