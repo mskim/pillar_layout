@@ -555,42 +555,6 @@ class Page < ApplicationRecord
     result                        = PageHeading.where(heading_atts).first_or_create
   end
 
-  def create_ad_boxes(section)
-    section.ad_box_templates.each_with_index do |ad_box_template, i|
-      current = {page_id: self.id}
-      current[:grid_x] = ad_box_template.grid_x
-      current[:grid_y] = ad_box_template.grid_y
-      current[:column] = ad_box_template.column
-      current[:row] = ad_box_template.row
-      current[:order] = i
-      AdBox.create(current)
-    end
-  end
-
-  def change_template(new_template_id)
-    new_section                  = Section.find(new_template_id)
-    new_page_hash                = new_section.attributes
-    new_page_hash                = Hash[new_page_hash.map{ |k, v| [k.to_sym, v] }]
-    new_page_hash[:page_number]  = page_number
-    new_page_hash[:section_name] = page_plan.section_name
-    new_page_hash[:template_id]  = new_template_id
-    new_page_hash.delete(:id)
-    new_page_hash.delete(:path)
-    new_page_hash.delete(:order)
-    new_page_hash.delete(:is_front_page)
-    new_page_hash.delete(:created_at)
-    new_page_hash.delete(:updated_at)
-    new_page_hash.delete(:draw_divider)
-    update(new_page_hash)
-    save_config_file
-    generate_heading_pdf
-    change_working_articles(new_section)
-    change_ad_boxes(new_section)
-    generate_pdf_with_time_stamp
-    page_color_check
-  end
-
-
   def change_heading
     section  = Section.find(template_id)
     FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
@@ -903,18 +867,73 @@ class Page < ApplicationRecord
     end
   end
 
-  def delete_pillars
-
-  end
+  # def delete_pillars
+  #   pillars.each do |pil|
+  #     pil.destroy
+  #   end
+  #   system("rm -rf #{path}")
+  # end
 
   # TODO
   def change_page_layout(new_layout_id)
-    current_layout = layout
-    news_layout = PageLayout.find(new_layout_id.layout)
-    update(layout:layout)
-    delete_pillars
-    create_pillars
-    # change_pillars
+    update(template_id:new_layout_id)
+    new_page_layout = PageLayout.find(new_layout_id.to_i)
+
+    if pillars.length == new_page_layout.pillars.length
+      # New page layout and current one has equal number of pillars
+      pillars.each_with_index do |p, i|
+        #TODO Pillar should have layout_with_pillar_path
+        layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
+        if layout_with_pillar_path == []
+          profile = new_page_layout.pillars[i].profile
+          layout_with_pillar_path = LayoutNode.where(profile: profile).first.leaf_node_layout_with_pillar_path
+          p.change_layout(layout_with_pillar_path)
+        else
+          p.change_layout(layout_with_pillar_path)
+        end
+      end
+    elsif pillars.length > new_page_layout.pillars.length
+      # Current layout has more number of pillars
+      pillars.each_with_index do |p, i|
+        if i >= new_page_layout.pillars.length
+          # delete pillar
+          p.destory
+        else
+          layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
+          # TODO Pillar should have layout_with_pillar_path
+          # somehow we seem to be not doing this. fix this we don't need to do the following
+          if layout_with_pillar_path == []
+            profile = new_page_layout.pillars[i].profile
+            layout_with_pillar_path = LayoutNode.where(profile: profile).first.leaf_node_layout_with_pillar_path
+            p.change_layout(layout_with_pillar_path)
+          else
+            p.change_layout(layout_with_pillar_path)
+          end
+        end
+      end
+    else
+      # New page layout has more pillars than currnt one
+      new_page_layout.layout.each_with_index do |layout, i|
+        if i >= news_layout.length
+          # create new pillar
+          Pillar.where(page_ref: self, grid_x: layout[0], grid_y: layout[1], column: layout[2], row: layout[3], order: i + 1, box_count:layout[4]).first_or_create
+        else
+          layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
+          if layout_with_pillar_path == []
+            profile = new_page_layout.pillars[i].profile
+            layout_with_pillar_path = LayoutNode.where(profile: profile).layout_with_pillar_path
+            p = pillars[i]
+            p.change_layout(layout_with_pillar_path)
+          else
+            p.change_layout(layout_with_pillar_path)
+          end
+        end
+      end
+    end
+    # change_ad_box
+    if ad_type != new_page_layout.ad_type && ad_type != "광고없음"
+      @ad_boxes.first.change_layout(new_page_layout.ad_type)
+    end
   end
 
   # other SectionTemplate choices for current page
@@ -923,7 +942,12 @@ class Page < ApplicationRecord
     if page_number == 1
       choices =PageLayout.where(ad_type: ad_type, page_type: 1).all
     else
-      choices = PageLayout.where(ad_type: ad_type).all
+      choices += PageLayout.where(ad_type: ad_type, page_type:page_number).all
+      if page_number.odd?
+        choices += PageLayout.where(ad_type: ad_type, page_type:101).all
+      else
+        choices += PageLayout.where(ad_type: ad_type, page_type:100).all
+      end
     end
     # also select page specified template 
     # choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all

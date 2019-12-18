@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_action :set_page, only: [:show, :edit, :update, :destroy, :download_pdf, :save_proof_reading_pdf, :send_pdf_to_printer, :dropbox, :regenerate_pdf, :change_template, :save_current_as_default, :assign_stories,:download_zip, :change_layout]
+  before_action :set_page, only: [:show, :edit, :update, :destroy, :download_pdf, :save_proof_reading_pdf, :send_pdf_to_printer, :dropbox, :regenerate_pdf, :change_template, :save_current_as_default, :assign_stories,:download_zip, :change_page_layout]
   before_action :authenticate_user!
 
   # GET /pages
@@ -162,9 +162,9 @@ class PagesController < ApplicationController
 
   # TOOD chnage page_layout
   def change_page_layout
-    new_layout  = params[:new_layout]
+    new_layout  = params[:new_choice].to_i
     @page.change_page_layout(new_layout)
-    redirect_to @page.change_page_layout
+    redirect_to @page
   end
 
   private

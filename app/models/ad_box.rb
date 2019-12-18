@@ -440,6 +440,81 @@ EOF
     "#{date_without_minus}.011001#{two_digit_page_number}0000#{two_digit}.xml"
   end
 
+  def change_layout(new_ad_type)
+    info = {}
+    case new_ad_type
+    when '15단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 0
+      info[:column] = column
+      info[:row]    = 15
+    when '5단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 10
+      info[:column] = column
+      info[:row]    = 5
+    when '4단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 11
+      info[:column] = column
+      info[:row]    = 4
+    when '3단통'
+      info[:grid_x] = 0
+      info[:grid_y] = 12
+      info[:column] = column
+      info[:row]    = 3
+    when '9단21'
+      if page_number.odd?
+        info[:grid_x] = 3
+        info[:grid_y] = 6
+        info[:column] = 4
+        info[:row]    = 9
+      else
+        info[:grid_x] = 0
+        info[:grid_y] = 6
+        info[:column] = 4
+        info[:row]    = 9
+      end
+    when '9단21_홀'
+      info[:grid_x] = 3
+      info[:grid_y] = 6
+      info[:column] = 4
+      info[:row]    = 9
+    when '9단21_짝'
+      info[:grid_x] = 0
+      info[:grid_y] = 6
+      info[:column] = 4
+      info[:row]    = 9
+    when '7단15'
+      if page_number.odd?
+        info[:grid_x] = 0
+        info[:grid_y] = 8
+        info[:column] = 3
+        info[:row]    = 7
+      else
+        info[:grid_x] = 4
+        info[:grid_y] = 8
+        info[:column] = 3
+        info[:row]    = 7
+      end
+    when '7단15_홀'
+      info[:grid_x] = 0
+      info[:grid_y] = 8
+      info[:column] = 3
+      info[:row]    = 7
+    when '7단15_짝'
+      info[:grid_x] = 4
+      info[:grid_y] = 8
+      info[:column] = 3
+      info[:row]    = 7
+    else
+      puts "+++++++++ unsupported ad_type:#{ad_type}"
+      return
+    end
+    update(info)
+    generate_pdf_with_time_stamp
+  end
+
   private
 
   def init_atts
