@@ -800,7 +800,11 @@ class WorkingArticle < ApplicationRecord
     h[:on_right_edge]                 = self.on_right_edge
     h[:is_front_page]                 = self.is_front_page
     h[:top_story]                     = top_story?
-    h[:top_story]                     = false   if kind == 'opinion' || kind == '기고' || kind == 'editorial' || kind == '사설'
+    h[:top_story]                     = false   if kind == 'opinion' || kind == '기고' || kind == '금요기고' || kind == 'editorial' || kind == '사설' 
+    if kind == '금요기고'
+      h[:empty_first_column]          = true 
+      h[:adjustable_height]           = false
+    end
     h[:top_position]                  = top_position?
     h[:page_heading_margin_in_lines]  = publication.page_heading_margin_in_lines(page.page_number)
     h[:bottom_article]                = page.bottom_article?(self)
@@ -901,7 +905,7 @@ class WorkingArticle < ApplicationRecord
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += "  news_column_image(#{profile_image_options})\n" if reporter && reporter != "" # if page_number == 22
       content += "end\n"
-    elsif kind == '기고' || kind == 'opinion'
+    elsif kind == '기고' || kind == '금요기고' || kind == 'opinion'
       h[:article_line_draw_sides]  = [0,1,0,1]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
         content += "  news_image(#{opinion_image_options})\n"

@@ -18,7 +18,7 @@
 
   <div class="form-group">
     <%= f.label :기사종류 %>
-    <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
+    <%= f.select :kind, ['기사', '사진', '기고', '금요기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
   </div>
   <% if article.kind ==  '사진'%>
     <p>사진 탭에서 사진 올리세요</p>

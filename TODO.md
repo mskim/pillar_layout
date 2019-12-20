@@ -24,6 +24,27 @@
   - download_first_page_heading
   - heading_maker
 
+2019_12_20
+  - fix svg text position
+  - fix svg link position
+  - fix pillar height with heading_space
+    사설
+    기고
+    박스기고
+    금요기고
+    
+
+2019_12_19
+  - add table GroupedImage
+    caption, caption_title, source
+
+    has_many :member_image
+    caption, caption_title, source
+
+  - add table MemberImage
+    order caption, caption_title, source
+    has_one_attached : member_image
+
 2019_12_18
   - add more page_layouts by 1, even odd, 
   - show column in page_layout svg
@@ -67,15 +88,16 @@
   - rails app for 
     -uploading images to DigitalOcean
   - fix image upload
-
     has_many_attached :storage_images
 
-  - add table GroupedImage
-    group_caption, individual_caption
+
+
+    #individual_caption
     has_many_attached :storage_grouped_images
     position, direction
     row, column
     working_article:references
+
   - adjust initial body text length by article area
   - add proof to page
     has_many proofs

@@ -1,26 +1,41 @@
-<h1>Pillars</h1>
 
-<table class="responsive nowrap table table-hover" id="dttb-pillars" data-sort="true" data-source="<%= url_for(format: :json)%>">
+
+<div align="center">
+<!-- p id="notice"><%= notice %></p-->
+
+<h3>필라</h3>
+
+<table class="table table-striped">
   <thead>
     <tr>
-      <th data-data="grid_x">Grid x</th>
-      <th data-data="grid_y">Grid y</th>
-      <th data-data="column">Column</th>
-      <th data-data="row">Row</th>
-      <th data-data="order">Order</th>
-      <th data-data="box_count">Box count</th>
-      <th data-data="layout_with_pillar_path">Layout with pillar path</th>
-      <th data-data="layout">Layout</th>
-      <th data-data="profile">Profile</th>
-      <th data-data="finger_print">Finger print</th>
-      <th data-data="page_ref">page_ref</th>
-      <th data-data="page_ref_type">page_ref type</th>
-      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+      <th>ID</th>
+      <th>Grid X</th>
+      <th>Grid y</th>
+      <th>Couumn</th>
+      <th>Row</th>
+      <th>Box Coumn</th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
+  <tbody>
+    <% @pillars.each do |pillar| %>
+      <tr>
+        <td><%= pillar.id %></td>
+        <td><%= pillar.grid_x %></td>
+        <td><%= pillar.grid_y %></td>
+        <td><%= pillar.column %></td>
+        <td><%= pillar.row %></td>
+        <td><%= pillar.box_count %></td>
+        <td><%= link_to 'Show', pillar %></td>
+        <td><%= link_to 'Edit', edit_pillar_path(pillar) %></td>
+        <td><%= link_to 'Destroy', pillar, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
+<%= button_to '신규 추가', new_pillar_path, method: :get, class: "btn btn-sm btn-success" %>
+
+</div>
 
 <br>
-
-<%= link_to 'New Pillar', new_pillar_path %>
