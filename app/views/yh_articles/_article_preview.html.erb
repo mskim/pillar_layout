@@ -1,4 +1,4 @@
-<div class="card text-center">
+<div class="card text-center mb-3">
   <div class="card-header text-light bg-dark">
     <span class="float-left">
       <h4>
@@ -6,7 +6,7 @@
       </h4>
     </span>
     <span class="float-right">
-      <%= link_to 'X', yh_articles_path, class: "btn btn-sm btn-danger" %>
+      <%= link_to 'X', yh_articles_path, class: "btn btn-danger" %>
     </span>
   </div>
   <div class="card-body">
@@ -14,8 +14,13 @@
     <p class="card-text">
       <%= simple_format(@yh_article.body) %>
     </p>
+    <hr>
+    <p class="text-secondary">
+      등록일: <%= @yh_article.created_at.strftime("%y-%m-%d %H:%M") %>
+    </p>
   </div>
   <div class="card-footer text-muted">
-    <%= @yh_article.created_at.strftime("%y-%m-%d %H:%M") %>
+    <%= link_to '나의 기사로 가져오기', taken_yh_article_path, class: "btn btn-info" %>
+    <%= link_to '미리보기 닫기', yh_articles_path, class: "btn btn-danger" %>
   </div>
 </div>
