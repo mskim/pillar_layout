@@ -1,7 +1,6 @@
 <table class="table table-sm table-bordered">
   <thead class="text-center">
     <tr>
-      <th >작성</th>
       <th >제목</th>
       <th >지역</th>
       <th >내용분류</th>
@@ -11,11 +10,6 @@
   <tbody>
     <% @yh_articles.each do |article| %>
       <tr>
-        <td class="text-center">
-          <%= link_to edit_yh_article_path(article) do %>
-            <i class="fa fa-pencil-square icon-color" aria-hidden="true" style="font-size: 25px;"></i>
-          <% end %>
-        </td>
         <td>
           <%= link_to article.title, article %>
         </td>

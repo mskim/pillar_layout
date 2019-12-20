@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       get 'taken'
     end
   end
-  resources :yh_articles do
+  resources :yh_articles, except: [:edit] do
     member do
       get 'taken'
     end
