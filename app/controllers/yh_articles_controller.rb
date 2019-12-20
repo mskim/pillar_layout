@@ -74,9 +74,8 @@ class YhArticlesController < ApplicationController
   end
 
   def taken
-    @yh_article.taken(current_user)
     Story.story_from_wire(current_user, @yh_article)
-    redirect_to yh_article_path(@yh_article)
+    redirect_to my_stories_path(@yh_article), notice: '성공적으로 나의 기사로 저장되었습니다!'
   end
 
   private

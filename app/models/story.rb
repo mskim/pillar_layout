@@ -89,9 +89,9 @@ class Story < ApplicationRecord
   end
 
   def self.story_from_wire(user, wire)
-    s = Story.where(user: user, date: Issue.last.date, summitted_section: user.group).first_or_create!
+    s = Story.where(user_id: user.id, title: wire.title, date: Issue.last.date).first_or_create!
     s.title = wire.title
-    s.body = wire.body
+    s.content = wire.body
     s.save
   end
 
