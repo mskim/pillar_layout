@@ -216,11 +216,11 @@ class Pillar < ApplicationRecord
   end
 
   def x
-    grid_x * page_ref.grid_width  + page_ref.doc_left_margin
+    grid_x * page_ref.grid_width  #+ page_ref.doc_left_margin
   end
 
   def y
-    grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
+    grid_y * page_ref.grid_height #+ page_ref.heading_space + page_ref.top_margin
   end
 
   def width
