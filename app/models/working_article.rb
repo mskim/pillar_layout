@@ -106,7 +106,7 @@ class WorkingArticle < ApplicationRecord
   include ArticleSplitable
   include PageSplitable
   include ArticleSwapable
-  include RectUtiles
+  include RectUtils
   include ArticleSaveXml
   include WorkingArticleAutofit
   include WorkingArticleLayout

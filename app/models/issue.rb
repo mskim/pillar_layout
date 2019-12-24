@@ -201,10 +201,9 @@ class Issue < ApplicationRecord
       else
         # create new page
         # page_type
-        # 0 both odd or even page
         # 1 first page only
-        # 2 even pages 
-        # 3 odd pages 
+        # 100 even pages 
+        # 101 odd pages 
         # 11 or with any other  specific page number 
         # 22 with specific page number 
         # 23 with specific page number 

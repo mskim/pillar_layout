@@ -171,11 +171,7 @@ module WorkingArticlePillarMethods
   end
 
   def x
-    if pillar
-      pillar.x + grid_x*grid_width
-    else
       grid_x*grid_width
-    end
   end
   
   def pillar_x
@@ -183,19 +179,7 @@ module WorkingArticlePillarMethods
   end
 
   def y
-    if pillar
-      y_position = pillar.y + grid_y*grid_height
-    else
-      y_position = grid_y*grid_height
-    end
-    # y_position = grid_y*grid_height
-
-    if top_position?
-      y_position += page_heading_margin_in_lines*body_line_height
-    # elsif pushed_line_count && pushed_line_count != 0
-    #   y_position += pushed_line_count*body_line_height
-    end
-    y_position
+    grid_y*grid_height
   end
 
   def pillar_y
@@ -209,7 +193,8 @@ module WorkingArticlePillarMethods
 
   def box_svg
     # svg = "<rect fill='yellow' fill-opacity='0.5' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />\n"
-    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
+    # svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
+    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 - 50}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2 - 50}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
     svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 

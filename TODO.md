@@ -24,6 +24,9 @@
   - download_first_page_heading
   - heading_maker
 
+2019_12_24
+  - fix working_article show page.to_svg_with_jpg cut off on left edge
+  
 2019_12_20
   - fix svg text position
   - fix svg link position

@@ -47,7 +47,7 @@ class Section < ApplicationRecord
   # after_commit :after_commit_action
 
   include PageSplitable
-  include RectUtiles
+  include RectUtils
 
   # def after_commit_action
   #   create_articles

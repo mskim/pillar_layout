@@ -216,11 +216,11 @@ class Pillar < ApplicationRecord
   end
 
   def x
-    grid_x * page_ref.grid_width  #+ page_ref.doc_left_margin
+    grid_x * page_ref.grid_width  + page_ref.left_margin
   end
 
   def y
-    grid_y * page_ref.grid_height #+ page_ref.heading_space + page_ref.top_margin
+    grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
   end
 
   def width
@@ -228,7 +228,13 @@ class Pillar < ApplicationRecord
   end
 
   def height
-    row * page_ref.grid_height - heading_space
+    if page_ref.page_number == 1 && grid_y == 1
+      row * page_ref.grid_height - heading_space
+    elsif grid_y == 0
+      row * page_ref.grid_height - heading_space
+    else
+      row * page_ref.grid_height - heading_space
+    end
   end
 
   def page_width
@@ -303,10 +309,10 @@ class Pillar < ApplicationRecord
 
   def box_svg_with_jpg
     # +++++ using pdf image for now
-    box_element_svg = pillar_svg_with_pdf
-    box_element_svg += "<g transform='translate(#{x},#{y})' >\n"
+    # box_element_svg = pillar_svg_with_pdf
+    box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
     working_articles.each do |article|
-      box_element_svg += article.pillar_svg
+      box_element_svg += article.box_svg
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -366,7 +372,10 @@ class Pillar < ApplicationRecord
       save_pillar_yaml
 
       FileUtils.mkdir_p(path) unless File.exist?(path)
-      if layout_with_pillar_path.first.class == Integer
+      if box_count == 1
+        h = { page: page_ref, pillar: self, pillar_order: "#{order}", grid_x: 0, grid_y: 0, column: column, row: row }
+        WorkingArticle.where(h).first_or_create
+      elsif layout_with_pillar_path.first.class == Integer
         # this is case when layout_with_pillar_path is Array of 5 element
         h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
         WorkingArticle.where(h).first_or_create
@@ -430,6 +439,9 @@ class Pillar < ApplicationRecord
     if n
       self.layout_with_pillar_path = n.layout_with_pillar_path
       self.finger_print = n.finger_print
+    end
+    if box_count == 1
+      self.layout_with_pillar_path = [0, 0, column, row, "1"]
     end
   end
 end

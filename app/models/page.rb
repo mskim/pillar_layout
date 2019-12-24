@@ -699,25 +699,6 @@ class Page < ApplicationRecord
     EOF
   end
 
-  def page_svg_with_jpg
-    "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
-  end
-
-  def box_svg_with_jpg
-    box_element_svg = page_svg_with_jpg
-    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
-    # box_element_svg += page_svg
-    box_element_svg += page_heading.box_svg if page_number == 1
-    working_articles.each do |article|
-      box_element_svg += article.box_svg
-    end
-    ad_boxes.each do |ad_box|
-      box_element_svg += ad_box.box_svg
-    end
-    box_element_svg += '</g>'
-    box_element_svg
-  end
-
   def story_svg
     box_element_svg = page_svg_with_jpg
     box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
@@ -741,6 +722,44 @@ class Page < ApplicationRecord
       #{box_svg_with_jpg}
     </svg>
     EOF
+  end
+
+  def to_svg_test
+    svg=<<~EOF
+    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+      <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+      #{page_svg_with_jpg}
+    </svg>
+    EOF
+  end
+
+  def page_svg_with_jpg
+    "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+  end
+
+  def box_svg_with_jpg
+    box_element_svg = page_svg_with_jpg
+    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
+    box_element_svg += page_heading.box_svg if page_number == 1
+    # working_articles.each do |article|
+    #   box_element_svg += article.box_svg
+    # end
+    pillars.each do |pillar|
+      box_element_svg += pillar.box_svg_with_jpg
+    end
+    ad_boxes.each do |ad_box|
+      box_element_svg += ad_box.box_svg
+    end
+    box_element_svg += '</g>'
+    box_element_svg
+  end
+
+  def svg_path
+    path + "/page.svg"
+  end
+
+  def save_svg
+    File.open(svg_path, 'w'){|f| f.write to_svg_with_jpg}
   end
 
   def to_story_svg
@@ -862,7 +881,7 @@ class Page < ApplicationRecord
       elsif item.length == 5
         Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4]).first_or_create
       elsif item.length == 4
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:3).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:1).first_or_create
       end
     end
   end

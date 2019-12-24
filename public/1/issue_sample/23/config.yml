@@ -18,14 +18,13 @@ gutter: 12.7559055118108
 story_frames:
 - - 0
   - 0
-  - 3
+  - 4
   - 10
   - 2
-- - 3
+- - 4
   - 0
-  - 3
+  - 2
   - 10
-  - 3
 - 5단통
 article_line_thickness: 0.3
 draw_divider: true
