@@ -16,6 +16,11 @@
       </a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" id="group-image-tab" data-toggle="tab" href="#group-image" role="tab" aria-controls="group-image" aria-selected="false">
+        그룹 이미지 편집
+      </a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="false">
         <i class="fa fa-th" aria-hidden="true"></i>
         <% if @working_article.page.page_number == 1 %>
@@ -157,6 +162,60 @@
           <div class="card">
             <h5 class="card-header">
               그래픽 편집
+            </h5>
+            <div class="card-body">
+              <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+                <% if @reporter_graphics.length > 0 %>
+                  <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
+                <% end %>
+                <% @working_article.graphics.each do |graphic| %>
+                  <%= render 'graphics/form', graphic: graphic %>
+                <% end %>
+                <% if  @working_article.graphics.length <= 2 %>
+                  <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
+                    <%= f.fields_for :images, Image.new do |p| %>
+                      <div class="form-group">
+                        <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
+                        <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+                      </div>
+                    <% end %>
+                    <div class="actions">
+                      <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <%= render 'show_preview', article: @working_article %>
+        </div>
+      </div>
+    </div>
+    <!-- 그룹 이미지 탭 -->
+    <div class="tab-pane fade" id="group-image" role="tabpanel" aria-labelledby="group-image-tab">
+      <div class="row" style="width: 100%;">
+        <div class="col-md-3">
+          <% @pages.each do |page| %>
+            <div class="card">
+              <div class="border text-center" style="margin: 5px;">
+                <%= raw page.to_svg_with_jpg %>
+              </div>
+              <div class="card-body text-center">
+                <% if page.color_page %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+                <% else %>
+                  <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <h5 class="card-header">
+              그룹 이미지 편집
             </h5>
             <div class="card-body">
               <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>

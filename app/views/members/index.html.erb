@@ -1,0 +1,21 @@
+<h1 class="text-center">멤버 리스트</h1>
+<div class="container">
+  <% @members.each do |member| %>
+    <div class="row no-gutters position-relative border-bottom">
+      <div class="col-md-4 mb-md-0 p-md-4">
+        <%= image_tag member.image, class: "w-100", alt: member.caption_title %>
+      </div>
+      <div class="col-md-8 position-static p-4 pl-md-0">
+        <h5 class="mt-0"><%= member.caption_title %></h5>
+        <p><%= truncate(member.caption_description, length: 150) %></p>
+        <p class="text-black-50">출처: <%= member.source %> / 사진순서: <%= member.order %></p>
+        <%= link_to '더 보기', member_path(member), class: "stretched-link" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<nav class="navbar navbar-light bg-light fixed-bottom">
+  <div class="btn-group" role="group" aria-label="기능">
+    <%= link_to "새로운 멤버", new_member_path, class: "btn btn-secondary" %>
+  </div>
+</nav>

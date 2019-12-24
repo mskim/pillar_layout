@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Caption title:</strong>
+  <%= @group_image.caption_title %>
+</p>
+
+<p>
+  <strong>Caption description:</strong>
+  <%= @group_image.caption_description %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @group_image.source %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @group_image.position %>
+</p>
+
+<p>
+  <strong>Direction:</strong>
+  <%= @group_image.direction %>
+</p>
+
+<%= link_to 'Edit', edit_group_image_path(@group_image) %> |
+<%= link_to 'Back', group_images_path %>
