@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_07_213231) do
+ActiveRecord::Schema.define(version: 2019_12_23_052738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -310,6 +310,17 @@ ActiveRecord::Schema.define(version: 2019_12_07_213231) do
     t.index ["working_article_id"], name: "index_graphics_on_working_article_id"
   end
 
+  create_table "group_images", force: :cascade do |t|
+    t.string "caption_title"
+    t.text "caption_description"
+    t.string "source"
+    t.integer "position"
+    t.string "direction"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "caption_type"
+  end
+
   create_table "heading_ad_images", force: :cascade do |t|
     t.string "heading_ad_image"
     t.float "x"
@@ -414,6 +425,16 @@ ActiveRecord::Schema.define(version: 2019_12_07_213231) do
     t.integer "box_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.string "caption_title"
+    t.text "caption_description"
+    t.string "source"
+    t.integer "order"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "group_image_id"
   end
 
   create_table "opinion_writers", force: :cascade do |t|

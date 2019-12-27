@@ -85,7 +85,9 @@ class Issue < ApplicationRecord
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
     copy_from_sample
-    system "mkdir -p #{issue_images_path}" unless File.directory?(issue_images_path)
+    unless File.directory?(issue_images_path)
+      system "mkdir -p #{issue_images_path}"
+    end
     system "mkdir -p #{issue_ads_path}" unless File.directory?(issue_ads_path)
   end
 
@@ -186,7 +188,7 @@ class Issue < ApplicationRecord
   end
 
   def make_pages
-    page_plans.sort_by{|p| p.page_number}.each_with_index do |page_plan, i|
+    page_plans.sort_by(&:page_number).each_with_index do |page_plan, i|
       if page_plan.page
         if page_plan.need_update?
           if page_plan.page.color_page != page_plan.color_page
@@ -202,23 +204,23 @@ class Issue < ApplicationRecord
         # create new page
         # page_type
         # 1 first page only
-        # 100 even pages 
-        # 101 odd pages 
-        # 11 or with any other  specific page number 
-        # 22 with specific page number 
-        # 23 with specific page number 
+        # 100 even pages
+        # 101 odd pages
+        # 11 or with any other  specific page number
+        # 22 with specific page number
+        # 23 with specific page number
         page_number = i + 1
         # look for right template
-        # first look for page_number and ad_type specified template 
+        # first look for page_number and ad_type specified template
         ad_type = page_plan.ad_type.unicode_normalize
-        template = PageLayout.where(page_type:page_number, ad_type: ad_type).first
-        # If not found, look for odd even  tempate 
+        template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
+        # If not found, look for odd even  tempate
         unless template
-          page_type = page_number.odd?  ? "101" : "102"
-          template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
+          page_type = page_number.odd? ? '101' : '102'
+          template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
           unless template
-            page_type = "100"
-            template = PageLayout.where(page_type:page_type, ad_type: page_plan.ad_type).first 
+            page_type = '100'
+            template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
           end
         end
         if template
@@ -237,7 +239,7 @@ class Issue < ApplicationRecord
         end
         unless template
           # if thing is found, go for ad_type only
-          template = PageLayout.where(ad_type: page_plan.ad_type).first unless template
+          template ||= PageLayout.where(ad_type: page_plan.ad_type).first
         end
         unless template
           # if still thing is found, go '광고없음' as last resort!!!
@@ -255,7 +257,7 @@ class Issue < ApplicationRecord
           p                 = Page.create!(h)
           page_plan.page    = p
           page_plan.dirty   = false
-          page_plan.save          
+          page_plan.save
           puts "we need PageLayout for #{page_plan.ad_type}!!!!!"
         end
       end

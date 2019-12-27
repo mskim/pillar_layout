@@ -23,6 +23,8 @@ require("jquery");
 require("@rails/actiontext");
 require("trix");
 
+require("../includes/group_check");
+
 import bsCustomFileInput from "bs-custom-file-input";
 
 $(document).ready(function() {

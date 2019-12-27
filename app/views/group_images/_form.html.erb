@@ -1,0 +1,28 @@
+<%= simple_form_for(@group_image) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="check_caption_type">
+    <%= f.input :caption_type, label: "캡션 타입 설정", collection: ["그룹설정", "그룹분리"], wrapper: :vertical_collection_inline, hint: "그룹설정하시면 그룹 이미지에서 작성한 것을 나옵니다. 만약 그룹분리하시면 멤버에서 작성한 것을 나옵니다.", as: :radio_buttons %>
+  </div>
+  <div class="form-inputs">
+    <fieldset id="set_group_image_form">
+      <%= f.input :caption_title, label: "그룹 이미지 제목", wrapper: false, input_html: { class: "form-control" }, placeholder: "그룹 제목을 입력해주세요." %>
+      <%= f.input :caption_description, label: "그룹 설명", wrapper: false, input_html: { class: "form-control" }, placeholder: "그룹 설명을 입력해주세요." %>
+      <%= f.input :source, label: "그룹 출처", wrapper: false, input_html: { class: "form-control" }, placeholder: "그룹 출처를 입력해주세요." %>
+    </fieldset>
+  </div>
+  <%= f.input :position, label: "위치설정", wrapper: false, input_html: { class: "form-control" } %>
+  <%= f.input :direction, label: "주축설정:", collection: ["가로", "세로"], wrapper: :vertical_collection_inline, as: :radio_buttons %>
+  <div class="form-actions mt-3">
+    <%= f.button :submit, "저장", class: "btn btn-lg btn-block btn-info" %>
+  </div>
+  <% if @group_image.persisted? %>
+    <div class="form-actions mt-3">
+      <%= link_to '저장 취소', group_image_path(@group_image), class: "btn btn-lg btn-block btn-danger" %>
+    </div>
+  <% else %>
+    <div class="form-actions mt-3">
+      <%= link_to '저장 취소', group_images_path, class: "btn btn-lg btn-block btn-danger" %>
+    </div>
+  <% end %>
+<% end %>

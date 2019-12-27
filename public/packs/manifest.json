@@ -1,4 +1,5 @@
 {
+
   "application.js": "/packs/js/application-7a8eaacaa9dcb6019af2.js",
   "application.js.map": "/packs/js/application-7a8eaacaa9dcb6019af2.js.map",
   "crop_image.js": "/packs/js/crop_image-cdd81466f2faf1d69ac5.js",
@@ -14,6 +15,7 @@
     },
     "crop_image": {
       "js": [
+
         "/packs/js/crop_image-cdd81466f2faf1d69ac5.js"
       ],
       "js.map": [

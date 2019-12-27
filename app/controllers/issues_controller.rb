@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
   # GET /issues.json
   def index
     @issues = Issue.page(params[:page])
-    @issues_for_search = Issue.page(params[:page]).reverse_order.per(5)
+    @issues_for_search = Issue.page(params[:page]).reverse_order.per(8)
     session[:current_issue] = @issue
     # @issues = Issue.order(:id, 'DESC').page(params[:page]).per(20)
   end
@@ -378,7 +378,7 @@ class IssuesController < ApplicationController
   end
 
   def merge_container_xml
-  # def send_mobile_preview_xml
+    # def send_mobile_preview_xml
     set_issue
     XmlWorker.perform_async(@issue.id)
     # @issue.send_mobile_preview_xml

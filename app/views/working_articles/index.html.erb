@@ -1,40 +1,39 @@
-<div align="center">
-<!-- p id="notice"><%= notice %></p-->
-
-<h3>기사 검색</h3>
-<%= search_form_for @q do |f| %>
-  <%= f.label '제목에 포함된 글자로' %>
-  <%= f.search_field :title_cont %>
-  <%= f.label '본문에 포함된 글자로' %>
-  <%= f.search_field :body_cont %>
-  <%= f.submit "검색", class: "btn btn-sm btn-normal"%>
-<% end %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>날짜</th>
-      <th>페이지</th>
-      <th>기사번호</th>
-      <th>제목</th>
-      <th>기자</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @working_articles.each do |working_article| %>
-      <tr>
-        <td style="text-align:center;"><%= working_article.page.date %></td>
-        <td style="text-align:center;"><%= working_article.page.page_number %></td>
-        <td style="text-align:center;"><%= working_article.order %></td>
-        <td style="text-align:center;"><%= working_article.title %></td>
-        <td style="text-align:center;"><%= working_article.reporter %></td>
-        
-        <td><%= button_to '페이지 보기', page_path(working_article.page), method: :get, class: "btn btn-sm btn-success"  %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
+<div class="container">
+  <h3 class="text-center">기사 검색</h3>
+  <%= search_form_for @q do |f| %>
+    <div class="input-group">
+      <%= f.text_field :title_or_body_cont, placeholder: "제목 및 본문에 관한 검색어를 입력하세요.", class: "form-control" %>
+      <div class="input-group-append">
+        <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
+          <span><i class="fa fa-search" aria-hidden="true"></i> 기사 검색</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="row justify-content-center mt-3">
+    <table class="table table-bordered table-striped text-center">
+      <thead>
+        <tr>
+          <th>날짜</th>
+          <th>페이지</th>
+          <th>기사번호</th>
+          <th>제목</th>
+          <th>기자명</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @working_articles.each do |working_article| %>
+          <tr>
+            <td><%= working_article.page.date %></td>
+            <td><%= working_article.page.page_number %></td>
+            <td><%= working_article.order %></td>
+            <td><%= working_article.title %></td>
+            <td><%= working_article.reporter %></td>
+            <td><%= button_to '페이지 보기', page_path(working_article.page), method: :get, class: "btn btn-sm btn-success"  %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
