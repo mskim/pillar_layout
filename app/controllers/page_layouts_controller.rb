@@ -4,7 +4,7 @@ class PageLayoutsController < ApplicationController
   # GET /page_layouts
   # GET /page_layouts.json
   def index
-    @page_layouts = PageLayout.all.order(:ad_type)
+    @page_layouts = PageLayout.order(:page_type, :ad_type).page(params[:page]).per(10)
   end
 
   # GET /page_layouts/1

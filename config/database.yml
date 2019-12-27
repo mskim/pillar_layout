@@ -29,8 +29,6 @@ default: &default
   pool: 5
   username: <%= ENV['USER'] %>
   password:
-  # 내일 신문 서버 주소
-  # host: 211.115.91.213
   # port: 5432
   # timeout: 5000
 
@@ -39,8 +37,8 @@ wire_service:
   database: style_guide_new_development
   username: apple
   password:
-  # host: 211.181.172.19
-  host: 10.9.50.45 # in house ip
+  host: <%= ENV['WIRE_SERVER_IP'] %>
+  # host: <%= ENV['WIRE_SERVER_IP_IN_HOUSE'] %>
   port: 5432
   timeout: 5000
 
