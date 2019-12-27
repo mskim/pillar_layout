@@ -323,7 +323,7 @@ GEM
       i18n
       polyamorous (= 2.3.0)
     rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
+    rb-inotify (0.10.1)
       ffi (~> 1.0)
     responders (3.0.0)
       actionpack (>= 5.0)
@@ -403,7 +403,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -507,4 +507,4 @@ DEPENDENCIES
   zip-zip
 
 BUNDLED WITH
-   2.1.0
+   2.1.2

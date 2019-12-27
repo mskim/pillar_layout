@@ -1,30 +1,15 @@
-<!-- p id="notice"><%= notice %></p-->
-
-<div align="center">
-
-  <h3>이전 신문 보기</h3>
-
-  최종 발행호<%= button_to "#{Issue.last.date}(#{Issue.last.number})", change_current_issue_path(Issue.last), method: :get, class: "btn btn-sm btn-primary"  %></td>
-
-  <table class="table table-striped" style="width: 200px;">
-    <thead
-      <tr>
-        <th>지난호</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @issues_for_search.each do |issue| %>
-        <tr>
-          <td>
-          <%= button_to "#{issue.date}(#{issue.number})", change_current_issue_path(issue), method: :get, class: "btn btn-sm btn-primary"  %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <br>
-
-  <%= paginate @issues_for_search %>
+<h3 class="text-center">이전 신문 보기</h3>
+<p class="text-center">최종 발행호: <%= link_to "#{Issue.last.date}(#{Issue.last.number})", change_current_issue_path(Issue.last), method: :get, class: "btn btn-sm btn-primary" %></p>
+<div class="row justify-content-center p-4">
+  <% @issues_for_search.each do |issue| %>
+    <div class="col-md-2 mb-2">
+      <div class="card p-1">
+        <%= link_to (image_tag issue.pages.first.pdf_image_path, style: "width: 100%;", class: "border"), change_current_issue_path(issue) %>
+        <div class="card-body text-center">
+          <%= button_to "#{issue.date}(#{issue.number})", change_current_issue_path(issue), method: :get, class: "btn btn-sm btn-primary"  %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
+<%= paginate @issues_for_search, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>

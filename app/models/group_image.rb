@@ -17,10 +17,10 @@
 
 class GroupImage < ApplicationRecord
   # belongs_to
-  belongs_to :working_article
+  #   belongs_to :working_article
   # has_many
   has_many :members, dependent: :destroy
   # has_one
-
-  accepts_nested_attributes_for :members
+  # accepts_nested_attributes_for
+  #   accepts_nested_attributes_for :members
 end

@@ -1,45 +1,41 @@
 <div align='center'>
-<h3>페이지</h3>
-<%= search_form_for @q do |f| %>
-<%= f.label '태그에 포함된 글자로' %>
-<%= f.search_field :tag_cont %>
-<%= f.submit "검색", class: "btn btn-sm btn-normal"%>
-<% end %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>날짜</th>
-      <th>페이지</th>
-      <th>팀</th>
-      <th>단</th>
-      <th>광고</th>
-      <th>가사수</th>
-      <th>칼러</th>
-      <th>프로필</th>
-      <th>템플렛</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @pages.each do |page| %>
+  <h3>페이지</h3>
+  <%= search_form_for @q do |f| %>
+    <%= f.label '태그에 포함된 글자로' %>
+    <%= f.search_field :tag_cont %>
+    <%= f.submit "검색", class: "btn btn-sm btn-normal"%>
+  <% end %>
+  <table class="table table-striped text-center">
+    <thead>
       <tr>
-        <td><%= page.date %></td>
-        <td style="text-align:center;"><%= page.page_number %></td>
-        <td style="text-align:center;"><%= page.section_name %></td>
-        <td style="text-align:center;"><%= page.column %></td>
-        <td style="text-align:center;"><%= page.ad_type %></td>
-        <td style="text-align:center;"><%= page.story_count %></td>
-        <td style="text-align:center;"><%= page.color_page %></td>
-        <td style="text-align:center;"><%= page.profile %></td>
-        <td style="text-align:center;"><%= page.template_id %></td>
-        <td><%= button_to '페이지 보기', page_path(page), method: :get, class: "btn btn-sm btn-success"  %></td>
-
+        <th>날짜</th>
+        <th>페이지</th>
+        <th>팀</th>
+        <th>단</th>
+        <th>광고</th>
+        <th>가사수</th>
+        <th>칼러</th>
+        <th>프로필</th>
+        <th>템플렛</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
+    </thead>
+    <tbody>
+      <% @pages.each do |page| %>
+        <tr>
+          <td><%= page.date %></td>
+          <td><%= page.page_number %></td>
+          <td><%= page.section_name %></td>
+          <td><%= page.column %></td>
+          <td><%= page.ad_type %></td>
+          <td><%= page.story_count %></td>
+          <td><%= page.color_page %></td>
+          <td><%= page.profile %></td>
+          <td><%= page.template_id %></td>
+          <td><%= button_to '페이지 보기', page_path(page), method: :get, class: "btn btn-sm btn-success"  %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
 </div>
