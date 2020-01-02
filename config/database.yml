@@ -37,10 +37,8 @@ wire_service:
   database: style_guide_new_development
   username: apple
   password:
-  host: <%= ENV['WIRE_SERVER_IP'] %>
+  host: 10.9.50.45
   # host: <%= ENV['WIRE_SERVER_IP_IN_HOUSE'] %>
-  port: 5432
-  timeout: 5000
 
 development:
   <<: *default

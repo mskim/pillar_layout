@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :group_images
-  resources :members
   namespace :admin do
     resources :users
     resources :ad_boxes
