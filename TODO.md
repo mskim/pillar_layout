@@ -24,6 +24,34 @@
   - download_first_page_heading
   - heading_maker
 
+2020_1
+
+  - bug 수정
+    - 2단 제목 넘침
+    - 이미지 크기 위치에 따라 변환 방지
+    - 그래픽 높이 자동 조절 
+    - 우측 인물사진
+    - 이미지 caption 제목과 설명 간격 수정
+  
+  - 면배열표 수정 내용 한번에 적용하기
+  - 그룹사진 기능 구현
+
+(한승효)
+  - 광고 자동 배치
+  - 펼친면 광고
+  - xml 없는 글자 대치 하기 방식수정: 제목, 본문 등 한꺼번에 hash를 사용하여 대치하기
+
+  - engine pdf 생성 방식 이전(newsman.app 없이 pdf 생성하기)
+    - 이미지 크롭 (장원호)
+  - pillar(기존 section 디자인 활용)
+  
+  - 연합 이미지 불러오기 guard 지원 속도 개선
+
+  - 교열 기능 구현
+  - web site 자동 생성하기 구현
+  - 표 자동 생성하기 구현
+
+
 2019_12_24
   - fix working_article show page.to_svg_with_jpg cut off on left edge
   
