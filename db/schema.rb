@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_23_052738) do
+ActiveRecord::Schema.define(version: 2020_01_02_042531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,14 +311,15 @@ ActiveRecord::Schema.define(version: 2019_12_23_052738) do
   end
 
   create_table "group_images", force: :cascade do |t|
-    t.string "caption_title"
-    t.text "caption_description"
+    t.string "title"
+    t.string "caption"
     t.string "source"
-    t.integer "position"
     t.string "direction"
+    t.integer "position"
+    t.bigint "working_article_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "caption_type"
+    t.index ["working_article_id"], name: "index_group_images_on_working_article_id"
   end
 
   create_table "heading_ad_images", force: :cascade do |t|
@@ -427,14 +428,15 @@ ActiveRecord::Schema.define(version: 2019_12_23_052738) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "members", force: :cascade do |t|
-    t.string "caption_title"
-    t.text "caption_description"
+  create_table "member_images", force: :cascade do |t|
+    t.string "title"
+    t.string "caption"
     t.string "source"
     t.integer "order"
+    t.bigint "group_image_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "group_image_id"
+    t.index ["group_image_id"], name: "index_member_images_on_group_image_id"
   end
 
   create_table "opinion_writers", force: :cascade do |t|
@@ -1086,9 +1088,11 @@ ActiveRecord::Schema.define(version: 2019_12_23_052738) do
   add_foreign_key "comments", "proofs"
   add_foreign_key "graphic_requests", "users"
   add_foreign_key "graphics", "working_articles"
+  add_foreign_key "group_images", "working_articles"
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
+  add_foreign_key "member_images", "group_images"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
   add_foreign_key "profiles", "publications"

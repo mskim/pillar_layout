@@ -1,28 +1,20 @@
-<h1 class="text-center">그룹 이미지 목록</h1>
+<h1>Group Images</h1>
+
 <table class="responsive nowrap table table-hover" id="dttb-group_images" data-sort="true" data-source="<%= url_for(format: :json)%>">
   <thead>
     <tr>
-      <th data-data="caption_type">타입</th>
-      <th data-data="caption_title">그룹 이미지 제목</th>
-      <th data-data="caption_description">그룹 이미지 설명</th>
-      <th data-data="source">출처</th>
-      <th data-data="position">위치설정</th>
-      <th data-data="direction">주축설정</th>
+      <th data-data="title">Title</th>
+      <th data-data="caption">Caption</th>
+      <th data-data="source">Source</th>
+      <th data-data="direction">Direction</th>
+      <th data-data="position">Position</th>
+      <th data-data="working_article">Working article</th>
       <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
     </tr>
   </thead>
-  <tbody>
-    <% @group_images.each do |group| %>
-      <tr>
-        <td><%= group.caption_type %></td>
-        <td><%= group.caption_title %></td>
-        <td><%= group.caption_description %></td>
-        <td><%= group.source %></td>
-        <td><%= group.position %></td>
-        <td><%= group.direction %></td>
-      </tr>
-    <% end %>
-  </tbody>
+
 </table>
+
 <br>
+
 <%= link_to 'New Group Image', new_group_image_path %>

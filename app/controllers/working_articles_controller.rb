@@ -20,6 +20,10 @@ class WorkingArticlesController < ApplicationController
   # GET /working_articles/1
   # GET /working_articles/1.json
   def show
+    # Group_Image new
+    @group_image = GroupImage.new
+    # Group_Image all
+    @group_images = GroupImage.all
     @pages = @working_article.issue.pages.order(:id, 'desc')
     section_name = @working_article.page.section_name
     @pages = @working_article.issue.pages.select { |p| p.section_name == section_name }
@@ -463,9 +467,9 @@ class WorkingArticlesController < ApplicationController
     layout_target = "#{@working_article.image_path}/#{filename}"
     puts "select_reporter_image: #{target}"
     system("cp #{source} #{target}")
-        #TODO
+    # TODO
     # i = Image.create!(working_article_id:@working_article.id, reporter_image_path:reporter_image.full_size_path)
-    i = Image.create!(working_article_id:@working_article.id, reporter_image_path:layout_target)
+    i = Image.create!(working_article_id: @working_article.id, reporter_image_path: layout_target)
     i.caption_title = reporter_image.title
     i.caption = reporter_image.caption
     i.save
@@ -506,7 +510,7 @@ class WorkingArticlesController < ApplicationController
 
   def create_new_proof
     proof_image_url = @working_article.create_proof_image
-    Proof.create(working_article_id:@working_article.id, image_url:proof_image_url )
+    Proof.create(working_article_id: @working_article.id, image_url: proof_image_url)
     redirect_to @working_article
   end
 

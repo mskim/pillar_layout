@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :group_images
-  resources :members
+  resources :member_images
+  resources :group_images do
+    member do
+      patch :wa_redirect
+    end
+  end
   namespace :admin do
     resources :users
     resources :ad_boxes

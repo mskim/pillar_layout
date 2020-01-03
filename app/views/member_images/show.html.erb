@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @member_image.title %>
+</p>
+
+<p>
+  <strong>Caption:</strong>
+  <%= @member_image.caption %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @member_image.source %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @member_image.order %>
+</p>
+
+<p>
+  <strong>Group image:</strong>
+  <%= @member_image.group_image_id %>
+</p>
+
+<%= link_to 'Edit', edit_member_image_path(@member_image) %> |
+<%= link_to 'Back', member_images_path %>

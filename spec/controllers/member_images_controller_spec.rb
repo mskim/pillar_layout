@@ -23,10 +23,10 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe MembersController, type: :controller do
+RSpec.describe MemberImagesController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
-  # Member. As you add validations to Member, be sure to
+  # MemberImage. As you add validations to MemberImage, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -38,12 +38,12 @@ RSpec.describe MembersController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # MembersController. Be sure to keep this updated too.
+  # MemberImagesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
-      Member.create! valid_attributes
+      MemberImage.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -51,8 +51,8 @@ RSpec.describe MembersController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      member = Member.create! valid_attributes
-      get :show, params: {id: member.to_param}, session: valid_session
+      member_image = MemberImage.create! valid_attributes
+      get :show, params: {id: member_image.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -66,29 +66,29 @@ RSpec.describe MembersController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      member = Member.create! valid_attributes
-      get :edit, params: {id: member.to_param}, session: valid_session
+      member_image = MemberImage.create! valid_attributes
+      get :edit, params: {id: member_image.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Member" do
+      it "creates a new MemberImage" do
         expect {
-          post :create, params: {member: valid_attributes}, session: valid_session
-        }.to change(Member, :count).by(1)
+          post :create, params: {member_image: valid_attributes}, session: valid_session
+        }.to change(MemberImage, :count).by(1)
       end
 
-      it "redirects to the created member" do
-        post :create, params: {member: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Member.last)
+      it "redirects to the created member_image" do
+        post :create, params: {member_image: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(MemberImage.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {member: invalid_attributes}, session: valid_session
+        post :create, params: {member_image: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -100,41 +100,41 @@ RSpec.describe MembersController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested member" do
-        member = Member.create! valid_attributes
-        put :update, params: {id: member.to_param, member: new_attributes}, session: valid_session
-        member.reload
+      it "updates the requested member_image" do
+        member_image = MemberImage.create! valid_attributes
+        put :update, params: {id: member_image.to_param, member_image: new_attributes}, session: valid_session
+        member_image.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the member" do
-        member = Member.create! valid_attributes
-        put :update, params: {id: member.to_param, member: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(member)
+      it "redirects to the member_image" do
+        member_image = MemberImage.create! valid_attributes
+        put :update, params: {id: member_image.to_param, member_image: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(member_image)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        member = Member.create! valid_attributes
-        put :update, params: {id: member.to_param, member: invalid_attributes}, session: valid_session
+        member_image = MemberImage.create! valid_attributes
+        put :update, params: {id: member_image.to_param, member_image: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested member" do
-      member = Member.create! valid_attributes
+    it "destroys the requested member_image" do
+      member_image = MemberImage.create! valid_attributes
       expect {
-        delete :destroy, params: {id: member.to_param}, session: valid_session
-      }.to change(Member, :count).by(-1)
+        delete :destroy, params: {id: member_image.to_param}, session: valid_session
+      }.to change(MemberImage, :count).by(-1)
     end
 
-    it "redirects to the members list" do
-      member = Member.create! valid_attributes
-      delete :destroy, params: {id: member.to_param}, session: valid_session
-      expect(response).to redirect_to(members_url)
+    it "redirects to the member_images list" do
+      member_image = MemberImage.create! valid_attributes
+      delete :destroy, params: {id: member_image.to_param}, session: valid_session
+      expect(response).to redirect_to(member_images_url)
     end
   end
 
