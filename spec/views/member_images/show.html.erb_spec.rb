@@ -1,14 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe "group_images/show", type: :view do
+RSpec.describe "member_images/show", type: :view do
   before(:each) do
-    @group_image = assign(:group_image, GroupImage.create!(
+    @member_image = assign(:member_image, MemberImage.create!(
       :title => "Title",
       :caption => "Caption",
       :source => "Source",
-      :direction => "Direction",
-      :position => 2,
-      :working_article => nil
+      :order => 2,
+      :group_image => nil
     ))
   end
 
@@ -17,7 +16,6 @@ RSpec.describe "group_images/show", type: :view do
     expect(rendered).to match(/Title/)
     expect(rendered).to match(/Caption/)
     expect(rendered).to match(/Source/)
-    expect(rendered).to match(/Direction/)
     expect(rendered).to match(/2/)
     expect(rendered).to match(//)
   end

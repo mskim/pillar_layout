@@ -1,13 +1,12 @@
-# frozen_string_literal: true
-
 class CreateGroupImages < ActiveRecord::Migration[6.0]
   def change
     create_table :group_images do |t|
-      t.string :caption_title
-      t.text :caption_description
+      t.string :title
+      t.string :caption
       t.string :source
-      t.integer :position
       t.string :direction
+      t.integer :position
+      t.references :working_article, null: false, foreign_key: true
 
       t.timestamps
     end

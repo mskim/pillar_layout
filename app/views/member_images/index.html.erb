@@ -1,0 +1,19 @@
+<h1>Member Images</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-member_images" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="title">Title</th>
+      <th data-data="caption">Caption</th>
+      <th data-data="source">Source</th>
+      <th data-data="order">Order</th>
+      <th data-data="group_image">Group image</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Member Image', new_member_image_path %>

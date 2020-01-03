@@ -91,18 +91,32 @@
 # category_code
 
 class WorkingArticle < ApplicationRecord
+  # before
+  before_create :init_article
+
+  # after
+  after_create :setup_article
+
+  # belongs_to
   belongs_to :page
   belongs_to :pillar
   belongs_to :article, optional: true
+
+  # has_one
+  has_one :story
+  has_one :group_image
+
+  # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
+  has_many :proofs
   # has_many :story_category
   # has_many :story_subcategory
-  has_one :story
-  has_many :proofs
-  before_create :init_article
-  after_create :setup_article
+
+  # accepts_nested_attributes_for
   accepts_nested_attributes_for :images
+
+  # include
   include ArticleSplitable
   include PageSplitable
   include ArticleSwapable
