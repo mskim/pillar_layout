@@ -1,0 +1,116 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header text-white bg-dark text-center font-weight-bold">
+          그룹 이미지 정보
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-center"><%= @group_image.title %></h5>
+          <p class="card-text"><%= @group_image.caption %></p>
+          <hr>
+          <p class="mb-0">출처: <%= @group_image.source %></p>
+          <p class="mb-0">주축정보: <%= @group_image.direction %></p>
+          <p class="mb-0">위치정보: <%= @group_image.position %></p>
+          <p class="mb-0">working_article ID: <%= @group_image.working_article_id %></p>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to '편집', edit_group_image_path(@group_image), class: "btn btn-info" %>
+          <%= link_to "삭제", group_image_path(@group_image), method: :delete, class: "btn btn-danger" %>
+        </div>
+      </div>
+      <div class="card mt-3 mb-5">
+        <%= form_with(model: @member_image, local: true) do |f| %>
+          <div class="card-header text-white bg-dark text-center font-weight-bold">
+            New 멤버 이미지 설정
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <%= f.label :title, "제목:" %>
+              <%= f.text_field :title, class: "form-control", placeholder: "제목을 입력해주세요" %>
+            </div>
+            <div class="form-group mt-3">
+              <div class="custom-file">
+                <%= f.file_field :image_attach, class: "custom-file-input", id: "customFile" %>
+                <%= f.label :image_attach, "첨부파일:", class: "custom-file-label", for: "customFile" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= f.label :caption, "설명:" %>
+              <%= f.text_field :caption, class: "form-control", placeholder: "업로드 사진에 대해 설명해주세요"%>
+            </div>
+            <div class="form-group">
+              <%= f.label :source, "출처:" %>
+              <%= f.text_field :source, class: "form-control", placeholder: "출처를 입력해주세요" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :order, "사진순서:" %>
+              <%= f.number_field :order, value: 1, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= f.label :group_image_id, "그룹 이미지 ID:" %>
+              <%= f.text_field :group_image_id, value: @group_image.id, class: "form-control", readonly: "readonly"%>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <%= f.submit "멤버 이미지 등록", class: "btn btn-info btn-block"%>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-8">
+      <h2 class="text-center">멤버 이미지 정보</h2>
+      <% if @group_image.direction == "row" || @group_image.direction == "가로" %>
+        <div class="containeir-fluid">
+          <div class="card-group">
+            <% @member_images.each do |member| %>
+              <div class="card border order-<%= member.order %> rounded-0">
+                <% if member.image_attach.attached? %>
+                  <%= image_tag member.image_attach, class: "card-img-top rounded-0", alt: "#{member.title} 사진" %>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= member.title %></h5>
+                  <p class="card-text"><%= member.caption %></p>
+                  <hr>
+                  <h5>정보</h5>
+                  <p class="mb-0">출처: <%= member.source %></p>
+                  <p class="mb-0">사진순서: <%= member.order %></p>
+                  <p class="mb-0">그룹 이미지 ID: <%= member.group_image_id %></p>
+                </div>
+                <div class="card-footer text-center rounded-0">
+                  <%= link_to '편집', edit_member_image_path(member), class: "btn btn-info" %>
+                  <%= link_to '삭제', member_image_path(member), method: :delete, class: "btn btn-danger" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% elsif @group_image.direction == "column" || @group_image.direction == "세로" %>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <% @member_images.each do |member| %>
+              <div class="card border order-<%= member.order %> rounded-0">
+                <% if member.image_attach.attached? %>
+                  <%= image_tag member.image_attach, class: "card-img-top rounded-0", alt: "#{member.title} 사진" %>
+                <% end %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= member.title %></h5>
+                  <p class="card-text"><%= member.caption %></p>
+                  <hr>
+                  <h5>정보</h5>
+                  <p class="mb-0">출처: <%= member.source %></p>
+                  <p class="mb-0">사진순서: <%= member.order %></p>
+                  <p class="mb-0">그룹 이미지 ID: <%= member.group_image_id %></p>
+                </div>
+                <div class="card-footer text-center rounded-0">
+                  <%= link_to '편집', edit_member_image_path(member), class: "btn btn-info" %>
+                  <%= link_to '삭제', member_image_path(member), method: :delete, class: "btn btn-danger" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

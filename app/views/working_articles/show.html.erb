@@ -199,54 +199,87 @@
           <!-- 그룹 이미지 탭 -->
           <div class="tab-pane fade" id="group-image" role="tabpanel" aria-labelledby="group-image-tab">
             <div class="row" style="width: 100%;">
-              <div class="col-md-3">
-                <% @pages.each do |page| %>
-                  <div class="card">
-                    <div class="border text-center" style="margin: 5px;">
-                      <%= raw page.to_svg_with_jpg %>
+              <div class="col-md-4">
+                <h3 class="text-center">그룹 이미지 생성</h3>
+                <%= form_for @group_image do |f| %>
+                  <div class="form-group">
+                    <%= f.label :title, "제목:" %>
+                    <%= f.text_field :title, class: "form-control", placeholder: "제목을 입력해주세요." %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :caption, "캡션:" %>
+                    <%= f.text_field :caption, class: "form-control", placeholder: "업로드 사진에 대해 설명을 입력해주세요." %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :source, "출처:" %>
+                    <%= f.text_field :source, class: "form-control", placeholder: "출처를 입력해주세요." %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label :direction, "주축설정:"%>
+                    <%= f.radio_button :direction, "row"  %>
+                    <%= f.label :direction, "가로", value: "가로" %>
+                    <%= f.radio_button :direction, "column"  %>
+                    <%= f.label :direction, "세로", value: "세로" %>
+                  </div>
+                  <div class="form-group text-center border pt-3 pb-3">
+                    <%= f.label :position, "위치설정:"%>
+                    <div class="form-check" id="group_image_position" style="font-size: 13px;">
+                      <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %>
+                      <%= f.radio_button :position, 0, title: "제목위" %>
+                      <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %><br />
+                      <%= f.radio_button :position, 1, title: "좌상단" %>
+                      <%= f.radio_button :position, 2, title: "중상단" %>
+                      <%= f.radio_button :position, 3, title: "우상단" %><br>
+                      <%= f.radio_button :position, 4, title: "좌" %>
+                      <%= f.radio_button :position, 5, title: "중앙" %>
+                      <%= f.radio_button :position, 6, title: "우" %><br>
+                      <%= f.radio_button :position, 7, title: "좌하단"%>
+                      <%= f.radio_button :position, 8, title: "중하단" %>
+                      <%= f.radio_button :position, 9, title: "우하단" %><br>
                     </div>
-                    <div class="card-body text-center">
-                      <% if page.color_page %>
-                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
-                      <% else %>
-                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
-                      <% end %>
-                    </div>
+                  </div>
+                  <div class="form-group">
+                    <%= f.hidden_field :working_article_id, value: @working_article.id %>
+                  </div>
+                  <div class="form-group mt-3">
+                    <%= f.submit "등록", redirect_to: @working_article.id, class: "btn btn-primary btn-lg btn-block" %>
                   </div>
                 <% end %>
               </div>
-              <div class="col-md-4">
-                <div class="card">
-                  <h5 class="card-header">
-                    그룹 이미지 편집
-                  </h5>
-                  <div class="card-body">
-                    <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
-                      <% if @reporter_graphics.length > 0 %>
-                        <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
-                      <% end %>
-                      <% @working_article.graphics.each do |graphic| %>
-                        <%= render 'graphics/form', graphic: graphic %>
-                      <% end %>
-                      <% if  @working_article.graphics.length <= 2 %>
-                        <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
-                          <%= f.fields_for :images, Image.new do |p| %>
-                            <div class="form-group">
-                              <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
-                              <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
-                            </div>
-                          <% end %>
-                          <div class="actions">
-                            <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-                          </div>
-                        <% end %>
+              <div class="col-md-8">
+                <h3 class="text-center">그룹이미지 목록</h3>
+                <p class="text-center"><small>그룹이미지 제목을 클릭하시면 됩니다!</small></p>
+                <table class="table table-bordered">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>제목</th>
+                      <th>설명</th>
+                      <th>출처</th>
+                      <th>주축방향</th>
+                      <th>위치</th>
+                      <th>액션</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @group_images.each do |group| %>
+                      <% if group.working_article_id == @working_article.id %>
+                        <tr>
+                          <td class="align-middle"><%= link_to group.title, group %></td>
+                          <td class="align-middle"><%= group.caption %></td>
+                          <td class="align-middle"><%= group.source %></td>
+                          <td class="align-middle"><%= group.direction %></td>
+                          <td class="align-middle"><%= group.position %></td>
+                          <td>
+                            <%= link_to "편집", edit_group_image_path(group), class: "btn btn-info" %>
+                            <%= link_to '삭제', group_image_path(group), method: :delete, class: "btn btn-danger" %>
+                          </td>
+                        </tr>
                       <% end %>
                     <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5">
-                <%= render 'show_preview', article: @working_article %>
+                  </tbody>
+                </table>
+                <hr>
+                <h3 class="text-center">미리보기</h3>
               </div>
             </div>
           </div>
