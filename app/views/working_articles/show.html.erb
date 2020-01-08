@@ -58,14 +58,14 @@
                     <div class="border text-center" style="margin: 5px;">
                       <%= raw page.to_svg_with_jpg %>
                     </div>
-                    <div class="card-body text-center">
-                      <% if page.color_page %>
-                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
-                      <% else %>
-                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
-                      <% end %>
-                    </div>
                   </div>
+                  <p class="text-center">
+                    <% if page.color_page %>
+                      <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+                    <% else %>
+                      <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+                    <% end %>
+                  </p>
                 <% end %>
               </div>
               <div class="col-md-4">

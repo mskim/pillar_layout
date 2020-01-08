@@ -26,17 +26,27 @@
 require 'zip/zip'
 
 class Issue < ApplicationRecord
-  belongs_to :publication
-  has_many  :page_plans, dependent: :delete_all
-  has_many  :pages, -> { order(page_number: :asc) }, dependent: :delete_all
-  has_one :spread, dependent: :delete
-  has_many :images
-  accepts_nested_attributes_for :images
-  has_many :ad_images
-  accepts_nested_attributes_for :ad_images
-
+  # before & after
   before_create :read_issue_plan
   after_create :setup
+
+  # belongs_to
+  belongs_to :publication
+
+  # has_one
+  has_one :spread, dependent: :delete
+
+  # has_many
+  has_many  :page_plans, dependent: :delete_all
+  has_many  :pages, -> { order(page_number: :asc) }, dependent: :delete_all
+  has_many :working_articles, through: :pages
+  has_many :images
+  has_many :ad_images
+
+  # accepts_nested_attributes_for
+  accepts_nested_attributes_for :images
+  accepts_nested_attributes_for :ad_images
+
   validates_presence_of :date
   validates_uniqueness_of :date
 

@@ -385,6 +385,11 @@ class IssuesController < ApplicationController
     redirect_to issue_path(@issue), notice: '모바일용 지면보기 xml 파일이 합성 되었습니다.'
   end
 
+  def todays_web_articles
+    @issue = Issue.find(params(:id))
+    @pages = @issue.pages
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
