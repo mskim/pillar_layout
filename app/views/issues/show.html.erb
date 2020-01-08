@@ -5,12 +5,12 @@
         <div class="card mb-2 p-1 shadow">
           <%= link_to (image_tag page.pdf_image_path, style: "width: 100%;", class: "border"), page_path(page) %>
           <!-- %= raw page.to_svg_with_jpg % -->
-          <% if page.color_page %>
-            <h4 class="text-center mt-1"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %></h4>
-          <% else %>
-            <h4 class="text-center mt-1"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %></h4>
-          <% end %>
         </div>
+        <% if page.color_page %>
+          <h4 class="text-center mt-1"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %></h4>
+        <% else %>
+          <h4 class="text-center mt-1"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %></h4>
+        <% end %>
       </div>
       <!-- true -->
     <% end %>

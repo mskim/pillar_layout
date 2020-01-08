@@ -278,6 +278,10 @@ Rails.application.routes.draw do
       get 'send_mobile_preview_xml'
       get 'merge_container_xml'
     end
+
+    collection do
+      get 'todays_web_articles'
+    end
   end
 
   resources :pages do
