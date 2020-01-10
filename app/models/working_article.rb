@@ -91,10 +91,8 @@
 # category_code
 
 class WorkingArticle < ApplicationRecord
-  # before
+  # before & after
   before_create :init_article
-
-  # after
   after_create :setup_article
 
   # belongs_to
@@ -137,6 +135,34 @@ class WorkingArticle < ApplicationRecord
   # end
 
   # when working_article is split, we need to bumped up folder names
+
+  def save_to_story
+    s = Story.where(working_article_id: id).first
+    if s
+      s.category_name = page.section_name
+      s.date = page.date
+      s.title = title
+      s.subtitle = subtitle
+      s.quote = quote
+      s.body = body
+      s.selected_for_web = true
+      s.save
+    else
+      # binding.pry
+      s = Story.where(working_article_id: id, user_id: reporter).first_or_create
+      binding.pry
+      s.date = page.date
+      s.category_name = page.section_name
+      s.title = title
+      s.subtitle = subtitle
+      s.quote = quote
+      s.body = body
+      s.selected_for_web = false
+      s.save
+    end
+    s
+  end
+
   def bump_up_path
     base_name = File.basename(path)
     new_base = (base_name.to_i + 1).to_s

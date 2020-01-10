@@ -385,9 +385,27 @@ class IssuesController < ApplicationController
     redirect_to issue_path(@issue), notice: '모바일용 지면보기 xml 파일이 합성 되었습니다.'
   end
 
+  def generate_web_articles
+    # 카테고리
+    @pages = Page.all
+    @categories = @pages.select(:section_name).distinct.sort
+    # 카테고리에 따라 내용보여주기
+    @issue = Issue.find(params[:id])
+    @stories = []
+    @issue.pages.each do |p|
+      p.working_articles.each do |w|
+        @stories << w.save_to_story
+      end
+    end
+    # binding.pry
+  end
+
   def todays_web_articles
-    @issue = Issue.find(params(:id))
-    @pages = @issue.pages
+    @categories = Story.where(selected_for_web: true, updated_at: @issue.date)
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   private

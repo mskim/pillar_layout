@@ -277,10 +277,11 @@ Rails.application.routes.draw do
       get 'save_mobile_preview_xml'
       get 'send_mobile_preview_xml'
       get 'merge_container_xml'
+      get 'generate_web_articles'
+      get 'todays_web_articles'
     end
 
     collection do
-      get 'todays_web_articles'
     end
   end
 

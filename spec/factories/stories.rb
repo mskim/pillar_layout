@@ -21,6 +21,7 @@
 #  quote              :string
 #  reporter           :string
 #  selected           :boolean
+#  selected_for_web   :boolean
 #  status             :string
 #  story_type         :string           default("0")
 #  subject_head       :string

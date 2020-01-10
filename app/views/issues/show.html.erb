@@ -1,9 +1,9 @@
-<div class="container-fluid">
+<div class="container-fluid" style="margin-bottom: 5rem;">
   <div class="row justify-content-center">
     <% @issue.pages.each do |page| %>
       <div class="col-xs-6 col-md-2">
-        <div class="card mb-2 p-1 shadow">
-          <%= link_to (image_tag page.pdf_image_path, style: "width: 100%;", class: "border"), page_path(page) %>
+        <div class="card mb-2 shadow">
+          <%= link_to (image_tag page.pdf_image_path, style: "width: 100%;", class: "border border-secondary"), page_path(page) %>
           <!-- %= raw page.to_svg_with_jpg % -->
         </div>
         <% if page.color_page %>
@@ -17,12 +17,13 @@
   </div>
 </div>
 <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-<nav class="navbar navbar-light bg-light navbar-fixed-bottom border-top">
+<nav class="navbar navbar-light bg-light fixed-bottom border-top">
   <div class="btn-group" role="group" aria-label="전송">
     <%= link_to "데스크탑용 기사 xml 생성", save_story_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "데스크탑용 지면보기 xml 생성", save_preview_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "데스크탑용 xml 전송", send_xml_to_ebiz_issue_path, method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
     <%= link_to "모바일용 xml 생성/전송", save_mobile_preview_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "모바일용 xml 합성", merge_container_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
+    <%= link_to "인터넷 뉴스 작성", generate_web_articles_issue_path(@issue), class: "btn btn-secondary btn-sm" %>
   </div>
 </nav>

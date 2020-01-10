@@ -23,6 +23,7 @@
 #  quote              :string
 #  reporter           :string
 #  selected           :boolean
+#  selected_for_web   :boolean
 #  status             :string
 #  story_type         :string           default("0")
 #  subject_head       :string
@@ -48,11 +49,15 @@
 #
 
 class Story < ApplicationRecord
-  belongs_to :user
-  belongs_to :working_article, optional: true
-  before_create :init_atts
+  # before & after
   before_save :count_chars
+  before_create :init_atts
 
+  # belongs_to
+  belongs_to :user, optional: true
+  belongs_to :working_article, optional: true
+
+  # has_rich_text
   has_rich_text :content
 
   def status_string
