@@ -141,6 +141,7 @@ class WorkingArticle < ApplicationRecord
     if s
       s.date = page.date
       s.summitted_section = page.section_name
+      s.category_name = page.section_name
       s.title = title
       s.subtitle = subtitle
       s.quote = quote
@@ -153,6 +154,7 @@ class WorkingArticle < ApplicationRecord
         s = Story.where(working_article_id: id, user_id: reporter_id).first_or_create
         s.date = page.date
         s.summitted_section = page.section_name
+        s.category_name = page.section_name
         s.title = title
         s.subtitle = subtitle
         s.quote = quote
@@ -163,6 +165,7 @@ class WorkingArticle < ApplicationRecord
         s = Story.where(working_article_id: id, user_id: id_by_reporter_name_from_body).first_or_create
         s.date = page.date
         s.summitted_section = page.section_name
+        s.category_name = page.section_name
         s.title = title
         s.subtitle = subtitle
         s.quote = quote
@@ -192,7 +195,8 @@ class WorkingArticle < ApplicationRecord
   def reporter_from_body
     # return unless reporter
     body.match(/^# (.*)/) if body && body != ""
-    $1.to_s.sub("# ", "")
+    return $1.to_s.sub("# ", "") if $1
+    return nil
   end
 
   def bump_up_path

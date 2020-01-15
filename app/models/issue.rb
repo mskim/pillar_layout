@@ -59,6 +59,11 @@ class Issue < ApplicationRecord
   #   working_articles.each(&:save_to_story)
   # end
 
+  def reporter_from_body
+    body.match(/^# (.*)/) if body && body != ''
+    Regexp.last_match(1).to_s.sub('# ', '')
+  end
+
   def publication_path
     publication.path
   end

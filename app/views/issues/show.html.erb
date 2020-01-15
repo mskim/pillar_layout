@@ -24,6 +24,6 @@
     <%= link_to "데스크탑용 xml 전송", send_xml_to_ebiz_issue_path, method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
     <%= link_to "모바일용 xml 생성/전송", save_mobile_preview_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "모바일용 xml 합성", merge_container_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
-    <%= link_to "인터넷 뉴스 작성", generate_web_articles_issue_path(@issue), class: "btn btn-secondary btn-sm" %>
+    <%= link_to "웹 데스크", generate_web_articles_issue_path(@issue), class: "btn btn-secondary btn-sm" %>
   </div>
 </nav>

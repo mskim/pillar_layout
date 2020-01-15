@@ -391,22 +391,33 @@ class IssuesController < ApplicationController
     @categories = @pages.select(:section_name).distinct.sort
     # 카테고리에 따라 내용보여주기
     @issue = Issue.find(params[:id])
+
     @stories = []
     @issue.pages.each do |p|
       p.working_articles.each do |w|
-        if w.reporter.present? || w.body.match(/^# (.*)/).present?
+        # binding.pry if p.section_name == '정치'
+
+        if w.reporter.present?
+          puts '성공: reporter에서 기자명이 존재하여 작업합니다.'
           @stories << w.save_to_story
+          puts
+        elsif w.reporter_from_body && w.reporter_from_body != ''
+          puts '성공: reporter_from_body에서 # 기자명이 존재하여 작업합니다.'
+          @stories << w.save_to_story
+          # binding.pry
+        else
+          puts '경고: 기자명이 존재하지 않습니다.'
         end
       end
     end
-    # binding.pry
+    puts "@stories.length:#{@stories.length}"
   end
 
   def todays_web_articles
-    @categories = Story.where(selected_for_web: true, updated_at: @issue.date)
+    @issue = Issue.find(params[:id])
+    @stories = Story.where(selected_for_web: true, date: @issue.date)
     respond_to do |format|
-      format.html
-      format.json
+      format.json { render json: @stories }
     end
   end
 
