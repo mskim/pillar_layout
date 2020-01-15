@@ -394,7 +394,9 @@ class IssuesController < ApplicationController
     @stories = []
     @issue.pages.each do |p|
       p.working_articles.each do |w|
-        @stories << w.save_to_story
+        if w.reporter.present? || w.body.match(/^# (.*)/).present?
+          @stories << w.save_to_story
+        end
       end
     end
     # binding.pry

@@ -1,12 +1,12 @@
-<div align="center">
-  <h3>오늘기사</h3>
-  <p><%= button_to "기사 생성", generate_stories_issue_path(Issue.last), method: :get, class: "btn btn-sm btn-warning" %></p>
-  <table class="table table-striped">
+<div class="container">
+  <h3 class="text-center">오늘기사</h3>
+  <p><%= button_to "기사 생성", generate_stories_issue_path(Issue.last), method: :get, class: "btn btn-warning" %></p>
+  <table class="table table-bordered table-striped text-center">
     <thead>
       <tr>
-        <th>페이지</th>
+        <th>페이지 번호</th>
         <th>순서</th>
-        <th>기자</th>
+        <th>기자명</th>
         <th>제목</th>
         <th>출고된 팀</th>
       </tr>

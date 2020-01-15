@@ -139,28 +139,60 @@ class WorkingArticle < ApplicationRecord
   def save_to_story
     s = Story.where(working_article_id: id).first
     if s
-      s.category_name = page.section_name
       s.date = page.date
+      s.summitted_section = page.section_name
       s.title = title
       s.subtitle = subtitle
       s.quote = quote
       s.body = body
       s.selected_for_web = true
       s.save
-    else
-      # binding.pry
-      s = Story.where(working_article_id: id, user_id: reporter).first_or_create
-      binding.pry
-      s.date = page.date
-      s.category_name = page.section_name
-      s.title = title
-      s.subtitle = subtitle
-      s.quote = quote
-      s.body = body
-      s.selected_for_web = false
-      s.save
+    else 
+      if reporter.present?
+        # binding.pry
+        s = Story.where(working_article_id: id, user_id: reporter_id).first_or_create
+        s.date = page.date
+        s.summitted_section = page.section_name
+        s.title = title
+        s.subtitle = subtitle
+        s.quote = quote
+        s.body = body
+        s.selected_for_web = false
+        s.save
+      elsif body.match(/^# (.*)/).present?
+        s = Story.where(working_article_id: id, user_id: id_by_reporter_name_from_body).first_or_create
+        s.date = page.date
+        s.summitted_section = page.section_name
+        s.title = title
+        s.subtitle = subtitle
+        s.quote = quote
+        s.body = body
+        s.selected_for_web = false
+        s.save
+      else
+        puts "경고: 기자명이 없습니다!"
+      end
     end
     s
+  end
+
+  def reporter_id
+    if reporter.present?
+      User.find_by(name: reporter).id
+    end
+  end
+
+  def id_by_reporter_name_from_body
+    body.match(/^# (.*)/)
+    reporter_name = $1.to_s.sub("# ", "")
+    # binding.pry
+    User.find_by(name: reporter_name).id
+  end
+
+  def reporter_from_body
+    # return unless reporter
+    body.match(/^# (.*)/) if body && body != ""
+    $1.to_s.sub("# ", "")
   end
 
   def bump_up_path
