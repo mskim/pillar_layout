@@ -9,13 +9,12 @@
       </ul>
     </div>
   <% end %>
+  <%= f.label "지면용" %>
+  <%= f.check_box :story_type, {}, "지면용" %>
+  <%= f.label "웹용" %>
+  <%= f.check_box :story_type, {}, "웹용", false %>
   <div class="row">
     <div class="form-check form-check-inline">
-      <% types = ["지면용", "웹용"] %>
-      <% types.each do |type| %>
-        <%= f.label :story_type, type, class: "form-check-label" %>
-        <%= f.check_box :story_type, {multiple: true, class: "form-check-input"}, type, nil %>
-      <% end %>
     </div>
     <div class="form-row mb-4">
       <div class="form-group col-auto">

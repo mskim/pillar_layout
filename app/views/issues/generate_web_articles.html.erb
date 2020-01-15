@@ -313,7 +313,10 @@
       </div>
     </div>
     <div class="tab-pane fade" id="nav-second" role="tabpanel" aria-labelledby="nav-second-tab">
-    기제안된 기사 목록입니다.
+        <% @stories_for_web.each do |story| %>
+        <%= story.reporter %>
+        <%= story.title %>
+        <% end %>
     </div>
   </div>
 </div>
