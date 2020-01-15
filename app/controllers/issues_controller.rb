@@ -397,19 +397,18 @@ class IssuesController < ApplicationController
       p.working_articles.each do |w|
         # binding.pry if p.section_name == '정치'
         if w.reporter.present?
-          puts '성공: reporter에서 기자명이 존재하여 작업합니다.'
+          # puts '성공: reporter에서 기자명이 존재하여 작업합니다.'
           @stories << w.save_to_story
-          puts
         elsif w.reporter_from_body && w.reporter_from_body != ''
-          puts '성공: reporter_from_body에서 # 기자명이 존재하여 작업합니다.'
+          # puts '성공: reporter_from_body에서 # 기자명이 존재하여 작업합니다.'
           @stories << w.save_to_story
           # binding.pry
         else
-          puts '경고: 기자명이 존재하지 않습니다.'
+          # puts '경고: 기자명이 존재하지 않습니다.'
         end
       end
     end
-    binding.pry
+    # binding.pry
     @stories_for_web = Story.where(story_type: "웹용", date: @issue.date)
     puts "@stories.length:#{@stories.length}"
   end

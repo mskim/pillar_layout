@@ -316,8 +316,7 @@
     <table class="table table-dark table-boarderd table-sm">
         <thead>
             <tr>
-                <th>타입</th>
-                <th>ID</th>
+                <th>카테고리</th>
                 <th>제목</th>
                 <th>저자</th>
                 <th>액션</th>
@@ -326,8 +325,7 @@
         <tbody>
             <% @stories_for_web.each do |story| %>
                 <tr>
-                    <td><%= story.story_type %></td>
-                    <td><%= story.id %></td>
+                    <td><%= story.summitted_section %></td>
                     <td><%= story.title %></td>
                     <td><%= story.reporter %></td>
                     <td></td>
