@@ -9,52 +9,55 @@
       </ul>
     </div>
   <% end %>
-  <%= f.label "지면용" %>
-  <%= f.check_box :story_type, {}, "지면용" %>
-  <%= f.label "웹용" %>
-  <%= f.check_box :story_type, {}, "웹용", false %>
-  <div class="row">
-    <div class="form-check form-check-inline">
+  <span class="form-group">
+    <%= f.label "날짜", class: "form-label" %>
+    <%= f.date_select :date, { use_month_numbers: true }, {class: "custom-select bootstrap-date"} %>
+  </span>
+  <span class="ml-5">
+    <span class="form-check form-check-inline">
+      <%= f.label "타입:", class: "form-check-label" %>
+    </span>
+    <span class="form-check form-check-inline">
+      <%= f.check_box :story_type, { class: "form-check-input" }, "지면용", false %>
+      <%= f.label "지면용", class: "form-check-label" %>
+    </span>
+    <span class="form-check form-check-inline">
+      <%= f.check_box :story_type, { class: "form-check-input" }, "웹용", false %>
+      <%= f.label "웹용", class: "form-check-label" %>
+    </span>
+  </span>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <%= f.label '기획팀_기사분류', class: "col-form-label" %>
+      <%= f.select :category_code, [['사건/사고', 1601], ['법률',1602], ['교육',1603], ['노동', 1604], ['환경',1605], ['의료(보건복지)', 1606], ['시민사회', 1607], ['포토뉴스', 1608], ['피플', 1609]], { :include_blank => '-- 선택해주세요 --' }, required: true, class: "custom-select" %>
     </div>
-    <div class="form-row mb-4">
-      <div class="form-group col-auto">
-        <%= f.label "날짜", class: "form-label" %>
-        <%= f.date_select :date, {use_month_numbers: true}, {class: "custom-select bootstrap-date"} %>
-      </div>
-      <div class="form-group float-right">
-        <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-lg", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-      </div>
+    <div class="form-group col-md-4">
+      <%= f.label '가격', class: "col-form-label" %>
+      <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "custom-select"} %>
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <%= f.label '기획팀_기사분류', class: "col-form-label" %>
-        <%= f.select :category_code, [['사건/사고', 1601], ['법률',1602], ['교육',1603], ['노동', 1604], ['환경',1605], ['의료(보건복지)', 1606], ['시민사회', 1607], ['포토뉴스', 1608], ['피플', 1609]], { :include_blank => '-- 선택해주세요 --' }, required: true, class: "custom-select" %>
-      </div>
-      <div class="form-group col-md-4">
-        <%= f.label '가격', class: "col-form-label" %>
-        <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "custom-select"} %>
-      </div>
-      <div class="form-group col-md-4">
-        <%= f.label '출고면_선택', class: "col-form-label" %>
-        <%= f.select :summitted_section, ['미정', '1면','정치','자치행정','국제통일','금융','산업','정책','기획','오피니언'], { :include_blank => '-- 선택해주세요 --' }, :required => true, class: "custom-select" %>
-      </div>
+    <div class="form-group col-md-4">
+      <%= f.label '출고면_선택', class: "col-form-label" %>
+      <%= f.select :summitted_section, ['미정', '1면','정치','자치행정','국제통일','금융','산업','정책','기획','오피니언'], { :include_blank => '-- 선택해주세요 --' }, :required => true, class: "custom-select" %>
     </div>
-    <div class="form-group">
-      <%= f.label :문패 %>
-      <%= f.text_field :subject_head, :size=>"40", class: "form-control", autocomplete: 'off' %>
-    </div>
-    <div class="form-group">
-      <%= f.label :제목 %>
-      <%= f.text_field :title, :size=>"40" , class: "form-control", autocomplete: 'off' %>
-    </div>
-    <div class="form-group">
-      <%= f.label :부제목 %>
-      <%= f.text_area :subtitle, cols: 40, rows: 4, class: "form-control batang", autocomplete: 'off' %>
-    </div>
-    <div class="from-group mb-5">
-      <%= f.label :본문 %>
-      <%= f.rich_text_area :content, autocomplete: 'off', style: "height: 500px; overflow-y:auto" %>
-    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :문패 %>
+    <%= f.text_field :subject_head, :size=>"40", class: "form-control", autocomplete: 'off' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :제목 %>
+    <%= f.text_field :title, :size=>"40" , class: "form-control", autocomplete: 'off' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :부제목 %>
+    <%= f.text_area :subtitle, cols: 40, rows: 4, class: "form-control batang", autocomplete: 'off' %>
+  </div>
+  <div class="from-group">
+    <%= f.label :본문 %>
+    <%= f.rich_text_area :content, autocomplete: 'off', style: "height: 500px; overflow-y: auto; background: white;" %>
+  </div>
+  <div class="form-group mt-3 mb-5">
+    <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-lg btn-block", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
   </div>
   <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
