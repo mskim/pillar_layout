@@ -284,7 +284,7 @@ class PageLayout < ApplicationRecord
       if item.first.class == String
         self.ad_type = item
         save
-        create_ad_mode(item)
+        create_ad_node(item)
       elsif item.first.class == Array
         create_pillar_layout_node(item, i + 1)
       elsif item.first[4].class == Hash
@@ -336,7 +336,7 @@ class PageLayout < ApplicationRecord
 
   def create_ad_box(ad_type); end
 
-  def create_ad_mode(ad_type)
+  def create_ad_node(ad_type)
     h = { page_layout_id: id, node_kind: 'ad' }
     case ad_type
     when '전면광고'
@@ -438,7 +438,7 @@ class PageLayout < ApplicationRecord
   end
 
   def heading_space
-    if page_type = 1
+    if page_type == 1
       body_line_height * 10
     else
       body_line_height * 3

@@ -1,17 +1,35 @@
 require 'csv'
 require 'yaml'
 
-page_layout_csv_path = "#{Rails.root}/public/1/page_layout.csv"
-csv_text = File.read(page_layout_csv_path)
+# page_layout_csv_path = "#{Rails.root}/public/1/page_layout.csv"
+# csv_text = File.read(page_layout_csv_path)
+# puts csv_text
+# csv = CSV.parse(csv_text)
+# keys  = csv.shift
+# keys.map!{|e| e.to_sym}
+# csv.each do |row|
+#   row[2] = eval(row[2])
+#   row_h = Hash[keys.zip row]
+#   s = PageLayout.where(row_h).first_or_create!
+# end
+
+# add existing section data from 214
+section_csv_path = "#{Rails.root}/public/1/section/pillar.csv"
+csv_text = File.read(section_csv_path)
 puts csv_text
 csv = CSV.parse(csv_text)
 keys  = csv.shift
 keys.map!{|e| e.to_sym}
-csv.each do |row|
+csv.each_with_index do |row, i|
   row[2] = eval(row[2])
   row_h = Hash[keys.zip row]
+  s = PageLayout.where(row_h).first
+  if s
+    puts "found duplicate item line #{i + 2}: #{s.layout}"
+  end
   s = PageLayout.where(row_h).first_or_create!
 end
+
 
   # add actions to db
   action_yml_path = "#{Rails.root}/public/action.yml"

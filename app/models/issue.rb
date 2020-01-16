@@ -7,11 +7,12 @@
 #  id             :integer          not null, primary key
 #  date           :date
 #  number         :string
+#  page_count     :integer
 #  plan           :text
-#  publication_id :integer
+#  slug           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  slug           :string
+#  publication_id :integer
 #
 # Indexes
 #
@@ -391,6 +392,7 @@ class Issue < ApplicationRecord
   private
 
   def read_issue_plan
+    self.page_count = publication.page_count
     if File.exist?(default_issue_plan_path)
       self.plan = File.open(default_issue_plan_path, 'r', &:read)
       true

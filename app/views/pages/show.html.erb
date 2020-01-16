@@ -40,10 +40,10 @@
           <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
             <% if @page.template_id == page_layout.id %>
               <%= raw  page_layout.to_svg%>
-              <p class="btn btn-info text-center rounded-0 mb-0">사용중<%= "(#{page_layout.pillar_profile})" %></p>
+              <p class="btn btn-info text-center rounded-0 mb-0">사용중<%= "(#{page_layout.pillar_profile})#{page_layout.id}" %></p>
             <% else %>
               <%= raw  page_layout.to_svg%>
-              <%= link_to "변경(#{page_layout.pillar_profile})", change_page_layout_page_path(@page, new_choice: page_layout), method: :patch, class: "btn btn-danger text-center rounded-0" %>
+              <%= link_to "변경(#{page_layout.pillar_profile})#{page_layout.id}", change_page_layout_page_path(@page, new_choice: page_layout), method: :patch, class: "btn btn-danger text-center rounded-0" %>
             <% end %>
           </div>
         <% end %>

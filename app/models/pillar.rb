@@ -432,6 +432,14 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp
   end
 
+  def height_in_lines
+    if page_ref
+      page_ref.height_in_lines
+    else
+      7
+    end
+  end
+
   def init_pillar
     profile = "#{column}x#{row}_#{box_count}"
     self.profile = profile

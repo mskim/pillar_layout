@@ -1,5 +1,5 @@
 namespace :style do
-  
+  require 'csv'
   
   desc 'convert section.csv pillar.csv'
   task :section2pillar =>:environment do
@@ -7,7 +7,7 @@ namespace :style do
     csv_text = File.read(csv_path)
     csv = CSV.parse(csv_text)
     keys  = csv.shift
-    pillar_string = %w[page_number column layout].to_csv
+    pillar_string = %w[page_type column layout].to_csv
     pillars = []
     csv.each do |row|
       pillar_row = Section.section2pillar(row).to_csv

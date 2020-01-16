@@ -2,7 +2,24 @@
 <div align="center">
 <!-- p id="notice"><%= notice %></p-->
 
-<h3>페이지 레이아웃</h3>
+<h4>페이지 레이아웃</h4>
+<%= search_form_for @q do |s| %>
+<%= s.label '광고' %>
+<%= s.select :ad_type_eq, Ad.all.uniq { |p| p.name }.collect{|p| p.name}, {include_blank: '전체'} %>
+
+<%= s.label '페이지' %>
+<%= s.select :page_type_eq, [1, 10, 22, 23, 100, 101, 0],  {include_blank: '전체'} %>
+
+<%= s.label '단' %>
+<%= s.select :column_eq, [6, 7],  {include_blank: '전체'} %>
+
+<%= s.label 'ID' %>
+<%= s.text_field :id_eq, style: "width:40px" %>
+
+<%= s.submit "검색", class: "btn btn-sm btn-normal"%>
+<% end %>
+<br>
+
 <table class="table table-striped">
   <thead>
     <tr>

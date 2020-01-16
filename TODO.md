@@ -24,10 +24,34 @@
   - download_first_page_heading
   - heading_maker
 
-2020_1
+2020_1_15
+  - add variable_page_count:boolean to publication
+  - add page_count to issue
+  - add change page_count selection to issue show button
+  - add change page_count to issue model
+  - add change page_count to issue page_plan view
+  - add change page_count to issue_controller
+  - add get page_count to route.rb
+  - add change page_count to page_plan model
+
+  - read page_layout from section.yml
+    - add pushed, extended to page layout? try to avoid this!!!
+      - add height_in_lines to pillar, working_article
+    - add article type specification to page_layout?
+
+  - add spread
+  - update ytn parsing
+
+2020_1_6
+  - fix issue_plan to support variable page size
+  - fix editorial reporter image position 
+    - top_left, bottom_right, none
+
+2020_1_2
 
   - bug 수정
-    - 2단 제목 넘침
+    - 2단 제목 넘침?
+    
     - 이미지 크기 위치에 따라 변환 방지
     - 그래픽 높이 자동 조절 
     - 우측 인물사진
@@ -35,6 +59,7 @@
   
   - 면배열표 수정 내용 한번에 적용하기
   - 그룹사진 기능 구현
+  - 양면광고 구현
 
 (한승효)
   - 광고 자동 배치

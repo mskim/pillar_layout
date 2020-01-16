@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_02_042531) do
+ActiveRecord::Schema.define(version: 2020_01_14_220046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -403,6 +403,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_042531) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "page_count"
     t.index ["publication_id"], name: "index_issues_on_publication_id"
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
@@ -626,6 +627,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_042531) do
     t.string "cms_server_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "variable_page_count"
   end
 
   create_table "reporter_graphics", force: :cascade do |t|

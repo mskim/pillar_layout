@@ -3,35 +3,36 @@
 # Table name: publications
 #
 #  id                             :integer          not null, primary key
-#  name                           :string
-#  unit                           :string
-#  paper_size                     :string
-#  width_in_unit                  :float
-#  height_in_unit                 :float
-#  left_margin_in_unit            :float
-#  top_margin_in_unit             :float
-#  right_margin_in_unit           :float
-#  bottom_margin_in_unit          :float
-#  gutter_in_unit                 :float
-#  width                          :float
-#  height                         :float
-#  left_margin                    :float
-#  top_margin                     :float
-#  right_margin                   :float
-#  bottom_margin                  :float
-#  gutter                         :float
-#  lines_per_grid                 :integer
-#  page_count                     :integer
-#  section_names                  :text
-#  page_columns                   :text
-#  row                            :integer
-#  front_page_heading_height      :integer
-#  inner_page_heading_height      :integer
 #  article_bottom_spaces_in_lines :integer
 #  article_line_draw_sides        :text
 #  article_line_thickness         :float
-#  draw_divider                   :boolean
+#  bottom_margin                  :float
+#  bottom_margin_in_unit          :float
 #  cms_server_url                 :string
+#  draw_divider                   :boolean
+#  front_page_heading_height      :integer
+#  gutter                         :float
+#  gutter_in_unit                 :float
+#  height                         :float
+#  height_in_unit                 :float
+#  inner_page_heading_height      :integer
+#  left_margin                    :float
+#  left_margin_in_unit            :float
+#  lines_per_grid                 :integer
+#  name                           :string
+#  page_columns                   :text
+#  page_count                     :integer
+#  paper_size                     :string
+#  right_margin                   :float
+#  right_margin_in_unit           :float
+#  row                            :integer
+#  section_names                  :text
+#  top_margin                     :float
+#  top_margin_in_unit             :float
+#  unit                           :string
+#  variable_page_count            :boolean
+#  width                          :float
+#  width_in_unit                  :float
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
 #
