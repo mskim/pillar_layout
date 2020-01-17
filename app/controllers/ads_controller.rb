@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AdsController < ApplicationController
-  before_action :set_ad, only: [:show, :edit, :update, :destroy]
+  before_action :set_ad, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /ads
@@ -15,8 +17,7 @@ class AdsController < ApplicationController
 
   # GET /ads/1
   # GET /ads/1.json
-  def show
-  end
+  def show; end
 
   # GET /ads/new
   def new
@@ -24,8 +25,7 @@ class AdsController < ApplicationController
   end
 
   # GET /ads/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ads
   # POST /ads.json
@@ -58,7 +58,7 @@ class AdsController < ApplicationController
   end
 
   def upload_csv
-    #code
+    # code
   end
 
   # DELETE /ads/1
@@ -72,13 +72,14 @@ class AdsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ad
-      @ad = Ad.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def ad_params
-      params.require(:ad).permit(:name, :column, :row, :page_columns, :publication_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ad
+    @ad = Ad.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def ad_params
+    params.require(:ad).permit(:name, :column, :row, :page_columns, :publication_id)
+  end
 end
