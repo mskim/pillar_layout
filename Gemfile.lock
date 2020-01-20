@@ -103,7 +103,7 @@ GEM
       activemodel (>= 5.0)
     browser (3.0.3)
     builder (3.2.4)
-    byebug (11.0.1)
+    byebug (11.1.0)
     carrierwave (1.2.3)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -508,4 +508,4 @@ DEPENDENCIES
   zip-zip
 
 BUNDLED WITH
-   2.1.2
+   2.1.4

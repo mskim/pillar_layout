@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       get 'un_assign_position'
       get 'backup'
       get 'recover_backup'
+      patch 'web_publishing_update'
     end
     collection do
       get 'my'
