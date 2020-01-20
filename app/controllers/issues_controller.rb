@@ -388,7 +388,7 @@ class IssuesController < ApplicationController
   def generate_web_articles
     # 카테고리
     @pages = Page.all
-    @categories = @pages.select(:section_name).distinct.sort
+    @categories = @pages.select(:section_name).distinct.order("section_name asc")
     # 카테고리에 따라 내용보여주기
     @issue = Issue.find(params[:id])
 
