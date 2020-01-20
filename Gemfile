@@ -137,3 +137,4 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-chosen-bootstrap'
 end
 gem 'annotate'
+gem 'bundler', '~> 2.1', '>= 2.1.2'

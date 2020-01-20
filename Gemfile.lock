@@ -448,6 +448,7 @@ DEPENDENCIES
   bootstrap4-kaminari-views
   bootstrap_form
   browser
+  bundler (~> 2.1, >= 2.1.2)
   carrierwave (~> 1.2.3)
   coffee-rails
   database_cleaner (~> 1.7)
