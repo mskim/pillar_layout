@@ -18,11 +18,11 @@
   <div class="card-columns">
     <% @yh_photo_trs.each do |yh_photo_tr| %>
       <div class="card text-center">
-        <%= link_to (image_tag yh_photo_tr.thumb_path, class: "img-crop"), yh_photo_tr_path(yh_photo_tr) %>
+        <%= link_to (image_tag yh_photo_tr.thumb_path, class: "img-crop", style: "width: 100%;"), yh_photo_tr_path(yh_photo_tr) %>
         <div class="card-footer">
-          <h6 class="card-title text-center"><%= yh_photo_tr.title %></h6>
+          <h6 class="card-title text-center mb-0"><%= yh_photo_tr.title %></h6>
           <small class="text-muted"><%= yh_photo_tr.created_at.strftime("%y-%m-%d %H:%M") %></small>
-          <p class="font-weight-bold"><%= yh_photo_tr.source %></p>
+          <p class="font-weight-bold mb-0"><%= yh_photo_tr.source %></p>
         </div>
       </div>
     <% end %>
