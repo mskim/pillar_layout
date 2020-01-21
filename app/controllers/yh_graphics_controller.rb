@@ -7,7 +7,7 @@ class YhGraphicsController < ApplicationController
     @q = YhGraphic.ransack(params[:q])
     @yh_graphics = @q.result
     session[:current_yh_graphic_category] = params[:q]['category_cont'] if params[:q]
-    @yh_graphics = @yh_graphics.order(:date).page(params[:page]).reverse_order.per(20)
+    @yh_graphics = @yh_graphics.order(:date).page(params[:page]).reverse_order.per(30)
     # @yh_graphics = YhGraphic.all
   end
 

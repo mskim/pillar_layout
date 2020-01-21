@@ -1,17 +1,6 @@
 <div class="container">
   <h3 class="text-center mb-3">번역 외신 사진</h3>
-  <form class="form-inline d-flex justify-content-center">
-    <%= search_form_for @q do |f| %>
-      <div class="input-group col-6">
-        <%= f.text_field :title_or_body_or_source_cont, placeholder: "검색어를 입력하세요.", class: "form-control" %>
-        <div class="input-group-append">
-          <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
-            <span><i class="fa fa-search" aria-hidden="true"></i> 사진 검색</span>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  </form>
+  <%= render 'search_form' %>
 </div>
 <div class="w-100">
   <br>

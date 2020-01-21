@@ -1,5 +1,5 @@
 <div class="container mb-3">
-  <h3 class="display-4 text-center">나의 사진</h3>
+  <h3 class="text-center">나의 사진</h3>
   <form class="form-inline d-flex justify-content-center">
     <%= search_form_for @q, remote: true do |f| %>
       <div class="input-group col-6">
@@ -19,9 +19,9 @@
       <div class="card">
         <%= link_to (image_tag picture.thumb_path, class: "img-crop card-img-top"), reporter_image_path(picture) %>
         <div class="card-body">
-          <h4><%= picture.title %></h4>
+          <h5 class="mb-0"><%= picture.title %></h5>
         </div>
-        <div align="center" style="height: 50px;"> (<%= picture.source %>)</div>
+        <div class="text-center mb-3"> (<%= picture.source %>)</div>
       </div>
     <% end %>
   </div>
