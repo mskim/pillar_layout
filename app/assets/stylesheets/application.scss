@@ -54,6 +54,10 @@ body {
   }
 }
 
+.table-bordered {
+  border-color: 1px solid grey;
+}
+
 $custom-file-text: (
   en: "Browse",
   es: "Elegir",

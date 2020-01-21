@@ -47,12 +47,22 @@ class Issue < ApplicationRecord
   accepts_nested_attributes_for :images
   accepts_nested_attributes_for :ad_images
 
+  # validates
   validates_presence_of :date
   validates_uniqueness_of :date
 
   include IssueStoryMakeable
   include IssueGitWorkflow
   include IssueSaveXml
+
+  # def save_to_web_article
+  #   working_articles.each(&:save_to_story)
+  # end
+
+  def reporter_from_body
+    body.match(/^# (.*)/) if body && body != ''
+    Regexp.last_match(1).to_s.sub('# ', '')
+  end
 
   def publication_path
     publication.path

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: yh_articles
@@ -27,13 +29,18 @@
 #
 
 class YhArticle < ApplicationRecord
-  establish_connection :wire_service
-  validates_uniqueness_of :content_id
+  # before & after
   before_save :update_category
-  
+
+  # validates
+  validates_uniqueness_of :content_id
+
+  # multiple_databases
+  establish_connection :wire_service
+
   def taken(user)
     self.taken_by = user.name
-    self.save
+    save
   end
 
   def self.delete_week_old(today)

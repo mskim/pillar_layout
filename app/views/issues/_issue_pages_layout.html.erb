@@ -2,9 +2,9 @@
   <div class="row">
     <% @pages.each do |page| %>
       <div class = "col-xs-6 col-md-3">
-        <div class="card bg-light shadow-sm p-2">
+        <div class="card bg-light shadow-sm">
           <!--a href="<%=  page_path(page) %>"><img  src="<%= page.jpg_image_path %>" width="100%"></img></a-->
-          <div class="border">
+          <div class="border border-secondary">
             <%= raw page.to_svg_with_jpg %>
           </div>
         </div>

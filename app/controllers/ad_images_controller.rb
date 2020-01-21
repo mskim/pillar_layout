@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AdImagesController < ApplicationController
-  before_action :set_ad_image, only: [:show, :edit, :update, :destroy]
+  before_action :set_ad_image, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /ad_images
@@ -10,8 +12,7 @@ class AdImagesController < ApplicationController
 
   # GET /ad_images/1
   # GET /ad_images/1.json
-  def show
-  end
+  def show; end
 
   # GET /ad_images/new
   def new
@@ -19,8 +20,7 @@ class AdImagesController < ApplicationController
   end
 
   # GET /ad_images/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ad_images
   # POST /ad_images.json
@@ -78,13 +78,14 @@ class AdImagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ad_image
-      @ad_image = AdImage.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def ad_image_params
-      params.require(:ad_image).permit(:column, :row, :page_number, :story_number, :issue_id, :image, :working_article_id, :ad_box)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_ad_image
+    @ad_image = AdImage.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def ad_image_params
+    params.require(:ad_image).permit(:column, :row, :page_number, :story_number, :issue_id, :image, :working_article_id, :ad_box)
+  end
 end
