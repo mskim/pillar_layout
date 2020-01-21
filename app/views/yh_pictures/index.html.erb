@@ -10,7 +10,7 @@
         <div class="card text-center">
           <%= link_to (image_tag yh_picture.thumb_path, class: "img-crop", style: "width: 100%;"), yh_picture_path(yh_picture) %>
           <div class="card-footer">
-            <h6 class="card-title text-center"><%= yh_picture.title %></h6>
+            <h6 class="card-title text-center mb-0"><%= yh_picture.title %></h6>
             <small class="text-muted"><%= yh_picture.created_at.strftime("%y-%m-%d %H:%M") %></small>
           </div>
         </div>
