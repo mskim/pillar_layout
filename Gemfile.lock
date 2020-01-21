@@ -173,6 +173,8 @@ GEM
     guard-shell (0.7.1)
       guard (>= 2.0.0)
       guard-compat (~> 1.0)
+    happymapper (0.5.0)
+      libxml-ruby (~> 2.9)
     hexapdf (0.11.4)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.2)
@@ -206,6 +208,7 @@ GEM
     kaminari-core (1.1.1)
     launchy (2.4.3)
       addressable (~> 2.3)
+    libxml-ruby (2.9.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -213,7 +216,7 @@ GEM
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lumberjack (1.1.1)
+    lumberjack (1.2.0)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -257,7 +260,7 @@ GEM
       shellany (~> 0.0)
     ntlm-http (0.1.1)
     orm_adapter (0.5.0)
-    pg (0.21.0)
+    pg (1.2.2)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
     popper_js (1.16.0)
@@ -462,6 +465,7 @@ DEPENDENCIES
   guard-rake
   guard-remote-sync (~> 0.1.0)
   guard-shell
+  happymapper
   hexapdf
   image_processing (~> 1.2)
   jbuilder (~> 2.5)
@@ -474,7 +478,7 @@ DEPENDENCIES
   mini_magick (~> 4.8)
   minitest-spec-rails
   momentjs-rails (>= 2.9.0)
-  pg (~> 0.20)
+  pg
   pry-byebug
   puma (~> 3.11)
   rails (~> 6.0, >= 6.0.1)

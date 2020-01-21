@@ -6,13 +6,9 @@ class YhArticlesController < ApplicationController
   # GET /yh_articles
   # GET /yh_articles.json
   def index
-    binding.pry
-    if YhArticle.table_exists?
-      @q = YhArticle.ransack(params[:q])
-      @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(25)
-    else
-      puts 'YhArticles 테이블이 존재하지 않습니다!'
-    end
+    @q = YhArticle.ransack(params[:q])
+    @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(25)
+    # binding.pry
 
     # @yh_articles = YhArticle.all
     # @yh_article_categories = YhArticle.pluck(:category_name).uniq.sort

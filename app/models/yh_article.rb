@@ -36,7 +36,7 @@ class YhArticle < ApplicationRecord
   validates_uniqueness_of :content_id
 
   # multiple_databases
-  # establish_connection :wire_service
+  establish_connection :wire_service
 
   def taken(user)
     self.taken_by = user.name

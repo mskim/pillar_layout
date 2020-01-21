@@ -1,10 +1,17 @@
 <!-- p id="notice"><%= notice %></p-->
 <h3 class="text-center">외신 사진</h3>
-<%= search_form_for @q do |f| %>
-  <%= f.label '카테고리' %>
-  <%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_picture_category]), :include_blank => '전체' %>
-  <%= f.submit %>
-<% end %>
+  <form class="form-inline d-flex justify-content-center">
+    <%= search_form_for @q do |f| %>
+      <div class="input-group col-6">
+        <%= f.text_field :title_or_body_or_source_cont, placeholder: "검색어를 입력하세요.", class: "form-control" %>
+        <div class="input-group-append">
+          <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
+            <span><i class="fa fa-search" aria-hidden="true"></i> 사진 검색</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </form>
 <br>
 <div class="view">
   <% @yh_photo_fr_ynas.each do |yh_photo_fr_yna| %>

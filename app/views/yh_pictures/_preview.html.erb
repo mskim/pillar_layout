@@ -2,7 +2,7 @@
   <h5 class="card-header text-light bg-dark">
     연합 국내취재 사진 미리보기
   </h5>
-  <%= image_tag @yh_picture.preview_path, class: "card-img-top" %>
+  <%= image_tag @yh_picture.preview_path, class: "card-img-top rounded-0" %>
   <div class="card-body">
     <h5 class="card-title display-4" style="font-size: 30px;"><%= @yh_picture.title %></h5>
     <p class="card-text"><%= simple_format(@yh_picture.body) %></p>

@@ -13,9 +13,6 @@
           <%= f.date_field :date_lteq_any, value: Date.today, aria: {label: "끝"}, class: "form-control" %>
         </div>
       </div>
-      <div class="col-md-1">
-        <%= f.select :region_eq, ["국내지역", "세계지역"], { :include_blank => '지역' }, class: "form-control my-1 mr-sm-2" %>
-      </div>
       <div class="col-md-2">
         <%= f.select :category_name_eq, ['정치', '경제', '사회', '문화', '스포츠/레저', '국제', '지방', 'IT/과학', '북한', '민족'], {include_blank: '카테고리 선택'}, class: "form-control my-1 mr-sm-2" %>
       </div>
