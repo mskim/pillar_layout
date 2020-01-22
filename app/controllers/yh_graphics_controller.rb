@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 class YhGraphicsController < ApplicationController
-  before_action :set_yh_graphic, only: [:show, :edit, :update, :destroy, :taken]
+  before_action :set_yh_graphic, only: %i[show edit update destroy taken]
 
   # GET /yh_graphics
   # GET /yh_graphics.json
   def index
     @q = YhGraphic.ransack(params[:q])
-    @yh_graphics = @q.result
-    session[:current_yh_graphic_category] = params[:q]['category_cont'] if params[:q]
+    @yh_graphics = @q.result(distinct: true)
+    if params[:q]
+      session[:current_yh_graphic_category] = params[:q]['category_cont']
+    end
     @yh_graphics = @yh_graphics.order(:date).page(params[:page]).reverse_order.per(30)
     # @yh_graphics = YhGraphic.all
   end
@@ -14,6 +18,12 @@ class YhGraphicsController < ApplicationController
   # GET /yh_graphics/1
   # GET /yh_graphics/1.json
   def show
+    @q = YhGraphic.ransack(params[:q])
+    @yh_graphics = @q.result(distinct: true)
+    if params[:q]
+      session[:current_yh_graphic_category] = params[:q]['category_cont']
+    end
+    @yh_graphics = @yh_graphics.order(:date).page(params[:page]).reverse_order.per(30)
   end
 
   # GET /yh_graphics/new
@@ -22,8 +32,7 @@ class YhGraphicsController < ApplicationController
   end
 
   # GET /yh_graphics/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /yh_graphics
   # POST /yh_graphics.json
@@ -71,13 +80,14 @@ class YhGraphicsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_yh_graphic
-      @yh_graphic = YhGraphic.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def yh_graphic_params
-      params.require(:yh_graphic).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :picture, :taken_by)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_yh_graphic
+    @yh_graphic = YhGraphic.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def yh_graphic_params
+    params.require(:yh_graphic).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :picture, :taken_by)
+  end
 end

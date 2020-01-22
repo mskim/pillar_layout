@@ -1,0 +1,11 @@
+<div class="card-columns">
+  <% @yh_prs.each do |yh_pr| %>
+    <div class="card text-center">
+      <%= link_to (image_tag yh_pr.thumb_path, class: "img-crop", style: "width: 100%;"), yh_pr_path(yh_pr), remote: true %>
+      <div class="card-footer">
+        <h6 class="card-title text-center mb-0"><%= yh_pr.title %></h6>
+        <small class="text-muted"><%= yh_pr.created_at.strftime("%y-%m-%d %H:%M") %></small>
+      </div>
+    </div>
+  <% end %>
+</div>

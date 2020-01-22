@@ -7,7 +7,7 @@ class YhPhotoTrsController < ApplicationController
   # GET /yh_photo_trs.json
   def index
     @q = YhPhotoTr.ransack(params[:q])
-    @yh_photo_trs = @q.result
+    @yh_photo_trs = @q.result(distinct: true)
     @yh_photo_trs = @yh_photo_trs.order(:date).page(params[:page]).reverse_order.per(30)
 
     # @yh_photo_trs = YhPhotoTr.all
@@ -17,7 +17,7 @@ class YhPhotoTrsController < ApplicationController
   # GET /yh_photo_trs/1.json
   def show
     @q = YhPhotoTr.search(params[:q])
-    @yh_photo_trs = @q.result
+    @yh_photo_trs = @q.result(distinct: true)
     if params[:q]
       session[:current_yh_picture_category] = params[:q]['category_cont']
     end

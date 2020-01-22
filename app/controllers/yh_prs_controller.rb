@@ -1,20 +1,24 @@
+# frozen_string_literal: true
+
 class YhPrsController < ApplicationController
-  before_action :set_yh_pr, only: [:show, :edit, :update, :destroy, :taken]
+  before_action :set_yh_pr, only: %i[show edit update destroy taken]
 
   # GET /yh_pr
   # GET /yh_pr.json
   def index
     @q = YhPr.ransack(params[:q])
-    @yh_prs = @q.result
+    @yh_prs = @q.result(distinct: true)
     session[:current_yh_pr_category] = params[:q]['category_cont'] if params[:q]
     @yh_prs = @yh_prs.order(:date).page(params[:page]).reverse_order.per(30)
-
-    # @yh_pr = YhPr.all
   end
 
   # GET /yh_prs/1
   # GET /yh_prs/1.json
   def show
+    @q = YhPr.ransack(params[:q])
+    @yh_prs = @q.result(distinct: true)
+    session[:current_yh_pr_category] = params[:q]['category_cont'] if params[:q]
+    @yh_prs = @yh_prs.order(:date).page(params[:page]).reverse_order.per(30)
   end
 
   # GET /yh_pr/new
@@ -23,8 +27,7 @@ class YhPrsController < ApplicationController
   end
 
   # GET /yh_pr/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /yh_pr
   # POST /yh_pr.json
@@ -73,13 +76,14 @@ class YhPrsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_yh_pr
-      @yh_pr = YhPr.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def yh_pr_params
-      params.require(:yh_pr).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :file_name, :taken_by)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_yh_pr
+    @yh_pr = YhPr.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def yh_pr_params
+    params.require(:yh_pr).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :file_name, :taken_by)
+  end
 end

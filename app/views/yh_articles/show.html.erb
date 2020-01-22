@@ -1,6 +1,6 @@
 <div class="container">
   <h3 class="text-center">연합 국내취재 기사</h3>
-  <div class="" id="yh_article_search">
+  <div id="yh_article_search">
     <%= render 'search_form' %>
   </div>
 </div>
@@ -11,7 +11,7 @@
         <%= render 'yh_article_result_for_show' %>
       </div>
       <div id="yh_article_paginate">
-        <%= paginate @yh_articles, remote: true, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
+        <%= render 'yh_article_paginate' %>
       </div>
     </div>
     <div class="col-md-5" id="article_preview">
