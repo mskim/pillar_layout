@@ -1,36 +1,27 @@
 
-<%= form_with(model: @yh_photo_tr, local: true) do |f| %>
-
-  <div align="center">
-    <%= link_to "이전으로", yh_photo_trs_path, method: :get, class: "btn btn-md btn-success" %>
-    <%= link_to "사진선택", taken_yh_photo_tr_path, method: :get, class: "btn btn-md btn-primary" %>
-  </div>
-
-  <br>
-
-  <div class="view">
-    <div class="col-md-5">
-    <img  src="<%= @yh_photo_tr.preview_path %>" width="100%"></img>
+<div id="yh_photo_tr_search_form">
+  <%= render 'search_form' %>
+</div>
+<div class="row mt-4 mb-5">
+  <div class="col-sm-8">
+    <div id="yh_photo_tr_search_result">
+      <%= render 'search_result' %>
     </div>
-
-    <div class="col-md-4">
-
-      <div class="field">
-        <%= f.label :제목 %>
-        <%= f.text_field :title, :size=>"40" , class: "form-control", :readonly => true %>
-      </div>
-
-      <div class="field">
-        <%= f.label :본문 %>
-        <%= f.text_area :body, cols: 40, rows: 28, class: "form-control", :readonly => true, style: "font-size: 14px !important;" %>
-      </div>
-
-      <div class="field">
-        <%= f.label :출고자 %>
-        <%= f.text_field :taken_by, :size=>"40" , class: "form-control", :readonly => true %>
-      </div>
-    </div>  
-  </div>  
-
-
-<% end %>
+    <div id="yh_photo_tr_paginate">
+      <%= render 'search_result_paginate' %>
+    </div>
+  </div>
+  <div class="col-sm-4" id="yh_photo_tr_preview">
+    <%= render 'preview' %>
+  </div>
+</div>
+<nav class="navbar fixed-bottom navbar-light bg-light">
+  <ul class="nav">
+    <li class="nav-item">
+      <%= link_to "이전으로", yh_photo_trs_path, method: :get, class: "btn btn-info mx-1" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "사진선택", taken_yh_photo_tr_path, method: :get, class: "btn btn-info" %>
+    </li>
+  </ul>
+</nav>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StoriesController < ApplicationController
-  before_action :set_story, only: %i[show edit update destroy assign_position un_assign_position backup recover_backup]
+  before_action :set_story, only: %i[show edit update destroy assign_position un_assign_position backup recover_backup web_publishing_update]
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
   # before_action :require_user # require_user will set the current_user in controllers
@@ -170,6 +170,6 @@ class StoriesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def story_params
-    params.require(:story).permit(:user_id, :working_article_id, :reporter, :group, :date, :subject_head, :title, :subtitle, :body, :quote, :status, :summitted_section, :char_count, :published, :path, :category_code, :price, :content, story_type: [])
+    params.require(:story).permit(:user_id, :working_article_id, :reporter, :group, :date, :subject_head, :title, :subtitle, :body, :quote, :status, :summitted_section, :char_count, :published, :path, :category_code, :price, :content, :story_type, :selected_for_web)
   end
 end

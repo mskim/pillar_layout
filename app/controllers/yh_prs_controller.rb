@@ -7,7 +7,7 @@ class YhPrsController < ApplicationController
     @q = YhPr.ransack(params[:q])
     @yh_prs = @q.result
     session[:current_yh_pr_category] = params[:q]['category_cont'] if params[:q]
-    @yh_prs = @yh_prs.order(:date).page(params[:page]).reverse_order.per(18)
+    @yh_prs = @yh_prs.order(:date).page(params[:page]).reverse_order.per(30)
 
     # @yh_pr = YhPr.all
   end

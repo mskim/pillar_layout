@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "application.js": "/packs/js/application-dedad31c814ee2ee9476.js",
   "application.js.map": "/packs/js/application-dedad31c814ee2ee9476.js.map",
   "crop_image.js": "/packs/js/crop_image-cfd13c9f8cf0c3f34e35.js",
@@ -10,14 +11,34 @@
       ],
       "js.map": [
         "/packs/js/application-dedad31c814ee2ee9476.js.map"
+=======
+  "application.js": "/packs/js/application-b8b4c410c5004e04ed24.js",
+  "application.js.map": "/packs/js/application-b8b4c410c5004e04ed24.js.map",
+  "crop_image.js": "/packs/js/crop_image-9dfc9f0952a655eca681.js",
+  "crop_image.js.map": "/packs/js/crop_image-9dfc9f0952a655eca681.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-b8b4c410c5004e04ed24.js"
+      ],
+      "js.map": [
+        "/packs/js/application-b8b4c410c5004e04ed24.js.map"
+>>>>>>> 7ff7bb6d7cb254d318f4603aa7c4d640386705ec
       ]
     },
     "crop_image": {
       "js": [
+<<<<<<< HEAD
         "/packs/js/crop_image-cfd13c9f8cf0c3f34e35.js"
       ],
       "js.map": [
         "/packs/js/crop_image-cfd13c9f8cf0c3f34e35.js.map"
+=======
+        "/packs/js/crop_image-9dfc9f0952a655eca681.js"
+      ],
+      "js.map": [
+        "/packs/js/crop_image-9dfc9f0952a655eca681.js.map"
+>>>>>>> 7ff7bb6d7cb254d318f4603aa7c4d640386705ec
       ]
     }
   }

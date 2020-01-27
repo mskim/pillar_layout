@@ -1,20 +1,31 @@
 <!-- p id="notice"><%= notice %></p-->
 <h3 class="text-center">외신 사진</h3>
-<%= search_form_for @q do |f| %>
-  <%= f.label '카테고리' %>
-  <%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_picture_category]), :include_blank => '전체' %>
-  <%= f.submit %>
-<% end %>
-<br>
-<div class="view">
-  <% @yh_photo_fr_ynas.each do |yh_photo_fr_yna| %>
-    <div class="col-xs-5 col-sm-2">
-      <a href="<%= yh_photo_fr_yna_path(yh_photo_fr_yna) %>"><img class="img-crop" src="<%= yh_photo_fr_yna.thumb_path %>"></img></a>
-    <div align="center" style="height: 50px;"><%= yh_photo_fr_yna.title %></div>
-    <p align="center"><%= yh_photo_fr_yna.source %></p>
+<form class="form-inline d-flex justify-content-center">
+  <%= search_form_for @q do |f| %>
+    <div class="input-group col-6">
+      <%= f.text_field :title_or_body_or_source_cont, placeholder: "검색어를 입력하세요.", class: "form-control" %>
+      <div class="input-group-append">
+        <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
+          <span><i class="fa fa-search" aria-hidden="true"></i> 사진 검색</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</form>
+<div class="w-100">
+  <br>
+  <div class="card-columns">
+    <% @yh_photo_fr_ynas.each do |yh_photo_fr_yna| %>
+      <div class="card text-center">
+        <%= link_to (image_tag yh_photo_fr_yna.thumb_path, class: "img-crop", style: "width: 100%;"), yh_photo_fr_yna_path(yh_photo_fr_yna) %>
+        <div class="card-footer">
+          <h6 class="card-title text-center mb-0"><%= yh_photo_fr_yna.title %></h6>
+          <small class="text-muted"><%= yh_photo_fr_yna.created_at.strftime("%y-%m-%d %H:%M") %></small>
+          <p class="font-weight-bold mb-0"><%= yh_photo_fr_yna.source %></p>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+  <%= paginate @yh_photo_fr_ynas, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
 </div>
-<div class="col-xs-12 col-sm-12" align="center">
-  <%= paginate @yh_photo_fr_ynas %>
-</div>
+

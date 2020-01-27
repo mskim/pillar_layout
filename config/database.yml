@@ -39,9 +39,9 @@ wire_service:
   password:
   # host: 211.181.172.19
   host: 10.9.50.45
-#     <%= ENV['WIRE_SERVER_IP_IN_HOUSE'] %>
-#   export WIRE_SERVER_IP='211.181.172.19'
-# export WIRE_SERVER_IP_IN='10.9.50.45'
+  # <%= ENV['WIRE_SERVER_IP_IN_HOUSE'] %>
+  # export WIRE_SERVER_IP='211.181.172.19'
+  # export WIRE_SERVER_IP_IN='10.9.50.45'
   port: 5432
   timeout: 5000
 

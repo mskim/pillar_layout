@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 class YhPhotoTrsController < ApplicationController
-  before_action :set_yh_photo_tr, only: [:show, :edit, :update, :destroy, :taken]
+  before_action :set_yh_photo_tr, only: %i[show edit update destroy taken]
 
   # GET /yh_photo_trs
   # GET /yh_photo_trs.json
   def index
     @q = YhPhotoTr.ransack(params[:q])
     @yh_photo_trs = @q.result
-    session[:current_yh_picture_category] = params[:q]['category_cont'] if params[:q]
-    @yh_photo_trs = @yh_photo_trs.order(:date).page(params[:page]).reverse_order.per(18)
+    @yh_photo_trs = @yh_photo_trs.order(:date).page(params[:page]).reverse_order.per(30)
 
     # @yh_photo_trs = YhPhotoTr.all
   end
@@ -15,6 +16,12 @@ class YhPhotoTrsController < ApplicationController
   # GET /yh_photo_trs/1
   # GET /yh_photo_trs/1.json
   def show
+    @q = YhPhotoTr.search(params[:q])
+    @yh_photo_trs = @q.result
+    if params[:q]
+      session[:current_yh_picture_category] = params[:q]['category_cont']
+    end
+    @yh_photo_trs = @yh_photo_trs.order(:date).page(params[:page]).reverse_order.per(30)
   end
 
   # GET /yh_photo_trs/new
@@ -23,8 +30,7 @@ class YhPhotoTrsController < ApplicationController
   end
 
   # GET /yh_photo_trs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /yh_photo_trs
   # POST /yh_photo_trs.json
@@ -72,13 +78,14 @@ class YhPhotoTrsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_yh_photo_tr
-      @yh_photo_tr = YhPhotoTr.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def yh_photo_tr_params
-      params.require(:yh_photo_tr).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :picture, :taken_by)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_yh_photo_tr
+    @yh_photo_tr = YhPhotoTr.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def yh_photo_tr_params
+    params.require(:yh_photo_tr).permit(:action, :service_type, :content_id, :date, :time, :urgency, :category, :class_code, :attriubute_code, :source, :credit, :region, :title, :comment, :body, :picture, :taken_by)
+  end
 end

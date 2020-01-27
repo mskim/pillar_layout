@@ -385,6 +385,40 @@ class IssuesController < ApplicationController
     redirect_to issue_path(@issue), notice: '모바일용 지면보기 xml 파일이 합성 되었습니다.'
   end
 
+  def generate_web_articles
+    # 카테고리
+    @pages = Page.all
+    @categories = @pages.select(:section_name).distinct.order("section_name asc")
+    # 카테고리에 따라 내용보여주기
+    @issue = Issue.find(params[:id])
+
+    @stories = []
+    @issue.pages.each do |p|
+      p.working_articles.each do |w|
+        # binding.pry if p.section_name == '정치'
+        if w.reporter.present?
+          # puts '성공: reporter에서 기자명이 존재하여 작업합니다.'
+          @stories << w.save_to_story
+        elsif w.reporter_from_body && w.reporter_from_body != ''
+          # puts '성공: reporter_from_body에서 # 기자명이 존재하여 작업합니다.'
+          @stories << w.save_to_story
+          # binding.pry
+        end
+      end
+    end
+    # binding.pry
+    @stories_for_web = Story.where(story_type: '웹용', date: @issue.date)
+    puts "@stories.length:#{@stories.length}"
+  end
+
+  def todays_web_articles
+    @issue = Issue.find(params[:id])
+    @stories = Story.where(selected_for_web: true, date: @issue.date).or(Story.where(story_type: '웹용', date: @issue.date))
+    respond_to do |format|
+      format.json { render json: @stories }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

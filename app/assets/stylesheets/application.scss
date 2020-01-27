@@ -27,6 +27,7 @@ html {
 }
 
 body {
+  background-color: gainsboro;
   padding-top: 5rem;
   display: table;
   width: 100% !important;
@@ -51,6 +52,10 @@ body {
     margin: 0;
     padding: 0;
   }
+}
+
+.table-bordered {
+  border-color: 1px solid grey;
 }
 
 $custom-file-text: (

@@ -13,7 +13,8 @@ gem 'rails', '~> 6.0', '>= 6.0.1'
 # Use ActiveStorage variant
 gem 'bootsnap', require: false
 gem 'mini_magick', '~> 4.8'
-gem 'pg', '~> 0.20'
+# gem 'pg', '~> 0.20'
+gem 'pg'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
@@ -117,7 +118,7 @@ gem 'jquery-datatables'
 gem 'rails-assets-trix', source: 'https://rails-assets.org'
 
 gem 'ancestry'
-# gem 'happymapper'
+gem 'happymapper'
 gem 'rails-assets-jcrop', source: 'https://rails-assets.org'
 gem 'stateful_enum'
 gem 'sucker_punch'
@@ -137,3 +138,4 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-chosen-bootstrap'
 end
 gem 'annotate'
+gem 'bundler', '~> 2.1', '>= 2.1.2'

@@ -2,7 +2,6 @@
   <thead class="text-center">
     <tr>
       <th >제목</th>
-      <th >지역</th>
       <th >내용분류</th>
       <th >발행시간</th>
     </tr>
@@ -12,9 +11,6 @@
       <tr>
         <td>
           <%= link_to article.title, article %>
-        </td>
-        <td class="text-center">
-          <%= article.region %>
         </td>
         <td class="text-center">
           <%= eval(article.category)[:name] %>

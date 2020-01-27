@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       get 'un_assign_position'
       get 'backup'
       get 'recover_backup'
+      patch 'web_publishing_update'
     end
     collection do
       get 'my'
@@ -277,6 +278,11 @@ Rails.application.routes.draw do
       get 'save_mobile_preview_xml'
       get 'send_mobile_preview_xml'
       get 'merge_container_xml'
+      get 'generate_web_articles'
+      get 'todays_web_articles'
+    end
+
+    collection do
     end
   end
 

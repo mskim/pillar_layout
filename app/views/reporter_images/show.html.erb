@@ -8,9 +8,9 @@
         <h5 class="card-header text-light bg-dark">
           사진 미리보기
         </h5>
-        <%= image_tag @reporter_image.preview_path, class: "card-img-top" %>
+        <%= image_tag @reporter_image.preview_path, class: "card-img-top rounded-0" %>
         <div class="card-body">
-          <h5 class="card-title display-4"><%= @reporter_image.title %></h5>
+          <h5 class="card-title"><%= @reporter_image.title %></h5>
           <p class="card-text"><%= simple_format(@reporter_image.caption) %></p>
           <p class="text-secondary text-center font-italic">저작권자(c) 연합뉴스, 무단 전재-재배포 금지</p>
           <p><%= @reporter_image.section_name %></p>

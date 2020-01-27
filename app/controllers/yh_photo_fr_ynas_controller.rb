@@ -7,7 +7,7 @@ class YhPhotoFrYnasController < ApplicationController
     @q = YhPhotoFrYna.ransack(params[:q])
     @yh_photo_fr_ynas = @q.result
     session[:current_yh_picture_category] = params[:q]['category_cont'] if params[:q]
-    @yh_photo_fr_ynas = @yh_photo_fr_ynas.order(:date).page(params[:page]).reverse_order.per(18)
+    @yh_photo_fr_ynas = @yh_photo_fr_ynas.order(:date).page(params[:page]).reverse_order.per(30)
   
     # @yh_photo_fr_ynas = YhPhotoFrYna.all
   end

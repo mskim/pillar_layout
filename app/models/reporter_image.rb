@@ -30,6 +30,8 @@ class ReporterImage < ApplicationRecord
   belongs_to :user
   mount_uploader :reporter_image, ReporterImageUploader
 
+  validates_uniqueness_of :title
+
   def self.image_from_wire(user, wire, kind)
     s = ReporterImage.where(user_id: user.id, wire_pictures: wire.picture).first_or_create!
     s.title           = wire.title

@@ -49,15 +49,24 @@ require 'net/ftp'
 
 
 class Page < ApplicationRecord
+  # before & after
+  # before_create :copy_attributes_from_template
+  before_create :init_page_data
+  after_create :setup
+
+  # belongs_to
   belongs_to :issue
   belongs_to :page_plan
+
+  # has_one
+  has_one :page_heading
+
+  # has_many
   has_many :pillars, :as =>:page_ref
   has_many :working_articles
   has_many :ad_boxes
-  has_one :page_heading
-  before_create :init_page_data
-  # before_create :copy_attributes_from_template
-  after_create :setup
+
+  # scope
   scope :clone_page, -> {where("clone_name!=?", nil)}
   scope :odd_page, -> {where("clone_name!=?", nil)}
   serialize :layout, Array
@@ -265,6 +274,10 @@ class Page < ApplicationRecord
 
   def day
     date.day
+  end
+
+  def date
+    issue.date
   end
 
   def korean_date_string
