@@ -1,0 +1,22 @@
+<div class="card mb-5">
+  <div class="card-header text-light bg-dark">
+    <span class="float-left">
+      <h4>
+        연합 그래픽 사진
+      </h4>
+    </span>
+    <span class="float-right">
+      <%= link_to 'X', yh_graphics_path, class: "btn btn-danger" %>
+    </span>
+  </div>
+  <%= image_tag @yh_graphic.preview_path, class: "card-img-top rounded-0" %>
+  <div class="card-body">
+    <h5 class="card-title" style="font-size: 30px;"><%= @yh_graphic.title %></h5>
+    <p class="card-text"><%= simple_format(@yh_graphic.body) %></p>
+    <p class="text-secondary text-center font-italic">저작권자(c) 연합뉴스, 무단 전재-재배포 금지</p>
+    <p>출고자: <%= simple_format(@yh_graphic.taken_by) %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to "사진선택", taken_yh_graphic_path(@yh_graphic), method: :get, class: "btn btn-info" %>
+  </div>
+</div>

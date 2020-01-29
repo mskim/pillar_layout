@@ -7,7 +7,7 @@ class YhPicturesController < ApplicationController
   # GET /yh_pictures.json
   def index
     @q = YhPicture.search(params[:q])
-    @yh_pictures = @q.result
+    @yh_pictures = @q.result(distinct: true)
     if params[:q]
       session[:current_yh_picture_category] = params[:q]['category_cont']
     end
@@ -19,7 +19,7 @@ class YhPicturesController < ApplicationController
   # GET /yh_pictures/1.json
   def show
     @q = YhPicture.search(params[:q])
-    @yh_pictures = @q.result
+    @yh_pictures = @q.result(distinct: true)
     if params[:q]
       session[:current_yh_picture_category] = params[:q]['category_cont']
     end
