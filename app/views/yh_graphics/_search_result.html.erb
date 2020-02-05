@@ -1,10 +1,12 @@
-<div class="card-columns">
+<div class="card-deck">
   <% @yh_graphics.each do |yh_graphic| %>
-    <div class="card text-center">
-      <%= link_to (image_tag yh_graphic.thumb_path, class: "img-crop", style: "width: 100%;"), yh_graphic_path(yh_graphic), remote: true %>
-      <div class="card-footer">
-        <h6 class="card-title text-center mb-0"><%= yh_graphic.title %></h6>
-        <small class="text-muted"><%= yh_graphic.created_at.strftime("%y-%m-%d %H:%M") %></small>
+    <div class="col-md-3">
+      <div class="card mb-3 text-center">
+        <%= link_to (image_tag yh_graphic.thumb_path, class: "card-img-top", style: "width: 100%;"), yh_graphic_path(yh_graphic), remote: true %>
+        <div class="card-footer">
+          <h6 class="card-title text-center mb-0"><%= yh_graphic.title %></h6>
+          <small class="text-muted"><%= yh_graphic.created_at.strftime("%y-%m-%d %H:%M") %></small>
+        </div>
       </div>
     </div>
   <% end %>
