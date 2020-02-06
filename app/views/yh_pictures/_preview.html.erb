@@ -9,7 +9,7 @@
       <%= link_to 'X', yh_pictures_path, class: "btn btn-danger" %>
     </span>
   </div>
-  <%= image_tag @yh_picture.preview_path, class: "card-img-top rounded-0" %>
+  <%= image_tag @yh_picture.preview_path, class: "card-img-top rounded-0", style: "height: 100%;" %>
   <div class="card-body">
     <h5 class="card-title" style="font-size: 30px;"><%= @yh_picture.title %></h5>
     <p class="card-text"><%= simple_format(@yh_picture.body) %></p>

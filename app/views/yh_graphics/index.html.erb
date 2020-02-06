@@ -1,17 +1,20 @@
-<div class="container">
+<div class="container mb-3">
   <h3 class="text-center">연합 그래픽</h3>
   <%= render 'search_form' %>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <br>
-    <div class="card-columns">
+<div class="container-fluid">
+  <div class="row justify-content-center" style="width: 100%;">
+    <div class="card-deck">
       <% @yh_graphics.each do |yh_graphic| %>
-        <div class="card text-center">
-          <%= link_to (image_tag yh_graphic.thumb_path, class: "img-crop", style: "width: 100%;"), yh_graphic_path(yh_graphic) %>
-          <div class="card-footer">
-            <h6 class="card-title text-center mb-0"><%= yh_graphic.title %></h6>
-            <small class="text-muted"><%= yh_graphic.created_at.strftime("%y-%m-%d %H:%M") %></small>
+        <div class="col-md-2">
+          <div class="card mb-3 text-center">
+            <%= link_to (image_tag yh_graphic.thumb_path, class: "card-img-top", style: "width: 100%;"), yh_graphic_path(yh_graphic) %>
+            <div class="card-body">
+              <h6 class="card-title text-center mb-0"><%= yh_graphic.title %></h6>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"><%= yh_graphic.created_at.strftime("%y-%m-%d %H:%M") %></small>
+            </div>
           </div>
         </div>
       <% end %>

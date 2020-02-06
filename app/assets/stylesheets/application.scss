@@ -64,13 +64,10 @@ $custom-file-text: (
   ko: "첨부"
 );
 
-.card-columns {
-  @include media-breakpoint-only(lg) {
-    column-count: 5;
-  }
-  @include media-breakpoint-only(xl) {
-    column-count: 6;
-  }
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
 }
 
 .view {
