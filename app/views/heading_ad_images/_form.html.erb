@@ -1,14 +1,12 @@
-
 <%= simple_form_for(@heading_ad_image) do |f| %>
   <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :advertiser, label: '광고주' %>
-    <%= f.input :heading_ad_image, label: '돌출 광고 이미지' %>
-
+  <div class="form-inputs mt-3">
+    <%= f.input :advertiser, label: '광고주', placeholder: "광고주를 입력해주세요" %>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-inputs mt-3">
+    <%= f.input :heading_ad_image, label: '돌출 광고 이미지' %>
+  </div>
+  <div class="form-actions mt-3">
+    <%= f.button :submit, "신규 돌출 광고 등록", class: "btn btn-lg btn-block btn-primary" %>
   </div>
 <% end %>
