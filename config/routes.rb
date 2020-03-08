@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :spread_ad_boxes
   resources :member_images
   resources :group_images do
     member do
@@ -193,6 +194,8 @@ Rails.application.routes.draw do
       patch 'upload_graphics'
       patch 'assign_reporter'
       get 'add_image'
+      get 'auto_adjust_height'
+      get 'auto_adjust_height_all'
       get 'extend_zero'
       get 'extend_one'
       get 'extend_two'
@@ -228,6 +231,14 @@ Rails.application.routes.draw do
       get 'select_reporter_image'
       get 'select_reporter_graphic'
       get 'create_new_proof'
+
+      get 'v_cut_minus_one'
+      get 'v_cut_minus_two'
+      get 'v_cut_minus_three'
+      get 'h_cut'
+      get 'create_overlap'
+      get 'delete_overlap'
+      patch 'clear_crop_rect'
     end
   end
 

@@ -314,6 +314,20 @@ class WorkingArticlesController < ApplicationController
     # code
   end
 
+  # auto adjust article height
+  def auto_adjust_height
+    set_working_article
+    @working_article.auto_adjust_height
+    redirect_to @working_article
+  end
+
+  # auto adjust article height for all articlds in same pillar
+  def auto_adjust_height_all
+    set_working_article
+    @working_article.auto_adjust_height_all
+    redirect_to @working_article
+  end
+
   def extend_zero
     set_working_article
     @working_article.set_extend_line(0)
@@ -514,6 +528,58 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
+  def v_cut_minus_one
+    set_working_article
+    v_cut_at(@working_article, -1)
+    redirect_to @working_article
+  end
+
+  def v_cut_minus_two
+    set_working_article
+    v_cut_at(@working_article, -2)
+    redirect_to @working_article
+  end
+
+  def v_cut_minus_three
+    set_working_article
+    v_cut_at(@working_article, -3)
+    redirect_to @working_article
+  end
+
+  def v_cut_at(w, cut_index)
+    w.v_cut_at(cut_index)
+  end
+
+  def h_cut
+    set_working_article
+    @working_article.h_cut
+    redirect_to @working_article
+    redirect_to @working_article
+
+  end
+
+  def create_overlap
+    set_working_article
+    @working_article.create_overlap
+    redirect_to @working_article
+
+  end
+
+  def delete_overlap
+    set_working_article
+    @working_article.delete_overlap
+    redirect_to @working_article
+  end
+
+  def clear_crop_rect
+    set_working_article
+    image = Image.find(params['image_id'])
+    image_has_crop_rect = image.has_crop_rect?
+    image.clear_crop_rect
+    @working_article.generate_pdf_with_time_stamp if image_has_crop_rect
+    redirect_to @working_article
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -524,7 +590,7 @@ class WorkingArticlesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def working_article_params
-    params.require(:working_article).permit(:column, :row, :order, :profile, :kind, :subject_head, :title, :heading_columns, :title_head, :subtitle, :subtitle_type, :subtitle_head, :body, :reporter, :email, :has_profile_image, :image, :quote, :is_front_page, :top_story, :top_position, :page_id, :boxed_subtitle_type, :boxed_subtitle_text, :announcement_text, :announcement_color, :quote_position, :quote_x_grid, :quote_v_extra_space, :quote_alignment, :quote_line_type, :quote_box_column, :quote_box_show, :category_code, :price, :subcategory_code)
+    params.require(:working_article).permit(:column, :row, :order, :profile, :kind, :subject_head, :title, :heading_columns, :title_head, :subtitle, :subtitle_type, :subtitle_head, :body, :reporter, :email, :has_profile_image, :image, :quote, :is_front_page, :top_story, :top_position, :page_id, :boxed_subtitle_type, :boxed_subtitle_text, :announcement_text, :announcement_color, :quote_position, :quote_x_grid, :quote_v_extra_space, :quote_alignment, :quote_line_type, :quote_box_column, :quote_box_show, :category_code, :price, :subcategory_code, :image_id)
   end
 
   def filter_markdown?

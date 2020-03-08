@@ -17,7 +17,6 @@ class PageLayoutsController < ApplicationController
       format.html 
       format.json { render :index}
       format.csv { send_data @sections.to_csv }
-      # format.xls # { send_data @products.to_csv(col_sep: "\t") }
     end
   end
 
@@ -55,9 +54,7 @@ class PageLayoutsController < ApplicationController
   # PATCH/PUT /page_layouts/1.json
   def update
     respond_to do |format|
-      # binding.pry
       # page_layout_params['layout'] = eval(page_layout_params['layout'])
-      # binding.pry
       if @page_layout.update(page_layout_params)
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully updated.' }
         format.json { render :show, status: :ok, location: @page_layout }

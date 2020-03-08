@@ -8,7 +8,6 @@ class YhArticlesController < ApplicationController
   def index
     @q = YhArticle.ransack(params[:q])
     @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(25)
-    # binding.pry
 
     # @yh_articles = YhArticle.all
     # @yh_article_categories = YhArticle.pluck(:category_name).uniq.sort

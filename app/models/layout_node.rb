@@ -8,10 +8,8 @@
 #  box_count               :integer
 #  column                  :integer
 #  direction               :string
-#  finger_print            :string
 #  grid_x                  :integer
 #  grid_y                  :integer
-#  layout                  :text
 #  layout_with_pillar_path :text
 #  node_kind               :string
 #  order                   :integer
@@ -21,12 +19,17 @@
 #  tag                     :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  pillar_id               :bigint
+#
+# Indexes
+#
+#  index_layout_nodes_on_pillar_id  (pillar_id)
 #
 
 # layout_with_pillar_path
-# profile
-# finger_print
+# a Array of node array [x,y,width,height, ancestry] sorted by by order
 class LayoutNode < ApplicationRecord
+  belongs_to :pillar, optional: true
   before_create :init_layout_node
   has_ancestry
   serialize :actions, Array
@@ -57,17 +60,10 @@ class LayoutNode < ApplicationRecord
     result
   end
 
-  def update_profile
-    return unless root?
-    result = "#{column}x#{row}_#{box_count}"
-    update(profile: result)
-  end
 
-  def update_finger_print
-    return unless root?
-    result = "#{column}x#{row}_#{box_count}_#{layout_with_pillar_path.to_s}"
-    update(finger_print: result)
-    result
+  def update_after_split
+    new_layout_with_pillar_path = leaf_node_layout_with_pillar_path
+    update(layout_with_pillar_path: new_layout_with_pillar_path)
   end
 
   def change_node_as_pillar(pillar_id)
@@ -81,6 +77,11 @@ class LayoutNode < ApplicationRecord
     h[:box_count]             = box_count
     h[:layout_with_pillar_path] = leaf_node_layout_with_pillar_path
     h
+  end
+
+  # array of leaf node paths
+  def pillar_path_array
+    layout_with_pillar_path.map{|e| e[4]}
   end
 
   def max_column
@@ -187,8 +188,8 @@ class LayoutNode < ApplicationRecord
     first_child_row = row/2
     secomd_child_row = first_child_row
     first_child_row += 1 if row.odd?
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:column, row: first_child_row, order: 1)
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x , grid_y: grid_y + first_child_row, column:column, row: secomd_child_row, order: 2)
+    first   = LayoutNode.create!(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:column, row: first_child_row, order: 1, box_count: 1, actions: [])
+    second  = LayoutNode.create!(parent:self, node_kind:'article', grid_x: grid_x , grid_y: grid_y + first_child_row, column:column, row: secomd_child_row, order: 2, box_count: 1, actions: [])
     true
   end
 
@@ -217,10 +218,22 @@ class LayoutNode < ApplicationRecord
     first_child_column = column/2
     second_child_column = first_child_column
     first_child_column += 1 if column.odd?
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1)
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2)
-
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
     true
+  end
+
+  def v_divide_at(position)
+    update(direction: 'horizontal', selected: false)
+    first_child_column    = position
+    second_child_column   = column - position
+    if position < 0
+      first_child_column  = column + position
+      second_child_column = position
+    end
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
+    
   end
 
   def undo_v_divide(undo_info)
@@ -250,7 +263,7 @@ class LayoutNode < ApplicationRecord
       end
     end
     grid_x = ordered_children.last.max_column
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:child_column, row: child_row, order: would_be_children_count)
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:child_column, row: child_row, order: would_be_children_count, box_count: 1)
     true
   end
 
@@ -279,7 +292,8 @@ class LayoutNode < ApplicationRecord
       end
     end
     grid_y = ordered_children.last.max_row
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:child_column, row: child_row, order: would_be_children_count)
+    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:child_column, row: child_row, order: would_be_children_count, box_count: 1)
+    
     true
   end
 
@@ -615,7 +629,7 @@ class LayoutNode < ApplicationRecord
 
   def perform(action)
     case action
-    when 'h'
+    when 'h', 'h*1'
       h_divide
     when 'h*2','h*3','h*4', 'h*5', 'h*6', 'h7','h*8', 'h9', 'h*10', 'h11', 'h12', 'h13','h14'
       h_divide_times(action)
@@ -623,15 +637,21 @@ class LayoutNode < ApplicationRecord
       v_divide
     when 'v*2','v*3','v*4','v*5', 'v*6',
       v_divide_times(action)
-    when 'v+1','v+2','v-1','v-1'
+    when 'v+1','v+2','v+3'
+      position = action.split("+")[1].to_i
+      v_divide_at(position)
+    when 'v-1','v-2', 'v-3'
+      position = action.split("-")[1].to_i
       v_divide_at(position)
     else
       puts "Action:#{action} not supported !!!"
     end
   end
 
-  def set_actions(actions)
+  # this is called right after LayoutNode is created
+  def set_actions
     puts  "+++++++ actions:#{actions}"
+    return if actions == []
     actions.each do |action_item|
       if action_item.class == String
         target = self
@@ -654,26 +674,47 @@ class LayoutNode < ApplicationRecord
         puts "row#{row}!!!"
         puts "Failed with #{action_item}!!!"
         count                     = leaf_nodes.count
-        new_profile               = "#{column}x#{row}_#{count}"
         # update(box_count: count, actions: actions, profile:new_profile)
-
         new_layout_with_pillar_path     = leaf_node_layout_with_pillar_path
-        new_finger_print          = "#{column}x#{row}_#{count}_#{new_layout_with_pillar_path.to_s}"
-        update(box_count: count, actions: actions, profile:new_profile,  layout_with_pillar_path:new_layout_with_pillar_path, finger_print: new_finger_print)
-        
+        update(box_count: count, actions: actions,  layout_with_pillar_path:new_layout_with_pillar_path)
         break 
       end
     end
-    count                     = leaf_nodes.count
-    new_profile               = "#{column}x#{row}_#{count}"
-    # update(box_count: count, actions: actions, profile:new_profile)
-
-    new_layout_with_pillar_path     = leaf_node_layout_with_pillar_path
-    new_finger_print          = "#{column}x#{row}_#{count}_#{new_layout_with_pillar_path.to_s}"
-    update(box_count: count, actions: actions, profile:new_profile,  layout_with_pillar_path:new_layout_with_pillar_path, finger_print: new_finger_print)
-    
+    count                         = leaf_nodes.count
+    new_layout_with_pillar_path   = leaf_node_layout_with_pillar_path
+    update(box_count: count, actions: actions,  layout_with_pillar_path:new_layout_with_pillar_path)
     puts "all actions succeeded!"
     return self
+  end
+
+  # this is called during working_article editing
+  def add_action(action_item)
+    # binding.pry
+    if action_item.class == String
+      target = self
+      action = action_item
+    else
+      target = root.find_node_with_tag(action_item[0])
+      action = action_item[1]
+    end
+    if target.nil?
+      puts "action_item:#{action_item}"
+    end
+    unless target
+      puts "Failed actions:#{actions}"
+      puts "Failed at #{action_item}!!!"
+      return
+    end
+    result = target.perform(action)
+    unless result
+      puts "row#{row}!!!"
+      puts "Failed with #{action_item}!!!"
+      return 
+    end
+    actions << action_item
+    count                         = leaf_nodes.count
+    new_layout_with_pillar_path   = leaf_node_layout_with_pillar_path
+    update(box_count: count, actions: actions,  layout_with_pillar_path:new_layout_with_pillar_path)
   end
 
   def find_node_with_tag(tag)
@@ -694,7 +735,7 @@ class LayoutNode < ApplicationRecord
       children[first_level].children[second_level].children[third_level]
     else
       puts '4th level not supported'
-      nil?
+      nil
     end
   end
 
@@ -703,7 +744,8 @@ class LayoutNode < ApplicationRecord
   def init_layout_node
     self.grid_x = 0 unless grid_x
     self.grid_y = 0 unless grid_y
-    self.box_count = 1 unless box_count
+    self.actions = actions || []
+    self.box_count = 1 
     self.node_kind = 'article' unless node_kind
     self.tag = tree_path
     self.profile = "#{column}x#{row}_#{box_count}"

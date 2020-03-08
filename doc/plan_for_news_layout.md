@@ -1,7 +1,7 @@
 # NewsLayout
 
 ## tables
-  - Sections -> PageTemplates
+  - Sections 
   - Articles => ArtcileTemplates
 
   - WorkingArticles => WorkingArticles

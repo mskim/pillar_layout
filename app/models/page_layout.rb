@@ -24,13 +24,12 @@
 #
 
 # page_type
-# 0 both odd or even page
 # 1 first page only
-# 2 even page only
-# 3 odd page only
-# 22 odd page only
-# 23 odd page only
+# 2, 3,4,6,7,8,9,10 .. 22,23,24
 # with specific page number
+# 100 even page only
+# 101 odd page only
+
 
 class PageLayout < ApplicationRecord
   has_many :pillars, as: :page_ref
@@ -42,6 +41,10 @@ class PageLayout < ApplicationRecord
   serialize :layout_with_pillar_path, Array
   serialize :undo, Array
   include RectUtils
+
+  def page_number
+    page_type
+  end
 
   def top_margin
     margin
@@ -265,7 +268,7 @@ class PageLayout < ApplicationRecord
       if item.first.class == String
         self.ad_type = item
         save
-        create_ad_box(item)
+        # create_ad_box(item)
       # elsif item.first.class == Array
       #   create_pillar_layout_node(item, i + 1)
       # elsif item.first[4].class == Hash
@@ -276,141 +279,6 @@ class PageLayout < ApplicationRecord
         Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
       end
     end
-  end
-
-  def create_layout_nodes_from_layout
-    # layout_array = eval(layout)
-    layout.each_with_index do |item, i|
-      if item.first.class == String
-        self.ad_type = item
-        save
-        create_ad_node(item)
-      elsif item.first.class == Array
-        create_pillar_layout_node(item, i + 1)
-      elsif item.first[4].class == Hash
-        create_layout_node_with_overlap(layout: item)
-      elsif item.length == 4
-        create_leaf_layout_node(item, i + 1)
-      elsif item.length == 5
-        if item[4].class == Integer && item[4] >= 0
-          create_node_with_children(item, i + 1)
-        elsif item[4].class == String && item[4].gsub('h', '').to_i >= 0
-          create_node_with_children(item, i + 1)
-        end
-
-      end
-    end
-    save_page_layout
-    self
-  end
-
-  def create_node_with_children(layout, order)
-    grid_x          = layout[0]
-    grid_y          = layout[1]
-    child_column    = layout[2]
-    child_row       = layout[3]
-    node = LayoutNode.where(page_layout_id: id, column: child_column, row: child_row, node_kind: 'pillar', order: order, grid_x: grid_x, grid_y: grid_y).first_or_create
-    if layout[4].class == Integer
-      children_count = layout[4]
-      node.create_children('vertical', children_count)
-    elsif layout[4].class == String && layout[4] =~ /^h/ # h3
-      children_count = layout[4].sub('h', '').to_i
-      node.create_children('horizontal', children_count)
-    end
-  end
-
-  def create_leaf_layout_node(layout, order)
-    grid_x        = layout[0]
-    grid_y        = layout[1]
-    node_column = layout[2]
-    node_row = layout[3]
-    node = LayoutNode.create(page_layout_id: id, column: node_column, row: node_row, node_kind: 'article', order: order, grid_x: grid_x, grid_y: grid_y)
-  end
-
-  # overlaping child on top of currnt box, only one is allowed
-  def create_layout_node_with_overlap(options = {})
-    # TODO
-    # LayoutNode.where(page_layout_id:id, column:child_column, row: child_row, order: order, grid_x:grid_x, grid_y:grid_y).first_or_create
-    # a.create_overlap
-  end
-
-  def create_ad_box(ad_type); end
-
-  def create_ad_node(ad_type)
-    h = { page_layout_id: id, node_kind: 'ad' }
-    case ad_type
-    when '전면광고'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 0
-      h[:column]  = column
-      h[:row]     = 5
-    when '3단통'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 12
-      h[:column]  = column
-      h[:row]     = 5
-    when '4단통'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 11
-      h[:column]  = column
-      h[:row]     = 5
-    when '5단통'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 10
-      h[:column]  = column
-      h[:row]     = 5
-    when '7단15'
-      if page_type.odd?
-        h[:grid_x]  = 4
-        h[:grid_y]  = 8
-        h[:column]  = 2
-        h[:row]     = 7
-      else
-        h[:grid_x]  = 0
-        h[:grid_y]  = 8
-        h[:column]  = 2
-        h[:row]     = 7
-      end
-    when '7단15_중'
-      h[:grid_x]  = 2
-      h[:grid_y]  = 8
-      h[:column]  = 2
-      h[:row]     = 7
-    when '9단21'
-      if page_type.odd?
-        h[:grid_x]  = 3
-        h[:grid_y]  = 6
-        h[:column]  = 4
-        h[:row]     = 9
-      else
-        h[:grid_x]  = 0
-        h[:grid_y]  = 6
-        h[:column]  = 4
-        h[:row]     = 9
-      end
-    when '9단21_홀'
-      h[:grid_x]  = 3
-      h[:grid_y]  = 6
-      h[:column]  = 4
-      h[:row]     = 9
-    when '9단21_짝'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 6
-      h[:column]  = 4
-      h[:row]     = 9
-    when '광고없음'
-      h[:grid_x]  = 0
-      h[:grid_y]  = 0
-      h[:column]  = 0
-      h[:row]     = 0
-    else
-      h[:grid_x]  = 0
-      h[:grid_y]  = 0
-      h[:column]  = 0
-      h[:row]     = 0
-    end
-    h[:tag] = ad_type
-    node = LayoutNode.where(h).first_or_create
   end
 
   def body_line_height
@@ -464,7 +332,7 @@ class PageLayout < ApplicationRecord
   def to_svg
     svg = <<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{svg_width} #{svg_height}' >
-        <rect fill='gray' x='0' y='0' width='#{svg_width}' height='#{svg_height}' />
+        <rect fill='white' x='0' y='0' width='#{svg_width}' height='#{svg_height}' />
         #{pillars_svg}
       </svg>
     EOF
@@ -473,17 +341,11 @@ class PageLayout < ApplicationRecord
   def pillars_svg
     s = ''
     pillars.each do |pillar|
-      r = pillar.rect
-      s += "<rect fill='yellow' stroke='black' stroke-width='1'  x='#{r[0] * svg_grid_width}' y='#{r[1] * svg_grid_height}' width='#{r[2] * svg_grid_width}' height='#{r[3] * svg_grid_height}' />\n"
-    end
-    s
-  end
-
-  def layout_node_svg
-    s = ''
-    s += page_heading_svg if page_type == 1
-    leaf_layout_nodes.each do |node|
-      s += node.box_svg
+      pillar_x_offset = pillar.grid_x
+      pillar_y_offset = pillar.grid_y
+      pillar.layout_with_pillar_path.each do |r|
+        s += "<rect fill='yellow' stroke='black' stroke-width='1'  x='#{(r[0] +  pillar_x_offset)* svg_grid_width}' y='#{(r[1] + pillar_y_offset)* svg_grid_height}' width='#{r[2] * svg_grid_width}' height='#{r[3] * svg_grid_height}' />\n"
+      end
     end
     s
   end

@@ -24,6 +24,110 @@
   - download_first_page_heading
   - heading_maker
 
+2020_03_8
+  - fix clear_crop_rect
+  - fix shorten initial body text as ""
+  - fix title space width
+  - fix overflow red line for ruby_pdf_engine
+  - use cmyk color
+
+  - when article extended_line_count is changed, 
+    update bottom article pushed_line_count
+    
+  - when article height height was adjusted is changed, 
+    update bottom article pushed_line_count
+
+2020_03_6
+  down sides of setting adjustable_height and updateing
+  articlde height
+    - too many moving parts
+    - set adjustable_height as false as default
+    - chang the height only when specified
+    - use specified number 1,2,3 or auto expand and recude 
+    - set height expand back to 0
+    - auto adjust height for all articles
+    - revert to original all articles height 
+    - use empty body text
+
+  update bottom, element pushed value every time above pillar sibliings height is changed
+    - y_offset_in_lines
+    - height_in_lines
+
+  do not save article_info to disk, if ruby_layout mode
+    - layout_status:text
+      hash of current layout_status
+    - get return values from ruby layout
+      - overflow, overflow_text, underflow info
+
+2020_03_05
+  - overlap = 첨부박스
+  - fix heading not showing
+  - fix pillar bottom position box layout
+      it should be layed out as fixed height
+
+2020_02_12
+  - fix page layout error
+  - clear crop_rect
+  - cut_vertically
+  - make overlap_article
+    - add overlapable?
+      - depth must be greater or equal to 2
+      - column > 2 && column > 2
+      overlap 한글이름 달린박스? 기생박스?
+    - add/remove overlap in menu
+      - 달린박스 추가(하단우측)
+      - 달린박스 추가(하단좌측)
+      - 달린박스 삭제
+    - add kind overlap(기생박스)
+
+
+2020_02_12-3
+  -  height locking
+    - height can be locaked at row , pushed, expanded suppoert not supported for pillar article
+
+  - overlap condition
+    - overlap is allowed for level 1 or 2 aritlces only.
+    - only one overlap is allowed per article
+    - overlap is leveled with alphabet, ex 1_a, 1_1_a
+    - overlap containing article's size gets  locked, it's height becomes non-adjustable_height ???
+  
+  - set auto tracking for ajutified line
+    - when word spacing is too tight set -tracking for tokens
+    - when word spacing is too lose set +tracking for tokens
+    - to not break numbers and comma included numbers
+
+2020_02_12
+  - on Page show display available PageLayout
+  - Pillar has_one LayoutNode
+  - LayoutNode belongs_to :Pillar, optional: true
+
+2020_01_30
+  - Pillar
+    presents area of page with related article boxes
+    A page can have one or more pillars, and each pillar has one associated LayoutNode
+
+  - LayoutNode
+    tree reprensenting relation of article boxes, where leaf nodes are article boxes.
+    leaf nodes can be cut in vertivcal or orizontal direction to form more leaf nodes.
+
+  - difference between layout_with_pillar_path and layout_with_node_path ?
+    pillar_path adds pillar_order in front of each node_path
+
+2020_01_29
+  - steps for creating page_tempates(section)
+    1. create page_layout from csv
+        1. create pillars and nodes from this
+        1. create odd pages from page_layout
+        1. create even pages from page_layout
+
+    2. create initial sections from existing csv
+        1. parse section data and retreave pillars from it
+
+  - add v_divide to working_article
+    '세로 자르기 -1'
+    '세로 자르기 -2'
+    '세로 자르기 -3'
+
 2020_1_15
   - add variable_page_count:boolean to publication
   - add page_count to issue

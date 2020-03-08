@@ -17,7 +17,6 @@ class SectionsController < ApplicationController
       format.html 
       format.json { render :index}
       format.csv { send_data @sections.to_csv }
-      format.xls # { send_data @products.to_csv(col_sep: "\t") }
     end
   end
 

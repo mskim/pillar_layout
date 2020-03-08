@@ -40,7 +40,7 @@ module WorkingArticlePillarMethods
   end
 
   def adjustable_height?
-    return true unless bottom_member?
+    return false # unless bottom_member?
   end
 
   def images_directory_path

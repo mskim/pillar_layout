@@ -19,6 +19,24 @@ module ArticleSplitable
     direction
   end
 
+  def v_splitable_positions
+    spitable_positions = []
+    return spitable_positions unless v_splitable?
+
+    case column
+    when 2,3
+      spitable_positions << -1
+    when 4,5
+      spitable_positions << -1
+      spitable_positions << -2
+    when 6,7
+      spitable_positions << -1
+      spitable_positions << -2
+      spitable_positions << -3
+    end
+    spitable_positions
+  end
+
   def v_splitable?
     column > 1
   end

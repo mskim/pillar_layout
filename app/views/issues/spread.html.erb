@@ -1,8 +1,8 @@
 <button class="btn-danger large"><%= @issue.date.to_s %> (<%= @issue.number %>)</button>
-  <% if @spread %>
+  <% if @spread_page %>
     <div class = "col-xs-10 col-md-10 .offset-md-1"  align='center'>
-    <a href="<%=  spread_path(@spread) %>"><img  src="<%= @spread.pdf_image_path %>" width="100%"></img></a>
-    <h4 align='center'><a href='<%= spread_path(@spread)%>'>양면</a></h4>
+    <img  src="<%= @spread_page.pdf_image_path %>" width="100%"></img>
+    <h4 align='center'><a href='<%= page_path(@spread_page)%>'>양면</a></h4>
   </div>    <!-- true -->
   <% else %>
     <h3>No Spread</h3>

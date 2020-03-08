@@ -8,10 +8,8 @@
 #  box_count               :integer
 #  column                  :integer
 #  direction               :string
-#  finger_print            :string
 #  grid_x                  :integer
 #  grid_y                  :integer
-#  layout                  :text
 #  layout_with_pillar_path :text
 #  node_kind               :string
 #  order                   :integer
@@ -21,6 +19,11 @@
 #  tag                     :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
+#  pillar_id               :bigint
+#
+# Indexes
+#
+#  index_layout_nodes_on_pillar_id  (pillar_id)
 #
 
 require 'rails_helper'

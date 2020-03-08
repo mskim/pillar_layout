@@ -156,11 +156,19 @@ class Image < ApplicationRecord
     h[:x_grid]            = x_grid - 1 if x_grid # user_input - 1
     h[:draw_frame]        = draw_frame || true
     h[:image_kind]        = image_kind if image_kind
-    if crop_x
+    if has_crop_rect?
       # 크롭을 했을 경우 crop_x
       h[:crop_rect] = [crop_x, crop_y, crop_w, crop_h]
     end
     h
+  end
+
+  def has_crop_rect?
+    crop_x != nil
+  end
+
+  def clear_crop_rect
+    update(crop_x:nil)
   end
 
   # set current_article_id, if page_number and story_number is given

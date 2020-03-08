@@ -51,7 +51,7 @@ require 'net/ftp'
 class Page < ApplicationRecord
   # before & after
   # before_create :copy_attributes_from_template
-  before_create :init_page_data
+  before_create :init_page
   after_create :setup
 
   # belongs_to
@@ -439,10 +439,20 @@ class Page < ApplicationRecord
     self.save
   end
 
+  def set_divider_to_draw
+    update_config_file_to_draw_divider
+    generate_pdf_with_time_stamp
+  end
+
   def  update_config_file_to_draw_divider
     h = config_hash
     h['draw_divider'] = true
     File.open(config_yml_path, 'w'){|f| f.write h.to_yaml}
+  end
+
+  def set_divider_not_to_draw
+    update_config_file_not_to_draw_divider
+    generate_pdf_with_time_stamp
   end
 
   def  update_config_file_not_to_draw_divider
@@ -462,10 +472,8 @@ class Page < ApplicationRecord
     path + "/config.yml"
   end
 
-  def save_config_file
-    system "mkdir -p #{path}" unless File.directory?(path)
-    yaml = config_hash.to_yaml
-    File.open(config_yml_path, 'w'){|f| f.write yaml}
+  def set_draw_divider(status)
+    new_config_yaml = con
   end
 
   def copy_config_file
@@ -637,10 +645,11 @@ class Page < ApplicationRecord
     puts "in page generate_pdf_with_time_stamp"
     delete_old_files
     stamp_time
-    save_pdf(time_stamp:@time_stamp)
-    # PageWorker.perform_async(path, @time_stamp)
-    # wait_for_stamped_pdf
-    # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
+    if NEWS_LAYOUT_ENGINE == 'ruby'
+      save_page_pdf(time_stamp:@time_stamp)
+    else # 'rubymotion'
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
+    end
   end
 
   def generate_pdf
@@ -680,6 +689,10 @@ class Page < ApplicationRecord
   end
 
   def page_heading_pdf_path
+    page_heading_path + "/output.pdf"
+  end
+
+  def page_heading_pdf_url
     page_heading_url + "/output.pdf"
   end
 
@@ -862,7 +875,7 @@ class Page < ApplicationRecord
 
   end
 
-  def copy_from_sample
+  def copy_ready_made_from_sample
     source = "#{Rails.root}/public/1/issue_sample/#{page_number}"
     if File.exist?(pdf_path)
     elsif File.exist?(source)
@@ -872,13 +885,26 @@ class Page < ApplicationRecord
 
   def setup
     system "mkdir -p #{path}" unless File.exist?(path)
-    # copy_section_template(section)
     create_heading
     create_pillars
-    # create_ad_boxes(section)
-    copy_from_sample
+    copy_ready_made_from_sample
     save_config_file unless File.exist?(config_path)
     generate_pdf unless File.exist?(pdf_path)
+  end
+
+  def save_config_file
+    system "mkdir -p #{path}" unless File.directory?(path)
+    File.open(config_yml_path, 'w') { |f| f.write config_hash.to_yaml }
+  end
+
+  def config_hash
+    h = {}
+    if page_number == 25
+
+    else
+
+    end
+    h
   end
 
   def create_pillars
@@ -886,7 +912,7 @@ class Page < ApplicationRecord
       if item.first.class == String
         self.ad_type = item
         self.save
-        create_ad_box(item)
+        create_ad_box
       # elsif item.first.class == Array
       #   create_pillar_layout_node(item, i + 1)
       # elsif item.first[4].class == Hash
@@ -899,12 +925,6 @@ class Page < ApplicationRecord
     end
   end
 
-  # def delete_pillars
-  #   pillars.each do |pil|
-  #     pil.destroy
-  #   end
-  #   system("rm -rf #{path}")
-  # end
 
   # TODO
   def change_page_layout(new_layout_id)
@@ -986,7 +1006,7 @@ class Page < ApplicationRecord
     choices
   end
 
-  def create_ad_box(ad_type)
+  def create_ad_box
     info = {page_id: self.id, order:1}
     case ad_type
     when '15단통'
@@ -1054,7 +1074,6 @@ class Page < ApplicationRecord
       info[:column] = 3
       info[:row]    = 7
     else
-      puts "+++++++++ unsupported ad_type:#{ad_type}"
       return
     end
     AdBox.create(info)
@@ -1070,58 +1089,10 @@ class Page < ApplicationRecord
 
   private
 
-  def copy_attributes_from_template
-    section         = Section.find(template_id)
-    self.publication_id = issue.publication.id
-    self.date         = issue.date
-    self.profile      = section.profile
-    self.column       = section.column
-    self.row          = section.row
-    self.ad_type      = section.ad_type
-    self.story_count  = section.story_count
-    self.grid_width   = section.grid_width
-    self.grid_height  = section.grid_height
-    self.lines_per_grid = section.lines_per_grid
-    self.width        = section.width
-    self.height       = section.height
-    self.left_margin  = section.left_margin
-    self.top_margin   = section.top_margin
-    self.right_margin = section.right_margin
-    self.bottom_margin = section.bottom_margin
-    self.gutter       = section.gutter
-    self.article_line_thickness = section.article_line_thickness 
-    self.layout       = section.layout
-    self.page_heading_margin_in_lines = section.page_heading_margin_in_lines
-    if clone_name == nil
-      self.path = "#{Rails.root}/public/#{self.publication_id}/issue/#{self.date.to_s}/#{page_number}"
-    else
-      self.path = "#{Rails.root}/public/#{self.publication_id}/issue/#{self.date.to_s}/#{page_number}-#{clone_name}"
-    end
-    true
-  end
-
-  # 
-  def init_page_data
-    publication               = issue.publication
-    self.publication_id       = publication.id
-    self.date                 = issue.date
-    template                  = PageLayout.find(template_id)      # case when page_template is given
-    self.layout               = template.layout
-    # else
-    #   # case when no info is given, we start with typical setup
-    #   if column == 6
-    #     self.layout = [[0,0,4,10,2], [4,0,2,10,3], '5단통']
-    #   else
-    #     self.layout = [[0,0,5,10,2], [5,0,2,10,3], '5단통']
-    #   end
-    # end
-    self.publication_id         = issue.publication.id
-    # self.profile              = section.profile
-    # self.page_number          = section.page_number
-    # self.section_name         = section.section_name
-    self.column                 = template.column
-    self.ad_type                = template.ad_type
-    self.story_count            = template.story_count
+  def init_page
+    publication                 = issue.publication
+    self.publication_id         = publication.id
+    self.date                   = issue.date
     self.lines_per_grid         = 7
     self.article_line_thickness = publication.article_line_thickness 
     self.page_heading_margin_in_lines = publication.page_heading_margin_in_lines(page_number)
@@ -1136,14 +1107,19 @@ class Page < ApplicationRecord
     self.right_margin           = publication.right_margin
     self.bottom_margin          = publication.bottom_margin
     self.gutter                 = publication.gutter
-    self.article_line_thickness = publication.article_line_thickness
-    self.publication_id         = publication.id
-  end
 
-  def init_page
-    save_config_file
-    create_pillars
-    true
+    if page_number == 25
+      # this is spread page
+      self.ad_type                = ad_type
+      self.width                  = publication.width*2 + publication.left_margin*2 + publication.right_margin*2
+      self.section_name           = "양면광고"
+    else
+      template                    = PageLayout.find(template_id)      # case when page_template is given
+      self.layout                 = template.layout
+      self.column                 = template.column
+      self.ad_type                = template.ad_type
+      self.story_count            = template.story_count
+    end
   end
 
 

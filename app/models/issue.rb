@@ -98,10 +98,26 @@ class Issue < ApplicationRecord
   def available_ads_for_pages
     page_ads = []
     24.times do |index|
-      page_ads << Section.available_ads_for(index + 1)
+      page_ads << available_ads_for(index + 1)
     end
     page_ads
   end
+
+  def available_ads_for(page_number)
+    ad_type_array = []
+    ad_type_array << PageLayout.where(page_type: page_number.to_s).all.map{|s| s.ad_type}
+    if page_number == 1
+    elsif page_number.odd?
+      ad_type_array << PageLayout.where(page_type: "101").all.map{|s| s.ad_type}
+    else
+      ad_type_array << PageLayout.where(page_type: "100").all.map{|s| s.ad_type}
+    end
+    if page_number == 12
+      ad_type_array += %w[5단_브릿지 7단_브릿지 8단_브릿지 9단_브릿지 10단_브릿지 15단_브릿지]
+    end
+    ad_type_array.flatten.uniq.sort
+  end
+
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
@@ -234,6 +250,7 @@ class Issue < ApplicationRecord
         # look for right template
         # first look for page_number and ad_type specified template
         ad_type = page_plan.ad_type.unicode_normalize
+
         template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
         # If not found, look for odd even  tempate
         unless template
@@ -393,6 +410,10 @@ class Issue < ApplicationRecord
     read_issue_plan
   end
 
+  def spread_ad_width
+    publication.spread_width
+  end
+  
   def spread_left_page
     puts "pages.count:#{pages.count}"
     return if pages.count == 0

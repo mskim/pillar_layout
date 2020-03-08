@@ -85,6 +85,7 @@ class Publication < ApplicationRecord
   def sections
     SECTIONS
   end
+
   def library_images
     path_array = Dir.glob("#{images_path}/*[.jpg,.pdf]")
     front = "#{Rails.root}/public"
@@ -192,7 +193,7 @@ class Publication < ApplicationRecord
   end
 
   def spread_width
-    width*2 + left_margin - right_margin
+    width*2 - left_margin - right_margin
   end
 
   def page_heading_width

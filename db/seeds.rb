@@ -14,8 +14,10 @@ require 'yaml'
 # end
 
 # add existing section data from 214
-section_csv_path = "#{Rails.root}/public/1/section/pillar.csv"
-csv_text = File.read(section_csv_path)
+# section_csv_path = "#{Rails.root}/public/1/section/pillar.csv"
+# csv_text = File.read(section_csv_path)
+page_layout_csv_path = "#{Rails.root}/public/1/page_layout.csv"
+csv_text = File.read(page_layout_csv_path)
 puts csv_text
 csv = CSV.parse(csv_text)
 keys  = csv.shift
@@ -26,41 +28,37 @@ csv.each_with_index do |row, i|
   s = PageLayout.where(row_h).first
   if s
     puts "found duplicate item line #{i + 2}: #{s.layout}"
+  else
+    s = PageLayout.where(row_h).first_or_create!
   end
-  s = PageLayout.where(row_h).first_or_create!
 end
 
 
   # add actions to db
-  action_yml_path = "#{Rails.root}/public/action.yml"
-  action_hash = YAML.load_file(action_yml_path)
-  action_hash.each do |k, v|
-    h = { name: k, actions: v }
-    Action.where(h).first_or_create!
-  end
-  # box with no actions
-  # (1..7).to_a.each do |column|
-  #   (6..15).to_a.each do |row|
-  #     LayoutNode.where(column: column, row: row).first_or_create
+  # action_yml_path = "#{Rails.root}/public/action.yml"
+  # action_hash = YAML.load_file(action_yml_path)
+  # action_hash.each do |k, v|
+  #   h = { name: k, actions: v }
+  #   Action.where(h).first_or_create!
+  # end
+
+
+  # get the size that were used in PageLayout only
+  # PageLayout.all.each do |pl|
+  #   pl.pillars.each do |pillar|
+  #     LayoutNode.where(column: pillar.column, row: pillar.row).first_or_create
   #   end
   # end
 
-  # get the size that were used in PageLayout only
-  PageLayout.all.each do |pl|
-    pl.pillars.each do |pillar|
-      LayoutNode.where(column: pillar.column, row: pillar.row).first_or_create
-    end
-  end
-
   # box with actions
-  LayoutNode.all.each do |node|
-    Action.all.each do |a|
-      node = LayoutNode.where(column: node.column, row: node.row).create
-      puts "+++++#{node.column}x#{node.row}"
-      puts "++++++a.actions:#{a.actions}"
-      node.set_actions(a.actions)
-    end
-  end
+  # LayoutNode.all.each do |node|
+  #   Action.all.each do |a|
+  #     node = LayoutNode.where(column: node.column, row: node.row).create
+  #     puts "+++++#{node.column}x#{node.row}"
+  #     puts "++++++a.actions:#{a.actions}"
+  #     node.set_actions(a.actions)
+  #   end
+  # end
 
 
 section_names = [
@@ -90,7 +88,7 @@ section_names = [
   '전면광고'
 ]
 
-Category.parse
+# Category.parse
 
 
 h = {}
@@ -313,5 +311,5 @@ issue = Issue.where(id: 1, date: issue_date , number: '00001', publication_id: 1
 if issue
   issue.make_default_issue_plan 
   issue.make_pages
-  issue.pages.all.each{|p| p.generate_pdf_with_time_stamp}
+  # issue.pages.all.each{|p| p.generate_pdf_with_time_stamp}
 end

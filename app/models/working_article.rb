@@ -18,6 +18,9 @@
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
+#  frame_color                  :string
+#  frame_sides                  :string
+#  frame_thickness              :float
 #  grid_height                  :float
 #  grid_width                   :float
 #  grid_x                       :integer
@@ -41,6 +44,7 @@
 #  pillar_order                 :string
 #  price                        :float
 #  profile                      :string
+#  profile_image_position       :string
 #  publication_name             :string
 #  pushed_line_count            :integer
 #  quote                        :text
@@ -115,6 +119,7 @@ class WorkingArticle < ApplicationRecord
   accepts_nested_attributes_for :images
 
   # include
+  include ArticleSavePdf
   include ArticleSplitable
   include PageSplitable
   include ArticleSwapable
@@ -122,10 +127,11 @@ class WorkingArticle < ApplicationRecord
   include ArticleSaveXml
   include WorkingArticleAutofit
   include WorkingArticleLayout
-  include StorageBackupWorkingArticle
   include WorkingArticlePillarMethods
   include PageSavePdf
+  include WorkingArticleOverlapable
 
+  # include StorageBackupWorkingArticle
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
@@ -150,7 +156,6 @@ class WorkingArticle < ApplicationRecord
       s.save
     else 
       if reporter.present?
-        # binding.pry
         s = Story.where(working_article_id: id, user_id: reporter_id).first_or_create
         s.date = page.date
         s.summitted_section = page.section_name
@@ -188,7 +193,6 @@ class WorkingArticle < ApplicationRecord
   def id_by_reporter_name_from_body
     body.match(/^# (.*)/)
     reporter_name = $1.to_s.sub("# ", "")
-    # binding.pry
     User.find_by(name: reporter_name).id
   end
 
@@ -235,7 +239,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def setup
-    FileUtils.mkdir_p path unless File.exist?(path)
+    make_article_path
   end
 
   def images_path
@@ -353,7 +357,12 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def make_article_path
+    FileUtils.mkdir_p(path) unless File.exist?(path)
+  end
+
   def save_article
+    make_article_path
     save_layout
     save_story unless kind == '사진'
   end
@@ -397,23 +406,45 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
-  def generate_pdf_with_time_stamp
-    save_article
+  def generate_pdf_with_time_stamp(options={})
+    puts "+++++++++ in generate_pdf_with_time_stamp"
+    pdf_starting = Time.now
     delete_old_files
     stamp_time
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
-    # ArticleWorker.perform_async(path, @time_stamp, nil)
-    # ArticleRubyWorker.perform_async(path, @time_stamp, nil)
-    update_pdf_chain
+    if NEWS_LAYOUT_ENGINE == 'ruby'
+      puts "+++++++++ processing pdf with ruby"
+      save_article_pdf(time_stamp: @time_stamp, adjustable_height:options[:adjustable_height])
+      update_pdf_chain unless options[:no_update_pdf_chain]
+    else
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
+    end
+    pdf_working_article_ending = Time.now
+    puts "++++++ pdf working_article time: #{pdf_working_article_ending - pdf_starting} "
+
     page.generate_pdf_with_time_stamp
-    # wait_for_stamped_pdf
+    pdf_page_ending = Time.now
+    puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
+  end
+
+  def save_article_pdf(options={})
+    save_hash                     = {}
+    save_hash[:article_path]      = path
+    save_hash[:story_md]          = story_md
+    save_hash[:layout_rb]         = layout_rb
+    save_hash[:time_stamp]        = options[:time_stamp]
+    save_hash[:adjustable_height] = options[:adjustable_height]
+    new_extended_line_count = RLayout::NewsBoxMaker.new(save_hash)
+  
+    # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    if options[:adjustable_height]
+      update(extended_line_count: new_extended_line_count) if new_extended_line_count && new_extended_line_count != 0
+    end
   end
 
   def generate_pdf
     # @time_stamp =  true
     save_article
     ArticleWorker.perform_async(path, nil, nil)
-
     # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article . -custom=#{publication.name}"
     # copy_outputs_to_site
   end
@@ -455,37 +486,56 @@ class WorkingArticle < ApplicationRecord
     pushed_line_count * publication.body_line_height
   end
 
+  # def expandable?(line_count)
+  #   expandable = false
+  #   sybs = siblings
+  #   sybs.each do |sybling|
+  #     expandable = sybling.pushable?(line_count)
+  #   end
+  #   expandable
+  # end
+
+  # def pushable?(line_count)
+  #   article_bottom_spaces_in_lines = 2
+  #   if height_in_lines - line_count >= 7 
+  #     return true
+  #   elsif siblings.length > 0
+  #     siblings.first.pushable?(line_count)
+  #     return true
+  #   end
+  #   false
+  # end
+
+  # expandable? for pillar
+  def expandable?(line_count)
+    expandable = false
+    bottom_syb = bottom_article_of_sibllings(self)
+    bottom_syb.pushable?(line_count)
+  end
+
+  # pushable? for bottom of sibllings
+  def pushable?(line_count)
+    article_bottom_spaces_in_lines = 2
+    if height_in_lines - line_count >= 7 
+      return true
+    end
+    false
+  end
+
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
     return if line_count == extended_line_count
     self.extended_line_count = line_count
     self.save
-    siblings.each do |sybling|
-      sybling.push_line(line_count)
+    bottom_article = pillar.bottom_article_of_sibllings(self)
+    if bottom_article.pushable?(line_count)
+      bottom_article.push_line(line_count)
+      generate_pdf_with_time_stamp
+      save_extended_line_count_to_config_yml(line_count)
+      page.generate_pdf_with_time_stamp
+    else
+      puts "bottom sibling not pushable!!!"
     end
-    generate_pdf_with_time_stamp
-    save_extended_line_count_to_config_yml(line_count)
-    page.generate_pdf_with_time_stamp
-  end
-
-  def expandable?(line_count)
-    expandable = false
-    sybs = siblings
-    sybs.each do |sybling|
-      expandable = sybling.pushable?(line_count)
-    end
-    expandable
-  end
-
-  def pushable?(line_count)
-    article_bottom_spaces_in_lines = 2
-    if height_in_lines - line_count >= 7 
-      return true
-    elsif siblings.length > 0
-      siblings.first.pushable?(line_count)
-      return true
-    end
-    false
   end
 
   # adds extended_line_count with new line_count
@@ -499,9 +549,11 @@ class WorkingArticle < ApplicationRecord
       self.extended_line_count = line_count
     end
     self.save
-    sibs.each do |sybling|
-      sybling.push_line(self.extended_line_count)
-    end
+    # sibs.each do |sybling|
+    #   sybling.push_line(self.extended_line_count)
+    # end
+    bottom_article = pillar.bottom_article(self)
+    bottom_articlepush_line(line_count)
     generate_pdf_with_time_stamp
     save_extended_line_count_to_config_yml(self.extended_line_count)
     page.generate_pdf_with_time_stamp unless options[:generate_pdf] == false
@@ -623,18 +675,15 @@ class WorkingArticle < ApplicationRecord
   end
 
   def announcement_zero
-    self.announcement_column = 0
-    self.save
+    update(announcement_column:0)
   end
 
   def announcement_one
-    self.announcement_column = 1
-    self.save
+    update(announcement_column:1)
   end
 
   def announcement_two
-    self.announcement_column = 2
-    self.save
+    update(announcement_column:2)
   end
 
 
@@ -1312,6 +1361,92 @@ class WorkingArticle < ApplicationRecord
     self.save
   end
 
+  def node_order
+    a = pillar_order.split("_")
+    a.shift
+    r = a.join("_")
+    r
+  end
+
+  def v_cut_at(cut_index)
+    # binding.pry
+    # divide working article into two
+    action = []
+    if cut_index > 0
+      # cut from left, , cut_index is positive value
+      changing_column = cut_index
+      new_column = column - cut_index
+      new_grid_x = cut_index
+      actions = [node_order, "v+#{cut_index}"]
+    else
+      # cut from right, cut_index is negative value
+      changing_column = column + cut_index
+      new_column = cut_index.abs
+      new_grid_x = changing_column
+      actions = [node_order, "v#{cut_index}"]
+    end
+    changing_pillar_order             = "#{pillar_order}_1"
+    new_pillar_order                  = "#{pillar_order}_2"
+    pillar.update_working_article_cut(actions)
+    update(column: changing_column, pillar_order: changing_pillar_order)
+    # delete current working_article content to new folder
+    delete_folder # renane_folder?
+    # update wokring_articlr in new folder and generate pdf
+    # do not update_pdf_chain, since newly creating article will do it
+    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
+    # create new working_article 
+    h = { page: page, pillar: self, pillar_order: "#{new_pillar_order}", grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
+    w = WorkingArticle.where(h).first_or_create
+    w.update_pdf_chain
+  end
+  
+  def bumpup_pillar_order_by(count)
+    a = pillar_order.split("_")
+    new_order = a.last.to_i + count
+    a[-1] = new_order
+    new_pillar_order = a.join("_")
+    update(pillar_order: new_pillar_order)
+  end
+
+  def next_pillar_order
+    a = pillar_order.split("_")
+    new_order = a.last.to_i + 1
+    a[-1] = new_order
+    new_pillar_order = a.join("_")
+  end
+
+
+  def pillar_siblings
+    pillar.pillar_siblings_of(self)
+  end
+
+  def following_pillar_siblings
+    pillar.following_pillar_siblings_of(self)
+  end
+
+  # divide working_article horizontally
+  def h_cut
+    actions                       = [node_order, "h*1"]
+    new_pillar_order              = next_pillar_order
+    changing_row                  = row/2
+    new_grid_y                    = grid_y + changing_row
+    new_row                       = row - changing_row
+    update(row: changing_row)
+    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
+    h = { page: page, pillar: pillar, pillar_order: "#{new_pillar_order}", grid_x: 0, grid_y: new_grid_y, column: column, row: new_row }
+    w = WorkingArticle.where(h).first_or_create
+    following_pillar_siblings.each do |w|
+      w.bumpup_pillar_order_by(1)
+    end
+    # update pillar_config file and working_article grid_y and row after cut
+    pillar.update_working_article_cut(actions)
+    w.generate_pdf_with_time_stamp
+
+  end
+  
+  def layout_with_node_path
+    [grid_x, grid_y, column,row, pillar_order.split("_")].unshift.join("_")
+  end
 
   private
 
@@ -1327,7 +1462,7 @@ class WorkingArticle < ApplicationRecord
     self.subtitle = '여기는 부제목 입니다.' unless subtitle
 
     body_text = ""
-    unit_text = '여기는 본문입니다. '*8 
+    unit_text = '여기는 본문입니다. ' 
     area = self.column*self.row
     area.times do 
       body_text += unit_text
@@ -1337,7 +1472,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def setup_article
-    FileUtils.mkdir_p(path) unless File.exist?(path)
+    make_article_path
     copy_from_sample
     # make_images_directory
     # generate_pdf_with_time_stamp

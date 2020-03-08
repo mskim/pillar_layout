@@ -639,7 +639,6 @@ module ArticleSaveXml
     #   @graphic_item       = "#{grp}.jpg"
     # end
     # if story_xml_template.include?("\u200B")
-    #   binding.pry
     # end
     @page_number = page_number
     @order = order
@@ -932,7 +931,6 @@ module ArticleSaveXml
 
 
     # puts "============ page_number: #{page_number}"
-    # binding.pry if page_number == 1
 
     # images.map.with_index do |i, n|
     #   merged_component += erb.result(binding)
@@ -1407,7 +1405,6 @@ module ArticleSaveXml
 
     component = ""
     # puts "============ page_number: #{page_number}"
-    # binding.pry if page_number == 1
     erb = ERB.new(three_component)
     component += erb.result(binding)
   end
@@ -1525,7 +1522,6 @@ EOF
       # end
         system("convert -density 300 -resize 1200 #{image_name} #{mobile_page_preview_path}/#{@graphic_file_name}.g#{i+1}L.jpg")
       # elsif ext == ".pdf"
-        # binding.pry
         # original_pdf = File.open("#{image_name}", 'rb').read
         # image = Magick::Image::from_blob(original_pdf) do
         #   self.format = 'PDF'

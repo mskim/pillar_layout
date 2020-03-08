@@ -3,6 +3,7 @@
 # Table name: spreads
 #
 #  id            :bigint           not null, primary key
+#  ad_type       :string
 #  bottom_margin :float
 #  color_page    :boolean
 #  height        :float

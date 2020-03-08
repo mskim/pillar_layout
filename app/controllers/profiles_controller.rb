@@ -15,7 +15,6 @@ class ProfilesController < ApplicationController
         writers = Profile.order(name: :desc).all
         send_data writers.to_csv
       end
-      format.xls # { send_data @products.to_csv(col_sep: "\t") }
     end
   end
 

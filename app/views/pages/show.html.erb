@@ -8,36 +8,10 @@
       </div>
     </div>
     <div class="col-md-9">
-      <% @page.pillars.sort_by{|p| p.order}.each do |pillar| %>
-        <div class="row">
-          <div class="col-md-2 mr-3">
-            <div class="border shadow" style="width: 100%;">
-              <%= raw pillar.to_svg_with_jpg %>
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div class="row">
-              <% pillar.choices.each do |choice| %>
-                <% if pillar.layout_with_pillar_path == choice[0].layout_with_pillar_path %>
-                  <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
-                    <%= raw choice[1] %>
-                    <p class="btn btn-info text-center rounded-0 mb-0">사용중</p>
-                  </div>
-                <% else %>
-                  <div class="card mb-3" style="width: 7rem;">
-                    <%= raw choice[1] %>
-                    <%= link_to '변경', change_layout_pillar_path(pillar, new_choice: choice[0]), method: :patch, class: "btn btn-danger text-center rounded-0" %>
-                  </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-        <hr class="mb-5">
-      <% end %>
+
       <div class="row">
         <% @page.other_page_layout_choices.each do |page_layout| %>
-          <div class="card text-white bg-info mb-3 p-1" style="width: 7rem;">
+          <div class="card text-white bg-info mb-3 p-1" style="width: 10rem;">
             <% if @page.template_id == page_layout.id %>
               <%= raw  page_layout.to_svg%>
               <p class="btn btn-info text-center rounded-0 mb-0">사용중<%= "(#{page_layout.pillar_profile})#{page_layout.id}" %></p>

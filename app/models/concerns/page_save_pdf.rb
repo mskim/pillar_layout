@@ -3,15 +3,14 @@ require 'hexapdf'
 module PageSavePdf
   extend ActiveSupport::Concern
 
-  def save_pdf(options={})
+  def save_page_pdf(options={})
     pdf_doc = HexaPDF::Document.new
     pdf_page = pdf_doc.pages.add([0, 0, width, height])
     canvas = pdf_page.canvas
-    if page_heading
-      image_path = page_heading.pdf_path
-      if File.exist?(image_path)
-        canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
-      end
+    # draw page_headinng
+    image_path = page_heading_pdf_path
+    if File.exist?(image_path)
+      canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
     end
     pillars.sort_by{|p| p.order}.each_with_index do |p,i|
       image_path = path + "/#{i + 1}/story.pdf"

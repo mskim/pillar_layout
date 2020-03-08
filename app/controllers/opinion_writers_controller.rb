@@ -16,7 +16,6 @@ class OpinionWritersController < ApplicationController
         writers = OpinionWriter.order(name: :desc).all
         send_data @opinion_writers.to_csv
       end
-      format.xls # { send_data @products.to_csv(col_sep: "\t") }
     end
   end
 

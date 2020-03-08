@@ -13,6 +13,32 @@
  module WorkingArticleAutofit
   extend ActiveSupport::Concern
 
+  # auto adjust height and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height
+    generate_pdf_with_time_stamp(adjust_height:true)
+  end
+
+  # auto adjust height of all ariticles in pillar and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height_all
+    @pillar.working_articles.each_with_index do |w, i|
+      if @pillar.bottom_article_of_sibllings?(w)
+        # we have bottom article
+        w.generate_pdf_with_time_stamp(adjustable_height:false)
+      else
+        w.generate_pdf_with_time_stamp(no_update_pdf_chain:true, adjustable_height:true)
+      end
+    end
+  end
+
+  def update_bottom_article_pushed_line_count
+    sum_of_pillar_extended_line_count
+
+  end
+
   def auto_size_image(options={})
     target_image = options[:image] if options[:image]
     unless target_image
@@ -27,10 +53,6 @@
       size_to_reduce = overflow_line_count/image_column
       puts "size_to_reduce:#{size_to_reduce}"
     end
-  end
-
-  def auto_fit_graphic(options={})
-
   end
 
   def read_news_box_height
@@ -171,55 +193,5 @@
   end
   # old stuff ++++++++++++++++++ 
 
-  def autofit_with_time_stamp
-    save_article
-    delete_old_files
-    stamp_time
-    ArticleWorker.perform_async(path, @time_stamp, 'fit_all')
-    wait_for_stamped_pdf
-  end
-
-
-  def title_area_in_lines
-    column*4
-  end
-
-  def subtitle_area_in_lines
-    3
-  end
-
-  def images_area_in_lines
-    area = 0
-    area += images.map{|img| img.area_in_lines} if images.length > 0
-    area
-  end
-
-  def graphics_area_in_lines
-    area = 0
-    area += graphics.map{|img| img.area_in_lines} if images.length > 0
-    area
-  end
-
-  def quote_area_in_lines
-    area = 0
-  end
-
-  def total_area_in_lines
-    column*row*7
-  end
-
-  def available_line_space
-    total_area = total_area_in_lines
-    total_area += extended_line_count*column if extended_line_count
-    total_area -= pushed_line_count*column if pushed_line_count
-    occupied_area_in_lines = 0
-    occupied_area_in_lines += title_area_in_lines if title
-    occupied_area_in_lines += subtitle_area_in_lines if subtitle
-    occupied_area_in_lines += images_area_in_lines
-    occupied_area_in_lines += graphics_area_in_lines
-    occupied_area_in_lines += quote_area_in_lines
-    occupied_area_in_lines
-    total_area - occupied_area_in_lines
-  end
 
  end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_063201) do
+ActiveRecord::Schema.define(version: 2020_02_25_140319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -416,17 +416,36 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.integer "column"
     t.integer "row"
     t.string "profile"
-    t.string "finger_print"
     t.string "node_kind"
     t.integer "order"
     t.string "tag"
     t.boolean "selected"
     t.text "actions"
-    t.text "layout"
     t.text "layout_with_pillar_path"
     t.integer "box_count"
+    t.bigint "pillar_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["pillar_id"], name: "index_layout_nodes_on_pillar_id"
+  end
+
+  create_table "line_fragments", force: :cascade do |t|
+    t.bigint "working_article_id"
+    t.bigint "paragraph_id"
+    t.integer "order"
+    t.integer "column"
+    t.string "line_type"
+    t.float "x"
+    t.float "y"
+    t.float "width"
+    t.float "height"
+    t.text "tokens"
+    t.float "text_area_x"
+    t.float "text_area_width"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["paragraph_id"], name: "index_line_fragments_on_paragraph_id"
+    t.index ["working_article_id"], name: "index_line_fragments_on_working_article_id"
   end
 
   create_table "member_images", force: :cascade do |t|
@@ -545,6 +564,17 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.index ["slug"], name: "index_pages_on_slug", unique: true
   end
 
+  create_table "paragraphs", force: :cascade do |t|
+    t.string "name"
+    t.bigint "working_article_id"
+    t.integer "order"
+    t.text "para_text"
+    t.text "tokens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["working_article_id"], name: "index_paragraphs_on_working_article_id"
+  end
+
   create_table "pillars", force: :cascade do |t|
     t.string "direction"
     t.integer "grid_x"
@@ -553,10 +583,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.integer "row"
     t.integer "order"
     t.integer "box_count"
-    t.text "layout_with_pillar_path"
-    t.text "layout"
     t.string "profile"
-    t.string "finger_print"
     t.bigint "page_ref_id"
     t.string "page_ref_type"
     t.datetime "created_at", null: false
@@ -726,6 +753,18 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.float "article_line_thickness"
   end
 
+  create_table "spread_ad_boxes", force: :cascade do |t|
+    t.string "ad_type"
+    t.string "advertiser"
+    t.integer "row"
+    t.float "width"
+    t.float "height"
+    t.bigint "spread_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spread_id"], name: "index_spread_ad_boxes_on_spread_id"
+  end
+
   create_table "spreads", force: :cascade do |t|
     t.bigint "issue_id"
     t.integer "left_page_id"
@@ -741,6 +780,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.float "page_gutter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ad_type"
     t.index ["issue_id"], name: "index_spreads_on_issue_id"
   end
 
@@ -942,6 +982,10 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.string "subcategory_code"
     t.string "pillar_order"
     t.bigint "pillar_id"
+    t.string "profile_image_position"
+    t.string "frame_sides"
+    t.string "frame_color"
+    t.float "frame_thickness"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"
@@ -1095,13 +1139,17 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
+  add_foreign_key "line_fragments", "paragraphs"
+  add_foreign_key "line_fragments", "working_articles"
   add_foreign_key "member_images", "group_images"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
+  add_foreign_key "paragraphs", "working_articles"
   add_foreign_key "profiles", "publications"
   add_foreign_key "proofs", "working_articles"
   add_foreign_key "reporter_graphics", "users"
   add_foreign_key "reporter_images", "users"
+  add_foreign_key "spread_ad_boxes", "spreads"
   add_foreign_key "spreads", "issues"
   add_foreign_key "stories", "users"
   add_foreign_key "stories", "working_articles"

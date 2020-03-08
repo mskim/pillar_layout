@@ -102,9 +102,14 @@ class PagePlansController < ApplicationController
           end
         end
 
-        if (@page_plan.page_number == 12 || @page_plan.page_number == 13)
-          if @page_plan.ad_type == "15단_브릿지"
-            Spread.where(issue: @page_plan.issue).first_or_create
+        if @page_plan.page_number == 12 #|| @page_plan.page_number == 13)
+          if @page_plan.ad_type =~ /_브릿지/
+            h = {}
+            h[:issue]   = @page_plan.issue
+            h[:ad_type] = @page_plan.ad_type
+            h[:left_page_id] = @page_plan.page.id
+            h[:right_page_id] = @page_plan.page.id + 1
+            Spread.where(h).first_or_create
             @page_plan.set_pair_bridge_ad
           else
             # @page_plan.spread.destroy if @page_plan.spread

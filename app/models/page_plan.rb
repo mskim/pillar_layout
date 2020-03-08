@@ -79,8 +79,8 @@ class PagePlan < ApplicationRecord
 
   def set_pair_bridge_ad
     pair = PagePlan.find(pair_page)
-    if pair.ad_type != "15단_브릿지" || pair.advertiser != advertiser
-      pair.ad_type    = "15단_브릿지"
+    if pair.ad_type != ad_type || pair.advertiser != advertiser
+      pair.ad_type    = ad_type
       pair.advertiser = advertiser
       pair.save
     end

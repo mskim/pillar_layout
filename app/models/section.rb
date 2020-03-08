@@ -3,55 +3,51 @@
 # Table name: sections
 #
 #  id                           :integer          not null, primary key
-#  profile                      :string
-#  column                       :integer
-#  row                          :integer
-#  order                        :integer
 #  ad_type                      :string
-#  is_front_page                :boolean
-#  story_count                  :integer
-#  page_number                  :integer
-#  section_name                 :string
+#  article_line_thickness       :float
+#  bottom_margin                :float
 #  color_page                   :boolean          default(FALSE)
-#  publication_id               :integer          default(1)
+#  column                       :integer
+#  draw_divider                 :boolean
+#  grid_height                  :float
+#  grid_width                   :float
+#  gutter                       :float
+#  height                       :float
+#  is_front_page                :boolean
 #  layout                       :text
+#  left_margin                  :float
+#  lines_per_grid               :float
+#  order                        :integer
+#  page_heading_margin_in_lines :integer
+#  page_number                  :integer
+#  path                         :string
+#  profile                      :string
+#  right_margin                 :float
+#  row                          :integer
+#  section_name                 :string
+#  story_count                  :integer
+#  top_margin                   :float
+#  width                        :float
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
-#  draw_divider                 :boolean
-#  path                         :string
-#  grid_width                   :float
-#  grid_height                  :float
-#  lines_per_grid               :float
-#  width                        :float
-#  height                       :float
-#  left_margin                  :float
-#  top_margin                   :float
-#  right_margin                 :float
-#  bottom_margin                :float
-#  gutter                       :float
-#  page_heading_margin_in_lines :integer
-#  article_line_thickness       :float
+#  publication_id               :integer          default(1)
 #
 
 class Section < ApplicationRecord
 
   belongs_to :publication, optional: true
-  has_one :page_plan
   has_many :articles
   has_many :ad_box_templates
 
-  after_create :setup
-  before_create :parse_profile
-  # before_update :before_updating_action
-  # after_update :before_updating_action
-  # after_commit :after_commit_action
-
+  # after_create :setup
+  # before_create :parse_profile
+  
   include PageSplitable
   include RectUtils
 
-  # def after_commit_action
-  #   create_articles
-  # end
+  serialize :layout, Array
+  serialize :pillar_layout, Array
+
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
@@ -70,10 +66,12 @@ class Section < ApplicationRecord
       # connvert 5 element ad box array into string
       ad_string = nil
       layout_with_fixed_ad = layout_data.map do |box|
+        # support legacy ad format 
         if box.length == 5 && box[4].include?('광고_')
-          
           old_ad = box.pop
           ad_string = old_ad.split("_")[1]
+
+        #elsif box[4].include?('광고_') check with ad_type list
         else
           box
         end
@@ -97,9 +95,6 @@ class Section < ApplicationRecord
       end
       pillar_layout << ad_string if ad_string
       pillar << pillar_layout
-
-
-
   end
 
   def self.fix_ad_names
@@ -233,7 +228,7 @@ class Section < ApplicationRecord
     h['right_margin']                   = right_margin
     h['bottom_margin']                  = bottom_margin
     h['gutter']                         = gutter
-    h['story_frames']                   = eval(layout)
+    h['story_frames']                   = layout
     h['article_line_thickness']         = article_line_thickness
     h['draw_divider']                   = draw_divider
     h
@@ -457,7 +452,7 @@ class Section < ApplicationRecord
     # TODO put story number on top
     # make width for 6 column same as 7 column
     string = ""
-    eval_layout.each do |box|
+    layout.each do |box|
       next if box.class == Hash
       if box.length == 5
         if box[4] == 'heading' || box[4] == '제목'
@@ -602,10 +597,6 @@ class Section < ApplicationRecord
     File.open(csv_path, 'w'){|f| f.write Section.to_csv.to_s}
   end
 
-  def eval_layout
-    eval(layout)
-  end
-
   # other SectionTemplate choices for current page
   def other_choices
     SectionTemplate.where(page_number: page_number).all
@@ -660,7 +651,7 @@ class Section < ApplicationRecord
   def create_articles
     puts "id:#{id}"
     article_count = 0
-    box_array = eval_layout
+    box_array = layout
 
     # delete unused articles
 
@@ -772,7 +763,7 @@ class Section < ApplicationRecord
 
   def parse_story_count
     count = 0
-    box_array = eval_layout
+    box_array = layout
     
     box_array.each_with_index do |box, i|
       if box.length >= 5  && (box[4] == '기고' || box[4] == 'opinion' || box[4] == '사설' || box[4] == 'editorial')
@@ -787,7 +778,7 @@ class Section < ApplicationRecord
   end
 
   def parse_ad_type
-    box_array = eval_layout
+    box_array = layout
     ad_type = "광고없음"
     box_array.each_with_index do |box, i|
       if box.length >= 5 && box[4] =~ /^광고/
@@ -818,7 +809,7 @@ class Section < ApplicationRecord
   end
 
   def re_order_layout
-    layout_array = eval_layout
+    layout_array = layout
     # oreder rects by y position and then x position
     layout_array = layout_array.sort_by {|rect| [rect[1], rect[0]]}
     # move ad rect to the last
@@ -883,8 +874,7 @@ class Section < ApplicationRecord
   private
   def parse_profile
     re_order_layout
-    # layout_array = eval_layout
-    # self.layout = layout_array.sort_by {|rect| [rect[1], rect[0]]}.to_s
+
     if page_number == 1 || is_front_page == true
       self.is_front_page                    = true
       self.page_heading_margin_in_lines     = publication.front_page_heading_margin
