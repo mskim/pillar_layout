@@ -486,25 +486,6 @@ class WorkingArticle < ApplicationRecord
     pushed_line_count * publication.body_line_height
   end
 
-  # def expandable?(line_count)
-  #   expandable = false
-  #   sybs = siblings
-  #   sybs.each do |sybling|
-  #     expandable = sybling.pushable?(line_count)
-  #   end
-  #   expandable
-  # end
-
-  # def pushable?(line_count)
-  #   article_bottom_spaces_in_lines = 2
-  #   if height_in_lines - line_count >= 7 
-  #     return true
-  #   elsif siblings.length > 0
-  #     siblings.first.pushable?(line_count)
-  #     return true
-  #   end
-  #   false
-  # end
 
   # expandable? for pillar
   def expandable?(line_count)
@@ -522,98 +503,71 @@ class WorkingArticle < ApplicationRecord
     false
   end
 
+  def revert_all_extended_lines
+    pillar.working_articles.each do |w|
+      if w.extended_line_count != 0 || w.pushed_line_count != 0
+        w.extended_line_count = 0
+        w.pushed_line_count = 0
+        w.save
+        w.generate_pdf_with_time_stamp
+      end
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
-    return if line_count == extended_line_count
+    return if line_count == self.extended_line_count
+    bottom_article = pillar.bottom_article_of_sibllings(self)
+    puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
+    unless bottom_article.pushable?(line_count)
+      puts "bottom sibling not pushable!!!"
+      return 
+    end
     self.extended_line_count = line_count
     self.save
-    bottom_article = pillar.bottom_article_of_sibllings(self)
-    if bottom_article.pushable?(line_count)
-      bottom_article.push_line(line_count)
-      generate_pdf_with_time_stamp
-      save_extended_line_count_to_config_yml(line_count)
-      page.generate_pdf_with_time_stamp
-    else
-      puts "bottom sibling not pushable!!!"
-    end
+    # update(extended_line_count: line_count)
+    # bottom_article.update_pushed_line
+    generate_pdf_with_time_stamp
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
   # adds extended_line_count with new line_count
   def extend_line(line_count, options={})
-    sibs = siblings
+
     # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
-    if self.extended_line_count
-      self.extended_line_count += line_count
-    else
-      self.extended_line_count = line_count
+    bottom_article = bottom_article_of_sibllings(self)
+    unless bottom_article.pushable?(line_count)
+      puts "bottom sibling not pushable!!!"
+      return 
     end
+    self.extended_line_count += line_count
     self.save
-    # sibs.each do |sybling|
-    #   sybling.push_line(self.extended_line_count)
-    # end
-    bottom_article = pillar.bottom_article(self)
-    bottom_articlepush_line(line_count)
+    puts self.extended_line_count
+    # update(extended_line_count: extended_line_count)
+    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    save_extended_line_count_to_config_yml(self.extended_line_count)
-    page.generate_pdf_with_time_stamp unless options[:generate_pdf] == false
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
-  def save_extended_line_count_to_config_yml(line_count)
-    config_path = page.config_path
-    config_hash = YAML::load_file(config_path)
-    frame_array = config_hash['story_frames'][order - 1]
-    if frame_array.length == 4
-        frame_array << {'extend'=> line_count} unless line_count == 0
-    elsif frame_array.length >= 5 
-      if  frame_array.last.class == Hash
-        if line_count == 0
-          frame_array.last.delete('extend')
-          frame_array.pop if frame_array.last == {}
-        else
-          frame_array.last['extend'] = line_count
-        end
-      # support lagacy format
-      elsif frame_array.last =~/^extend/
-        frame_array.pop
-        frame_array << {'extend'=> line_count}  unless line_count == 0
-      else
-        frame_array << {'extend'=> line_count}  unless line_count == 0
-      end
-    end
-    File.open(config_path, 'w'){|f| f.write config_hash.to_yaml}
+  def pillar_bottom?
+    self == pillar.bottom_article_of_sibllings(self)
   end
 
-  def save_pushed_line_count_to_config_yml(line_count)
-    config_path = page.config_path
-    config_hash = YAML::load_file(config_path)
-    frame_array = config_hash['story_frames'][order - 1]
-    if frame_array.length == 4
-        frame_array << {'push'=> line_count} unless line_count == 0
-    elsif frame_array.length >= 5 
-      if  frame_array.last.class == Hash
-        if line_count == 0
-          frame_array.last.delete('push')
-          frame_array.pop if frame_array.last == {}
-        else
-          frame_array.last['push'] = line_count
-        end
-      # support lagacy format
-      elsif frame_array.last =~/^push/
-        frame_array.pop
-        frame_array << {'push'=> line_count}  unless line_count == 0
-      else
-        frame_array << {'push'=> line_count}  unless line_count == 0
-      end
-    end
-    File.open(config_path, 'w'){|f| f.write config_hash.to_yaml}
+  def bottom_article_of_sibllings(article)
+    w = pillar.bottom_article_of_sibllings(self)
+    puts "w.id:#{w.id}"
+    w
   end
 
-  def push_line(line_count, options={})
-    self.pushed_line_count = line_count
-    self.save
-    generate_pdf_with_time_stamp
-    save_pushed_line_count_to_config_yml(self.pushed_line_count)
+
+  # this is applied to bottom of sibllings article
+  # update pushed_line_sum for all above sibllings height change
+  def current_pushed_line_sum
+    extened_line_sum = pillar.extened_line_sum(self)
   end
 
   def empty_lines_count
@@ -888,6 +842,7 @@ class WorkingArticle < ApplicationRecord
   #TODO
   def top_story?
     return true if top_story
+    return true if page.working_articles.first.kind == self
     return true if page.working_articles.first.kind != '기사' && order == 2
     false
   end
@@ -911,13 +866,11 @@ class WorkingArticle < ApplicationRecord
     h[:page_number]                   = self.page_number
     h[:stroke_width]                  = 1 if kind == '사설' || kind == 'editorial'
     h[:column]                        = self.column
-    
     h[:row]                           = self.row
     h[:extended_line_count]           = self.extended_line_count if extended_line_count
-    h[:pushed_line_count]             = self.pushed_line_count   if pushed_line_count
-    
+    # h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
+    h[:pushed_line_count]             = current_pushed_line_sum  if pillar_bottom?
     h[:height_in_lines]               = self.height_in_lines     if self.height_in_lines
-
     h[:grid_width]                    = self.grid_width
     h[:grid_height]                   = self.grid_height
     h[:gutter]                        = self.gutter
@@ -1369,7 +1322,6 @@ class WorkingArticle < ApplicationRecord
   end
 
   def v_cut_at(cut_index)
-    # binding.pry
     # divide working article into two
     action = []
     if cut_index > 0
@@ -1457,6 +1409,9 @@ class WorkingArticle < ApplicationRecord
     self.is_front_page = true if page.is_front_page?
     self.column = 4 unless column
     self.row = 4 unless row
+    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_!")
+    self.extended_line_count = 0
+    self.pushed_line_count = 0
     self.title = "여기는 #{pillar_order}제목 입니다." unless title
     self.title = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle = '여기는 부제목 입니다.' unless subtitle
@@ -1464,10 +1419,10 @@ class WorkingArticle < ApplicationRecord
     body_text = ""
     unit_text = '여기는 본문입니다. ' 
     area = self.column*self.row
-    area.times do 
+    # area.times do 
       body_text += unit_text
       body_text += "\n\n"
-    end
+    # end
     self.body = body_text
   end
 

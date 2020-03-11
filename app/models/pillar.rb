@@ -33,8 +33,7 @@ class Pillar < ApplicationRecord
   
   def pillar_siblings_of(article)
     article_pillar_order_depth = article.pillar_order.split("_").length
-    article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}
-    article_siblings.last
+    article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}.sort_by{|a| a.pillar_order}
   end
 
   def following_pillar_siblings_of(article)
@@ -52,7 +51,12 @@ class Pillar < ApplicationRecord
     article == bottom_article_of_sibllings(article)
   end
 
-
+  def extened_line_sum(article)
+    puts __method__
+    puts "pillar_siblings_of(article).map{|a| a.extended_line_count}:#{pillar_siblings_of(article).map{|a| a.extended_line_count}}"
+    # pillar_siblings_of(article).select{|a| a.extended_line_count !=nil}.map{|a| a.extended_line_count}.reduce(:+) 
+    pillar_siblings_of(article).map{|a| a.extended_line_count}.reduce(:+) 
+  end
 
   # update pillar_config file and working_article grid_y and row after cut
   def update_working_article_cut(cut_action)
@@ -60,7 +64,6 @@ class Pillar < ApplicationRecord
     save_pillar_yaml
     new_layouts = layout_with_pillar_path
     sorted_working_articles = working_articles.sort_by{|w| w.pillar_order}
-    binding.pry
     new_layouts.each_with_index do |new_layout, i|
       sorted_working_articles[i].update(grid_x: new_layout[0], grid_y:new_layout[1], column:new_layout[2], row:new_layout[3])
     end

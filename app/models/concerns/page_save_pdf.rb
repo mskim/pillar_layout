@@ -82,7 +82,6 @@ module PageSavePdf
       info = [box.width.dup, box.height.dup, file]
       image_pages << info
     end
-
     
     # layout images vertically or horizontally
     if direction == 'vertical'

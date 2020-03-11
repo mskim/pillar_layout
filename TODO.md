@@ -24,6 +24,31 @@
   - download_first_page_heading
   - heading_maker
 
+2020_03_12
+  - upload Excel file for issue plan 
+  - fix change page template
+  - fix virtical cut 
+  - fix horizontal cut 
+
+2020_03_11
+  - fix page columnn nil value
+  - fix page_layout.csv first page pilliar height
+  - fix pilar_bottom?
+  - fix layout_rb pushed_line_count for pilar_bottom?
+  - fix extended_line_count save
+  - fix top_story? assing it at create, has to have column with > 2
+
+2020_03_09
+  - we no longer need to update config file
+  - fix bottom_article? to bottom_article_of_sibllings?
+  - fix menu for pillar_bottom_article
+     if @working_article.bottom_article_of_pillar?
+
+  - fix bottom article height according to reduced_line_count
+
+  - update horozontal sibling height when height is changed
+    - tallest or left most???
+
 2020_03_8
   - fix clear_crop_rect
   - fix shorten initial body text as ""

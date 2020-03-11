@@ -328,6 +328,13 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
+  # revert_all_extened_lines_working_article_path
+  def revert_all_extended_lines
+    set_working_article
+    @working_article.revert_all_extended_lines
+    redirect_to @working_article
+  end
+
   def extend_zero
     set_working_article
     @working_article.set_extend_line(0)

@@ -196,6 +196,7 @@ Rails.application.routes.draw do
       get 'add_image'
       get 'auto_adjust_height'
       get 'auto_adjust_height_all'
+      get 'revert_all_extended_lines'
       get 'extend_zero'
       get 'extend_one'
       get 'extend_two'

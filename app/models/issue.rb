@@ -269,6 +269,7 @@ class Issue < ApplicationRecord
           h[:section_name]  = page_plan.section_name
           h[:template_id]   = template.id
           h[:ad_type]       = page_plan.ad_type
+          h[:column]       = template.column
           h[:color_page]    = page_plan.color_page
           p                 = Page.create!(h)
           page_plan.page    = p
