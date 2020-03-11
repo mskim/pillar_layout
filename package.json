@@ -11,6 +11,7 @@
     "cropperjs": "^1.5.6",
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
+    "stimulus": "^1.1.1",
     "trix": "^1.0.0",
     "turbolinks": "^5.2.0"
   },

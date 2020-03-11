@@ -7,7 +7,12 @@ class YhArticlesController < ApplicationController
   # GET /yh_articles.json
   def index
     @q = YhArticle.ransack(params[:q])
+<<<<<<< HEAD
     @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(25)
+=======
+    @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(30)
+    # binding.pry
+>>>>>>> 1e4b30f56dd6892cbe5ce1f514a12be0cf57efbc
 
     # @yh_articles = YhArticle.all
     # @yh_article_categories = YhArticle.pluck(:category_name).uniq.sort
@@ -17,11 +22,9 @@ class YhArticlesController < ApplicationController
   # GET /yh_articles/1
   # GET /yh_articles/1.json
   def show
-    # 해당 게시물
-    @yh_article = YhArticle.find(params[:id])
     # 검색 목록
     @q = YhArticle.ransack(params[:q])
-    @yh_articles = @q.result.order(:date, :time).page(params[:page]).reverse_order.per(25)
+    @yh_articles = @q.result(distinct: true).order(:date, :time).page(params[:page]).reverse_order.per(30)
   end
 
   # GET /yh_articles/new

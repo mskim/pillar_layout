@@ -1,19 +1,26 @@
-<!-- p id="notice"><%= notice %></p-->
-<h3 class="text-center">PR보도자료</h3>
-<%= search_form_for @q do |f| %>
-  <%= f.label '카테고리' %>
-  <%= f.select :category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_pr_category]), :include_blank => '전체' %>
-  <%= f.submit %>
-<% end %>
-<br>
-<div class="view">
-  <% @yh_prs.each do |yh_pr| %>
-    <div class="col-xs-5 col-sm-2">
-      <a href="<%= yh_pr_path(yh_pr) %>"><img class="img-crop" src="<%= yh_pr.thumb_path %>"></img></a>
-    <div align="center" style="height: 50px;"><%= yh_pr.title %></div>
+<div class="container mb-3">
+  <h3 class="text-center">PR보도자료</h3>
+  <div id="yh_prs_search_form">
+    <%= render 'search_form' %>
   </div>
-<% end %>
 </div>
-<div class="col-xs-12 col-sm-12" align="center">
-  <%= paginate @yh_prs %>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="card-deck">
+      <% @yh_prs.each do |yh_pr| %>
+        <div class="col-md-2">
+          <div class="card mb-3 text-center">
+            <%= link_to (image_tag yh_pr.full_size_path, class: "card-img-top", style: "width: 100%;"), yh_pr_path(yh_pr) %>
+            <div class="card-body">
+              <h6 class="card-title text-center mb-0"><%= yh_pr.title %></h6>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted"><%= yh_pr.created_at.strftime("%y-%m-%d %H:%M") %></small>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <%= paginate @yh_prs, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
+  </div>
 </div>

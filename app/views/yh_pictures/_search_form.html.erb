@@ -4,7 +4,7 @@
       <div class="form-group">
         <%= f.select(:category_cont, options_for_select(%w[정치 경제 사회 문화 스포츠/레저 국제 지방 IT/과학 북한 민족], session[:current_yh_picture_category]), {include_blank: '카테고리 선택'}, {class: "custom-select"}) %>
       </div>
-      <div class="input-group col-6">
+      <div class="input-group col-8">
         <%= f.text_field :title_or_body_cont, placeholder: "검색어를 입력하세요.", class: "form-control" %>
         <div class="input-group-append">
           <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
