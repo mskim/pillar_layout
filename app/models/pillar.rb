@@ -55,7 +55,7 @@ class Pillar < ApplicationRecord
     puts __method__
     puts "pillar_siblings_of(article).map{|a| a.extended_line_count}:#{pillar_siblings_of(article).map{|a| a.extended_line_count}}"
     # pillar_siblings_of(article).select{|a| a.extended_line_count !=nil}.map{|a| a.extended_line_count}.reduce(:+) 
-    pillar_siblings_of(article).map{|a| a.extended_line_count}.reduce(:+) 
+    pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
   # update pillar_config file and working_article grid_y and row after cut
@@ -363,6 +363,19 @@ class Pillar < ApplicationRecord
     layout_node.set_actions
   end
 
+  # this is called from page_layout, when page_layout has changed
+  def update_pillar(new_layout)
+    current_rect      = [grid_x, grid_y, column, row]
+    if  current_rect != new_layout[0..3]
+      self.grid_x = new_layout[0]
+      self.grid_y = new_layout[1]
+      self.grid_x = new_layout[2]
+      self.grid_x = new_layout[3]
+      self.save
+    end
+    layout_node.update_layout_node(new_layout)
+  end
+
   def layout_with_pillar_path
     layout_node.layout_with_pillar_path
   end
@@ -378,7 +391,6 @@ class Pillar < ApplicationRecord
     #   h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
     #   WorkingArticle.where(h).first_or_create
     else
-      # this is case when layout_with_pillar_path is Array of Arrays
       layout_with_pillar_path.each_with_index do |box|
         h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
         WorkingArticle.where(h).first_or_create

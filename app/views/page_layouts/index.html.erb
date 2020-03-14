@@ -28,6 +28,7 @@
       <th>페이지</th>
       <th>컬럼수</th>
       <th>레이아웃</th>
+      <th>ID</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -40,9 +41,11 @@
         <td><%= page_layout.page_type %></td>
         <td><%= page_layout.column %></td>
         <td><%= page_layout.layout %></td>
-        <td><%= link_to 'Show', page_layout %></td>
-        <td><%= link_to 'Edit', edit_page_layout_path(page_layout) %></td>
-        <td><%= link_to 'Destroy', page_layout, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= page_layout.id %></td>
+        <td><%= link_to "보기", page_layout_path(page_layout), class: "btn btn-md btn-success" %></td>
+        <td><%= link_to "복제", duplicate_page_layout_path(page_layout), method: :get, class: "btn btn-md btn-primary" %></td>
+        <td><%= link_to '수정', edit_page_layout_path(page_layout), class: "btn btn-md btn-warning" %></td>
+        <td><%= link_to '삭제', page_layout, method: :delete, class: "btn btn-md btn-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -24,7 +24,11 @@ Rails.application.routes.draw do
   resources :body_lines
   resources :actions
   resources :layout_nodes
-  resources :page_layouts
+  resources :page_layouts do
+    member do
+      get 'duplicate'
+    end
+  end
   resources :pillars do
     member do
       patch :change_layout

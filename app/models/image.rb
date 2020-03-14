@@ -142,7 +142,6 @@ class Image < ApplicationRecord
     when '최적'
       h[:fit_type] = 3
       h[:zoom_level]      = zoom_level if zoom_level
-      # TODO: change field zoom_direction to zoom_anchor
       h[:zoom_anchor]     = zoom_direction if zoom_direction
     when '세로'
       h[:fit_type] = 1

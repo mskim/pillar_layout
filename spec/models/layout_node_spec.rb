@@ -29,5 +29,9 @@
 require 'rails_helper'
 
 RSpec.describe LayoutNode, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "is valid with valid attributes"
+  it "is not valid without a grid_x"
+  it "is not valid without a grid_y"
+  it "is not valid without a column"
+  it "is not valid without a row"
 end

@@ -430,14 +430,21 @@ class WorkingArticle < ApplicationRecord
     save_hash                     = {}
     save_hash[:article_path]      = path
     save_hash[:story_md]          = story_md
-    save_hash[:layout_rb]         = layout_rb
-    save_hash[:time_stamp]        = options[:time_stamp]
-    save_hash[:adjustable_height] = options[:adjustable_height]
-    new_extended_line_count = RLayout::NewsBoxMaker.new(save_hash)
-  
-    # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    layout_string = layout_rb
     if options[:adjustable_height]
-      update(extended_line_count: new_extended_line_count) if new_extended_line_count && new_extended_line_count != 0
+      layout_string.sub!(':adjustable_height=>false,', ':adjustable_height=>true,')
+    end
+    save_hash[:layout_rb]         = layout_string
+    save_hash[:time_stamp]        = options[:time_stamp]
+    new_extended_line_count       = 0
+    new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
+    new_extended_line_count       = new_box_marker.adjusted_line_count
+    puts "++++++++++ new_extended_line_count:#{new_extended_line_count}"
+    # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    if options[:adjustable_height] && new_extended_line_count != 0
+      self.extended_line_count = new_extended_line_count
+      self.save
+      # adjust bottom article TODO???
     end
   end
 
@@ -515,6 +522,31 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
+  # auto adjust height and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height
+    generate_pdf_with_time_stamp(adjustable_height:true)
+    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
+  end
+
+  # auto adjust height of all ariticles in pillar and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height_all
+    pillar.working_articles.each_with_index do |w, i|
+      if @pillar.bottom_article_of_sibllings?(w)
+        # we have bottom article
+        w.generate_pdf_with_time_stamp(adjustable_height:false)
+      else
+        w.generate_pdf_with_time_stamp(no_update_pdf_chain:true, adjustable_height:true)
+      end
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
     return if line_count == self.extended_line_count
@@ -545,7 +577,6 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count += line_count
     self.save
-    puts self.extended_line_count
     # update(extended_line_count: extended_line_count)
     # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp

@@ -54,8 +54,11 @@ class LayoutNode < ApplicationRecord
   end
 
   def update_layout_with_pillar_path
-    return unless root?
-    result = leaf_node_layout_with_pillar_path
+    if root?
+      result = [grid_x,grid_y, column, row, "1"]
+    else
+      result = leaf_node_layout_with_pillar_path
+    end
     update(layout_with_pillar_path: result)
     result
   end
@@ -300,7 +303,6 @@ class LayoutNode < ApplicationRecord
   def undo_add_v_child(undo_info)
   end
 
-  # TODO write test
   def remove_last_child
     return if children_count <= 1
     if children_count == 2
@@ -739,6 +741,35 @@ class LayoutNode < ApplicationRecord
     end
   end
 
+  def rect
+    [grid_x,grid_y, column,row]
+  end
+
+  # assume layout_item change only adds or subtracts, not vertical cut
+  def update_layout_node(layout_item)
+    new_box_count = 0
+    if layout_item.length == 4 
+      new_box_count = 1
+    else
+      new_box_count = layout_item[4]
+    end
+    difference = new_box_count - box_count
+    if difference > 0
+      if new_box_count > box_count
+        # add more box
+        difference.times do
+          add_v_child
+        end
+      elsif difference < 0
+        # remove more box
+        -difference.times do
+          remove_last_child
+        end
+      end
+    end
+
+  end
+
   private
 
   def init_layout_node
@@ -746,6 +777,7 @@ class LayoutNode < ApplicationRecord
     self.grid_y = 0 unless grid_y
     self.actions = actions || []
     self.box_count = 1 
+    self.layout_with_pillar_path = [[grid_x, grid_y, column, row, "1"]]
     self.node_kind = 'article' unless node_kind
     self.tag = tree_path
     self.profile = "#{column}x#{row}_#{box_count}"

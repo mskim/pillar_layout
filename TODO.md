@@ -24,14 +24,38 @@
   - download_first_page_heading
   - heading_maker
 
-2020_03_12
   - upload Excel file for issue plan 
+
+2020_03_14
+  - add page_layout template for page 1 in page_layout.csv
+  - PageLayout, duplicate, edit
+    - page_layout.update_pillar_from_layout
+    - pillar update_pillar(layout_item,)
+
+  - fix bug when there is an image, subtitle not displayed
+  - fix bug uploading graphic error
+  - fix issue_plan not update page
+    - make section_name and display name
+    - 정치(코로나 바이러스 비상)
+
+2020_03_14
+  - fix layout in PageLayout as just text
+    - get rid of serialize :layout, Hash just do eval(layout)
+
+2020_03_13
+  - fix new page_layout 
+    - add duplicate
+  - fix edit page_layout
+    - fix edit form
+    
+2020_03_12
+  - fix auto_adjust_height
   - fix change page template
   - fix virtical cut 
   - fix horizontal cut 
 
 2020_03_11
-  - fix page columnn nil value
+  - fix page column nil value
   - fix page_layout.csv first page pilliar height
   - fix pilar_bottom?
   - fix layout_rb pushed_line_count for pilar_bottom?

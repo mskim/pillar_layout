@@ -13,32 +13,6 @@
  module WorkingArticleAutofit
   extend ActiveSupport::Concern
 
-  # auto adjust height and relayout bottom article
-  # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article 
-  def auto_adjust_height
-    generate_pdf_with_time_stamp(adjust_height:true)
-  end
-
-  # auto adjust height of all ariticles in pillar and relayout bottom article
-  # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article 
-  def auto_adjust_height_all
-    @pillar.working_articles.each_with_index do |w, i|
-      if @pillar.bottom_article_of_sibllings?(w)
-        # we have bottom article
-        w.generate_pdf_with_time_stamp(adjustable_height:false)
-      else
-        w.generate_pdf_with_time_stamp(no_update_pdf_chain:true, adjustable_height:true)
-      end
-    end
-  end
-
-  def update_bottom_article_pushed_line_count
-    sum_of_pillar_extended_line_count
-
-  end
-
   def auto_size_image(options={})
     target_image = options[:image] if options[:image]
     unless target_image

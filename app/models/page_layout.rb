@@ -265,7 +265,8 @@ class PageLayout < ApplicationRecord
 
   def create_pillar_from_layout
     layout.each_with_index do |item, i|
-      if item.first.class == String
+      # if item.first.class == String
+      if item.class == String
         self.ad_type = item
         save
         # create_ad_box(item)
@@ -278,6 +279,22 @@ class PageLayout < ApplicationRecord
       elsif item.length == 4
         Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
       end
+    end
+  end
+
+  def update_pillar_from_layout
+    article_layouts = layout.select{|item| item.class == Array}
+    if article_layouts.length > pillars.length
+      # TODO
+      # create new pillars
+    elsif article_layouts.length == pillars.length
+      layout_with_out_ad.each_with_index do |item, i|
+        pipllar = pillars[i]
+        pipllar.update_pillar(item)
+      end
+    else
+      # TODO
+      # delte some pillars
     end
   end
 

@@ -470,8 +470,6 @@ class WorkingArticlesController < ApplicationController
   def select_reporter_graphic
     set_working_article
     reporter_graphic = ReporterGraphic.find(params[:reporter_graphic])
-    # TODO
-    # g = Graphic.create(working_article_id:@working_article.id, reporter_graphic_path:reporter_graphic.full_size_path)
     g = Graphic.create(working_article_id: @working_article.id, reporter_graphic_path: reporter_graphic.preview_path)
     @working_article.generate_pdf_with_time_stamp
     redirect_to @working_article

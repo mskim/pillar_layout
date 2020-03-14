@@ -104,7 +104,6 @@ class Graphic < ApplicationRecord
     working_article.page_number
   end
 
-  # TODO: delete this
   # def order
   #   working_article.order
   # end
