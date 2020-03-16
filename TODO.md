@@ -28,6 +28,16 @@
 
 
 2020_03_16
+  - display uploaded file name image and graphic
+
+  - fix## not applying
+  - copy date repoerter, oppinion profile
+  - 전체 오피니언 기사종류 select 없음
+    - make it work
+  - 먄배열표 20면 광고 바꾸기 not working
+  - paeg_layout 복제하기 등록
+
+2020_03_16
   - fix issue_plan not update page
     - make section_name and display name
     - 정치(코로나 바이러스 비상)

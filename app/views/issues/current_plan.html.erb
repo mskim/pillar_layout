@@ -1,17 +1,19 @@
-<div class="view" align="center">
-  <!-- p id="notice"><%= notice %></p-->
-  <h3 align="center">
-    <% if @issue.pages.first == nil || @issue.pages.first == "" %>
-      <!-- %= link_to "#{@issue.date.to_s} (#{@issue.number})", issues_path % -->
-      <%= ko_date %>
-      : 면배열표</h3>
-  <% else %>
-    <%= ko_date %>
-    : 면배열표</h3>
-<% end %>
+<div class="container-fluid">
+  <div class="row">
+    <h3 class="text-center">
+      <% if @issue.pages.first == nil || @issue.pages.first == "" %>
+        <!-- %= link_to "#{@issue.date.to_s} (#{@issue.number})", issues_path % -->
+        <%= ko_date %>
+        : 면배열표</h3>
+      <% else %>
+        <%= ko_date %>
+        : 면배열표
+      <% end %>
+    </h3>
+  </div>
 </div>
-<div class="row mb-5" data-controller="current-plan">
-  <div class="col-xs-12 col-sm-6">
+<div class="row mb-5">
+  <div class="col-sm-6">
     <table class="table table-striped tables">
       <thead>
         <tr>
@@ -49,7 +51,7 @@
         <% end %>
       <% end %>
     </div>
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-sm-6">
       <table class="table table-striped tables">
         <thead>
           <tr>
