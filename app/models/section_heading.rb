@@ -90,20 +90,8 @@ class SectionHeading < ApplicationRecord
   end
 
   def put_space_between_chars(string)
-    s = ""
-    i = 0
-    length = string.length
-    string.each_char do |ch|
-      if i >= length - 1
-        s += ch
-      elsif ch == " "
-        s += ch
-      else
-        s += ch + " "
-      end
-      i += 1
-    end
-    s
+    return string if string.include?(" ")
+    string.split("").join(" ")
   end
 
   def self.front_page_content(page)

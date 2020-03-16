@@ -494,22 +494,10 @@ class Page < ApplicationRecord
   end
 
   def put_space_between_chars(string)
-    s = ""
-    i = 0
-    length = string.length
-    string.each_char do |ch|
-      if i >= length - 1
-        s += ch
-      elsif ch == " "
-        s += ch
-      else
-        s += ch + " "
-      end
-      i += 1
-    end
-    s
+    return string if string.include?(" ")
+    string.split("").join(" ")
   end
-
+  
   def heading_page_number
     page_heading_path = "#{Rails.root}/public/1/page_heading/#{page_number}" 
     if File.exist?(page_heading_path)
@@ -927,10 +915,25 @@ class Page < ApplicationRecord
 
 
   # TODO
+  # this is called from issue_plan or from page
+  # change layout
+  def change_page_ad_type(new_ad_type)
+    template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
+    # If not found, look for odd even  tempate
+    unless template
+      page_type = page_number.odd? ? '101' : '102'
+      template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
+      unless template
+        page_type = '100'
+        template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
+      end
+    end
+    change_page_layout(template)
+  end
+
   def change_page_layout(new_layout_id)
     update(template_id:new_layout_id)
     new_page_layout = PageLayout.find(new_layout_id.to_i)
-
     if pillars.length == new_page_layout.pillars.length
       # New page layout and current one has equal number of pillars
       pillars.each_with_index do |p, i|
@@ -1119,6 +1122,11 @@ class Page < ApplicationRecord
       self.column                 = template.column
       self.ad_type                = template.ad_type
       self.story_count            = template.story_count
+      # 예: section_name = 정치(코로나 바이러스 특집)
+      if section_name =~/.+\((.+)\)/
+        self.display_name = $1
+        self.section_name = section_name.split("(").first
+      end
     end
   end
 

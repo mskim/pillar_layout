@@ -188,24 +188,6 @@ class PageLayout < ApplicationRecord
     root_layout_nodes.map(&:leaf_node_layout_with_pillar_path)
   end
 
-  def pillar_map
-    map = []
-    tree_path = []
-    rects = []
-    pillars_info.each do |item|
-      if item.class == Array
-        tree_path << item.last.dup
-        rects << item.dup
-      else
-        tree_path << item
-        rects << item.dup
-      end
-    end
-    map << tree_path
-    map << rects
-    map
-  end
-
   def path
     "#{Rails.root}/public/page_layout/#{id}"
   end

@@ -309,7 +309,7 @@ class Pillar < ApplicationRecord
         w.destroy
       end
     end
-    update(layout_with_pillar_path: new_node_layout_with_pillar_path)
+    # update(layout_with_pillar_path: new_node_layout_with_pillar_path)
     save_pillar_yaml
     # new_layout_with_pillar_path = new_node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
     current_articles = working_articles.sort_by(&:order)

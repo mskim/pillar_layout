@@ -26,6 +26,23 @@
 
   - upload Excel file for issue plan 
 
+
+2020_03_16
+  - fix issue_plan not update page
+    - make section_name and display name
+    - 정치(코로나 바이러스 비상)
+
+  - fix issue_plan not updating ad_type
+  - rails g migration remove_layout_with_pillar_path_from_page_layout 
+  - fix page chage to new layout
+  - fix new page_layout, add duplicate, fix serialize layout to just text
+  - fix subtitle disaprearing when there is an image
+  - fix article_info saving
+  - fix bridge_ad
+
+  - upload excel file for issue(won ho)
+    - use carrier_wave
+
 2020_03_14
   - add page_layout template for page 1 in page_layout.csv
   - PageLayout, duplicate, edit
@@ -34,23 +51,19 @@
 
   - fix bug when there is an image, subtitle not displayed
   - fix bug uploading graphic error
-  - fix issue_plan not update page
-    - make section_name and display name
-    - 정치(코로나 바이러스 비상)
+
+
 
 2020_03_14
   - fix layout in PageLayout as just text
     - get rid of serialize :layout, Hash just do eval(layout)
 
 2020_03_13
-  - fix new page_layout 
-    - add duplicate
   - fix edit page_layout
     - fix edit form
     
 2020_03_12
   - fix auto_adjust_height
-  - fix change page template
   - fix virtical cut 
   - fix horizontal cut 
 

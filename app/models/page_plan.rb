@@ -89,8 +89,8 @@ class PagePlan < ApplicationRecord
   private
 
   def parse_section_name
-    if section_name =~/\(\s*(.+)\s*\)\s*$/
-      self.display_name = $1.to_s
+    if section_name =~/.+(\(.+\))/
+      self.display_name = $1
       self.section_name = section_name.split("(").first
     end
   end

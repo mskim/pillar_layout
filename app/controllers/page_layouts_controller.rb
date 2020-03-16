@@ -42,9 +42,7 @@ class PageLayoutsController < ApplicationController
   # POST /page_layouts
   # POST /page_layouts.json
   def create
-    binding.pry
     
-
     @page_layout = PageLayout.new(page_layout_params)
 
     respond_to do |format|
