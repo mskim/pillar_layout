@@ -92,7 +92,7 @@ class PagePlansController < ApplicationController
         # update ad_type
         new_ad_type = @page_plan.ad_type
         if current_ad_type != new_ad_type
-          @page = @page_plan.page.change_page_ad_type(new_ad_type)
+          @page = @page_plan.page.change_ad_type(new_ad_type)
         end
 
         # update spread page

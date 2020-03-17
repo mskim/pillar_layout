@@ -70,8 +70,8 @@ module WorkingArticlePillarMethods
     FileUtils.rm_rf(backup_path)
   end
 
-  def clear_it
-    # 1. clear every file in the directory to backup_path
+  def clear_old_files
+    # clear files in the directory
     system("cd #{path} && rm *") if File.exist?(path)
   end
 
@@ -80,14 +80,26 @@ module WorkingArticlePillarMethods
   end
 
   def change_article(box_info)
-    clear_it
-    h = {}
-    h = {}
-    h[:grid_x] = box_info[0]
-    h[:grid_y] = box_info[1]
-    h[:column] = box_info[2]
-    h[:row]    = box_info[3]
+    current_info = []
+    current_info[0] = grid_x
+    current_info[1] = grid_y
+    current_info[2] = column
+    current_info[3] = row
+    current_info[4] = pillar_order
+    # check if page column has changed
+    page_column_changed = false
+    page_column_changed = true if grid_width.to_i != page.grid_width.to_i
+    # return if pillar change is not effecting this article, save time 
+    return if (box_info == current_info) && !page_column_changed
+
+    clear_old_files
+    h                 = {}
+    h[:grid_x]        = box_info[0]
+    h[:grid_y]        = box_info[1]
+    h[:column]        = box_info[2]
+    h[:row]           = box_info[3]
     h[:pillar_order]  = box_info[4]
+    h[:grid_width]    = page.grid_width if page_column_changed
     update(h)
     create_article_folder
     generate_pdf_with_time_stamp

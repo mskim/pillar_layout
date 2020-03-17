@@ -74,30 +74,10 @@ class PageLayout < ApplicationRecord
     "#{column}_#{ad_type}_#{layout_with_pillar_path}"
   end
 
-  # given new pillar, create or return new PageLayout with changed pillar
-  def change_node_as_pillar(new_pillar)
-    p = Pillar.find(new_pillar)
-    new_pillary_layout = p.layout
-    current_layout = layout.dup
-    union_rect = union_rects(new_pillary_layout)
-    matching = current_layout.select { |r| r == union_rect }
-    if first_match = matching.first
-      # fix PageLayout, it will parse nested array for pillar
-      current_layout[current_layout.index(union_rect)] = new_pillary_layout
-
-      # replace_position = current_layout.index(union_rect)
-      # current_layout.delete_at(replace_position)
-      # # above code replaces current rect with array of rects
-      # # insertindg rects one by one as same level as rest, not array of rects
-      # new_pillary_layout.each do |rect|
-      #   current_layout.insert(replace_position, rect)
-      # end
-      PageLayout.where(page_type: page_type, ad_type: ad_type, layout: current_layout).first_or_create
-    else
-      puts 'match not found!!!!'
-    end
+  def layout_array
+    eval(layout)
   end
-
+  
   # convert leaf node layout to layout_with_tag
   # tag is inserted at fifth element
   def layout2tag
@@ -251,11 +231,6 @@ class PageLayout < ApplicationRecord
       if item.class == String
         self.ad_type = item
         save
-        # create_ad_box(item)
-      # elsif item.first.class == Array
-      #   create_pillar_layout_node(item, i + 1)
-      # elsif item.first[4].class == Hash
-      #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
         Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4]).first_or_create
       elsif item.length == 4
@@ -391,6 +366,7 @@ class PageLayout < ApplicationRecord
   end
 
   def init_page_layout
+    binding.pry
     self.ad_type      = '광고없음' unless ad_type
     self.column       = 6 unless column
     self.margin       = 50 unless margin
@@ -403,6 +379,7 @@ class PageLayout < ApplicationRecord
   end
 
   def create_pillars
+    binding.pry
     create_pillar_from_layout
     update(pillar_count: pillars.count)
   end

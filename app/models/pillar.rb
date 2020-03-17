@@ -25,7 +25,7 @@
 
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
-  has_many :working_articles
+  has_many :working_articles,:dependent=> :destroy
   has_one :layout_node
   before_create :init_pillar
   after_create :create_layout
@@ -299,47 +299,59 @@ class Pillar < ApplicationRecord
     union
   end
 
-  def change_layout(new_node_layout_with_pillar_path)
-    if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
-      # delte execsive working_articles
-      delete_count = layout_with_pillar_path.length - new_node_layout_with_pillar_path.length
-      delete_count.times do
+  def change_pillar_layout( new_pillar)
+    current_box_count = box_count
+    new_layout        =  new_pillar.layout_with_pillar_path
+
+    self.grid_x       =  new_pillar.grid_x
+    self.grid_y       =  new_pillar.grid_y
+    self.column       =  new_pillar.column
+    self.row          =  new_pillar.row
+    self.box_count    =  new_pillar.box_count
+    self.order        =  new_pillar.order
+    self.save
+    difference = current_box_count - new_pillar.box_count
+    if difference == 0
+      # current and new pillar size are not equal
+      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+        box_rect     = new_layout[i]
+        pillar_order = "#{order}_#{i+1}"
+        box_rect[4]  = pillar_order
+        puts ""
+        w.change_article(box_rect)
+      end
+    elsif difference > 0
+      # delete working_articles from pillar
+      difference.times do
         w = working_articles.last
-        system("rm -rf #{w.path}")
-        w.destroy
+        if w
+          system("rm -rf #{w.path}")
+          w.destroy
+        end
       end
-    end
-    # update(layout_with_pillar_path: new_node_layout_with_pillar_path)
-    save_pillar_yaml
-    # new_layout_with_pillar_path = new_node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
-    current_articles = working_articles.sort_by(&:order)
-    new_node_layout_with_pillar_path.each_with_index do |box_info, i|
-      current_article = current_articles[i]
-      new_rect = [box_info[0], box_info[1], box_info[2], box_info[3]]
-      new_size = [box_info[2], box_info[3]]
-      new_order = "#{order}_#{box_info[4]}"
-      box_info[4] = new_order
-      if current_article && box_info == current_article.rect_with_order
-        puts 'same size and position, no need to chnage anything'
-      elsif current_article && new_order == current_article.order
-        h = {}
-        h[:grid_x] = box_info[0]
-        h[:grid_y] = box_info[1]
-        h[:column] = box_info[2]
-        h[:row] = box_info[3]
-        current_article.update(h)
-        current_article.generate_pdf_with_time_stamp
-      elsif current_article
-        puts 'change current article order'
-        current_article.change_article(box_info)
-      else
-        puts 'create new one ...'
-        h = { page: page_ref, pillar: self, pillar_order: new_order, grid_x: box_info[0], grid_y: box_info[1], column: box_info[2], row: box_info[3] }
+      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+        box_rect = new_layout[i]
+        pillar_order = "#{order}_#{i+1}"
+        box_rect[4]  = pillar_order
+        w.change_article(box_rect)
+      end
+    else
+      # update remaininng working_articles sizes same as template
+      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+        box_rect = new_layout[i]
+        pillar_order = "#{order}_#{i+1}"
+        box_rect[4]  = pillar_order
+        w.change_article(box_rect)
+      end
+      # add working_articles to pillar
+      (-difference).times do |i|
+        box_rect = new_layout[i]
+        h = { page: page_ref, pillar: self, pillar_order: order, grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
-        w.update_pdf_chain
       end
+      working_articles.last.update_pdf_chain
     end
-    page_ref.generate_pdf_with_time_stamp
+    save_pillar_yaml
   end
 
   def height_in_lines

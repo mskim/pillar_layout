@@ -69,10 +69,6 @@ class LayoutNode < ApplicationRecord
     update(layout_with_pillar_path: new_layout_with_pillar_path)
   end
 
-  def change_node_as_pillar(pillar_id)
-    p = Pillar.find(pillar_id)
-  end
-
   def to_hash
     h= {}
     h[:column]            = column
@@ -691,7 +687,6 @@ class LayoutNode < ApplicationRecord
 
   # this is called during working_article editing
   def add_action(action_item)
-    # binding.pry
     if action_item.class == String
       target = self
       action = action_item

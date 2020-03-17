@@ -26,16 +26,28 @@
 
   - upload Excel file for issue plan 
 
+2020_03_18
+  - fix opinion view column size
+  - fix opinion view reporter default value as '홍길동'
 
-2020_03_16
-  - display uploaded file name image and graphic
-
-  - fix## not applying
-  - copy date repoerter, oppinion profile
+2020_03_17
   - 전체 오피니언 기사종류 select 없음
-    - make it work
-  - 먄배열표 20면 광고 바꾸기 not working
-  - paeg_layout 복제하기 등록
+    - make it work (아랫부분 select 위치 수정)
+  - 먄배열표 광고 바꾸기 not working
+    config_file ad_type not updating
+  - page change_page_layout
+    - update page column
+      - show page_layout choices in grouped by column 7,6
+    - update pillar position
+    - updaet working_article size
+    - save config file
+
+  - paeg_layout 복제하기 변경 내용 등록 안됌
+    - list in order of updated_at so that last modified is at top
+    
+  - fix## not applying
+  - copy data opinion profile from 213
+  - display uploaded file name image and graphic
 
 2020_03_16
   - fix issue_plan not update page

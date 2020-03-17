@@ -444,74 +444,74 @@ EOF
     info = {}
     case new_ad_type
     when '15단통'
-      info[:grid_x] = 0
-      info[:grid_y] = 0
-      info[:column] = column
-      info[:row]    = 15
+      self.grid_x = 0
+      self.grid_y = 0
+      self.column = column
+      self.row    = 15
     when '5단통'
-      info[:grid_x] = 0
-      info[:grid_y] = 10
-      info[:column] = column
-      info[:row]    = 5
+      self.grid_x = 0
+      self.grid_y = 10
+      self.column = column
+      self.row    = 5
     when '4단통'
-      info[:grid_x] = 0
-      info[:grid_y] = 11
-      info[:column] = column
-      info[:row]    = 4
+      self.grid_x = 0
+      self.grid_y = 11
+      self.column = column
+      self.row    = 4
     when '3단통'
-      info[:grid_x] = 0
-      info[:grid_y] = 12
-      info[:column] = column
-      info[:row]    = 3
+      self.grid_x = 0
+      self.grid_y = 12
+      self.column = column
+      self.row    = 3
     when '9단21'
       if page_number.odd?
-        info[:grid_x] = 3
-        info[:grid_y] = 6
-        info[:column] = 4
-        info[:row]    = 9
+        self.grid_x = 3
+        self.grid_y = 6
+        self.column = 4
+        self.row    = 9
       else
-        info[:grid_x] = 0
-        info[:grid_y] = 6
-        info[:column] = 4
-        info[:row]    = 9
+        self.grid_x = 0
+        self.grid_y = 6
+        self.column = 4
+        self.row    = 9
       end
     when '9단21_홀'
-      info[:grid_x] = 3
-      info[:grid_y] = 6
-      info[:column] = 4
-      info[:row]    = 9
+      self.grid_x = 3
+      self.grid_y = 6
+      self.column = 4
+      self.row    = 9
     when '9단21_짝'
-      info[:grid_x] = 0
-      info[:grid_y] = 6
-      info[:column] = 4
-      info[:row]    = 9
+      self.grid_x = 0
+      self.grid_y = 6
+      self.column = 4
+      self.row    = 9
     when '7단15'
       if page_number.odd?
-        info[:grid_x] = 0
-        info[:grid_y] = 8
-        info[:column] = 3
-        info[:row]    = 7
+        self.grid_x = 0
+        self.grid_y = 8
+        self.column = 3
+        self.row    = 7
       else
-        info[:grid_x] = 4
-        info[:grid_y] = 8
-        info[:column] = 3
-        info[:row]    = 7
+        self.grid_x = 4
+        self.grid_y = 8
+        self.column = 3
+        self.row    = 7
       end
     when '7단15_홀'
-      info[:grid_x] = 0
-      info[:grid_y] = 8
-      info[:column] = 3
-      info[:row]    = 7
+      self.grid_x = 0
+      self.grid_y = 8
+      self.column = 3
+      self.row    = 7
     when '7단15_짝'
-      info[:grid_x] = 4
-      info[:grid_y] = 8
-      info[:column] = 3
-      info[:row]    = 7
+      self.grid_x = 4
+      self.grid_y = 8
+      self.column = 3
+      self.row    = 7
     else
       puts "+++++++++ unsupported ad_type:#{ad_type}"
       return
     end
-    update(info)
+    self.save
     generate_pdf_with_time_stamp
   end
 
