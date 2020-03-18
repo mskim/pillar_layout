@@ -12,72 +12,69 @@
   </div>
 <% end %>
 
-<div class="view">
-<div class="col-sm-6">
-<div class="col-md-11">
-<div class="form-group">
-<%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-</div>
+<div class="row">
+<div class="col-md-12">
+  <div class="form-group">
+    <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+  </div>
 
-<div class="form-group">
-  <%= f.label :기사종류 %>
-  <%= f.select :kind, ['기사', '사진', '기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
-</div>
+  <div class="form-group">
+    <%= f.label :기사종류 %>
+    <%= f.select :kind, ['기사', '사진', '기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
+  </div>
 
-<div class="form-group">
-      <%= f.label :문패 %>
-      <% if page_number == 23 %>
-        <%= f.text_field :subject_head, size: 8 %>
-        <!-- <%= f.text_field :subject_head, size: 8 %> -->
-      <% elsif page_number == 22 %>
-          <%= f.text_field :subject_head, size: 8 %>
-      <% else %>
-          <%= f.text_field :subject_head, size: 8 %>
-      <% end %>
+  <div class="form-group">
+    <%= f.label :문패 %>
+    <% if page_number == 23 %>
+      <%= f.text_field :subject_head, size: 8, class: "form-control" %>
+      <!-- <%= f.text_field :subject_head, size: 8 %> -->
+    <% elsif page_number == 22 %>
+        <%= f.text_field :subject_head, size: 8, class: "form-control" %>
+    <% else %>
+        <%= f.text_field :subject_head, size: 8, class: "form-control" %>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <%= f.label :제목 %>
+    <%= f.text_field :title, size: 34, class: 'form-control title', autocomplete: 'off' %>
+  </div>
 
-        </div>
-        <div class="form-group">
-          <%= f.label :제목 %>
-          <%= f.text_field :title, size: 34, class: 'form-control title', autocomplete: 'off' %>
-        </div>
+  <div class="form-group" style="display:none">
+    <%= f.label :부제목 %>
+    <%= f.text_area :subtitle, cols: "40", rows: "2", class: 'form-control', autocomplete: 'off'%>
+  </div>
 
-        <div class="form-group" style="display:none">
-          <%= f.label :부제목 %>
-          <%= f.text_area :subtitle, cols: "40", rows: "2", class: 'form-control', autocomplete: 'off'%>
-        </div>
+  <div class="form-group">
+      <%= f.label "글쓴이 사진"%>
+      <%= f.check_box :has_profile_image %>
+  </div>
 
-        <div class="form-group">
-            <%= f.label "글쓴이 사진"%>
-            <%= f.check_box :has_profile_image %>
-        </div>
+  <div class="form-group">
+    <%= f.label "글쓴이"%>
+    <%= f.text_field :reporter, size: 20, class: 'form-control', autocomplete: 'off' %>
+  </div>
 
-        <div class="form-group">
-          <%= f.label "글쓴이"%>
-          <%= f.text_field :reporter, size: 20, class: 'form-control', autocomplete: 'off' %>
-        </div>
+  <div class="form-group-body">
+    <%= f.label :본문 %>
+    <%= f.text_area :body, cols: "40", rows: "20", class: 'form-control shinmoon', autocomplete: 'off' %>
+  </div>
 
-        <div class="form-group-body">
-          <%= f.label :본문 %>
-          <%= f.text_area :body, cols: "40", rows: "20", class: 'form-control shinmoon', autocomplete: 'off' %>
-        </div>
+  <div class="field">
+    <%= f.text_field :image, type: "hidden" %>
+  </div>
 
-        <div class="field">
-          <%= f.text_field :image, type: "hidden" %>
-        </div>
+  <div class="field">
+    <%= f.text_field :has_profile_image, type: "hidden" %>
+  </div>
 
-        <div class="field">
-          <%= f.text_field :has_profile_image, type: "hidden" %>
-        </div>
+  <div class="field">
+    <%= f.text_field :quote, type: "hidden" %>
+  </div>
 
-        <div class="field">
-          <%= f.text_field :quote, type: "hidden" %>
-        </div>
-
-        </div>
-      </div>
-      <div class="col-xs-6 col-sm-6">
-      <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span></div>
-      <%= render 'show_preview', article: @working_article %>
+  </div>
+      <div class="col-md-12">
+        <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span></div>
+        <%= render 'show_preview', article: @working_article %>
       </div>          
     </div>
 
