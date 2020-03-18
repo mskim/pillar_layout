@@ -8,36 +8,41 @@
   <%= f.submit "검색", class: "btn btn-sm btn-normal"%>
   <% end %>
 <p></p>
+<div class="container-fluid">
 
-<div class="view">
+<div class="row">
 <% @opinion_writers.each do |writer| %>
-  <div class="col-xs-6 col-md-3" align='center'>
+  <div class="col-md-2">
     <% if browser.safari? %>
-      <a href="<%=  opinion_writer_path(writer) %>">
-        <img src="<%= writer.pdf_image_path %>" width="100%"></img>
-      </a>
-      <h4 align='center'>
-        <a href='<%= opinion_writer_path(writer)%>'><%= writer.name %></a>
-      </h4>
-      <h5>
-        <%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></h5>
-
+    <div class="card" style="width: 18rem;">
+      <%= link_to opinion_writer_path(writer) do %>
+        <img src="<%= writer.pdf_image_path %>" width="100%" class="mb-0">
+      <% end %>
+      <div class="card-body">
+        <%= link_to opinion_writer_path(writer) do %>
+          <h5 class="card-title mt-0"><%= writer.name %></h5>
+        <% end %>
+        <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+      </div>
+    </div>
     <% else %>
-      <a href="<%=  opinion_writer_path(writer) %>">
-        <img src="<%= writer.jpg_image_path %>" width="100%"></img>
-      </a>
-      <h4 align='center'>
-        <a href='<%= opinion_writer_path(writer)%>'><%= writer.name %></a>
-      </h4>
-      <p>
-        <%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-      <p></p>
-
+      <div class="card" style="width: 18rem;">
+        <%= link_to opinion_writer_path(writer) do %>
+          <img src="<%= writer.jpg_image_path %>" width="100%" class="mb-0">
+        <% end %>
+        <div class="card-body">
+          <%= link_to opinion_writer_path(writer) do %>
+            <h5 class="card-title mt-0"><%= writer.name %></h5>
+          <% end %>
+          <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+        </div>
+      </div>
     <% end %>
   </div>
   <!-- true -->
 <% end %>
-
+</div>
+</div>
 <!-- <br> <div align="center"> <%= link_to '새로운 저자등록', new_opinion_writer_path , method: :get, class: "btn btn-md btn-success" %> <%= link_to "다운로드 CSV", opinion_writers_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" ,
 align: "center"%> </div> -->
 

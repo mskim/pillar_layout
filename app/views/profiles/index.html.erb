@@ -5,32 +5,40 @@
 <%= f.submit "검색", class: "btn btn-sm btn-normal"%>
 <% end %>
 <p></p>
-
-<% @profiles.each do |writer| %>
-  <div class="col-xs-6 col-md-3" align='center'>
-    <% if browser.safari? %>
-      <a href="<%=  profile_path(writer) %>">
-        <img src="<%= writer.pdf_image_path %>" width="100%"></img>
-      </a>
-      <h4 align='center'>
-        <a href='<%= profile_path(writer)%>'><%= writer.name %></a>
-      </h4>
-      <h5>
-        <%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></h5>
-    <% else %>
-      <a href="<%=  profile_path(writer) %>">
-        <img src="<%= writer.jpg_image_path %>" width="100%"></img>
-      </a>
-      <h4 align='center'>
-        <a href='<%= profile_path(writer)%>'><%= writer.name %></a>
-      </h4>
-      <h5>
-        <%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></h5>
+<div class="container-fluid">
+  <div class="row">
+    <% @profiles.each do |writer| %>
+      <div class="col-md-2">
+        <% if browser.safari? %>
+          <div class="card" style="width: 18rem;">
+            <%= link_to profile_path(writer) do %>
+              <img src="<%= writer.pdf_image_path %>" width="100%" class="mb-0">
+            <% end %>
+            <div class="card-body">
+              <%= link_to profile_path(writer) do %>
+                <h5 class="card-title"><%= writer.name %></h5>
+              <% end %>
+              <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+            </div>
+          </div>
+        <% else %>
+          <div class="card" style="width: 18rem;">
+            <%= link_to profile_path(writer) do %>
+              <img src="<%= writer.jpg_image_path %>" width="100%" class="mb-0">
+            <% end %>
+            <div class="card-body">
+              <%= link_to profile_path(writer) do %>
+                <h5 class="card-title"><%= writer.name %></h5>
+              <% end %>
+              <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <!-- true -->
     <% end %>
   </div>
-  <!-- true -->
-<% end %>
-
+</div>
 
 <!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
 <nav class="navbar navbar-default navbar-fixed-bottom">
