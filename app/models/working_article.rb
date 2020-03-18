@@ -1441,7 +1441,7 @@ class WorkingArticle < ApplicationRecord
     self.is_front_page = true if page.is_front_page?
     self.column = 4 unless column
     self.row = 4 unless row
-    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_!")
+    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_1")
     self.extended_line_count = 0
     self.pushed_line_count = 0
     self.title = "여기는 #{pillar_order}제목 입니다." unless title
