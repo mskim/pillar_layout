@@ -1066,7 +1066,7 @@ class Page < ApplicationRecord
       self.section_name           = "양면광고"
     else
       template                    = PageLayout.find(template_id)      # case when page_template is given
-      self.layout                 = template.layout
+      self.layout                 = eval(template.layout)
       self.column                 = template.column
       self.ad_type                = template.ad_type
       self.story_count            = template.story_count
