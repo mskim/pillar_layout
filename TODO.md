@@ -27,8 +27,9 @@
   - upload Excel file for issue plan 
 
 2020_03_18
-  - fix opinion view column size
+  - fix opinion view show column size
   - fix opinion view reporter default value as '홍길동'
+  - fix opinon, profile,index view as multi-column
 
 2020_03_17
   - 전체 오피니언 기사종류 select 없음
@@ -41,13 +42,13 @@
     - update pillar position
     - updaet working_article size
     - save config file
-
   - paeg_layout 복제하기 변경 내용 등록 안됌
     - list in order of updated_at so that last modified is at top
-    
+
   - fix## not applying
   - copy data opinion profile from 213
   - display uploaded file name image and graphic
+  - fix editorial draw_pdf
 
 2020_03_16
   - fix issue_plan not update page
@@ -61,7 +62,6 @@
   - fix subtitle disaprearing when there is an image
   - fix article_info saving
   - fix bridge_ad
-
   - upload excel file for issue(won ho)
     - use carrier_wave
 
