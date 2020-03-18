@@ -12,16 +12,15 @@
   </div>
 <% end %>
 
-<div class="view">
-  <div class="col-xs-5 col-sm-5">
-    <div class="col-md-11">
+<div class="row">
+    <div class="col-md-12">
     <div class="form-group">
     <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
     </div>
 
     <div class="form-group">
       <%= f.label :기사종류 %>
-      <%= f.select :kind, ['기사', '사진', '기고','금요기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
+      <%= f.select :kind, ['기사', '사진', '기고', '사설', '금요기고'], {}, {onChange: 'this.form.submit();'}%>
     </div>
 
     <div class="form-group">
@@ -55,8 +54,7 @@
       <%= f.text_field :has_profile_image, type: "hidden" %>
     </div>
   </div>
-  </div>
-  <div class="col-xs-7 col-sm-7">
+  <div class="col-md-12">
   <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span></div>
   <%= render 'show_preview', article: @working_article %>
   </div>      
