@@ -1,10 +1,23 @@
 class PageLayoutsController < ApplicationController
-  before_action :set_page_layout, only: [:show, :edit, :update, :destroy]
+  before_action :set_page_layout, only: [:show, :edit, :update, :destroy, :duplicate]
 
   # GET /page_layouts
   # GET /page_layouts.json
   def index
-    @page_layouts = PageLayout.order(:page_type, :ad_type).page(params[:page]).per(10)
+    # @page_layouts = PageLayout.order(:page_type, :ad_type).page(params[:page]).per(10)
+
+    if params[:page]
+      session[:current_section_pagination] = params[:page]
+    end
+    @q = PageLayout.ransack(params[:q])
+    # @sections_search = @q.result.order(:id, :created_at, :ad_type, :page_number, :column).page(params[:page]).reverse_order.per(10) 
+    @page_layouts = @q.result.order(:ad_type, :page_type, :column).page(params[:page]).reverse_order.per(10) 
+    @page_layouts = PageLayouts.all  if request.format == 'csv'
+    respond_to do |format|
+      format.html 
+      format.json { render :index}
+      format.csv { send_data @sections.to_csv }
+    end
   end
 
   # GET /page_layouts/1
@@ -14,7 +27,12 @@ class PageLayoutsController < ApplicationController
 
   # GET /page_layouts/new
   def new
-    @page_layout = PageLayout.new
+    if params['duplicated']
+      atts = YAML::load(params['duplicated'])
+      @page_layout = PageLayout.new(atts)
+    else
+      @page_layout = PageLayout.new
+    end
   end
 
   # GET /page_layouts/1/edit
@@ -24,6 +42,7 @@ class PageLayoutsController < ApplicationController
   # POST /page_layouts
   # POST /page_layouts.json
   def create
+    
     @page_layout = PageLayout.new(page_layout_params)
 
     respond_to do |format|
@@ -41,10 +60,9 @@ class PageLayoutsController < ApplicationController
   # PATCH/PUT /page_layouts/1.json
   def update
     respond_to do |format|
-      # binding.pry
       # page_layout_params['layout'] = eval(page_layout_params['layout'])
-      # binding.pry
       if @page_layout.update(page_layout_params)
+        @page_layout.update_pillar_from_layout
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully updated.' }
         format.json { render :show, status: :ok, location: @page_layout }
       else
@@ -64,6 +82,15 @@ class PageLayoutsController < ApplicationController
     end
   end
 
+  def duplicate
+    # @new_section = Section.new(@section.attributes)
+    atts = @page_layout.attributes.merge({'id'=> nil, 'created_at' =>nil, 'updated_at'=>nil})
+    atts_yml = atts.to_yaml
+    respond_to do |format|
+      format.html { redirect_to new_page_layout_path(duplicated: atts_yml)}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page_layout
@@ -72,6 +99,6 @@ class PageLayoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_layout_params
-      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :like, :layout_with_pillar_path=>[], :layout=>[])
+      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :like, layout: [])
     end
 end

@@ -12,7 +12,6 @@ RSpec.describe "pillars/new", type: :view do
       :layout_with_pillar_path => "MyText",
       :layout => "MyText",
       :profile => "MyString",
-      :finger_print => "MyString",
       :page_ref => nil,
       :page_ref_type => "MyString"
     ))
@@ -40,8 +39,6 @@ RSpec.describe "pillars/new", type: :view do
       assert_select "textarea[name=?]", "pillar[layout]"
 
       assert_select "input[name=?]", "pillar[profile]"
-
-      assert_select "input[name=?]", "pillar[finger_print]"
 
       assert_select "input[name=?]", "pillar[page_ref_id]"
 

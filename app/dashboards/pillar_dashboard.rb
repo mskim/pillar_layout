@@ -20,9 +20,6 @@ class PillarDashboard < Administrate::BaseDashboard
     order: Field::Number,
     box_count: Field::Number,
     layout_with_pillar_path: Field::Text,
-    layout: Field::Text,
-    profile: Field::String,
-    finger_print: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -57,7 +54,6 @@ class PillarDashboard < Administrate::BaseDashboard
     layout_with_pillar_path
     layout
     profile
-    finger_print
     created_at
     updated_at
   ].freeze
@@ -77,7 +73,6 @@ class PillarDashboard < Administrate::BaseDashboard
     layout_with_pillar_path
     layout
     profile
-    finger_print
   ].freeze
 
   # COLLECTION_FILTERS

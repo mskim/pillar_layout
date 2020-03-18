@@ -4,44 +4,74 @@
 #
 # Table name: pillars
 #
-#  id                      :bigint           not null, primary key
-#  box_count               :integer
-#  column                  :integer
-#  direction               :string
-#  finger_print            :string
-#  grid_x                  :integer
-#  grid_y                  :integer
-#  layout                  :text
-#  layout_with_pillar_path :text
-#  order                   :integer
-#  page_ref_type           :string
-#  profile                 :string
-#  row                     :integer
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  page_ref_id             :bigint
+#  id            :bigint           not null, primary key
+#  box_count     :integer
+#  column        :integer
+#  direction     :string
+#  grid_x        :integer
+#  grid_y        :integer
+#  order         :integer
+#  page_ref_type :string
+#  profile       :string
+#  row           :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  page_ref_id   :bigint
 #
 # Indexes
 #
 #  index_pillars_on_page_ref_id  (page_ref_id)
 #
 
-# layout_with_pillar_path
-# a Array of node array [x,y,width,height, ancestry] sorted by by order
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
   has_many :working_articles
+  has_one :layout_node
   before_create :init_pillar
-  after_create :create_articles
-  serialize :layout_with_pillar_path, Array
-  serialize :layout, Array
+  after_create :create_layout
   include RectUtils
-
-  def story_count
-    layout.length
+  
+  def pillar_siblings_of(article)
+    article_pillar_order_depth = article.pillar_order.split("_").length
+    article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}.sort_by{|a| a.pillar_order}
   end
 
-  def update_pdf_chain; end
+  def following_pillar_siblings_of(article)
+    working_articles.sort_by{|a| a.pillar_order}.select{|a| a.pillar_order > article.pillar_order}
+  end
+
+  # retrun bottom siblling of given article
+  def bottom_article_of_sibllings(article)
+    article_siblings = pillar_siblings_of(article)
+    article_siblings.last
+  end
+
+  # check if given article is  bottom of sibllings
+  def bottom_article_of_sibllings?(article)
+    article == bottom_article_of_sibllings(article)
+  end
+
+  def extened_line_sum(article)
+    puts __method__
+    puts "pillar_siblings_of(article).map{|a| a.extended_line_count}:#{pillar_siblings_of(article).map{|a| a.extended_line_count}}"
+    # pillar_siblings_of(article).select{|a| a.extended_line_count !=nil}.map{|a| a.extended_line_count}.reduce(:+) 
+    pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
+  end
+
+  # update pillar_config file and working_article grid_y and row after cut
+  def update_working_article_cut(cut_action)
+    layout_node.add_action(cut_action)
+    save_pillar_yaml
+    new_layouts = layout_with_pillar_path
+    sorted_working_articles = working_articles.sort_by{|w| w.pillar_order}
+    new_layouts.each_with_index do |new_layout, i|
+      sorted_working_articles[i].update(grid_x: new_layout[0], grid_y:new_layout[1], column:new_layout[2], row:new_layout[3])
+    end
+  end
+
+  def story_count
+    box_count
+  end
 
   def update_pdf_chain(working_article)
     upchain_folders = working_article.upchain_folders
@@ -58,105 +88,6 @@ class Pillar < ApplicationRecord
     chain
   end
 
-  # this is big deal!!!!!
-  # convert layout_with_pillar_path to node tree
-  # 1.
-  # given order list, return layout_node
-  def generate_node
-    order_collectoin = layout2tag.map { |r| r[4] }
-    puts "order_collectoin:#{order_collectoin}"
-    node = LayoutNode.create(column: column, row: row, order: order, grid_x: 0, grid_y: 0)
-    if order_collectoin == []
-      node
-    elsif order_collectoin == %w[1 2]
-      LayoutNode.make_pillar(column, row, ['h'])
-    elsif order_collectoin == %w[1 2 3]
-      LayoutNode.make_pillar(column, row, %w[h h])
-    elsif order_collectoin == %w[1 2 3_1 3_2]
-      return node.perform_actions(['h', 'h', %w[3 v]])
-
-      node.h_divide.h_divide.v_divide('3')
-    elsif order_collectoin == %w[1 2 3_1 3_2_1 3_2_2]
-      node.h_divide.h_divide.v_divide('3').h_dived('3_2')
-    end
-  end
-
-  # convert leaf node layout to layout_with_tag
-  # tag is inserted at fifth element
-  def layout2tag
-    # first_level = layout.group_by{|l| [l[0], column]}
-    layout_with_tag = []
-    first_level = 1
-    second_level = 1
-    third_level = 1
-    current_grid_x = 0
-    current_grid_y = 0
-
-    layout.each_with_index do |box, i|
-      if box[0] == 0 && box[2] == column
-        # first level box
-        with_tag = box.dup
-        with_tag << first_level.to_s
-        layout_with_tag << with_tag
-        first_level += 1
-        second_level = 1
-        third_level = 1
-      elsif box[0] == 0
-        # left most second level box
-        # check if this is first of third level
-        current_grid_y = box[1]
-        if layout.length > i + 1 && layout[i + 1][1] != current_grid_y
-          # puts "we have at left most third level box...."
-          # do the third level start
-          with_tag = box.dup
-          with_tag << "#{first_level}_#{second_level}_1"
-          layout_with_tag << with_tag
-          third_level += 1
-        elsif layout[i - 1][2] == box[2]
-          with_tag = box.dup
-          with_tag << "#{first_level}_#{second_level}_#{third_level}"
-          layout_with_tag << with_tag
-          third_level += 1
-        else
-          # puts "We have left most second level box"
-          with_tag = box.dup
-          with_tag << "#{first_level}_1"
-          layout_with_tag << with_tag
-          second_level += 1
-        end
-      elsif box[1] == layout[i - 1][1]
-        # after left most second level box
-        current_grid_y = box[1]
-        if layout.length > i + 1 && layout[i + 1][1] != current_grid_y
-          # puts "we have third level after left most ...."
-          # do thir level start
-          with_tag = box.dup
-          with_tag << "#{first_level}_#{second_level}_#{third_level}"
-          layout_with_tag << with_tag
-          third_level += 1
-        elsif layout[i - 1][2] == box[2]
-          with_tag = box.dup
-          with_tag << "#{first_level}_#{second_level}_#{third_level}"
-          layout_with_tag << with_tag
-          third_level += 1
-        else
-          with_tag = box.dup
-          with_tag << "#{first_level}_#{second_level}"
-          layout_with_tag << with_tag
-          second_level += 1
-        end
-      elsif box[0] = layout[i - 1][0]
-        # third level .... of second level box
-        # puts "tag:#{"#{first_level}_#{second_level}_#{third_level}"}"
-        with_tag = box.dup
-        with_tag << "#{first_level}_#{second_level}_#{third_level}"
-        layout_with_tag << with_tag
-        third_level += 1
-      end
-    end
-    layout_with_tag
-  end
-
   def path
     if page_ref.class == Page
       page_ref.path + "/#{order}"
@@ -165,9 +96,7 @@ class Pillar < ApplicationRecord
     end
   end
 
-  def rect
-    [grid_x, grid_y, column, row]
-  end
+
   # def pdf_image_path
   #   # if @time_stamp
   #   "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_pdf_basename}"
@@ -297,6 +226,10 @@ class Pillar < ApplicationRecord
     nodes.map { |n| [n, n.page_embeded_svg(page_ref.column, grid_x, grid_y)] }
   end
 
+  def rect
+    [grid_x, grid_y, column, row]
+  end
+
   def to_svg_with_jpg
     svg = <<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
@@ -332,7 +265,6 @@ class Pillar < ApplicationRecord
   end
 
   def layout_svg
-    # binding.pry
     # s = ''
     # layout_array = layout
     # layout_array.each do |rect|
@@ -367,28 +299,6 @@ class Pillar < ApplicationRecord
     union
   end
 
-  def create_articles
-    if page_ref.class == Page
-      save_pillar_yaml
-
-      FileUtils.mkdir_p(path) unless File.exist?(path)
-      if box_count == 1
-        h = { page: page_ref, pillar: self, pillar_order: "#{order}", grid_x: 0, grid_y: 0, column: column, row: row }
-        WorkingArticle.where(h).first_or_create
-      elsif layout_with_pillar_path.first.class == Integer
-        # this is case when layout_with_pillar_path is Array of 5 element
-        h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
-        WorkingArticle.where(h).first_or_create
-      else
-        # this is case when layout_with_pillar_path is Array of Arrays
-        layout_with_pillar_path.each do |box|
-          h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
-          WorkingArticle.where(h).first_or_create
-        end
-      end
-    end
-  end
-
   def change_layout(new_node_layout_with_pillar_path)
     if layout_with_pillar_path.length > new_node_layout_with_pillar_path.length
       # delte execsive working_articles
@@ -399,7 +309,7 @@ class Pillar < ApplicationRecord
         w.destroy
       end
     end
-    update(layout_with_pillar_path: new_node_layout_with_pillar_path)
+    # update(layout_with_pillar_path: new_node_layout_with_pillar_path)
     save_pillar_yaml
     # new_layout_with_pillar_path = new_node_layout_with_pillar_path.map{|box_info| "#{order}_#{box_info[4]}"}
     current_articles = working_articles.sort_by(&:order)
@@ -432,16 +342,65 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp
   end
 
-  def init_pillar
-    profile = "#{column}x#{row}_#{box_count}"
-    self.profile = profile
-    n = LayoutNode.where(profile: profile).first
-    if n
-      self.layout_with_pillar_path = n.layout_with_pillar_path
-      self.finger_print = n.finger_print
+  def height_in_lines
+    if page_ref
+      page_ref.height_in_lines
+    else
+      7
     end
+  end
+
+  def create_layout
+    create_layout_node
+    create_articles if page_ref.class == Page
+  end
+  
+  def create_layout_node
+    if box_count > 1
+      actions = ["h*#{box_count - 1}"]
+    end
+    LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).first_or_create
+    layout_node.set_actions
+  end
+
+  # this is called from page_layout, when page_layout has changed
+  def update_pillar(new_layout)
+    current_rect      = [grid_x, grid_y, column, row]
+    if  current_rect != new_layout[0..3]
+      self.grid_x = new_layout[0]
+      self.grid_y = new_layout[1]
+      self.grid_x = new_layout[2]
+      self.grid_x = new_layout[3]
+      self.save
+    end
+    layout_node.update_layout_node(new_layout)
+  end
+
+  def layout_with_pillar_path
+    layout_node.layout_with_pillar_path
+  end
+
+  def create_articles
+    save_pillar_yaml
+    FileUtils.mkdir_p(path) unless File.exist?(path)
     if box_count == 1
-      self.layout_with_pillar_path = [0, 0, column, row, "1"]
+      h = { page: page_ref, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
+      WorkingArticle.where(h).first_or_create
+    # elsif layout_with_pillar_path.first.class == Integer
+    #   # this is case when layout_with_pillar_path is Array of 5 element
+    #   h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
+    #   WorkingArticle.where(h).first_or_create
+    else
+      layout_with_pillar_path.each_with_index do |box|
+        h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+        WorkingArticle.where(h).first_or_create
+      end
     end
+  end
+
+  def init_pillar
+    # layout_node = LayoutNode.where(pillar:self, column: column, row: row).first_or_create
+    # self.layout_node_id = layout_node.id
+
   end
 end

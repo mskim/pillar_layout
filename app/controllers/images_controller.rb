@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImagesController < ApplicationController
-  before_action :set_image, only: %i[show edit update destroy crop]
+  before_action :set_image, only: %i[show edit update destroy crop clear_crop]
   before_action :authenticate_user!
 
   # GET /images

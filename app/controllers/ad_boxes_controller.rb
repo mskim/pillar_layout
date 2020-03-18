@@ -97,6 +97,6 @@ class AdBoxesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def ad_box_params
-    params.require(:ad_box).permit(:column, :row, :ad_type, :advertiser, :ad_image, :page_id, :storage_ad_image)
+    params.require(:ad_box).permit(:column, :row, :ad_type, :advertiser, :ad_image, :page_ref_id, :storage_ad_image)
   end
 end

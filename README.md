@@ -95,6 +95,14 @@ Rails app for creating style guide for newspaper publication
   bottom_margin
   page_gutter
 
+### spread_ad_box
+  t.string :ad_type
+  t.integer :row
+  t.integer :width
+  t.integer :height
+  t.string :advertiser
+  t.references :spread, foreign_key: true
+
 ### publication
   name
   paper_size

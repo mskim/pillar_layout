@@ -220,13 +220,15 @@ class PageHeading < ApplicationRecord
     # date                = '2017년 5월 11일 목요일'
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
-    section_name        = page.section_name
-    section_name_with_sace        = put_space_between_chars(section_name)
+    section_name        = page.display_name || page.section_name
+    section_width       = 400
+    section_x           = 1028.9763779528/2 - section_width/2
+    section_name_with_space        = put_space_between_chars(section_name)
 
     odd=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
       image(local_image: 'odd.pdf', width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
-      t = text('<%= section_name_with_sace %>', font_size: 20.5,x: 464.0, y: 0.5, width: 100, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
+      t = text('<%= section_name_with_space %>', font_size: 20.5,x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
       text('<%= date %>', tracking: -0.7, x: 779.213, y: 12.16,  width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color:'clear')
       text('<%= page_number %>', tracking: -0.2, x: 974.69, y: -6.47, font: 'Helvetica-Light', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color:'clear', text_alignment: 'right')
@@ -236,6 +238,31 @@ class PageHeading < ApplicationRecord
     page_heading_erb.result(binding)
   end
 
+
+  def even_content
+    page_heading_width  = publication.page_heading_width
+    page_heading_height = publication.inner_page_heading_height_in_pt
+    # date                = '2017년 5월 11일 목요일'    
+    date                = page.korean_date_string #'2017년 5월 11일 목요일'
+    page_number         = page.page_number
+    section_name        = page.display_name || page.section_name
+    section_width       = 400
+    section_x           = 1028.9763779528/2 - section_width/2
+    section_name_with_space        = put_space_between_chars(section_name)
+    even=<<~EOF
+    RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
+      image(local_image: 'even.pdf', x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
+      t = text('<%= section_name_with_space %>', font_size: 20.5, x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
+      line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
+      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'Helvetica-Light', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
+      text('<%= date %>', tracking: -0.7, x: 50, y: 12.16, width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'left', fill_color: 'clear')
+    end
+    EOF
+    page_heading_erb = ERB.new(even)
+    page_heading_erb.result(binding)
+  end
+
+
   def p22_content
     page_heading_width  = publication.page_heading_width
     page_heading_height = publication.inner_page_heading_height_in_pt
@@ -243,7 +270,7 @@ class PageHeading < ApplicationRecord
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.section_name
-    section_name_with_sace        = put_space_between_chars(section_name)
+    section_name_with_space        = put_space_between_chars(section_name)
     template=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
       image(local_image: '22_bg.pdf', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
@@ -261,8 +288,8 @@ class PageHeading < ApplicationRecord
     # date                = '2017년 5월 11일 목요일'    
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
-    section_name        = page.section_name
-    section_name_with_sace        = put_space_between_chars(section_name)
+    section_name        = page.display_name || page.section_name
+    section_name_with_space        = put_space_between_chars(section_name)
     template=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
       image(local_image: '23_bg.pdf', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
@@ -274,45 +301,10 @@ class PageHeading < ApplicationRecord
     page_heading_erb.result(binding)
   end
 
-  def even_content
-    page_heading_width  = publication.page_heading_width
-    page_heading_height = publication.inner_page_heading_height_in_pt
-    # date                = '2017년 5월 11일 목요일'    
-    date                = page.korean_date_string #'2017년 5월 11일 목요일'
-    page_number         = page.page_number
-    section_name        = page.section_name
-    section_name_with_sace        = put_space_between_chars(section_name)
-    even=<<~EOF
-    RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
-      image(local_image: 'even.pdf', x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
-      t = text('<%= section_name_with_sace %>', font_size: 20.5, x: 464.0, y: 0.5, width: 100, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
-      line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
-      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'Helvetica-Light', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
-      text('<%= date %>', tracking: -0.7, x: 50, y: 12.16, width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'left', fill_color: 'clear')
-    end
-    EOF
-    page_heading_erb = ERB.new(even)
-    page_heading_erb.result(binding)
-  end
-
   def put_space_between_chars(string)
-    return if string.include?(" ")
-    s = ""
-    i = 0
-    length = string.length
-    string.each_char do |ch|
-      if i >= length - 1
-        s += ch
-      elsif ch == " "
-        s += ch
-      else
-        s += ch + " "
-      end
-      i += 1
-    end
-    s
+    return string if string.include?(" ")
+    string.split("").join(" ")
   end
-
 
   def layout_content
     if page_number == 1

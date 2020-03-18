@@ -15,54 +15,26 @@
   <% end %>
 
 
-  <!-- <div class="field">
-    <%= f.label '프로필' %>
-    <%= f.text_field :profile %>
-  </div> -->
+  <div class="field">
+    <%= f.label '페이지 번호' %>
+    <%= f.select :page_number, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16, 17, 18, 19, 20, 21, 22, 23, 24, 100, 101] %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label '광고종류' %>
+    <%= f.select :ad_type, %w[5단통 9단21 4단통 7단15 3단통] %>
+  </div>
 
   <div class="field">
     <%= f.label '단' %>
-    <%= f.number_field :column %>
+    <%= f.select :column, [6,7] %>
   </div>
 
-  <div class="field">
-    <%= f.label '열' %>
-    <%= f.number_field :row %>
-  </div>
-
-  <!-- <div class="field">
-    <%= f.label '광고종류' %>
-    <%= f.text_field :ad_type %>
-  </div> -->
-
-  <!-- <div class="field">
-    <%= f.label '1면' %>
-    <%= f.check_box :is_front_page %>
-  </div> -->
-
-  <!-- <div class="field">
-    <%= f.label '기사수' %>
-    <%= f.number_field :story_count %>
-  </div> -->
 
   <div class="field">
-    <%= f.label '면번호' %>
-    <%= f.number_field :page_number %>
-  </div>
-
-  <div class="field">
-    <%= f.label '팀이름' %>
-    <%= f.text_field :section_name %>
-  </div>
-
-  <!-- div class="field">
-    <%= f.label '컬러면' %>
-    <%= f.check_box :color_page %>
-  </div -->
-
-  <div class="field">
-    <%= f.label '위치정보' %> [ x, y, 단, 열 ]<br> 
-    <%= f.text_area :layout, cols: "40", rows: "10", font_size: "24px"%>
+    <%= f.label '섹션이름' %>
+    <%= f.select :section_name , %w[1면 정치 자치행정  국제통일 금용 산업 정책 기획 오피니언]%>
   </div>
 
 

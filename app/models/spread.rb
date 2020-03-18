@@ -3,6 +3,7 @@
 # Table name: spreads
 #
 #  id            :bigint           not null, primary key
+#  ad_type       :string
 #  bottom_margin :float
 #  color_page    :boolean
 #  height        :float
@@ -29,11 +30,29 @@
 
 class Spread < ApplicationRecord
   belongs_to :issue
+  has_one :spread_ad_box
   before_create :init_atts
   after_create :setup
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
+    create_spread_ad_box
+  end
+
+  def create_spread_ad_box
+    h = {}
+    h[:spread]  = self
+    h[:ad_type] = ad_type
+    h[:row]     = Ad.where(name: ad_type).first.row
+    SpreadAdBox.where(h).first_or_create
+  end
+
+  def spread_ad_width
+    issue.spread_ad_width
+  end
+
+  def spread_ad_height(row)
+    publication.grid_height*row
   end
 
   def publication

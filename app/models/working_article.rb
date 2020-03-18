@@ -7,7 +7,7 @@
 #  announcement_column          :integer
 #  announcement_text            :string
 #  body                         :text
-#  bottom_line                  :integer          default(0)
+#  bottom_line                  :integer          default("0")
 #  boxed_subtitle_text          :string
 #  boxed_subtitle_type          :integer
 #  by_line                      :string
@@ -30,7 +30,7 @@
 #  inactive                     :boolean
 #  is_front_page                :boolean
 #  kind                         :string
-#  left_line                    :integer          default(0)
+#  left_line                    :integer          default("0")
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer
@@ -54,7 +54,7 @@
 #  quote_v_extra_space          :integer
 #  quote_x_grid                 :integer
 #  reporter                     :string
-#  right_line                   :integer          default(0)
+#  right_line                   :integer          default("0")
 #  row                          :integer
 #  slug                         :string
 #  subcategory_code             :string
@@ -64,7 +64,7 @@
 #  subtitle_type                :string
 #  title                        :text
 #  title_head                   :string
-#  top_line                     :integer          default(0)
+#  top_line                     :integer          default("0")
 #  top_position                 :boolean
 #  top_story                    :boolean
 #  y_in_lines                   :integer
@@ -115,6 +115,7 @@ class WorkingArticle < ApplicationRecord
   accepts_nested_attributes_for :images
 
   # include
+  include ArticleSavePdf
   include ArticleSplitable
   include PageSplitable
   include ArticleSwapable
@@ -122,10 +123,11 @@ class WorkingArticle < ApplicationRecord
   include ArticleSaveXml
   include WorkingArticleAutofit
   include WorkingArticleLayout
-  include StorageBackupWorkingArticle
   include WorkingArticlePillarMethods
   include PageSavePdf
+  include WorkingArticleOverlapable
 
+  # include StorageBackupWorkingArticle
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
@@ -150,7 +152,6 @@ class WorkingArticle < ApplicationRecord
       s.save
     else 
       if reporter.present?
-        # binding.pry
         s = Story.where(working_article_id: id, user_id: reporter_id).first_or_create
         s.date = page.date
         s.summitted_section = page.section_name
@@ -188,7 +189,6 @@ class WorkingArticle < ApplicationRecord
   def id_by_reporter_name_from_body
     body.match(/^# (.*)/)
     reporter_name = $1.to_s.sub("# ", "")
-    # binding.pry
     User.find_by(name: reporter_name).id
   end
 
@@ -235,7 +235,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def setup
-    FileUtils.mkdir_p path unless File.exist?(path)
+    make_article_path
   end
 
   def images_path
@@ -353,7 +353,12 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def make_article_path
+    FileUtils.mkdir_p(path) unless File.exist?(path)
+  end
+
   def save_article
+    make_article_path
     save_layout
     save_story unless kind == '사진'
   end
@@ -397,23 +402,52 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
-  def generate_pdf_with_time_stamp
-    save_article
+  def generate_pdf_with_time_stamp(options={})
+    puts "+++++++++ in generate_pdf_with_time_stamp"
+    pdf_starting = Time.now
     delete_old_files
     stamp_time
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
-    # ArticleWorker.perform_async(path, @time_stamp, nil)
-    # ArticleRubyWorker.perform_async(path, @time_stamp, nil)
-    update_pdf_chain
+    if NEWS_LAYOUT_ENGINE == 'ruby'
+      puts "+++++++++ processing pdf with ruby"
+      save_article_pdf(time_stamp: @time_stamp, adjustable_height:options[:adjustable_height])
+      update_pdf_chain unless options[:no_update_pdf_chain]
+    else
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
+    end
+    pdf_working_article_ending = Time.now
+    puts "++++++ pdf working_article time: #{pdf_working_article_ending - pdf_starting} "
+
     page.generate_pdf_with_time_stamp
-    # wait_for_stamped_pdf
+    pdf_page_ending = Time.now
+    puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
+  end
+
+  def save_article_pdf(options={})
+    save_hash                     = {}
+    save_hash[:article_path]      = path
+    save_hash[:story_md]          = story_md
+    layout_string = layout_rb
+    if options[:adjustable_height]
+      layout_string.sub!(':adjustable_height=>false,', ':adjustable_height=>true,')
+    end
+    save_hash[:layout_rb]         = layout_string
+    save_hash[:time_stamp]        = options[:time_stamp]
+    new_extended_line_count       = 0
+    new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
+    new_extended_line_count       = new_box_marker.adjusted_line_count
+    puts "++++++++++ new_extended_line_count:#{new_extended_line_count}"
+    # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    if options[:adjustable_height] && new_extended_line_count != 0
+      self.extended_line_count = new_extended_line_count
+      self.save
+      # adjust bottom article TODO???
+    end
   end
 
   def generate_pdf
     # @time_stamp =  true
     save_article
     ArticleWorker.perform_async(path, nil, nil)
-
     # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article . -custom=#{publication.name}"
     # copy_outputs_to_site
   end
@@ -455,113 +489,112 @@ class WorkingArticle < ApplicationRecord
     pushed_line_count * publication.body_line_height
   end
 
-  # sets extended_line_count as line_count
-  def set_extend_line(line_count)
-    return if line_count == extended_line_count
-    self.extended_line_count = line_count
-    self.save
-    siblings.each do |sybling|
-      sybling.push_line(line_count)
-    end
-    generate_pdf_with_time_stamp
-    save_extended_line_count_to_config_yml(line_count)
-    page.generate_pdf_with_time_stamp
-  end
 
+  # expandable? for pillar
   def expandable?(line_count)
     expandable = false
-    sybs = siblings
-    sybs.each do |sybling|
-      expandable = sybling.pushable?(line_count)
-    end
-    expandable
+    bottom_syb = bottom_article_of_sibllings(self)
+    bottom_syb.pushable?(line_count)
   end
 
+  # pushable? for bottom of sibllings
   def pushable?(line_count)
     article_bottom_spaces_in_lines = 2
     if height_in_lines - line_count >= 7 
-      return true
-    elsif siblings.length > 0
-      siblings.first.pushable?(line_count)
       return true
     end
     false
   end
 
+  def revert_all_extended_lines
+    pillar.working_articles.each do |w|
+      if w.extended_line_count != 0 || w.pushed_line_count != 0
+        w.extended_line_count = 0
+        w.pushed_line_count = 0
+        w.save
+        w.generate_pdf_with_time_stamp
+      end
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
+  # auto adjust height and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height
+    generate_pdf_with_time_stamp(adjustable_height:true)
+    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
+  end
+
+  # auto adjust height of all ariticles in pillar and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article 
+  def auto_adjust_height_all
+    pillar.working_articles.each_with_index do |w, i|
+      if @pillar.bottom_article_of_sibllings?(w)
+        # we have bottom article
+        w.generate_pdf_with_time_stamp(adjustable_height:false)
+      else
+        w.generate_pdf_with_time_stamp(no_update_pdf_chain:true, adjustable_height:true)
+      end
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
+  # sets extended_line_count as line_count
+  def set_extend_line(line_count)
+    return if line_count == self.extended_line_count
+    bottom_article = pillar.bottom_article_of_sibllings(self)
+    puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
+    unless bottom_article.pushable?(line_count)
+      puts "bottom sibling not pushable!!!"
+      return 
+    end
+    self.extended_line_count = line_count
+    self.save
+    # update(extended_line_count: line_count)
+    # bottom_article.update_pushed_line
+    generate_pdf_with_time_stamp
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
+  end
+
   # adds extended_line_count with new line_count
   def extend_line(line_count, options={})
-    sibs = siblings
+
     # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
-    if self.extended_line_count
-      self.extended_line_count += line_count
-    else
-      self.extended_line_count = line_count
+    bottom_article = bottom_article_of_sibllings(self)
+    unless bottom_article.pushable?(line_count)
+      puts "bottom sibling not pushable!!!"
+      return 
     end
+    self.extended_line_count += line_count
     self.save
-    sibs.each do |sybling|
-      sybling.push_line(self.extended_line_count)
-    end
+    # update(extended_line_count: extended_line_count)
+    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    save_extended_line_count_to_config_yml(self.extended_line_count)
-    page.generate_pdf_with_time_stamp unless options[:generate_pdf] == false
+    bottom_article.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
-  def save_extended_line_count_to_config_yml(line_count)
-    config_path = page.config_path
-    config_hash = YAML::load_file(config_path)
-    frame_array = config_hash['story_frames'][order - 1]
-    if frame_array.length == 4
-        frame_array << {'extend'=> line_count} unless line_count == 0
-    elsif frame_array.length >= 5 
-      if  frame_array.last.class == Hash
-        if line_count == 0
-          frame_array.last.delete('extend')
-          frame_array.pop if frame_array.last == {}
-        else
-          frame_array.last['extend'] = line_count
-        end
-      # support lagacy format
-      elsif frame_array.last =~/^extend/
-        frame_array.pop
-        frame_array << {'extend'=> line_count}  unless line_count == 0
-      else
-        frame_array << {'extend'=> line_count}  unless line_count == 0
-      end
-    end
-    File.open(config_path, 'w'){|f| f.write config_hash.to_yaml}
+  def pillar_bottom?
+    self == pillar.bottom_article_of_sibllings(self)
   end
 
-  def save_pushed_line_count_to_config_yml(line_count)
-    config_path = page.config_path
-    config_hash = YAML::load_file(config_path)
-    frame_array = config_hash['story_frames'][order - 1]
-    if frame_array.length == 4
-        frame_array << {'push'=> line_count} unless line_count == 0
-    elsif frame_array.length >= 5 
-      if  frame_array.last.class == Hash
-        if line_count == 0
-          frame_array.last.delete('push')
-          frame_array.pop if frame_array.last == {}
-        else
-          frame_array.last['push'] = line_count
-        end
-      # support lagacy format
-      elsif frame_array.last =~/^push/
-        frame_array.pop
-        frame_array << {'push'=> line_count}  unless line_count == 0
-      else
-        frame_array << {'push'=> line_count}  unless line_count == 0
-      end
-    end
-    File.open(config_path, 'w'){|f| f.write config_hash.to_yaml}
+  def bottom_article_of_sibllings(article)
+    w = pillar.bottom_article_of_sibllings(self)
+    puts "w.id:#{w.id}"
+    w
   end
 
-  def push_line(line_count, options={})
-    self.pushed_line_count = line_count
-    self.save
-    generate_pdf_with_time_stamp
-    save_pushed_line_count_to_config_yml(self.pushed_line_count)
+
+  # this is applied to bottom of sibllings article
+  # update pushed_line_sum for all above sibllings height change
+  def current_pushed_line_sum
+    extened_line_sum = pillar.extened_line_sum(self)
   end
 
   def empty_lines_count
@@ -623,18 +656,15 @@ class WorkingArticle < ApplicationRecord
   end
 
   def announcement_zero
-    self.announcement_column = 0
-    self.save
+    update(announcement_column:0)
   end
 
   def announcement_one
-    self.announcement_column = 1
-    self.save
+    update(announcement_column:1)
   end
 
   def announcement_two
-    self.announcement_column = 2
-    self.save
+    update(announcement_column:2)
   end
 
 
@@ -839,6 +869,7 @@ class WorkingArticle < ApplicationRecord
   #TODO
   def top_story?
     return true if top_story
+    return true if page.working_articles.first.kind == self
     return true if page.working_articles.first.kind != '기사' && order == 2
     false
   end
@@ -862,13 +893,11 @@ class WorkingArticle < ApplicationRecord
     h[:page_number]                   = self.page_number
     h[:stroke_width]                  = 1 if kind == '사설' || kind == 'editorial'
     h[:column]                        = self.column
-    
     h[:row]                           = self.row
     h[:extended_line_count]           = self.extended_line_count if extended_line_count
-    h[:pushed_line_count]             = self.pushed_line_count   if pushed_line_count
-    
+    # h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
+    h[:pushed_line_count]             = current_pushed_line_sum  if pillar_bottom?
     h[:height_in_lines]               = self.height_in_lines     if self.height_in_lines
-
     h[:grid_width]                    = self.grid_width
     h[:grid_height]                   = self.grid_height
     h[:gutter]                        = self.gutter
@@ -1312,6 +1341,91 @@ class WorkingArticle < ApplicationRecord
     self.save
   end
 
+  def node_order
+    a = pillar_order.split("_")
+    a.shift
+    r = a.join("_")
+    r
+  end
+
+  def v_cut_at(cut_index)
+    # divide working article into two
+    action = []
+    if cut_index > 0
+      # cut from left, , cut_index is positive value
+      changing_column = cut_index
+      new_column = column - cut_index
+      new_grid_x = cut_index
+      actions = [node_order, "v+#{cut_index}"]
+    else
+      # cut from right, cut_index is negative value
+      changing_column = column + cut_index
+      new_column = cut_index.abs
+      new_grid_x = changing_column
+      actions = [node_order, "v#{cut_index}"]
+    end
+    changing_pillar_order             = "#{pillar_order}_1"
+    new_pillar_order                  = "#{pillar_order}_2"
+    pillar.update_working_article_cut(actions)
+    update(column: changing_column, pillar_order: changing_pillar_order)
+    # delete current working_article content to new folder
+    delete_folder # renane_folder?
+    # update wokring_articlr in new folder and generate pdf
+    # do not update_pdf_chain, since newly creating article will do it
+    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
+    # create new working_article 
+    h = { page: page, pillar: self, pillar_order: "#{new_pillar_order}", grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
+    w = WorkingArticle.where(h).first_or_create
+    w.update_pdf_chain
+  end
+  
+  def bumpup_pillar_order_by(count)
+    a = pillar_order.split("_")
+    new_order = a.last.to_i + count
+    a[-1] = new_order
+    new_pillar_order = a.join("_")
+    update(pillar_order: new_pillar_order)
+  end
+
+  def next_pillar_order
+    a = pillar_order.split("_")
+    new_order = a.last.to_i + 1
+    a[-1] = new_order
+    new_pillar_order = a.join("_")
+  end
+
+
+  def pillar_siblings
+    pillar.pillar_siblings_of(self)
+  end
+
+  def following_pillar_siblings
+    pillar.following_pillar_siblings_of(self)
+  end
+
+  # divide working_article horizontally
+  def h_cut
+    actions                       = [node_order, "h*1"]
+    new_pillar_order              = next_pillar_order
+    changing_row                  = row/2
+    new_grid_y                    = grid_y + changing_row
+    new_row                       = row - changing_row
+    update(row: changing_row)
+    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
+    h = { page: page, pillar: pillar, pillar_order: "#{new_pillar_order}", grid_x: 0, grid_y: new_grid_y, column: column, row: new_row }
+    w = WorkingArticle.where(h).first_or_create
+    following_pillar_siblings.each do |w|
+      w.bumpup_pillar_order_by(1)
+    end
+    # update pillar_config file and working_article grid_y and row after cut
+    pillar.update_working_article_cut(actions)
+    w.generate_pdf_with_time_stamp
+
+  end
+  
+  def layout_with_node_path
+    [grid_x, grid_y, column,row, pillar_order.split("_")].unshift.join("_")
+  end
 
   private
 
@@ -1322,22 +1436,25 @@ class WorkingArticle < ApplicationRecord
     self.is_front_page = true if page.is_front_page?
     self.column = 4 unless column
     self.row = 4 unless row
+    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_!")
+    self.extended_line_count = 0
+    self.pushed_line_count = 0
     self.title = "여기는 #{pillar_order}제목 입니다." unless title
     self.title = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle = '여기는 부제목 입니다.' unless subtitle
 
     body_text = ""
-    unit_text = '여기는 본문입니다. '*8 
+    unit_text = '여기는 본문입니다. ' 
     area = self.column*self.row
-    area.times do 
+    # area.times do 
       body_text += unit_text
       body_text += "\n\n"
-    end
+    # end
     self.body = body_text
   end
 
   def setup_article
-    FileUtils.mkdir_p(path) unless File.exist?(path)
+    make_article_path
     copy_from_sample
     # make_images_directory
     # generate_pdf_with_time_stamp

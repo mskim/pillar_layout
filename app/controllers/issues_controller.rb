@@ -218,7 +218,8 @@ class IssuesController < ApplicationController
 
   def spread
     set_issue
-    @spread = @issue.spread
+    # @spread = @issue.spread
+    @page = @issue.pages[24]
   end
 
   def clone_pages
@@ -395,18 +396,15 @@ class IssuesController < ApplicationController
     @stories = []
     @issue.pages.each do |p|
       p.working_articles.each do |w|
-        # binding.pry if p.section_name == '정치'
         if w.reporter.present?
           # puts '성공: reporter에서 기자명이 존재하여 작업합니다.'
           @stories << w.save_to_story
         elsif w.reporter_from_body && w.reporter_from_body != ''
           # puts '성공: reporter_from_body에서 # 기자명이 존재하여 작업합니다.'
           @stories << w.save_to_story
-          # binding.pry
         end
       end
     end
-    # binding.pry
     @stories_for_web = Story.where(story_type: '웹용', date: @issue.date)
     puts "@stories.length:#{@stories.length}"
   end
@@ -436,6 +434,6 @@ class IssuesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def issue_params
     # params.require(:issue).permit(:date, :number, :plan, :publication_id, images_attributes: [:id, :issue_id, :image])
-    params.require(:issue).permit(:date, :number, :plan, :publication_id, images_attributes: %i[id issue_id image])
+    params.require(:issue).permit(:date, :number, :plan, :publication_id, :excel_file, images_attributes: %i[id issue_id image])
   end
 end

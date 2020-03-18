@@ -259,7 +259,6 @@ class YNewsML
           content_id = File.basename(xml_file, ".xml").split("_").first
           received = @class.find_by(content_id: content_id) 
           if @source == "205_PHOTO_FR_YNA"
-            # binding.pry
             if File.basename(xml_file, ".xml").split("_").last == "U"
               if received
                 xml = File.open(xml_file, 'r'){|f| f.read}

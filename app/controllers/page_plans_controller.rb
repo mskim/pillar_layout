@@ -53,63 +53,59 @@ class PagePlansController < ApplicationController
       current_section_name  = @page_plan.section_name
       
       if @page_plan.update(page_plan_params)
-        # if @page = @page_plan.page
+        # update color_page
         if @page_plan.page.color_page != @page_plan.color_page
           @page_plan.page.color_page = @page_plan.color_page
-          @page_plan.page.save            
+          @page_plan.page.save    
+          @page_plan.set_pair_page_color
         end
-        # end
-        @page_plan.set_pair_page_color
-        new_ad_type = @page_plan.ad_type
-        if current_ad_type != new_ad_type
-          #if we have page and ad_type changed, update page layout
-          if @page = @page_plan.page
-            if new_template = Section.where(ad_type:new_ad_type, page_number:@page_plan.page_number ).first
-              @page.change_template(new_template.id)
-            else
-              if @page.page_number.odd?
-                new_template = Section.where(ad_type:new_ad_type, page_number:101).first
-              else
-                new_template = Section.where(ad_type:new_ad_type, page_number:100).first
-              end
-              new_template = Section.where(ad_type:new_ad_type).first
-              unless new_template
-                puts "can't find any section with ad_type of #{new_ad_type}"
-              else
-                @page.change_template(new_template.id)
-              end
-            end
-          end
-        end
-       
-        new_section_name = @page_plan.section_name
-        # if current_section_name != new_section_name
-        @page_plan.page.section_name = new_section_name
-        @page_plan.page.save
-        page_heading = @page_plan.page.page_heading
-        page_heading.section_name = new_section_name
-        page_heading.save
-        page_heading.generate_pdf
-        @page_plan.page.generate_pdf_with_time_stamp
-        # end
 
+        # update advertiser
         new_advertiser = @page_plan.advertiser
         if new_advertiser && new_advertiser != "" && current_advertiser != new_advertiser
-        ad_box = @page_plan.page.ad_boxes.first
+          ad_box = @page_plan.page.ad_boxes.first
           if ad_box
             ad_box.advertiser = new_advertiser
             ad_box.save
           end
         end
-
-        if (@page_plan.page_number == 12 || @page_plan.page_number == 13)
-          if @page_plan.ad_type == "15단_브릿지"
-            Spread.where(issue: @page_plan.issue).first_or_create
-            @page_plan.set_pair_bridge_ad
+        
+        # update sectionn_name and display_name
+        if current_section_name != @page_plan.section_name 
+          new_section_name = @page_plan.section_name
+          display_name = nil
+          if new_section_name =~/.+\((.+)\)/
+            display_name = $1
+            @page_plan.page.display_name = display_name
+            @page_plan.page.section_name = new_section_name.split("(").first
           else
-            # @page_plan.spread.destroy if @page_plan.spread
+            @page_plan.page.section_name = new_section_name
           end
+          @page_plan.page.save
+          page_heading = @page_plan.page.page_heading
+          page_heading.section_name = display_name || new_section_name
+          page_heading.save
+          page_heading.generate_pdf
+          @page_plan.page.generate_pdf_with_time_stamp
         end
+
+        # update ad_type
+        new_ad_type = @page_plan.ad_type
+        if current_ad_type != new_ad_type
+          @page = @page_plan.page.change_page_ad_type(new_ad_type)
+        end
+
+        # update spread page
+        if @page_plan.page_number == 12 && @page_plan.ad_type =~ /_브릿지/
+          h = {}
+          h[:issue]   = @page_plan.issue
+          h[:ad_type] = @page_plan.ad_type
+          h[:left_page_id] = @page_plan.page.id
+          h[:right_page_id] = @page_plan.page.id + 1
+          Spread.where(h).first_or_create
+          @page_plan.set_pair_bridge_ad
+        end
+
         format.html { redirect_to current_plan_issue_path(Issue.last.id)}
         format.json { render :show, status: :ok, location: @page_plan }
       else

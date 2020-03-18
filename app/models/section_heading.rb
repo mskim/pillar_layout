@@ -76,9 +76,6 @@ class SectionHeading < ApplicationRecord
   end
 
   def box_svg
-    # "<image xlink:href='#{page_heading_jpg_path}' x='0' y='0' width='#{page_heading_width}' height='#{page_heading_height}' />\n"
-    # "<image xlink:href='#{page_heading_pdf_path}' x='0' y='0' width='#{page_heading_width}' height='#{page_heading_height}' />\n"
-      # "<a xlink:href='/working_articles/#{id}'><image xlink:href='#{pdf_image_path}' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
     "<a xlink:href='/page_headings/#{id}'><rect fill-opacity='0.0' x='#{0}' y='#{0}' width='#{page_heading_width}' height='#{heading_height}' /></a>\n"
   end
 
@@ -93,20 +90,8 @@ class SectionHeading < ApplicationRecord
   end
 
   def put_space_between_chars(string)
-    s = ""
-    i = 0
-    length = string.length
-    string.each_char do |ch|
-      if i >= length - 1
-        s += ch
-      elsif ch == " "
-        s += ch
-      else
-        s += ch + " "
-      end
-      i += 1
-    end
-    s
+    return string if string.include?(" ")
+    string.split("").join(" ")
   end
 
   def self.front_page_content(page)

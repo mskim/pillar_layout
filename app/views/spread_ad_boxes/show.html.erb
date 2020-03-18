@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ad type:</strong>
+  <%= @spread_ad_box.ad_type %>
+</p>
+
+<p>
+  <strong>Advertiser:</strong>
+  <%= @spread_ad_box.advertiser %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @spread_ad_box.row %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @spread_ad_box.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @spread_ad_box.height %>
+</p>
+
+<p>
+  <strong>Spread:</strong>
+  <%= @spread_ad_box.spread_id %>
+</p>
+
+<%= link_to 'Edit', edit_spread_ad_box_path(@spread_ad_box) %> |
+<%= link_to 'Back', spread_ad_boxes_path %>

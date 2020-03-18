@@ -146,7 +146,6 @@ class Ad < ApplicationRecord
   end
 
   def svg_box
-    # TODO put story number on top
     # make width for 6 column same as 7 column
     string = ""
     string += "<rect fill='white' stroke='#000000' stroke-width='0' x='#{0}' y='#{0}' width='#{page_columns*svg_unit_width}' height='#{15*svg_unit_height}'/>\n"

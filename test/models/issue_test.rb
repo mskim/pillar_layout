@@ -4,12 +4,14 @@
 #
 #  id             :integer          not null, primary key
 #  date           :date
+#  excel_file     :string
 #  number         :string
+#  page_count     :integer
 #  plan           :text
-#  publication_id :integer
+#  slug           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  slug           :string
+#  publication_id :integer
 #
 # Indexes
 #

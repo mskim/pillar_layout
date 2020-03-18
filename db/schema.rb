@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_063201) do
+ActiveRecord::Schema.define(version: 2020_03_16_022319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -403,6 +403,8 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.integer "page_count"
+    t.string "excel_file"
     t.index ["publication_id"], name: "index_issues_on_publication_id"
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
@@ -415,17 +417,17 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.integer "column"
     t.integer "row"
     t.string "profile"
-    t.string "finger_print"
     t.string "node_kind"
     t.integer "order"
     t.string "tag"
     t.boolean "selected"
     t.text "actions"
-    t.text "layout"
     t.text "layout_with_pillar_path"
     t.integer "box_count"
+    t.bigint "pillar_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["pillar_id"], name: "index_layout_nodes_on_pillar_id"
   end
 
   create_table "member_images", force: :cascade do |t|
@@ -552,10 +554,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.integer "row"
     t.integer "order"
     t.integer "box_count"
-    t.text "layout_with_pillar_path"
-    t.text "layout"
     t.string "profile"
-    t.string "finger_print"
     t.bigint "page_ref_id"
     t.string "page_ref_type"
     t.datetime "created_at", null: false
@@ -626,6 +625,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.string "cms_server_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "variable_page_count"
   end
 
   create_table "reporter_graphics", force: :cascade do |t|
@@ -724,6 +724,18 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.float "article_line_thickness"
   end
 
+  create_table "spread_ad_boxes", force: :cascade do |t|
+    t.string "ad_type"
+    t.string "advertiser"
+    t.integer "row"
+    t.float "width"
+    t.float "height"
+    t.bigint "spread_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spread_id"], name: "index_spread_ad_boxes_on_spread_id"
+  end
+
   create_table "spreads", force: :cascade do |t|
     t.bigint "issue_id"
     t.integer "left_page_id"
@@ -739,6 +751,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
     t.float "page_gutter"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ad_type"
     t.index ["issue_id"], name: "index_spreads_on_issue_id"
   end
 
@@ -1100,6 +1113,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_063201) do
   add_foreign_key "proofs", "working_articles"
   add_foreign_key "reporter_graphics", "users"
   add_foreign_key "reporter_images", "users"
+  add_foreign_key "spread_ad_boxes", "spreads"
   add_foreign_key "spreads", "issues"
   add_foreign_key "stories", "users"
   add_foreign_key "stories", "working_articles"

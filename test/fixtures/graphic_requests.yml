@@ -10,7 +10,7 @@
 #  page_column :integer
 #  request     :text
 #  row         :integer
-#  status      :integer          default("요청")
+#  status      :integer          default("0")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :bigint

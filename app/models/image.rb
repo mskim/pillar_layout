@@ -6,7 +6,7 @@
 #
 #  id                    :integer          not null, primary key
 #  auto_size             :integer
-#  bottom_line           :integer          default(0)
+#  bottom_line           :integer          default("0")
 #  caption               :string
 #  caption_title         :string
 #  column                :integer
@@ -14,30 +14,30 @@
 #  crop_w                :integer
 #  crop_x                :integer
 #  crop_y                :integer
-#  draw_frame            :boolean          default(TRUE)
-#  extra_height_in_lines :integer          default(0)
+#  draw_frame            :boolean          default("true")
+#  extra_height_in_lines :integer          default("0")
 #  extra_line            :integer
 #  fit_type              :string
 #  height_in_lines       :integer
 #  image                 :string
 #  image_kind            :string
 #  landscape             :boolean
-#  left_line             :integer          default(0)
+#  left_line             :integer          default("0")
 #  move_level            :integer
 #  not_related           :boolean
 #  page_number           :integer
 #  position              :integer
 #  reporter_image_path   :string
-#  right_line            :integer          default(0)
+#  right_line            :integer          default("0")
 #  row                   :integer
 #  source                :string
 #  story_number          :integer
-#  top_line              :integer          default(0)
+#  top_line              :integer          default("0")
 #  used_in_layout        :boolean
 #  x_grid                :integer
 #  y_in_lines            :integer
-#  zoom_direction        :integer          default(5)
-#  zoom_level            :integer          default(1)
+#  zoom_direction        :integer          default("5")
+#  zoom_level            :integer          default("1")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  issue_id              :integer
@@ -142,7 +142,6 @@ class Image < ApplicationRecord
     when '최적'
       h[:fit_type] = 3
       h[:zoom_level]      = zoom_level if zoom_level
-      # TODO: change field zoom_direction to zoom_anchor
       h[:zoom_anchor]     = zoom_direction if zoom_direction
     when '세로'
       h[:fit_type] = 1
@@ -156,11 +155,19 @@ class Image < ApplicationRecord
     h[:x_grid]            = x_grid - 1 if x_grid # user_input - 1
     h[:draw_frame]        = draw_frame || true
     h[:image_kind]        = image_kind if image_kind
-    if crop_x
+    if has_crop_rect?
       # 크롭을 했을 경우 crop_x
       h[:crop_rect] = [crop_x, crop_y, crop_w, crop_h]
     end
     h
+  end
+
+  def has_crop_rect?
+    crop_x != nil
+  end
+
+  def clear_crop_rect
+    update(crop_x:nil)
   end
 
   # set current_article_id, if page_number and story_number is given

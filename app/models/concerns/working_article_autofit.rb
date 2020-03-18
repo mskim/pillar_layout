@@ -29,10 +29,6 @@
     end
   end
 
-  def auto_fit_graphic(options={})
-
-  end
-
   def read_news_box_height
     article_info[:column_line_count]
   end
@@ -171,55 +167,5 @@
   end
   # old stuff ++++++++++++++++++ 
 
-  def autofit_with_time_stamp
-    save_article
-    delete_old_files
-    stamp_time
-    ArticleWorker.perform_async(path, @time_stamp, 'fit_all')
-    wait_for_stamped_pdf
-  end
-
-
-  def title_area_in_lines
-    column*4
-  end
-
-  def subtitle_area_in_lines
-    3
-  end
-
-  def images_area_in_lines
-    area = 0
-    area += images.map{|img| img.area_in_lines} if images.length > 0
-    area
-  end
-
-  def graphics_area_in_lines
-    area = 0
-    area += graphics.map{|img| img.area_in_lines} if images.length > 0
-    area
-  end
-
-  def quote_area_in_lines
-    area = 0
-  end
-
-  def total_area_in_lines
-    column*row*7
-  end
-
-  def available_line_space
-    total_area = total_area_in_lines
-    total_area += extended_line_count*column if extended_line_count
-    total_area -= pushed_line_count*column if pushed_line_count
-    occupied_area_in_lines = 0
-    occupied_area_in_lines += title_area_in_lines if title
-    occupied_area_in_lines += subtitle_area_in_lines if subtitle
-    occupied_area_in_lines += images_area_in_lines
-    occupied_area_in_lines += graphics_area_in_lines
-    occupied_area_in_lines += quote_area_in_lines
-    occupied_area_in_lines
-    total_area - occupied_area_in_lines
-  end
 
  end

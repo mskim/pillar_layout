@@ -1,41 +1,35 @@
-
 <div class="authform" align="center">
   <h3>오늘자 신문 만들기</h3>
   <h4>지난호 <%= "#{previous_date}(#{previous_number}호)" %>  </h4>
-
-<%= form_for(issue, remote: true) do |f| %>
-  <% if issue.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(issue.errors.count, "error") %> prohibited this issue from being saved:</h2>
-      <ul>
-      <% issue.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= f.hidden_field :publication_id, value:  1 %>
-
-  <div class="form-group">
-    <%= f.label :날짜 %>
-    <%= f.date_select :date, id: :issue_date %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :호수 %>
-    <% if new_issue_number %>
-      <%= f.text_field :number, class: 'form-control', value: new_issue_number, style: "width:200px" %>
-    <% else %>
-      <%= f.text_field :number, class: 'form-control', value: 1%>
+  <%= form_for(issue, remote: true) do |f| %>
+    <% if issue.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(issue.errors.count, "error") %> prohibited this issue from being saved:</h2>
+        <ul>
+          <% issue.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
-
-  </div>
-
-  <div class="actions">
-  <br />
-    <%= f.button "오늘자 신문 생성", class: "btn btn-sm btn-primary navbar-btn", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>오늘자 신문 생성중..."} %>
-  </div>
-<% end %>
-
+    <%= f.hidden_field :publication_id, value:  1 %>
+    <div class="form-group">
+      <%= f.label :날짜 %>
+      <%= f.date_select :date, id: :issue_date %>
+    </div>
+    <div class="form-group">
+      <%= f.label :호수 %>
+      <% if new_issue_number %>
+        <%= f.text_field :number, class: 'form-control', value: new_issue_number, style: "width:200px" %>
+      <% else %>
+        <%= f.text_field :number, class: 'form-control', value: 1%>
+      <% end %>
+    </div>
+    <div class="actions">
+      <br />
+      <%= f.button "오늘자 신문 생성", class: "btn btn-sm btn-primary navbar-btn", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i>오늘자 신문 생성중..."} %>
+    </div>
+    <%= f.file_field :excel_file %>
+    <%= f.hidden_field :excel_file_cache %>
+  <% end %>
 </div>

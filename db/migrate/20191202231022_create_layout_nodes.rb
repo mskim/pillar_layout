@@ -8,15 +8,14 @@ class CreateLayoutNodes < ActiveRecord::Migration[5.2]
       t.integer :column
       t.integer :row
       t.string :profile
-      t.string :finger_print
       t.string :node_kind
       t.integer :order
       t.string :tag
       t.boolean :selected
       t.text :actions
-      t.text :layout
       t.text :layout_with_pillar_path
       t.integer :box_count
+      t.references :pillar
 
       t.timestamps
     end

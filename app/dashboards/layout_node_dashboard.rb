@@ -15,14 +15,11 @@ class LayoutNodeDashboard < Administrate::BaseDashboard
     grid_y: Field::Number,
     column: Field::Number,
     row: Field::Number,
-    profile: Field::String,
-    finger_print: Field::String,
     node_kind: Field::String,
     order: Field::Number,
     tag: Field::String,
     selected: Field::Boolean,
     actions: Field::Text,
-    layout: Field::Text,
     layout_with_pillar_path: Field::Text,
     box_count: Field::Number,
     created_at: Field::DateTime,
@@ -52,7 +49,6 @@ class LayoutNodeDashboard < Administrate::BaseDashboard
   column
   row
   profile
-  finger_print
   node_kind
   order
   tag
@@ -76,7 +72,6 @@ class LayoutNodeDashboard < Administrate::BaseDashboard
   column
   row
   profile
-  finger_print
   node_kind
   order
   tag

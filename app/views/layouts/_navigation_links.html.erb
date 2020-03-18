@@ -57,7 +57,7 @@
       <%= link_to '돌출 광고', heading_ad_images_path, class: "dropdown-item" %>
       <%= link_to '전면 광고', ad_group_issue_path(current_issue), class: "dropdown-item" %>
     <% end %>
-    <% if Issue.last.spread %>
+    <% if Issue.last.pages[24] %>
       <div class="dropdown-divider"></div>
       <%= link_to '양면(12-13)', spread_issue_path(current_issue), class: "dropdown-item" %>
     <% end %>
@@ -111,7 +111,6 @@
       <div class="dropdown-divider"></div>
       <%= link_to '매체 정보', publication_path(1), class: "dropdown-item" %>
       <%= link_to '서체 목록', text_styles_path, class: "dropdown-item" %>
-      <%= link_to '페이지 템플렛', sections_path, class: "dropdown-item" %>
       <%= link_to '페이지 레이아웃', page_layouts_path, class: "dropdown-item" %>
 
       <div class="dropdown-divider"></div>

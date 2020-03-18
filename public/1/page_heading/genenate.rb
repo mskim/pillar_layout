@@ -31,20 +31,8 @@ SECTIONS = [
 @date = "0000년 0월 0일 0요일"
 
 def put_space_between_chars(string)
-  s = ""
-  i = 0
-  length = string.length
-  string.each_char do |ch|
-    if i >= length - 1
-      s += ch
-    elsif ch == " "
-      s += ch
-    else
-      s += ch + " "
-    end
-    i += 1
-  end
-  s
+  return string if string.include?(" ")
+  string.split("").join(" ")
 end
 
 Dir.glob("#{File.dirname(__FILE__)}/**/layout.erb").each_with_index do |e, i|

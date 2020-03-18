@@ -24,10 +24,200 @@
   - download_first_page_heading
   - heading_maker
 
-2020_1
+  - upload Excel file for issue plan 
+
+
+2020_03_16
+  - fix issue_plan not update page
+    - make section_name and display name
+    - 정치(코로나 바이러스 비상)
+
+  - fix issue_plan not updating ad_type
+  - rails g migration remove_layout_with_pillar_path_from_page_layout 
+  - fix page chage to new layout
+  - fix new page_layout, add duplicate, fix serialize layout to just text
+  - fix subtitle disaprearing when there is an image
+  - fix article_info saving
+  - fix bridge_ad
+
+  - upload excel file for issue(won ho)
+    - use carrier_wave
+
+2020_03_14
+  - add page_layout template for page 1 in page_layout.csv
+  - PageLayout, duplicate, edit
+    - page_layout.update_pillar_from_layout
+    - pillar update_pillar(layout_item,)
+
+  - fix bug when there is an image, subtitle not displayed
+  - fix bug uploading graphic error
+
+
+
+2020_03_14
+  - fix layout in PageLayout as just text
+    - get rid of serialize :layout, Hash just do eval(layout)
+
+2020_03_13
+  - fix edit page_layout
+    - fix edit form
+    
+2020_03_12
+  - fix auto_adjust_height
+  - fix virtical cut 
+  - fix horizontal cut 
+
+2020_03_11
+  - fix page column nil value
+  - fix page_layout.csv first page pilliar height
+  - fix pilar_bottom?
+  - fix layout_rb pushed_line_count for pilar_bottom?
+  - fix extended_line_count save
+  - fix top_story? assing it at create, has to have column with > 2
+
+2020_03_09
+  - we no longer need to update config file
+  - fix bottom_article? to bottom_article_of_sibllings?
+  - fix menu for pillar_bottom_article
+     if @working_article.bottom_article_of_pillar?
+
+  - fix bottom article height according to reduced_line_count
+
+  - update horozontal sibling height when height is changed
+    - tallest or left most???
+
+2020_03_8
+  - fix clear_crop_rect
+  - fix shorten initial body text as ""
+  - fix title space width
+  - fix overflow red line for ruby_pdf_engine
+  - use cmyk color
+
+  - when article extended_line_count is changed, 
+    update bottom article pushed_line_count
+    
+  - when article height height was adjusted is changed, 
+    update bottom article pushed_line_count
+
+2020_03_6
+  down sides of setting adjustable_height and updateing
+  articlde height
+    - too many moving parts
+    - set adjustable_height as false as default
+    - chang the height only when specified
+    - use specified number 1,2,3 or auto expand and recude 
+    - set height expand back to 0
+    - auto adjust height for all articles
+    - revert to original all articles height 
+    - use empty body text
+
+  update bottom, element pushed value every time above pillar sibliings height is changed
+    - y_offset_in_lines
+    - height_in_lines
+
+  do not save article_info to disk, if ruby_layout mode
+    - layout_status:text
+      hash of current layout_status
+    - get return values from ruby layout
+      - overflow, overflow_text, underflow info
+
+2020_03_05
+  - overlap = 첨부박스
+  - fix heading not showing
+  - fix pillar bottom position box layout
+      it should be layed out as fixed height
+
+2020_02_12
+  - fix page layout error
+  - clear crop_rect
+  - cut_vertically
+  - make overlap_article
+    - add overlapable?
+      - depth must be greater or equal to 2
+      - column > 2 && column > 2
+      overlap 한글이름 달린박스? 기생박스?
+    - add/remove overlap in menu
+      - 달린박스 추가(하단우측)
+      - 달린박스 추가(하단좌측)
+      - 달린박스 삭제
+    - add kind overlap(기생박스)
+
+
+2020_02_12-3
+  -  height locking
+    - height can be locaked at row , pushed, expanded suppoert not supported for pillar article
+
+  - overlap condition
+    - overlap is allowed for level 1 or 2 aritlces only.
+    - only one overlap is allowed per article
+    - overlap is leveled with alphabet, ex 1_a, 1_1_a
+    - overlap containing article's size gets  locked, it's height becomes non-adjustable_height ???
+  
+  - set auto tracking for ajutified line
+    - when word spacing is too tight set -tracking for tokens
+    - when word spacing is too lose set +tracking for tokens
+    - to not break numbers and comma included numbers
+
+2020_02_12
+  - on Page show display available PageLayout
+  - Pillar has_one LayoutNode
+  - LayoutNode belongs_to :Pillar, optional: true
+
+2020_01_30
+  - Pillar
+    presents area of page with related article boxes
+    A page can have one or more pillars, and each pillar has one associated LayoutNode
+
+  - LayoutNode
+    tree reprensenting relation of article boxes, where leaf nodes are article boxes.
+    leaf nodes can be cut in vertivcal or orizontal direction to form more leaf nodes.
+
+  - difference between layout_with_pillar_path and layout_with_node_path ?
+    pillar_path adds pillar_order in front of each node_path
+
+2020_01_29
+  - steps for creating page_tempates(section)
+    1. create page_layout from csv
+        1. create pillars and nodes from this
+        1. create odd pages from page_layout
+        1. create even pages from page_layout
+
+    2. create initial sections from existing csv
+        1. parse section data and retreave pillars from it
+
+  - add v_divide to working_article
+    '세로 자르기 -1'
+    '세로 자르기 -2'
+    '세로 자르기 -3'
+
+2020_1_15
+  - add variable_page_count:boolean to publication
+  - add page_count to issue
+  - add change page_count selection to issue show button
+  - add change page_count to issue model
+  - add change page_count to issue page_plan view
+  - add change page_count to issue_controller
+  - add get page_count to route.rb
+  - add change page_count to page_plan model
+
+  - read page_layout from section.yml
+    - add pushed, extended to page layout? try to avoid this!!!
+      - add height_in_lines to pillar, working_article
+    - add article type specification to page_layout?
+
+  - add spread
+  - update ytn parsing
+
+2020_1_6
+  - fix issue_plan to support variable page size
+  - fix editorial reporter image position 
+    - top_left, bottom_right, none
+
+2020_1_2
 
   - bug 수정
-    - 2단 제목 넘침
+    - 2단 제목 넘침?
+    
     - 이미지 크기 위치에 따라 변환 방지
     - 그래픽 높이 자동 조절 
     - 우측 인물사진
@@ -35,6 +225,7 @@
   
   - 면배열표 수정 내용 한번에 적용하기
   - 그룹사진 기능 구현
+  - 양면광고 구현
 
 (한승효)
   - 광고 자동 배치

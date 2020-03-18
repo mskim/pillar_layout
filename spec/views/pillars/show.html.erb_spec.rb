@@ -12,7 +12,6 @@ RSpec.describe "pillars/show", type: :view do
       :layout_with_pillar_path => "MyText",
       :layout => "MyText",
       :profile => "Profile",
-      :finger_print => "Finger Print",
       :page_ref => nil,
       :page_ref_type => "page_ref Type"
     ))
