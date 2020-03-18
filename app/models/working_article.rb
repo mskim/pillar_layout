@@ -763,7 +763,8 @@ class WorkingArticle < ApplicationRecord
     profile_hash[:stroke_width]   = 0
     profile_hash[:position]       = 1
     profile_hash[:is_float]       = true
-    profile_hash[:fit_type]       = 2 # IMAGE_FIT_TYPE_HORIZONTAL
+    # profile_hash[:fit_type]       = 2 # IMAGE_FIT_TYPE_HORIZONTAL
+    profile_hash[:fit_type]       = IMAGE_FIT_TYPE_VERTICAL
     profile_hash[:before_title]   = true
     profile_hash[:layout_expand]  = nil
     profile_hash
@@ -1446,6 +1447,7 @@ class WorkingArticle < ApplicationRecord
     self.title = "여기는 #{pillar_order}제목 입니다." unless title
     self.title = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle = '여기는 부제목 입니다.' unless subtitle
+    self.reporter = '홍길동' unless reporter
 
     body_text = ""
     unit_text = '여기는 본문입니다. ' 

@@ -28,8 +28,17 @@
 
 2020_03_18
   - fix opinion view show column size
-  - fix opinion view reporter default value as '홍길동'
   - fix opinon, profile,index view as multi-column
+  - fix opinion picture vertival size, fit_type FIT_VERTICAL
+
+  - opinion title not showing when picture is present
+  - article subtitle not showing when picture is present
+  - fix ## font not applying
+  - fix editorial draw_pdf
+
+  - copy data opinion profile from 213
+  - display uploaded file name image and graphic
+  - fix opinion view reporter default value as '홍길동'
 
 2020_03_17
   - 전체 오피니언 기사종류 select 없음
@@ -45,10 +54,7 @@
   - paeg_layout 복제하기 변경 내용 등록 안됌
     - list in order of updated_at so that last modified is at top
 
-  - fix## not applying
-  - copy data opinion profile from 213
-  - display uploaded file name image and graphic
-  - fix editorial draw_pdf
+
 
 2020_03_16
   - fix issue_plan not update page
