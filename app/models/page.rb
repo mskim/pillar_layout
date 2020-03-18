@@ -62,8 +62,8 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, :as =>:page_ref
-  has_many :working_articles
+  has_many :pillars, :as =>:page_ref,  :dependent=> :destroy
+  has_many :working_articles,  :dependent=> :destroy
   has_many :ad_boxes
 
   # scope
@@ -353,44 +353,6 @@ class Page < ApplicationRecord
         template_page_number = 100
       end
       "#{Rails.root}/public/#{publication_id}/section/#{template_page_number}/#{profile}/#{template_id}"
-    end
-  end
-
-  def change_ad_boxes(section)
-    # assuming only one ad per page,  
-    # TODO handle case when there are multiple ads in a page
-    # section.ad_box_templates.each_with_index do |ad_box_template, i|
-    ad_box_template = section.ad_box_templates.first
-    if ad_box_template
-      current = {page_id: self.id, ad_type: self.ad_type}
-      if ad = AdBox.where(current).first
-        puts  "same type found, do nothing"
-      else
-        current            = {}
-        current['page_id'] = id
-        current['ad_type'] = ad_box_template.ad_type
-        current['grid_x']  = ad_box_template.grid_x
-        current['grid_y']  = ad_box_template.grid_y
-        current['column']  = ad_box_template.column
-        current['row']     = ad_box_template.row
-        current['order']   = 1
-
-        if ad_boxes.length > 0
-          puts "different type of ad exists: #{ad_box_template.ad_type}, change it to new ad type :#{current[:ad_type]}"
-          currnet_ad_box = ad_boxes.first
-          currnet_ad_box.update(current)
-          currnet_ad_box.save
-          currnet_ad_box.generate_pdf_with_time_stamp
-        else
-          a = AdBox.create(current)
-          a.generate_pdf_with_time_stamp
-        end
-      end
-    else
-      # delete ad_boxwa, if new section has no ad_box
-      ad_boxes.each do |ab|
-        ab.destroy
-      end
     end
   end
 
@@ -885,16 +847,6 @@ class Page < ApplicationRecord
     File.open(config_yml_path, 'w') { |f| f.write config_hash.to_yaml }
   end
 
-  def config_hash
-    h = {}
-    if page_number == 25
-
-    else
-
-    end
-    h
-  end
-
   def create_pillars
     layout.each_with_index do |item, i|
       if item.first.class == String
@@ -913,11 +865,10 @@ class Page < ApplicationRecord
     end
   end
 
-
-  # TODO
-  # this is called from issue_plan or from page
-  # change layout
-  def change_page_ad_type(new_ad_type)
+  # this is called from issue_plan when ad_type for page_plan is saved
+  # it updates ad_type and calls change_page_layout, 
+  # which then calls ad_boxes.first.change_layout(ad_type)
+  def change_ad_type(new_ad_type)
     template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
     # If not found, look for odd even  tempate
     unless template
@@ -928,42 +879,35 @@ class Page < ApplicationRecord
         template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
       end
     end
-    change_page_layout(template)
+    self.ad_type = new_ad_type
+    self.template_id = template.id
+    self.save
+    change_page_layout(template.id)
   end
 
   def change_page_layout(new_layout_id)
-    update(template_id:new_layout_id)
-    new_page_layout = PageLayout.find(new_layout_id.to_i)
+    new_page_layout = PageLayout.find(new_layout_id)
+    self.template_id = new_layout_id
+    if column != new_page_layout.column
+      self.column    = new_page_layout.column
+      self.grid_width = publication.grid_width(new_page_layout.column)
+    end
+    self.template_id = new_layout_id
+    self.save
+
     if pillars.length == new_page_layout.pillars.length
       # New page layout and current one has equal number of pillars
       pillars.each_with_index do |p, i|
-        #TODO Pillar should have layout_with_pillar_path
-        layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
-        if layout_with_pillar_path == []
-          profile = new_page_layout.pillars[i].profile
-          layout_with_pillar_path = LayoutNode.where(profile: profile).first.leaf_node_layout_with_pillar_path
-          p.change_layout(layout_with_pillar_path)
-        else
-          p.change_layout(layout_with_pillar_path)
-        end
+        p.change_pillar_layout(new_page_layout.pillars[i])
       end
     elsif pillars.length > new_page_layout.pillars.length
       # Current layout has more number of pillars
       pillars.each_with_index do |p, i|
         if i >= new_page_layout.pillars.length
           # delete pillar
-          p.destory
+          p.destroy
         else
-          layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
-          # TODO Pillar should have layout_with_pillar_path
-          # somehow we seem to be not doing this. fix this we don't need to do the following
-          if layout_with_pillar_path == []
-            profile = new_page_layout.pillars[i].profile
-            layout_with_pillar_path = LayoutNode.where(profile: profile).first.leaf_node_layout_with_pillar_path
-            p.change_layout(layout_with_pillar_path)
-          else
-            p.change_layout(layout_with_pillar_path)
-          end
+          p.change_pillar_layout(new_page_layout.pillars[i])
         end
       end
     else
@@ -973,22 +917,25 @@ class Page < ApplicationRecord
           # create new pillar
           Pillar.where(page_ref: self, grid_x: layout[0], grid_y: layout[1], column: layout[2], row: layout[3], order: i + 1, box_count:layout[4]).first_or_create
         else
-          layout_with_pillar_path = new_page_layout.pillars[i].layout_with_pillar_path
-          if layout_with_pillar_path == []
-            profile = new_page_layout.pillars[i].profile
-            layout_with_pillar_path = LayoutNode.where(profile: profile).layout_with_pillar_path
-            p = pillars[i]
-            p.change_layout(layout_with_pillar_path)
-          else
-            p.change_layout(layout_with_pillar_path)
-          end
+          p = pillars[i]
+          p.change_pillar_layout(new_page_layout.pillars[i])
         end
       end
     end
+
     # change_ad_box
-    if ad_type != new_page_layout.ad_type && ad_type != "광고없음"
-      @ad_boxes.first.change_layout(new_page_layout.ad_type)
+    if ad_boxes.first
+      # case when there is an existing ad, and changed to something else
+      if ad_type != ad_boxes.first.ad_type
+        ad_boxes.first.change_layout(ad_type)
+      end
+    elsif ad_type && ad_type != '광고없음'
+      # this is case when current ad_type='광고없음'  chnaging to some ad_ty[e
+      # create new ad_box, 
+      create_ad_box
     end
+    save_config_file
+    generate_pdf_with_time_stamp
   end
 
   # other SectionTemplate choices for current page
@@ -1077,6 +1024,7 @@ class Page < ApplicationRecord
       info[:column] = 3
       info[:row]    = 7
     else
+      puts "ad_type #{ad_type} is not supported !!!"
       return
     end
     AdBox.create(info)

@@ -53,20 +53,18 @@
           <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
             <div class="row" style="width: 100%;">
               <div class="col-md-3">
-                <% @pages.each do |page| %>
-                  <div class="card mb-3">
-                    <div class="border text-center" style="margin: 5px;">
-                      <%= raw page.to_svg_with_jpg %>
-                    </div>
+                <div class="card mb-3">
+                  <div class="border text-center" style="margin: 5px;">
+                    <%= raw @working_article.page.to_svg_with_jpg %>
                   </div>
-                  <p class="text-center">
-                    <% if page.color_page %>
-                      <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
-                    <% else %>
-                      <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
-                    <% end %>
-                  </p>
-                <% end %>
+                </div>
+                <p class="text-center">
+                  <% if @working_article.page.color_page %>
+                    <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
+                  <% else %>
+                    <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
+                  <% end %>
+                </p>
               </div>
               <div class="col-md-4">
                 <div class="card">

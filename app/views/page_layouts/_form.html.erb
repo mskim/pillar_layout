@@ -6,7 +6,7 @@
     <%= f.input :ad_type %>
     <%= f.input :column %>
     <%= f.input :row %>
-    <%= f.input :layout, { multiple: true}%>
+    <%= f.input :layout, :as => :text, :input_html => {:rows => 15}%>
     <%= f.input :like %>
   </div>
 

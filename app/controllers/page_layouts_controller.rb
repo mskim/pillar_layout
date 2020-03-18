@@ -11,7 +11,7 @@ class PageLayoutsController < ApplicationController
     end
     @q = PageLayout.ransack(params[:q])
     # @sections_search = @q.result.order(:id, :created_at, :ad_type, :page_number, :column).page(params[:page]).reverse_order.per(10) 
-    @page_layouts = @q.result.order(:ad_type, :page_type, :column).page(params[:page]).reverse_order.per(10) 
+    @page_layouts = @q.result.order(:updated_at, :ad_type, :page_type, :column).page(params[:page]).reverse_order.per(10) 
     @page_layouts = PageLayouts.all  if request.format == 'csv'
     respond_to do |format|
       format.html 
@@ -47,6 +47,7 @@ class PageLayoutsController < ApplicationController
 
     respond_to do |format|
       if @page_layout.save
+
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully created.' }
         format.json { render :show, status: :created, location: @page_layout }
       else
@@ -99,6 +100,6 @@ class PageLayoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_layout_params
-      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :like, layout: [])
+      params.require(:page_layout).permit(:doc_width, :doc_height, :ad_type, :page_type, :column, :row, :pillar_count, :grid_width, :grid_height, :gutter, :margin, :like, :layout)
     end
 end
