@@ -444,7 +444,6 @@ class WorkingArticle < ApplicationRecord
     if options[:adjustable_height] && new_extended_line_count != 0
       self.extended_line_count = new_extended_line_count
       self.save
-      # adjust bottom article TODO???
     end
   end
 

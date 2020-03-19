@@ -289,7 +289,6 @@ class Issue < ApplicationRecord
           h[:issue_id]      = id
           h[:page_plan_id]  = page_plan.id
           h[:page_number]   = page_plan.page_number
-
           # TODO ????
           h[:section_name]  = page_plan.section_name
           h[:template_id]   = template.id

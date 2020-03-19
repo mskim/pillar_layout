@@ -596,7 +596,7 @@ class Page < ApplicationRecord
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_page_pdf(time_stamp:@time_stamp)
+      save_page_pdf(time_stamp:@time_stamp, jpg:true)
     else # 'rubymotion'
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
     end
