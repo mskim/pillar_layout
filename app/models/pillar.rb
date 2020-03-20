@@ -301,8 +301,9 @@ class Pillar < ApplicationRecord
 
   def change_pillar_layout( new_pillar)
     current_box_count = box_count
-    new_layout        =  new_pillar.layout_with_pillar_path
-
+    new_box_count     = new_pillar.box_count
+    new_layout        =  new_pillar.layout_with_pillar_path.dup
+    new_box_count     =  new_layout.length
     self.grid_x       =  new_pillar.grid_x
     self.grid_y       =  new_pillar.grid_y
     self.column       =  new_pillar.column
@@ -310,43 +311,43 @@ class Pillar < ApplicationRecord
     self.box_count    =  new_pillar.box_count
     self.order        =  new_pillar.order
     self.save
-    difference = current_box_count - new_pillar.box_count
-    if difference == 0
-      # current and new pillar size are not equal
+    removing_articles = current_box_count - new_box_count
+    if removing_articles == 0
+      # current and new pillar size are equal
       working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
         box_rect     = new_layout[i]
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
-        puts ""
         w.change_article(box_rect)
       end
-    elsif difference > 0
+    elsif removing_articles > 0 # current box is greater than new_layout
+      ordered_working_articles  = working_articles.sort_by{|w| w.pillar_order}
+      new_layout.each_with_index do |box_rect, i|
+        pillar_order = "#{order}_#{i+1}"
+        box_rect[4]  = pillar_order
+        ordered_working_articles[i].change_article(box_rect)
+      end
       # delete working_articles from pillar
-      difference.times do
-        w = working_articles.last
-        if w
-          system("rm -rf #{w.path}")
-          w.destroy
-        end
+      removing_articles.times do
+        w = ordered_working_articles.last
+        system("rm -rf #{w.path}")
+        w.destroy
       end
+      # new_pillar.box_count should be == ordered_working_articles.length
+
+    else # removing_articles < 0 add articles
+      # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
-        box_rect = new_layout[i]
+        box_rect = new_layout[i].dup
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
         w.change_article(box_rect)
       end
-    else
-      # update remaininng working_articles sizes same as template
-      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
-        box_rect = new_layout[i]
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
-      end
+      working_articles_count = working_articles.length
       # add working_articles to pillar
-      (-difference).times do |i|
-        box_rect = new_layout[i]
-        h = { page: page_ref, pillar: self, pillar_order: order, grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+      (-removing_articles).times do |i|
+        box_rect = new_layout[working_articles_count + i]
+        h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
       end
       working_articles.last.update_pdf_chain

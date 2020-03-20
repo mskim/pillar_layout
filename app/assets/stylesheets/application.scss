@@ -21,13 +21,15 @@
 @import "bootstrap";
 @import "working_articles";
 @import "trix/dist/trix";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 html {
   height: 100% !important;
 }
 
 body {
-  background-color: gainsboro;
+  background-color: rgb(238, 238, 238);
   padding-top: 5rem;
   display: table;
   width: 100% !important;

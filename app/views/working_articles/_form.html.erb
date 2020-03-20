@@ -13,6 +13,16 @@
   <div class="form-group">
     <button name="button" type="submit" class="btn btn-block btn-primary" data-disable-with="<i class='fa fa-spinner fa-spin'></i> 처리중...">저장</button>
 </div>
+<div class="form-row">
+  <div class="col">
+    <%= f.label "기사 종류:" %>
+    <%= f.select :kind, ['기사', '사진', '기고', '사설', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();', class: "form-control"} %>
+  </div>
+  <div class="col">
+    <%= f.label '가격:' %>
+    <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "form-control"} %>
+  </div>
+</div>
 <% if article.kind == '사진' %>
   <p>사진 탭에서 사진 올리세요</p>
 <% elsif article.kind == '만평' %>
@@ -85,16 +95,6 @@
     <div class="letter">문자표 <span class="box">&#8216;</span><span class="box">&#8217;</span><span class="box">&#8220;</span><span class="box">&#8221;</span><span class="box">&#12539;</span><span class="box">&#8943;</span><span class="box">&#9724;</span><span class="box">&#8195;</span><span class="box">&#9656;</span></div>
     <%= render 'character_count', article: @working_article %>
     <%= f.text_area :body, class: 'form-control shinmoon', style: "height: 450px;", autocomplete: 'off' %>
-  </div>
-  <div class="form-row">
-    <div class="col">
-      <%= f.label "기사 종류" %>
-      <%= f.select :kind, ['기사', '사진', '기고', '사설', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();', class: "form-control"} %>
-    </div>
-    <div class="col">
-      <%= f.label '가격' %>
-      <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "form-control"} %>
-    </div>
   </div>
   <% if @working_article.page.page_number == 1 %>
     <% if @working_article.category_code %>
