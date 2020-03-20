@@ -36,15 +36,28 @@
             [days[0..5], '23','1-2', '사설'],
 
 2020_03_20
+
+  - add  `draw_pdf' for NewsColumnImage
+  - update font table from 213
+  - 자동 정렬 에러 사진 올리고, 기사 swap update pillar_order
+  - show jpg in chrome
+  - make high res jpg
+
+2020_03_20
   - apply font to title, head
-  - show caption input 
+
+  - caption mot showing
   - display uploaded file name image and graphic
-  
-2020_03_19
   - opinion title not showing when picture is present
   - article subtitle not showing when picture is present
-  - fix ## font not applying
+  - ###  not working
+  - #### font for triangle not found
+  - image upload shifting to top, maybe due to fit_type error
   - fix editorial draw_pdf
+
+2020_03_19
+
+  - fix ## font not applying
   - fix title , #### not aligning properly
   
 2020_03_18
@@ -96,7 +109,6 @@
 
   - fix bug when there is an image, subtitle not displayed
   - fix bug uploading graphic error
-
 
 
 2020_03_14

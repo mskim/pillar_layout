@@ -43,7 +43,7 @@ module PageSavePdf
     pdf_folder    = File.dirname(output_path)
     pdf_base_name = File.basename(output_path)
     jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
-    commend  = "cd #{pdf_folder} && vip copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
+    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
     system(commend)
   end
 
