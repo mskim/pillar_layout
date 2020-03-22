@@ -36,13 +36,14 @@
             [days[0..5], '23','1-2', '사설'],
 
 2020_03_20
-
+  - show jpg in chrome
   - add  `draw_pdf' for NewsColumnImage
   - update font table from 213
-  - 자동 정렬 에러 사진 올리고, 기사 swap update pillar_order
-  - show jpg in chrome
-  - make high res jpg
 
+  - 자동 정렬 에러 사진 올리고, 기사 swap update pillar_order
+  - make high res jpg
+  - add font attributes when drawing
+  
 2020_03_20
   - apply font to title, head
 
