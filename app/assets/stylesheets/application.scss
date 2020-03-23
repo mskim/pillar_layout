@@ -30,7 +30,7 @@ html {
 
 body {
   background-color: rgb(238, 238, 238);
-  padding-top: 5rem;
+  padding-top: 4rem;
   display: table;
   width: 100% !important;
   height: 100% !important;
@@ -173,15 +173,15 @@ $custom-file-text: (
   letter-spacing: -1px !important;
 }
 
-.form-control {
-  font-family: "KoPub Batang";
-  // font-family: "KoPub Dotum";
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: -0.4px;
-  display: inline-block;
-}
+// .form-control {
+//   font-family: "KoPub Batang";
+//   // font-family: "KoPub Dotum";
+//   font-weight: 400;
+//   font-size: 18px;
+//   line-height: 1.4;
+//   letter-spacing: -0.4px;
+//   display: inline-block;
+// }
 
 @font-face {
   font-family: "KoPub Dotum";

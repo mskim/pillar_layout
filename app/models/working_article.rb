@@ -18,6 +18,9 @@
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
+#  frame_color                  :string
+#  frame_sides                  :string
+#  frame_thickness              :float
 #  grid_height                  :float
 #  grid_width                   :float
 #  grid_x                       :integer
