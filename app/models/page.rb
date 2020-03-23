@@ -63,8 +63,8 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, :as =>:page_ref,  :dependent=> :destroy
-  has_many :working_articles,  :dependent=> :destroy
+  has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
+  # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
   has_many :ad_boxes
 
   # scope
@@ -885,17 +885,20 @@ class Page < ApplicationRecord
       end
     elsif pillars.length > new_page_layout.pillars.length
       # Current layout has more number of pillars
+      delete_count = pillars.length - new_page_layout.pillars.length
       pillars.each_with_index do |p, i|
-        if i >= new_page_layout.pillars.length
-          # delete pillar
-          p.destroy
-        else
-          p.change_pillar_layout(new_page_layout.pillars[i])
-        end
+        break unless new_page_layout.pillars[i]
+        p.change_pillar_layout(new_page_layout.pillars[i])
       end
+      delete_count.times do
+        p = pillars.last
+        system "rm -rf #{p.path}"
+        p.destroy
+      end      
+
     else
       # New page layout has more pillars than currnt one
-      new_page_layout.layout.each_with_index do |layout, i|
+      new_page_layout.each_with_index do |layout, i|
         if i >= news_layout.length
           # create new pillar
           Pillar.where(page_ref: self, grid_x: layout[0], grid_y: layout[1], column: layout[2], row: layout[3], order: i + 1, box_count:layout[4]).first_or_create
@@ -910,7 +913,7 @@ class Page < ApplicationRecord
     if ad_boxes.first
       # case when there is an existing ad, and changed to something else
       if ad_type != ad_boxes.first.ad_type
-        ad_boxes.first.change_layout(ad_type)
+        ad_boxes.first.change_ad_box_layout(ad_type, new_page_layout.column)
       end
     elsif ad_type && ad_type != '광고없음'
       # this is case when current ad_type='광고없음'  chnaging to some ad_ty[e

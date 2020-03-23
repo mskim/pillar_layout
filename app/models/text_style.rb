@@ -42,6 +42,20 @@ class TextStyle < ApplicationRecord
   validates :english, presence: true
 
   after_create :setup
+  attr_reader :style_object
+
+  def make_style_object
+    @style_object || HexaPDF::Layout::Style.new(to_h)
+  end
+
+  def to_h
+    h = {}
+    h[:font]                = font
+    h[:font_size]           = font_size
+    h[:character_spacing]   = tracking
+    h[:horizontal_scale]    = tracking
+    h
+  end
 
   def self.to_csv(options = {})
       CSV.generate(options) do |csv|

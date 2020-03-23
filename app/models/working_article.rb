@@ -100,7 +100,7 @@ class WorkingArticle < ApplicationRecord
   after_create :setup_article
 
   # belongs_to
-  belongs_to :page
+  # belongs_to :page
   belongs_to :pillar
   belongs_to :article, optional: true
 
@@ -140,6 +140,10 @@ class WorkingArticle < ApplicationRecord
   # end
 
   # when working_article is split, we need to bumped up folder names
+
+  def page
+    pillar.page_ref
+  end
 
   def save_to_story
     s = Story.where(working_article_id: id).first
@@ -416,7 +420,7 @@ class WorkingArticle < ApplicationRecord
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     end
     pdf_working_article_ending = Time.now
-    page.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
     puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end
@@ -457,7 +461,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def siblings
-    page.siblings(self)
+    # page.siblings(self)
+    pillar.pillar_siblings_of(self)
   end
 
   def character_count
@@ -714,7 +719,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def publication
-    page.issue.publication
+    # page.issue.publication
+    Publication.first
   end
 
   def opinion_pdf_path
@@ -845,6 +851,10 @@ class WorkingArticle < ApplicationRecord
     h
   end
 
+  def top_position?
+    grid_y == 0 && pillar && pillar.top_position?
+  end
+
   def y_max
     y + height
   end
@@ -859,8 +869,8 @@ class WorkingArticle < ApplicationRecord
 
   def top_story?
     return true if top_story
-    return true if page.working_articles.first.kind == self
-    return true if page.working_articles.first.kind != '기사' && order == 2
+    # return true if page.working_articles.first.kind == self
+    # return true if page.working_articles.first.kind != '기사' && order == 2
     false
   end
 
@@ -1420,18 +1430,19 @@ class WorkingArticle < ApplicationRecord
 
 
   def init_article
-    self.grid_width  = page.grid_width
-    self.grid_height = page.grid_height
-    self.is_front_page = true if page.is_front_page?
-    self.column = 4 unless column
-    self.row = 4 unless row
-    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_1")
-    self.extended_line_count = 0
-    self.pushed_line_count = 0
-    self.title = "여기는 #{pillar_order}제목 입니다." unless title
-    self.title = "여기는 #{pillar_order}제목." if column <= 2
-    self.subtitle = '여기는 부제목 입니다.' unless subtitle
-    self.reporter = '홍길동' unless reporter
+    self.grid_width           = pillar.page_ref.grid_width
+    self.grid_height          = pillar.page_ref.grid_height
+    self.is_front_page        = true if pillar.page_ref.is_front_page?
+    self.column               = 4 unless column
+    self.row                  = 4 unless row
+    self.top_story            = true if column > 2 && (pillar_order == "1" || pillar_order == "1_1")
+    self.extended_line_count  = 0
+    self.pushed_line_count    = 0
+    self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
+    self.title        = "여기는 #{pillar_order}제목 입니다." unless title
+    self.title        = "여기는 #{pillar_order}제목." if column <= 2
+    self.subtitle     = '여기는 부제목 입니다.' unless subtitle
+    self.reporter     = '홍길동' unless reporter
 
     body_text = ""
     unit_text = '여기는 본문입니다. ' 

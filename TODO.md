@@ -34,8 +34,31 @@
             [days[5..5], '22','1-1', '기고'],
             [days[0..5], '23','1-1', '기고'],
             [days[0..5], '23','1-2', '사설'],
+    - do the layout in rails
+      goal is to edit content by components and update olny changed parts,
+      instead of relayout the whole aricle from scrach.
+          - get token width 
+          - create Style in TextStyles,  so that every user can share, since we are using 
+    - body by paragraphs
+    - heading
+    - quote
+    - image
+    - graphic
+    - announcement
+    - group_image
 
+2020_03_24
+  - fix subtitle disapearing when image is present
+  - caption not showing
+  - ####
+  - **emphasis**
+  
 2020_03_23
+  - fix bug when changing page_layout when new pillar size is not equal 
+  - fix update ad_box when change_page_layout
+
+2020_03_22
+
   - change how page pdf is merged, just merge working_articles from page
     - get rid of update_pdf_chain
   - get rid of page config.yml file, no longer needed
@@ -54,7 +77,6 @@
 2020_03_20
   - apply font to title, head
 
-  - caption mot showing
   - display uploaded file name image and graphic
   - opinion title not showing when picture is present
   - article subtitle not showing when picture is present

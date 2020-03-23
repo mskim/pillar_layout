@@ -1,6 +1,20 @@
 namespace :style do
   require 'csv'
   
+
+  desc 'generate issue pdf'
+  task :pdf_all =>:environment do
+    WorkingArticle.all.each do |w|
+      w.generate_pdf_with_time_stamp(no_page_pdf:true)
+    end
+    Page.all.each do |p|
+      p.generate_pdf_with_time_stamp
+    end
+  end
+
+
+
+
   desc 'convert section.csv pillar.csv'
   task :section2pillar =>:environment do
     csv_path = "#{Rails.root}/public/1/section/sections.csv"

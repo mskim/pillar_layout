@@ -25,7 +25,7 @@
 
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
-  has_many :working_articles,:dependent=> :destroy
+  has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
   has_one :layout_node
   before_create :init_pillar
   after_create :create_layout
@@ -52,9 +52,6 @@ class Pillar < ApplicationRecord
   end
 
   def extened_line_sum(article)
-    puts __method__
-    puts "pillar_siblings_of(article).map{|a| a.extended_line_count}:#{pillar_siblings_of(article).map{|a| a.extended_line_count}}"
-    # pillar_siblings_of(article).select{|a| a.extended_line_count !=nil}.map{|a| a.extended_line_count}.reduce(:+) 
     pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
@@ -290,12 +287,11 @@ class Pillar < ApplicationRecord
       end
       # delete working_articles from pillar
       removing_articles.times do
-        w = ordered_working_articles.last
+        w = working_articles.sort_by{|w| w.pillar_order}.last
         system("rm -rf #{w.path}")
         w.destroy
+        working_articles.reload
       end
-      # new_pillar.box_count should be == ordered_working_articles.length
-
     else # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
@@ -308,7 +304,7 @@ class Pillar < ApplicationRecord
       # add working_articles to pillar
       (-removing_articles).times do |i|
         box_rect = new_layout[working_articles_count + i]
-        h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
       end
     end
@@ -355,7 +351,7 @@ class Pillar < ApplicationRecord
   def create_articles
     FileUtils.mkdir_p(path) unless File.exist?(path)
     if box_count == 1
-      h = { page: page_ref, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
+      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
       WorkingArticle.where(h).first_or_create
     # elsif layout_with_pillar_path.first.class == Integer
     #   # this is case when layout_with_pillar_path is Array of 5 element
@@ -363,7 +359,7 @@ class Pillar < ApplicationRecord
     #   WorkingArticle.where(h).first_or_create
     else
       layout_with_pillar_path.each_with_index do |box|
-        h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
         WorkingArticle.where(h).first_or_create
       end
     end
