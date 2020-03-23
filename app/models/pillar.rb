@@ -61,7 +61,6 @@ class Pillar < ApplicationRecord
   # update pillar_config file and working_article grid_y and row after cut
   def update_working_article_cut(cut_action)
     layout_node.add_action(cut_action)
-    save_pillar_yaml
     new_layouts = layout_with_pillar_path
     sorted_working_articles = working_articles.sort_by{|w| w.pillar_order}
     new_layouts.each_with_index do |new_layout, i|
@@ -71,21 +70,6 @@ class Pillar < ApplicationRecord
 
   def story_count
     box_count
-  end
-
-  def update_pdf_chain(working_article)
-    upchain_folders = working_article.upchain_folders
-    upchain_folders.each do |upchain|
-      merge_children_pdf(upchain)
-    end
-    page.generate_pdf_with_time_stamp
-  end
-
-  def upchain_folders
-    path_element = pillar_order.split('_')
-    chain = []
-    chain << path_element.join('/') while path_element.pop
-    chain
   end
 
   def path
@@ -148,7 +132,13 @@ class Pillar < ApplicationRecord
     grid_x * page_ref.grid_width  + page_ref.left_margin
   end
 
+  # y should not take page_heading margin, since this will be taken care of by working_article
   def y
+    grid_y * page_ref.grid_height + page_ref.top_margin
+  end
+
+  # svg_y should take page_heading margin into consideration
+  def svg_y
     grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
   end
 
@@ -172,28 +162,6 @@ class Pillar < ApplicationRecord
 
   def page_height
     page_ref.height
-  end
-
-  def pillar_yaml
-    h = {}
-    h[:width]        = width
-    h[:height]       = height
-    h[:pillar_frame] = layout_with_pillar_path
-    h.to_yaml
-  end
-
-  def config_yml_path
-    path + '/pillar_config.yml'
-  end
-
-  def save_pillar_yaml
-    system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w') { |f| f.write pillar_yaml }
-  end
-
-  def save_config_file
-    system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w') { |f| f.write pillar_config.to_yaml }
   end
 
   def self.to_csv(options = {})
@@ -282,13 +250,6 @@ class Pillar < ApplicationRecord
     "<rect fill='yellow' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0]) * h_scale}' y='#{(rect[1]) * v_scale}' width='#{rect[2] * h_scale}' height='#{rect[3] * v_scale}' />\n"
   end
 
-  def upchain_folders
-    path_element = order.split('_')
-    chain = []
-    chain << path_element.join('/') while path_element.pop
-    chain
-  end
-
   def pillar_union_rect(pillar_rects)
     union = pillar_rects.first
     pillar_rects.each_with_index do |rect, i|
@@ -350,9 +311,7 @@ class Pillar < ApplicationRecord
         h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
       end
-      working_articles.last.update_pdf_chain
     end
-    save_pillar_yaml
   end
 
   def height_in_lines
@@ -394,7 +353,6 @@ class Pillar < ApplicationRecord
   end
 
   def create_articles
-    save_pillar_yaml
     FileUtils.mkdir_p(path) unless File.exist?(path)
     if box_count == 1
       h = { page: page_ref, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }

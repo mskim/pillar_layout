@@ -110,60 +110,12 @@ module WorkingArticlePillarMethods
     delete_old_files
     stamp_time
     system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
-    update_pdf_chain
-    # wait_for_stamped_pdf
   end
 
   def generate_pdf
     save_story
     save_layout
     system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
-    update_pdf_chain
-  end
-
-  def update_pdf_chain
-    return unless upchain_folders
-    upchain_folders.each do |upchain|
-      merge_children_pdf(upchain)
-    end
-    page.generate_pdf_with_time_stamp
-  end
-
-  def upchain_folders
-    unless pillar_order
-      return 
-    end
-    path_element = pillar_order.split("_")
-    chain = []
-    while path_element.pop do
-      chain << path_element.join("/")
-    end
-    chain
-  end
-  
-  def merge_children_pdf(path_from_root)
-    folder = page.path
-    if path_from_root == ""
-      # output = folder + "/section.pdf"
-      # pillst top level will be merged whth other pillars whem page is merged
-    else
-      # puts "path_from_root:#{path_from_root}"
-      depth = path_from_root.split("/").length
-      direction = depth.odd? ? 'vertical' : 'horizontal'
-      # puts "direction:#{direction}"
-      folder += "/#{path_from_root}"
-      output = folder + "/story.pdf"
-      pdfs = Dir.glob("#{folder}/*/story.pdf").sort 
-      puts "pdfs:#{pdfs}"
-      if depth == 1
-        # if depth == 0
-        # this is when it is at the top pillar
-        # pillar box size should be kept and pdfs should aling from top
-        stack_pdf(pdfs, output, direction)
-      else
-        merge_pdf(pdfs, output, direction)
-      end
-    end
   end
   
   def page_heading_margin_in_lines
@@ -180,27 +132,6 @@ module WorkingArticlePillarMethods
 
   def svg_unit_height
     page.svg_unit_height
-  end
-
-  def x
-      grid_x*grid_width
-  end
-  
-  def pillar_x
-    grid_x*grid_width
-  end
-
-  def y
-    grid_y*grid_height
-  end
-
-  def pillar_y
-   pillar.y + grid_y*grid_width
-  end
-
-  def pillar_svg
-    svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 20}' stroke-width='0' ><tspan font-size='100' x='#{ pillar_x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
-    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{pillar_x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
   def box_svg

@@ -12,7 +12,16 @@ PageHading
 
 They all should gerate PDF drawing code given canvas and options
 
+## page
+  no longer need to do update_pdf_chain
+  just place image from working_article
+  we no linger need to save config_file.yml
+  may not need to save working_article pdf?
+  
 ## working_article
+
+no longer need to do update_pdf_chain
+
 def draw_pdf(cancas, options={})
   draw_columns
   draw_heading
@@ -59,6 +68,10 @@ leading
   - extra_space
 
 announcement
+  - x
+  - y
+  - width
+  - height
   - announce_style
   - announce_string
 
@@ -70,4 +83,24 @@ paragraph
   - lines_before
   - lines_after
   - tokens:text, Array
-  - lines:text, Array
+  - lines:text, Hash {column:0, order:0, tokens: []}
+
+body_lines
+  - workinng_article:references
+  - column:integer
+  - order:integer
+  - x
+  - y
+  - width
+  - height
+
+working_article
+
+def generate_pdf_with_ruby
+
+end
+
+
+def generate_pdf_with_ruby
+
+end

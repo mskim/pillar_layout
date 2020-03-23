@@ -35,6 +35,13 @@
             [days[0..5], '23','1-1', '기고'],
             [days[0..5], '23','1-2', '사설'],
 
+2020_03_23
+  - change how page pdf is merged, just merge working_articles from page
+    - get rid of update_pdf_chain
+  - get rid of page config.yml file, no longer needed
+  - fix generate_pdf for page_heading, use ruby
+  - fix save_pdf_page  working_article y, position
+  
 2020_03_20
   - show jpg in chrome
   - add  `draw_pdf' for NewsColumnImage

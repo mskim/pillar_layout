@@ -263,22 +263,6 @@ class Section < ApplicationRecord
     File.open(section_config_yml_path, 'w'){|f| f.write yaml}
   end
 
-  def update_config_file_to_draw_divider
-    self.draw_divider = true
-    self.save
-    section_config_yml_path = path + "/config.yml"
-    yaml = section_config_hash.to_yaml
-    File.open(section_config_yml_path, 'w'){|f| f.write yaml}
-  end
-
-  def update_config_file_to_not_draw_divider
-    self.draw_divider = false
-    self.save
-    section_config_yml_path = path + "/config.yml"
-    yaml = section_config_hash.to_yaml
-    File.open(section_config_yml_path, 'w'){|f| f.write yaml}
-  end
-
   def article_type(box)
     if box.length == 5
       h = box[4]

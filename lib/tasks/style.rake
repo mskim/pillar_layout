@@ -31,26 +31,6 @@ namespace :style do
     # end
   end
 
-  desc 'update section to draw divider'
-  task :update_section_to_draw_divider =>:environment do
-    Section.all.each do |section|
-      section.update_config_file_to_draw_divider
-    end
-  end
-
-  desc 'update section not to draw divider'
-  task :update_section_not_to_draw_divider =>:environment do
-    Section.all.each do |section|
-      section.update_config_file_not_to_draw_divider
-    end
-  end
-
-  desc 'update last issue pages to draw divider'
-  task :update_pages_to_draw_divider =>:environment do
-    Issue.last.pages.each do |page|
-      page.update_config_file_to_draw_divider
-    end
-  end
 
   desc 'import section csv file'
   task :import_section_csv =>:environment do

@@ -119,9 +119,8 @@ class WorkingArticle < ApplicationRecord
   accepts_nested_attributes_for :images
 
   # include
-  include ArticleSavePdf
-  include ArticleSplitable
-  include PageSplitable
+  # include ArticleSplitable
+  # include PageSplitable
   include ArticleSwapable
   include RectUtils
   include ArticleSaveXml
@@ -130,7 +129,7 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticlePillarMethods
   include PageSavePdf
   include WorkingArticleOverlapable
-
+  include WorkingArticleSavePdf
   # include StorageBackupWorkingArticle
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
@@ -412,21 +411,18 @@ class WorkingArticle < ApplicationRecord
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
-      puts "+++++++++ processing pdf with ruby"
       save_article_pdf(time_stamp: @time_stamp, adjustable_height:options[:adjustable_height])
-      update_pdf_chain unless options[:no_update_pdf_chain]
     else
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     end
     pdf_working_article_ending = Time.now
-    puts "++++++ pdf working_article time: #{pdf_working_article_ending - pdf_starting} "
-
     page.generate_pdf_with_time_stamp
     pdf_page_ending = Time.now
     puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end
 
   def save_article_pdf(options={})
+    make_article_path
     save_hash                     = {}
     save_hash[:article_path]      = path
     save_hash[:story_md]          = story_md
@@ -438,21 +434,12 @@ class WorkingArticle < ApplicationRecord
     save_hash[:time_stamp]        = options[:time_stamp]
     new_extended_line_count       = 0
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
-    new_extended_line_count       = new_box_marker.adjusted_line_count
-    puts "++++++++++ new_extended_line_count:#{new_extended_line_count}"
     # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    new_extended_line_count       = new_box_marker.adjusted_line_count
     if options[:adjustable_height] && new_extended_line_count != 0
       self.extended_line_count = new_extended_line_count
       self.save
     end
-  end
-
-  def generate_pdf
-    # @time_stamp =  true
-    save_article
-    ArticleWorker.perform_async(path, nil, nil)
-    # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article . -custom=#{publication.name}"
-    # copy_outputs_to_site
   end
 
   def site_path
@@ -823,6 +810,23 @@ class WorkingArticle < ApplicationRecord
     publication.gutter
   end
 
+
+  def x
+    grid_x*grid_width
+  end
+
+  # 
+  def y
+    y_position =  grid_y*grid_height
+    if top_position?
+      y_position += page_heading_margin_in_lines*body_line_height
+    elsif pushed_line_count && pushed_line_count != 0
+      y_position += pushed_line_count*body_line_height
+    end
+    y_position
+  end
+
+
   def width
     column*grid_width
   end
@@ -841,6 +845,10 @@ class WorkingArticle < ApplicationRecord
     h
   end
 
+  def y_max
+    y + height
+  end
+
   def grid_area
     column*row
   end
@@ -848,29 +856,7 @@ class WorkingArticle < ApplicationRecord
   def body_line_height
     grid_height/7
   end
-  # def x
-  #   grid_x*grid_width
-  # end
 
-  #TODO add to db field
-
-
-
-  # def y
-  #   y_position =  grid_y*grid_height
-  #   if top_position?
-  #     y_position += page_heading_margin_in_lines*body_line_height
-  #   elsif pushed_line_count && pushed_line_count != 0
-  #     y_position += pushed_line_count*body_line_height
-  #   end
-  #   y_position
-  # end
-
-  # def top_story?
-  #   page.page_number == 1 && order == 1
-  # end
-
-  #TODO
   def top_story?
     return true if top_story
     return true if page.working_articles.first.kind == self
@@ -1380,7 +1366,6 @@ class WorkingArticle < ApplicationRecord
     # create new working_article 
     h = { page: page, pillar: self, pillar_order: "#{new_pillar_order}", grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
     w = WorkingArticle.where(h).first_or_create
-    w.update_pdf_chain
   end
   
   def bumpup_pillar_order_by(count)
