@@ -20,6 +20,8 @@ class WorkingArticlesController < ApplicationController
   # GET /working_articles/1
   # GET /working_articles/1.json
   def show
+    # 나의 기사의 정보들은 working_articles/show에서 n_n번 기사배정에 가져옵니다.
+    @stories = current_user.stories.order(:updated_at).reverse
     # Group_Image new
     @group_image = GroupImage.new
     # Group_Image all
@@ -560,14 +562,12 @@ class WorkingArticlesController < ApplicationController
     @working_article.h_cut
     redirect_to @working_article
     redirect_to @working_article
-
   end
 
   def create_overlap
     set_working_article
     @working_article.create_overlap
     redirect_to @working_article
-
   end
 
   def delete_overlap

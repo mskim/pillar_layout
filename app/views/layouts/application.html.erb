@@ -5,7 +5,6 @@
     <title><%= content_for?(:title) ? yield(:title) : "NewsGo" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Style Guide" %>">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
-    <%= stylesheet_link_tag 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
     <%= javascript_pack_tag 'application' %>
     <%= csrf_meta_tags %>
@@ -29,9 +28,6 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
   </head>
   <body>
     <!-- p class="notice"><%= notice %></p -->
