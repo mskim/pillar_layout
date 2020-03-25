@@ -3,39 +3,40 @@
 # Table name: pages
 #
 #  id                           :integer          not null, primary key
-#  page_number                  :integer
-#  section_name                 :string
-#  column                       :integer
-#  row                          :integer
 #  ad_type                      :string
-#  story_count                  :integer
+#  article_line_thickness       :float
+#  bottom_margin                :float
+#  clone_name                   :string
 #  color_page                   :boolean
+#  column                       :integer
+#  date                         :date
+#  display_name                 :string
+#  draw_divider                 :boolean
+#  grid_height                  :float
+#  grid_width                   :float
+#  gutter                       :float
+#  height                       :float
+#  layout                       :text
+#  left_margin                  :float
+#  lines_per_grid               :float
+#  page_heading_margin_in_lines :integer
+#  page_number                  :integer
+#  path                         :string
 #  profile                      :string
-#  issue_id                     :integer
-#  page_plan_id                 :integer
-#  template_id                  :integer
+#  right_margin                 :float
+#  row                          :integer
+#  section_name                 :string
+#  slug                         :string
+#  story_count                  :integer
+#  tag                          :string
+#  top_margin                   :float
+#  width                        :float
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
-#  clone_name                   :string
-#  slug                         :string
-#  layout                       :text
+#  issue_id                     :integer
+#  page_plan_id                 :integer
 #  publication_id               :integer
-#  path                         :string
-#  date                         :date
-#  grid_width                   :float
-#  grid_height                  :float
-#  lines_per_grid               :float
-#  width                        :float
-#  height                       :float
-#  left_margin                  :float
-#  top_margin                   :float
-#  right_margin                 :float
-#  bottom_margin                :float
-#  gutter                       :float
-#  article_line_thickness       :float
-#  page_heading_margin_in_lines :integer
-#  tag                          :string
-#  display_name                 :string
+#  template_id                  :integer
 #
 # Indexes
 #
@@ -62,8 +63,8 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, :as =>:page_ref,  :dependent=> :destroy
-  has_many :working_articles,  :dependent=> :destroy
+  has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
+  # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
   has_many :ad_boxes
 
   # scope
@@ -402,25 +403,13 @@ class Page < ApplicationRecord
   end
 
   def set_divider_to_draw
-    update_config_file_to_draw_divider
+    update(draw_divider:true)
     generate_pdf_with_time_stamp
-  end
-
-  def  update_config_file_to_draw_divider
-    h = config_hash
-    h['draw_divider'] = true
-    File.open(config_yml_path, 'w'){|f| f.write h.to_yaml}
   end
 
   def set_divider_not_to_draw
-    update_config_file_not_to_draw_divider
+    update(draw_divider:false)
     generate_pdf_with_time_stamp
-  end
-
-  def  update_config_file_not_to_draw_divider
-    h = config_hash
-    h['draw_divider'] = false
-    File.open(config_yml_path, 'w'){|f| f.write h.to_yaml}
   end
 
   def update_config_file
@@ -592,7 +581,6 @@ class Page < ApplicationRecord
   end
 
   def generate_pdf_with_time_stamp
-    puts "in page generate_pdf_with_time_stamp"
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
@@ -710,7 +698,8 @@ class Page < ApplicationRecord
   end
 
   def page_svg_with_jpg
-    "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+    # "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+    "<image xlink:href='#{jpg_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
   end
 
   def box_svg_with_jpg
@@ -838,13 +827,7 @@ class Page < ApplicationRecord
     create_heading
     create_pillars
     copy_ready_made_from_sample
-    save_config_file unless File.exist?(config_path)
     generate_pdf unless File.exist?(pdf_path)
-  end
-
-  def save_config_file
-    system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w') { |f| f.write config_hash.to_yaml }
   end
 
   def create_pillars
@@ -892,49 +875,57 @@ class Page < ApplicationRecord
       self.column    = new_page_layout.column
       self.grid_width = publication.grid_width(new_page_layout.column)
     end
+    self.ad_type     = new_page_layout.ad_type
+    self.layout      = eval(new_page_layout.layout)
     self.template_id = new_layout_id
     self.save
 
+    # New page layout and current one has equal number of pillars
     if pillars.length == new_page_layout.pillars.length
-      # New page layout and current one has equal number of pillars
+      bidning.pry
       pillars.each_with_index do |p, i|
         p.change_pillar_layout(new_page_layout.pillars[i])
       end
+    # Current layout has more number of pillars
     elsif pillars.length > new_page_layout.pillars.length
-      # Current layout has more number of pillars
+      delete_count = pillars.length - new_page_layout.pillars.length
       pillars.each_with_index do |p, i|
-        if i >= new_page_layout.pillars.length
-          # delete pillar
-          p.destroy
-        else
-          p.change_pillar_layout(new_page_layout.pillars[i])
-        end
+        break unless new_page_layout.pillars[i]
+        p.change_pillar_layout(new_page_layout.pillars[i])
       end
+      delete_count.times do
+        p = pillars.last
+        p.delete_folder
+        system "rm -rf #{p.path}"
+        p.destroy
+      end      
+    # New page layout has more pillars than currnt one
     else
-      # New page layout has more pillars than currnt one
-      new_page_layout.layout.each_with_index do |layout, i|
-        if i >= news_layout.length
-          # create new pillar
-          Pillar.where(page_ref: self, grid_x: layout[0], grid_y: layout[1], column: layout[2], row: layout[3], order: i + 1, box_count:layout[4]).first_or_create
+      new_page_layout.pillars.each_with_index do |layout_pillar, i|
+        if i < pillars.length
+          pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
-          p = pillars[i]
-          p.change_pillar_layout(new_page_layout.pillars[i])
+          binding.pry
+          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
         end
       end
     end
 
     # change_ad_box
-    if ad_boxes.first
+    if ad_box = ad_boxes.first
       # case when there is an existing ad, and changed to something else
-      if ad_type != ad_boxes.first.ad_type
-        ad_boxes.first.change_layout(ad_type)
+      if ad_type == '광고없음'
+        # detel current ad_box
+        ad_box.delete_folder
+        ad_box.destroy
+      elsif ad_type != ad_boxes.first.ad_type
+        ad_box.change_ad_box_layout(ad_type, new_page_layout.column)
       end
     elsif ad_type && ad_type != '광고없음'
       # this is case when current ad_type='광고없음'  chnaging to some ad_ty[e
       # create new ad_box, 
       create_ad_box
     end
-    save_config_file
     generate_pdf_with_time_stamp
   end
 

@@ -1,6 +1,6 @@
 <%= link_to "/working_articles/#{@working_article.id}" do %>
   <span class='zoom' id='ex1'>
-    <%= image_tag @working_article.pdf_image_path, style: "width: 100%;", class: "border bg-white" %>
+    <%= image_tag @working_article.jpg_image_path, style: "width: 100%;", class: "border bg-white" %>
   </span>
 <% end %>
 <%= render 'character_count', article: @working_article %>

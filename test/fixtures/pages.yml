@@ -3,39 +3,40 @@
 # Table name: pages
 #
 #  id                           :integer          not null, primary key
-#  page_number                  :integer
-#  section_name                 :string
-#  column                       :integer
-#  row                          :integer
 #  ad_type                      :string
-#  story_count                  :integer
+#  article_line_thickness       :float
+#  bottom_margin                :float
+#  clone_name                   :string
 #  color_page                   :boolean
+#  column                       :integer
+#  date                         :date
+#  display_name                 :string
+#  draw_divider                 :boolean
+#  grid_height                  :float
+#  grid_width                   :float
+#  gutter                       :float
+#  height                       :float
+#  layout                       :text
+#  left_margin                  :float
+#  lines_per_grid               :float
+#  page_heading_margin_in_lines :integer
+#  page_number                  :integer
+#  path                         :string
 #  profile                      :string
-#  issue_id                     :integer
-#  page_plan_id                 :integer
-#  template_id                  :integer
+#  right_margin                 :float
+#  row                          :integer
+#  section_name                 :string
+#  slug                         :string
+#  story_count                  :integer
+#  tag                          :string
+#  top_margin                   :float
+#  width                        :float
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
-#  clone_name                   :string
-#  slug                         :string
-#  layout                       :text
+#  issue_id                     :integer
+#  page_plan_id                 :integer
 #  publication_id               :integer
-#  path                         :string
-#  date                         :date
-#  grid_width                   :float
-#  grid_height                  :float
-#  lines_per_grid               :float
-#  width                        :float
-#  height                       :float
-#  left_margin                  :float
-#  top_margin                   :float
-#  right_margin                 :float
-#  bottom_margin                :float
-#  gutter                       :float
-#  article_line_thickness       :float
-#  page_heading_margin_in_lines :integer
-#  tag                          :string
-#  display_name                 :string
+#  template_id                  :integer
 #
 # Indexes
 #

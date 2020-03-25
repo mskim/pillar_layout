@@ -34,17 +34,75 @@
             [days[5..5], '22','1-1', '기고'],
             [days[0..5], '23','1-1', '기고'],
             [days[0..5], '23','1-2', '사설'],
+    - do the layout in rails
+      goal is to edit content by components and update olny changed parts,
+      instead of relayout the whole aricle from scrach.
+          - get token width 
+          - create Style in TextStyles,  so that every user can share, since we are using 
+    - body by paragraphs
+    - heading
+    - quote
+    - image
+    - graphic
+    - announcement
+    - group_image
 
+2020_03_25
+  - 5단 에서 광고없음 으로 변환시 에러
+  - layout 변환시 에러 177 
+  - change rjob to use ruby_pdf
+
+  - fix error when auto adjust height
+
+  - caption not showing
+  - #### arrow symbol not in the font
+  - **emphasis**
+  - draw article lines
+  - article box height
+
+  - ui update
+  - make regenerate_page
+  - cropping not working
+
+2020_03_24
+  - fix subtitle disapearing when image is present
+  - page_layout [0,0,3,4,0] handle invalid 5th element
+
+2020_03_23
+  - fix bug when changing page_layout when new pillar size is not equal 
+  - fix update ad_box when change_page_layout
+
+2020_03_22
+
+  - change how page pdf is merged, just merge working_articles from page
+    - get rid of update_pdf_chain
+  - get rid of page config.yml file, no longer needed
+  - fix generate_pdf for page_heading, use ruby
+  - fix save_pdf_page  working_article y, position
+  
+2020_03_20
+  - show jpg in chrome
+  - add  `draw_pdf' for NewsColumnImage
+  - update font table from 213
+
+  - 자동 정렬 에러 사진 올리고, 기사 swap update pillar_order
+  - make high res jpg
+  - add font attributes when drawing
+  
 2020_03_20
   - apply font to title, head
-  - show caption input 
+
   - display uploaded file name image and graphic
-  
-2020_03_19
   - opinion title not showing when picture is present
   - article subtitle not showing when picture is present
-  - fix ## font not applying
+  - ###  not working
+  - #### font for triangle not found
+  - image upload shifting to top, maybe due to fit_type error
   - fix editorial draw_pdf
+
+2020_03_19
+
+  - fix ## font not applying
   - fix title , #### not aligning properly
   
 2020_03_18
@@ -96,7 +154,6 @@
 
   - fix bug when there is an image, subtitle not displayed
   - fix bug uploading graphic error
-
 
 
 2020_03_14
