@@ -104,7 +104,7 @@ class Story < ApplicationRecord
 
   def count_chars
     self.char_count = 0
-    self.char_count = body.length if body
+    self.char_count = content.to_plain_text.length if content
   end
 
   def init_atts
@@ -114,8 +114,8 @@ class Story < ApplicationRecord
     self.date     = Date.today unless date
     self.title    = "#{reporter}의 제목 입니다." unless title
     self.subtitle = "#{reporter}의 부제목 입니다." unless title
-    self.body     = '본문은 여기에 입력 합니다. ' * 5 unless body
-    self.char_count = body.length
+    self.body     = '본문은 여기에 입력 합니다. ' * 5 unless content.to_plain_text
+    self.char_count = content.to_plain_text.length
     self.path = working_article.path if working_article
   end
 end

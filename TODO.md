@@ -25,20 +25,39 @@
   - heading_maker
 
   - upload Excel file for issue plan 
+  - issue_set-up.rb file preset article types, by day_week, page, pillar_order  
+  days = %W[mon tue wed thur fri]
+  set_up =[
+            [days[0..5], '22','1-1', '기고'],
+            [days[0..5], '22','1-2', '기고'],
+            [days[0..5], '22','1-3', '사설'],
+            [days[5..5], '22','1-1', '기고'],
+            [days[0..5], '23','1-1', '기고'],
+            [days[0..5], '23','1-2', '사설'],
 
-2020_03_18
-  - fix opinion view show column size
-  - fix opinon, profile,index view as multi-column
-  - fix opinion picture vertival size, fit_type FIT_VERTICAL
-
+2020_03_20
+  - apply font to title, head
+  - show caption input 
+  - display uploaded file name image and graphic
+  
+2020_03_19
   - opinion title not showing when picture is present
   - article subtitle not showing when picture is present
   - fix ## font not applying
   - fix editorial draw_pdf
+  - fix title , #### not aligning properly
+  
+2020_03_18
+  - fix uploading pdf file
+    use vips insread of imagemagick
+    use image-processing with libvips
+  - fix change_page_layout
+  - fix opinion view show column size
+  - fix opinon, profile,index view as multi-column
+  - fix opinion picture vertival size, fit_type FIT_VERTICAL
+  - fix opinion view reporter default value as '홍길동'
 
   - copy data opinion profile from 213
-  - display uploaded file name image and graphic
-  - fix opinion view reporter default value as '홍길동'
 
 2020_03_17
   - 전체 오피니언 기사종류 select 없음
@@ -53,8 +72,6 @@
     - save config file
   - paeg_layout 복제하기 변경 내용 등록 안됌
     - list in order of updated_at so that last modified is at top
-
-
 
 2020_03_16
   - fix issue_plan not update page

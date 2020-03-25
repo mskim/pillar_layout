@@ -9,8 +9,6 @@
     <%= csrf_meta_tags %>
     <link rel='stylesheet' href='//fonts.googleapis.com/earlyaccess/kopubbatang.css'>
     <link rel='stylesheet' href='//cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css'>
-  </head>
-  <body>
     <style>
       .content {
        padding: 0 18px;
@@ -70,34 +68,32 @@
         });
       });
     </script>
-
     <script>
-  $(function(){
-    var story_subcategory;
-    $('#working_article_subcategory_code').parent().show();
-    story_subcategory = $('#working_article_subcategory_code').html();
-    console.log(story_subcategory);
-    return $('#working_article_category_code').change(function() {
-      var category, escaped_category, options;
-      category = $('#working_article_category_code :selected').text();
-      escaped_category = category.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
-      options = $(story_subcategory).filter("optgroup[label=" + escaped_category + "]").html();
-      console.log(options);
-      if (options) {
-        $('#working_article_subcategory_code').html(options);
-        return $('#working_article_subcategory_code').parent().show();
-      } else {
-        $('#working_article_subcategory_code').empty();
-        return $('#working_article_subcategory_code').parent().hide();
-      }
-    });
-  });
-
-  $(document).ready(function() {
-  $("#dttb").dataTable();
-});
-</script> 
-
+      $(function(){
+        var story_subcategory;
+        $('#working_article_subcategory_code').parent().show();
+        story_subcategory = $('#working_article_subcategory_code').html();
+        console.log(story_subcategory);
+        return $('#working_article_category_code').change(function() {
+          var category, escaped_category, options;
+          category = $('#working_article_category_code :selected').text();
+          escaped_category = category.replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g, '\\$1');
+          options = $(story_subcategory).filter("optgroup[label=" + escaped_category + "]").html();
+          console.log(options);
+          if (options) {
+            $('#working_article_subcategory_code').html(options);
+            return $('#working_article_subcategory_code').parent().show();
+          } else {
+            $('#working_article_subcategory_code').empty();
+            return $('#working_article_subcategory_code').parent().hide();
+          }
+        });
+      });
+      
+      $(document).ready(function() {
+      $("#dttb").dataTable();
+      });
+    </script>
     <!-- 클릭된 기사 박스 색상변경 하려고 추가했는데, 모든 기사 박스 색이 같이 변경된다. svg rect를 그리는 소스에 추가해서 그런가본데.. 
 클릭시에만 잠깐 변경되는데 다른 기사 박스 선택전까지 계속 상태 유지하는 방법도 찾아야 함. 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -145,17 +141,14 @@
     <!-- 기사 폼 선택시 기존 입력된 밸류 삭제 하려고 추가 
 <script>
 $('input[type="text"], textarea').each(function(){
-
 	this.value = $(this).attr('type');
 	$(this).addClass('text-label');
-
 	$(this).focus(function(){
 		if(this.value == $(this).attr('type')) {
 			this.value = '';
 			$(this).removeClass('text-label');
 		}
 	});
-
 	$(this).blur(function(){
 		if(this.value == '') {
 			this.value = $(this).attr('type');
@@ -174,23 +167,38 @@ $('input[type="text"], textarea').each(function(){
         $('.wrap').find( 'textarea' ).keyup();
       });
     </script>
+  </head>
+  <body>
     <header id="header" >
       <%= render 'layouts/working_navigation', page_number: @page_number %>
     </header>
-    <main role="main" id="container"  >
+    <main role="main" id="container">
       <div class="row">
         <%= render 'layouts/messages' %>
         <%= yield %>
       </div>
     </main>
     <footer id="footer">
-      <script>
+      <!-- <script>
         $(function () {
           $('#accordion').on('shown.bs.collapse', function (e) {
               saveActiveAccordionPanel('accordion-activePanel', e);
           })
         });
         restoreAccordionPanel('accordion-activePanel', '#accordion');
+      </script> -->
+      <script>
+        // wire up shown event
+        $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+          console.log("tab shown...");
+          localStorage.setItem("activeTab", $(e.target).attr("href"));
+        });
+
+        // read hash from page load and change tab
+        var activeTab = localStorage.getItem("activeTab");
+        if (activeTab) {
+          $('.nav-tabs a[href="' + activeTab + '"]').tab("show");
+        }
       </script>
     </footer>
   </body>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_16_022319) do
+ActiveRecord::Schema.define(version: 2020_03_20_053549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -953,6 +953,9 @@ ActiveRecord::Schema.define(version: 2020_03_16_022319) do
     t.string "subcategory_code"
     t.string "pillar_order"
     t.bigint "pillar_id"
+    t.string "frame_sides"
+    t.string "frame_color"
+    t.float "frame_thickness"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"

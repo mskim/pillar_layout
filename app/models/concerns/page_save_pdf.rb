@@ -35,7 +35,16 @@ module PageSavePdf
     if options[:time_stamp]
       stamped_path = path + "/section_#{options[:time_stamp]}.pdf"
       system("cp #{pdf_path} #{stamped_path}" )
+      convert_pdf2jpg(stamped_path)
     end
+  end
+
+  def convert_pdf2jpg(output_path)
+    pdf_folder    = File.dirname(output_path)
+    pdf_base_name = File.basename(output_path)
+    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
+    commend  = "cd #{pdf_folder} && vip copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
+    system(commend)
   end
 
   def filipped_origin(w)
