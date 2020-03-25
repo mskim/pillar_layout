@@ -25,7 +25,7 @@
 
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
-  has_many :working_articles,:dependent=> :destroy
+  has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
   has_one :layout_node
   before_create :init_pillar
   after_create :create_layout
@@ -52,16 +52,12 @@ class Pillar < ApplicationRecord
   end
 
   def extened_line_sum(article)
-    puts __method__
-    puts "pillar_siblings_of(article).map{|a| a.extended_line_count}:#{pillar_siblings_of(article).map{|a| a.extended_line_count}}"
-    # pillar_siblings_of(article).select{|a| a.extended_line_count !=nil}.map{|a| a.extended_line_count}.reduce(:+) 
     pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
   # update pillar_config file and working_article grid_y and row after cut
   def update_working_article_cut(cut_action)
     layout_node.add_action(cut_action)
-    save_pillar_yaml
     new_layouts = layout_with_pillar_path
     sorted_working_articles = working_articles.sort_by{|w| w.pillar_order}
     new_layouts.each_with_index do |new_layout, i|
@@ -71,21 +67,6 @@ class Pillar < ApplicationRecord
 
   def story_count
     box_count
-  end
-
-  def update_pdf_chain(working_article)
-    upchain_folders = working_article.upchain_folders
-    upchain_folders.each do |upchain|
-      merge_children_pdf(upchain)
-    end
-    page.generate_pdf_with_time_stamp
-  end
-
-  def upchain_folders
-    path_element = pillar_order.split('_')
-    chain = []
-    chain << path_element.join('/') while path_element.pop
-    chain
   end
 
   def path
@@ -148,7 +129,13 @@ class Pillar < ApplicationRecord
     grid_x * page_ref.grid_width  + page_ref.left_margin
   end
 
+  # y should not take page_heading margin, since this will be taken care of by working_article
   def y
+    grid_y * page_ref.grid_height + page_ref.top_margin
+  end
+
+  # svg_y should take page_heading margin into consideration
+  def svg_y
     grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
   end
 
@@ -172,28 +159,6 @@ class Pillar < ApplicationRecord
 
   def page_height
     page_ref.height
-  end
-
-  def pillar_yaml
-    h = {}
-    h[:width]        = width
-    h[:height]       = height
-    h[:pillar_frame] = layout_with_pillar_path
-    h.to_yaml
-  end
-
-  def config_yml_path
-    path + '/pillar_config.yml'
-  end
-
-  def save_pillar_yaml
-    system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w') { |f| f.write pillar_yaml }
-  end
-
-  def save_config_file
-    system "mkdir -p #{path}" unless File.directory?(path)
-    File.open(config_yml_path, 'w') { |f| f.write pillar_config.to_yaml }
   end
 
   def self.to_csv(options = {})
@@ -282,13 +247,6 @@ class Pillar < ApplicationRecord
     "<rect fill='yellow' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{(rect[0]) * h_scale}' y='#{(rect[1]) * v_scale}' width='#{rect[2] * h_scale}' height='#{rect[3] * v_scale}' />\n"
   end
 
-  def upchain_folders
-    path_element = order.split('_')
-    chain = []
-    chain << path_element.join('/') while path_element.pop
-    chain
-  end
-
   def pillar_union_rect(pillar_rects)
     union = pillar_rects.first
     pillar_rects.each_with_index do |rect, i|
@@ -301,8 +259,9 @@ class Pillar < ApplicationRecord
 
   def change_pillar_layout( new_pillar)
     current_box_count = box_count
-    new_layout        =  new_pillar.layout_with_pillar_path
-
+    new_box_count     = new_pillar.box_count
+    new_layout        =  new_pillar.layout_with_pillar_path.dup
+    new_box_count     =  new_layout.length
     self.grid_x       =  new_pillar.grid_x
     self.grid_y       =  new_pillar.grid_y
     self.column       =  new_pillar.column
@@ -310,48 +269,47 @@ class Pillar < ApplicationRecord
     self.box_count    =  new_pillar.box_count
     self.order        =  new_pillar.order
     self.save
-    difference = current_box_count - new_pillar.box_count
-    if difference == 0
-      # current and new pillar size are not equal
+    removing_articles = current_box_count - new_box_count
+    if removing_articles == 0
+      # current and new pillar size are equal
       working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
         box_rect     = new_layout[i]
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
-        puts ""
         w.change_article(box_rect)
       end
-    elsif difference > 0
+    elsif removing_articles > 0 # current box is greater than new_layout
+      ordered_working_articles  = working_articles.sort_by{|w| w.pillar_order}
+      new_layout.each_with_index do |box_rect, i|
+        pillar_order = "#{order}_#{i+1}"
+        box_rect[4]  = pillar_order
+        ordered_working_articles[i].change_article(box_rect)
+      end
       # delete working_articles from pillar
-      difference.times do
-        w = working_articles.last
+      removing_articles.times do
+        w = working_articles.sort_by{|w| w.pillar_order}.last
         if w
           system("rm -rf #{w.path}")
           w.destroy
+          working_articles.reload
         end
       end
+    else # removing_articles < 0 add articles
+      # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
-        box_rect = new_layout[i]
+        box_rect = new_layout[i].dup
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
         w.change_article(box_rect)
       end
-    else
-      # update remaininng working_articles sizes same as template
-      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
-        box_rect = new_layout[i]
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
-      end
+      working_articles_count = working_articles.length
       # add working_articles to pillar
-      (-difference).times do |i|
-        box_rect = new_layout[i]
-        h = { page: page_ref, pillar: self, pillar_order: order, grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+      (-removing_articles).times do |i|
+        box_rect = new_layout[working_articles_count + i]
+        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
       end
-      working_articles.last.update_pdf_chain
     end
-    save_pillar_yaml
   end
 
   def height_in_lines
@@ -368,6 +326,7 @@ class Pillar < ApplicationRecord
   end
   
   def create_layout_node
+    # box_count = 1 if box_count.nil? || box_count < 1
     if box_count > 1
       actions = ["h*#{box_count - 1}"]
     end
@@ -393,10 +352,9 @@ class Pillar < ApplicationRecord
   end
 
   def create_articles
-    save_pillar_yaml
     FileUtils.mkdir_p(path) unless File.exist?(path)
     if box_count == 1
-      h = { page: page_ref, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
+      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
       WorkingArticle.where(h).first_or_create
     # elsif layout_with_pillar_path.first.class == Integer
     #   # this is case when layout_with_pillar_path is Array of 5 element
@@ -404,7 +362,7 @@ class Pillar < ApplicationRecord
     #   WorkingArticle.where(h).first_or_create
     else
       layout_with_pillar_path.each_with_index do |box|
-        h = { page: page_ref, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
         WorkingArticle.where(h).first_or_create
       end
     end
@@ -413,6 +371,9 @@ class Pillar < ApplicationRecord
   def init_pillar
     # layout_node = LayoutNode.where(pillar:self, column: column, row: row).first_or_create
     # self.layout_node_id = layout_node.id
+  end
 
+  def delete_folder
+    system("rm -rf #{path}")
   end
 end

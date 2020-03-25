@@ -96,7 +96,7 @@ class WorkingArticle < ApplicationRecord
   after_create :setup_article
 
   # belongs_to
-  belongs_to :page
+  # belongs_to :page
   belongs_to :pillar
   belongs_to :article, optional: true
 
@@ -115,9 +115,8 @@ class WorkingArticle < ApplicationRecord
   accepts_nested_attributes_for :images
 
   # include
-  include ArticleSavePdf
-  include ArticleSplitable
-  include PageSplitable
+  # include ArticleSplitable
+  # include PageSplitable
   include ArticleSwapable
   include RectUtils
   include ArticleSaveXml
@@ -126,7 +125,7 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticlePillarMethods
   include PageSavePdf
   include WorkingArticleOverlapable
-
+  include WorkingArticleSavePdf
   # include StorageBackupWorkingArticle
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
@@ -137,6 +136,10 @@ class WorkingArticle < ApplicationRecord
   # end
 
   # when working_article is split, we need to bumped up folder names
+
+  def page
+    pillar.page_ref
+  end
 
   def save_to_story
     s = Story.where(working_article_id: id).first
@@ -408,21 +411,18 @@ class WorkingArticle < ApplicationRecord
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
-      puts "+++++++++ processing pdf with ruby"
       save_article_pdf(time_stamp: @time_stamp, adjustable_height:options[:adjustable_height])
-      update_pdf_chain unless options[:no_update_pdf_chain]
     else
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     end
     pdf_working_article_ending = Time.now
-    puts "++++++ pdf working_article time: #{pdf_working_article_ending - pdf_starting} "
-
-    page.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
     puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end
 
   def save_article_pdf(options={})
+    make_article_path
     save_hash                     = {}
     save_hash[:article_path]      = path
     save_hash[:story_md]          = story_md
@@ -434,22 +434,12 @@ class WorkingArticle < ApplicationRecord
     save_hash[:time_stamp]        = options[:time_stamp]
     new_extended_line_count       = 0
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
-    new_extended_line_count       = new_box_marker.adjusted_line_count
-    puts "++++++++++ new_extended_line_count:#{new_extended_line_count}"
     # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
+    new_extended_line_count       = new_box_marker.adjusted_line_count
     if options[:adjustable_height] && new_extended_line_count != 0
-      self.extended_line_count = new_extended_line_count
+      self.extended_line_count    = new_extended_line_count
       self.save
-      # adjust bottom article TODO???
     end
-  end
-
-  def generate_pdf
-    # @time_stamp =  true
-    save_article
-    ArticleWorker.perform_async(path, nil, nil)
-    # system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article . -custom=#{publication.name}"
-    # copy_outputs_to_site
   end
 
   def site_path
@@ -467,7 +457,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def siblings
-    page.siblings(self)
+    # page.siblings(self)
+    pillar.pillar_siblings_of(self)
   end
 
   def character_count
@@ -533,7 +524,7 @@ class WorkingArticle < ApplicationRecord
   # set pushed_line_count for bottom article 
   def auto_adjust_height_all
     pillar.working_articles.each_with_index do |w, i|
-      if @pillar.bottom_article_of_sibllings?(w)
+      if pillar.bottom_article_of_sibllings?(w)
         # we have bottom article
         w.generate_pdf_with_time_stamp(adjustable_height:false)
       else
@@ -724,7 +715,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def publication
-    page.issue.publication
+    # page.issue.publication
+    Publication.first
   end
 
   def opinion_pdf_path
@@ -820,6 +812,23 @@ class WorkingArticle < ApplicationRecord
     publication.gutter
   end
 
+
+  def x
+    grid_x*grid_width
+  end
+
+  # 
+  def y
+    y_position =  grid_y*grid_height
+    if top_position?
+      y_position += page_heading_margin_in_lines*body_line_height
+    elsif pushed_line_count && pushed_line_count != 0
+      y_position += pushed_line_count*body_line_height
+    end
+    y_position
+  end
+
+
   def width
     column*grid_width
   end
@@ -838,6 +847,14 @@ class WorkingArticle < ApplicationRecord
     h
   end
 
+  def top_position?
+    grid_y == 0 && pillar && pillar.top_position?
+  end
+
+  def y_max
+    y + height
+  end
+
   def grid_area
     column*row
   end
@@ -845,33 +862,11 @@ class WorkingArticle < ApplicationRecord
   def body_line_height
     grid_height/7
   end
-  # def x
-  #   grid_x*grid_width
-  # end
 
-  #TODO add to db field
-
-
-
-  # def y
-  #   y_position =  grid_y*grid_height
-  #   if top_position?
-  #     y_position += page_heading_margin_in_lines*body_line_height
-  #   elsif pushed_line_count && pushed_line_count != 0
-  #     y_position += pushed_line_count*body_line_height
-  #   end
-  #   y_position
-  # end
-
-  # def top_story?
-  #   page.page_number == 1 && order == 1
-  # end
-
-  #TODO
   def top_story?
     return true if top_story
-    return true if page.working_articles.first.kind == self
-    return true if page.working_articles.first.kind != '기사' && order == 2
+    # return true if page.working_articles.first.kind == self
+    # return true if page.working_articles.first.kind != '기사' && order == 2
     false
   end
 
@@ -1377,7 +1372,6 @@ class WorkingArticle < ApplicationRecord
     # create new working_article 
     h = { page: page, pillar: self, pillar_order: "#{new_pillar_order}", grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
     w = WorkingArticle.where(h).first_or_create
-    w.update_pdf_chain
   end
   
   def bumpup_pillar_order_by(count)
@@ -1432,18 +1426,19 @@ class WorkingArticle < ApplicationRecord
 
 
   def init_article
-    self.grid_width  = page.grid_width
-    self.grid_height = page.grid_height
-    self.is_front_page = true if page.is_front_page?
-    self.column = 4 unless column
-    self.row = 4 unless row
-    self.top_story = true if column > 2 && (pillar_order == "1" || pillar_order == "1_!")
-    self.extended_line_count = 0
-    self.pushed_line_count = 0
-    self.title = "여기는 #{pillar_order}제목 입니다." unless title
-    self.title = "여기는 #{pillar_order}제목." if column <= 2
-    self.subtitle = '여기는 부제목 입니다.' unless subtitle
-    self.reporter = '홍길동' unless reporter
+    self.grid_width           = pillar.page_ref.grid_width
+    self.grid_height          = pillar.page_ref.grid_height
+    self.is_front_page        = true if pillar.page_ref.is_front_page?
+    self.column               = 4 unless column
+    self.row                  = 4 unless row
+    self.top_story            = true if column > 2 && (pillar_order == "1" || pillar_order == "1_1")
+    self.extended_line_count  = 0
+    self.pushed_line_count    = 0
+    self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
+    self.title        = "여기는 #{pillar_order}제목 입니다." unless title
+    self.title        = "여기는 #{pillar_order}제목." if column <= 2
+    self.subtitle     = '여기는 부제목 입니다.' unless subtitle
+    self.reporter     = '홍길동' unless reporter
 
     body_text = ""
     unit_text = '여기는 본문입니다. ' 

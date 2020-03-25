@@ -440,7 +440,11 @@ EOF
     "#{date_without_minus}.011001#{two_digit_page_number}0000#{two_digit}.xml"
   end
 
-  def change_layout(new_ad_type)
+  def publication
+    page.publication
+  end
+  
+  def change_ad_box_layout(new_ad_type, column)
     info = {}
     case new_ad_type
     when '15단통'
@@ -511,10 +515,15 @@ EOF
       puts "+++++++++ unsupported ad_type:#{ad_type}"
       return
     end
+    self.grid_width = publication.grid_width(column)
     self.save
     generate_pdf_with_time_stamp
   end
 
+  def delete_folder
+    system("rm -rf #{path}")
+  end
+  
   private
 
   def init_atts

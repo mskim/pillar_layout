@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
-    @working_articles = @page.working_articles
+    @working_articles = @page.pillars.map{|p| p.working_articles}.flatten
     @ad_boxes         = @page.ad_boxes
     @page_number_templates   = Section.where(ad_type:@page.ad_type, page_number: @page.page_number).order(:column, :story_count).reverse_order
     @page_templates   = Section.where(ad_type:@page.ad_type).order(:column, :story_count).reverse_order
@@ -171,7 +171,8 @@ class PagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_page
       # @page = Page.find(params[:id])
-      @page = Page.includes(:issue, :working_articles).find(params[:id])
+      # @page = Page.includes(:issue, :working_articles).find(params[:id])
+      @page = Page.includes(:issue, :pillars).find(params[:id])
 
     end
 

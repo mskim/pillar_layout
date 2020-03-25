@@ -184,14 +184,14 @@ $('input[type="text"], textarea').each(function(){
       </div>
     </main>
     <footer id="footer">
-      <script>
+      <%# <script>
         $(function () {
           $('#accordion').on('shown.bs.collapse', function (e) {
               saveActiveAccordionPanel('accordion-activePanel', e);
           })
         });
         restoreAccordionPanel('accordion-activePanel', '#accordion');
-      </script>
+      </script> %>
     </footer>
   </body>
 </html>

@@ -339,8 +339,20 @@ class PageHeading < ApplicationRecord
   end
 
   def generate_pdf
-    save_layout
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
+    # if NEWS_LAYOUT_ENGINE == 'ruby'
+    #   #TODO
+    #   save_page_heading_pdf
+    # else
+      save_layout
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
+    # end
+  end
+
+  def save_page_heading_pdf
+    save_hash                     = {}
+    save_hash[:article_path]      = path
+    save_hash[:layout_rb]         = layout_content
+    RLayout::NewsBoxMaker.new(save_hash)
   end
 
   def self.generate_pdf(page)
