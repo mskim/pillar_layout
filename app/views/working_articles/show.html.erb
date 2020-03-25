@@ -1,19 +1,33 @@
 <div class="container-fluid">
-  <nav class="mt-0">
-    <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"><span><%= icon('fas', 'newspaper') %> <%= @working_article.page.section_name %></span></a>
-      <a class="nav-item nav-link" id="nav-preview-tab" data-toggle="tab" href="#nav-preview" role="tab" aria-controls="nav-preview" aria-selected="false"><span><%= icon('fas', 'eye') %></span> <%= @working_article.page.page_number %>면 미리보기</a>
-      <a class="nav-item nav-link" id="nav-article-batch-tab" data-toggle="tab" href="#nav-article-batch" role="tab" aria-controls="nav-article-batch" aria-selected="false"><span><%= icon('fas', 'window-restore') %></span> <%= @working_article.page.section_name %> 기사배정</a>
-      <a class="nav-item nav-link" id="nav-story-batch-tab" data-toggle="tab" href="#nav-story-batch" role="tab" aria-controls="nav-story-batch" aria-selected="false"><span><%= icon('fas', 'window-restore') %></span> <%= @working_article.pillar_order %>번 기사배정</a>
-      <a class="nav-item nav-link" id="nav-story-edit-tab" data-toggle="tab" href="#nav-story-edit" role="tab" aria-controls="nav-story-edit" aria-selected="false"><span><%= icon('fas', 'edit') %></span> <%= @working_article.pillar_order %> 기사편집</a>
-      <a class="nav-item nav-link" id="nav-story-picture-tab" data-toggle="tab" href="#nav-story-picture" role="tab" aria-controls="nav-story-picture" aria-selected="false"><span><%= icon('fas', 'image') %></span> 사진</a>
-      <a class="nav-item nav-link" id="nav-story-graphic-tab" data-toggle="tab" href="#nav-story-graphic" role="tab" aria-controls="nav-story-graphic" aria-selected="false"><span><%= icon('fas', 'chart-area') %></span> 그래픽</a>
-      <a class="nav-item nav-link" id="nav-story-group-image-tab" data-toggle="tab" href="#nav-story-group-image" role="tab" aria-controls="nav-story-group-image" aria-selected="false"><span><%= icon('fas', 'object-group') %></span> 그룹 이미지</a>
-    </div>
-  </nav>
-  <div class="tab-content p-4 mb-5" id="nav-tabContent">
+  <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="section-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="section" aria-selected="true"><span><%= icon('fas', 'newspaper') %> <%= @working_article.page.section_name %></span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="preview-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="preview" aria-selected="false"><span><%= icon('fas', 'eye') %></span> <%= @working_article.page.page_number %>면 미리보기</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="article-batch-tab" data-toggle="tab" href="#tab3" role="tab" aria-controls="article-batch" aria-selected="false"><span><%= icon('fas', 'window-restore') %></span> <%= @working_article.page.section_name %> 기사배정</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-batch-tab" data-toggle="tab" href="#tab4" role="tab" aria-controls="story-batch" aria-selected="false"><span><%= icon('fas', 'window-restore') %></span> <%= @working_article.pillar_order %>번 기사배정</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-edit-tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="story-edit" aria-selected="false"><span><%= icon('fas', 'edit') %></span> <%= @working_article.pillar_order %> 기사편집</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-picture-tab" data-toggle="tab" href="#tab6" role="tab" aria-controls="story-picture" aria-selected="false"><span><%= icon('fas', 'image') %></span> 사진</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-graphic-tab" data-toggle="tab" href="#tab7" role="tab" aria-controls="story-graphic" aria-selected="false"><span><%= icon('fas', 'chart-area') %></span> 그래픽</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-group-image-tab" data-toggle="tab" href="#tab8" role="tab" aria-controls="story-group-image" aria-selected="false"><span><%= icon('fas', 'object-group') %></span> 그룹 이미지</a>
+    </li>
+  </ul>
+  <div class="tab-content p-4 mb-5" id="myTabContent">
     <!-- 모든 "카테고리"면 -->
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="section-tab">
       <div class="row">
         <% @pages.each do |page| %>
           <div class="col-md-3">
@@ -34,7 +48,7 @@
       </div>
     </div>
     <!-- 미리보기 -->
-    <div class="tab-pane fade" id="nav-preview" role="tabpanel" aria-labelledby="nav-preview-tab">
+    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="preview-tab">
       <div class="card border-secondary rounded-0 shadow" style="width: 100%;">
         <div class="text-center border">
           <%= raw @working_article.page.to_svg_with_jpg %>
@@ -42,7 +56,7 @@
       </div>
     </div>
     <!-- n면 기사배정 -->
-    <div class="tab-pane fade" id="nav-article-batch" role="tabpanel" aria-labelledby="nav-article-batch-tab">
+    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="article-batch-tab">
       <% @pages.each do |page| %>
         <div class="row">
           <div class="col-md-3">
@@ -83,20 +97,27 @@
                     <td style="text-align:center;"><%= working_article.approximate_char_count %></td>
                     <td style="text-align:center;"><%= link_to '배정',change_story_working_article_path(working_article), method: :get, class: "btn btn-primary btn-sm" %></td>
                     <td style="text-align:center;"><%= link_to '편집',working_article_path(working_article), method: :get, class: "btn btn-info btn-sm" %></td>
+                    </tr>
                   <% end %>
                 </tbody>
               </table>
             </div>
           </div>
-          <hr>
         <% end %>
       </div>
-      <!-- n번 기사배정 -->
-      <div class="tab-pane fade" id="nav-story-batch" role="tabpanel" aria-labelledby="nav-story-batch-tab">
-        1번 기사배정 내용
+      <!-- n_n번 기사배정 -->
+      <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="story-batch-tab">
+        <div class="row">
+          <div class="col-md-3">
+            <p><%= render 'show_preview_by_column', article: @working_article %></p>
+          </div>
+          <div class="col-md-9">
+            <%= render 'change_story_form', article: @working_article, stories: @stories %>
+          </div>
+        </div>
       </div>
       <!-- n번 기사편집 -->
-      <div class="tab-pane fade" id="nav-story-edit" role="tabpanel" aria-labelledby="nav-story-edit-tab">
+      <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="story-edit-tab">
         <div class="row">
           <div class="col-md-3">
             <div class="card mb-1">
@@ -134,7 +155,7 @@
         </div>
       </div>
       <!-- 사진 -->
-      <div class="tab-pane fade" id="nav-story-picture" role="tabpanel" aria-labelledby="nav-story-picture-tab">
+      <div class="tab-pane fade" id="tab6" role="tabpanel" aria-labelledby="story-picture-tab">
         <div class="row" style="width: 100%;">
           <div class="col-md-3">
             <% @pages.each do |page| %>
@@ -175,9 +196,9 @@
                     <%= f.fields_for :images, Image.new do |p| %>
                       <div class="custom-file">
                         <%= f.file_field :storage_image, class: "custom-file-input", id: "customFile" %>
-                        <%= f.label :storage_image, class: "custom-file-label", for: "customFile" %>
+                        <%= f.label :storage_image, class: "custom-file-label", for: "customFile", data: {browse: "첨부파일"} %>
                       </div>
-                      <div class="form-group mt-3">
+                      <div class="form-group mt-1">
                         <%= f.button "저장", issue: @working_article.issue, class: "btn btn-block btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
                       </div>
                     <% end %>
@@ -194,7 +215,7 @@
         </div>
       </div>
       <!-- 그래픽 -->
-      <div class="tab-pane fade" id="nav-story-graphic" role="tabpanel" aria-labelledby="nav-story-graphic-tab">
+      <div class="tab-pane fade" id="tab7" role="tabpanel" aria-labelledby="story-graphic-tab">
         <div class="row" style="width: 100%;">
           <div class="col-md-3">
             <% @pages.each do |page| %>
@@ -213,7 +234,7 @@
             <% end %>
           </div>
           <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-3">
               <h5 class="card-header">
                 그래픽 편집
               </h5>
@@ -225,18 +246,25 @@
                   <% @working_article.graphics.each do |graphic| %>
                     <%= render 'graphics/form', graphic: graphic %>
                   <% end %>
-                  <% if  @working_article.graphics.length <= 2 %>
-                    <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
-                      <%= f.fields_for :images, Image.new do |p| %>
-                        <div class="form-group">
-                          <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
-                          <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
-                        </div>
-                      <% end %>
-                      <div class="actions">
-                        <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                <% end %>
+              </div>
+            </div>
+            <div class="card">
+              <h5 class="card-header">
+                그래픽 추가
+              </h5>
+              <div class="card-body">
+                <% if  @working_article.graphics.length <= 2 %>
+                  <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
+                    <%= f.fields_for :images, Image.new do |p| %>
+                      <div class="form-group">
+                        <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
+                        <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
                       </div>
                     <% end %>
+                    <div class="form-group mt-1">
+                      <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                    </div>
                   <% end %>
                 <% end %>
               </div>
@@ -248,7 +276,7 @@
         </div>
       </div>
       <!-- 그룹 이미지 -->
-      <div class="tab-pane fade" id="nav-story-group-image" role="tabpanel" aria-labelledby="nav-story-group-image-tab">
+      <div class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="story-group-image-tab">
         <div class="row" style="width: 100%;">
           <div class="col-md-4">
                 <h3 class="text-center">그룹 이미지 생성</h3>
@@ -278,17 +306,17 @@
                       <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %>
                       <%= f.radio_button :position, 0, title: "제목위" %>
                       <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %><br />
-                  <%= f.radio_button :position, 1, title: "좌상단" %>
-                  <%= f.radio_button :position, 2, title: "중상단" %>
-                  <%= f.radio_button :position, 3, title: "우상단" %><br>
-                  <%= f.radio_button :position, 4, title: "좌" %>
-                  <%= f.radio_button :position, 5, title: "중앙" %>
-                  <%= f.radio_button :position, 6, title: "우" %><br>
-                  <%= f.radio_button :position, 7, title: "좌하단"%>
-                  <%= f.radio_button :position, 8, title: "중하단" %>
-                  <%= f.radio_button :position, 9, title: "우하단" %><br>
-                </div>
-              </div>
+                      <%= f.radio_button :position, 1, title: "좌상단" %>
+                      <%= f.radio_button :position, 2, title: "중상단" %>
+                      <%= f.radio_button :position, 3, title: "우상단" %><br>
+                      <%= f.radio_button :position, 4, title: "좌" %>
+                      <%= f.radio_button :position, 5, title: "중앙" %>
+                      <%= f.radio_button :position, 6, title: "우" %><br>
+                      <%= f.radio_button :position, 7, title: "좌하단"%>
+                      <%= f.radio_button :position, 8, title: "중하단" %>
+                      <%= f.radio_button :position, 9, title: "우하단" %><br>
+                    </div>
+                  </div>
               <div class="form-group">
                 <%= f.hidden_field :working_article_id, value: @working_article.id %>
               </div>

@@ -1,23 +1,23 @@
 {
-  "application.js": "/packs/js/application-84115a8f46f7cd65c779.js",
-  "application.js.map": "/packs/js/application-84115a8f46f7cd65c779.js.map",
-  "crop_image.js": "/packs/js/crop_image-c2c8b7d0c6750630ca5e.js",
-  "crop_image.js.map": "/packs/js/crop_image-c2c8b7d0c6750630ca5e.js.map",
+  "application.js": "/packs/js/application-4073d7d4c5a3cf71f419.js",
+  "application.js.map": "/packs/js/application-4073d7d4c5a3cf71f419.js.map",
+  "crop_image.js": "/packs/js/crop_image-467cd5738317a753d7cd.js",
+  "crop_image.js.map": "/packs/js/crop_image-467cd5738317a753d7cd.js.map",
   "entrypoints": {
     "application": {
       "js": [
-        "/packs/js/application-84115a8f46f7cd65c779.js"
+        "/packs/js/application-4073d7d4c5a3cf71f419.js"
       ],
       "js.map": [
-        "/packs/js/application-84115a8f46f7cd65c779.js.map"
+        "/packs/js/application-4073d7d4c5a3cf71f419.js.map"
       ]
     },
     "crop_image": {
       "js": [
-        "/packs/js/crop_image-c2c8b7d0c6750630ca5e.js"
+        "/packs/js/crop_image-467cd5738317a753d7cd.js"
       ],
       "js.map": [
-        "/packs/js/crop_image-c2c8b7d0c6750630ca5e.js.map"
+        "/packs/js/crop_image-467cd5738317a753d7cd.js.map"
       ]
     }
   }
