@@ -6,7 +6,7 @@
 #  ad_type                      :string
 #  article_line_thickness       :float
 #  bottom_margin                :float
-#  color_page                   :boolean          default(FALSE)
+#  color_page                   :boolean          default("false")
 #  column                       :integer
 #  draw_divider                 :boolean
 #  grid_height                  :float
@@ -30,7 +30,7 @@
 #  width                        :float
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
-#  publication_id               :integer          default(1)
+#  publication_id               :integer          default("1")
 #
 
 class Section < ApplicationRecord

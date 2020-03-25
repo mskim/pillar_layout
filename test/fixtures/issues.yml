@@ -4,6 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  date           :date
+#  excel_file     :string
 #  number         :string
 #  page_count     :integer
 #  plan           :text

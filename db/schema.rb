@@ -404,6 +404,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "page_count"
+    t.string "excel_file"
     t.index ["publication_id"], name: "index_issues_on_publication_id"
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
@@ -427,25 +428,6 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pillar_id"], name: "index_layout_nodes_on_pillar_id"
-  end
-
-  create_table "line_fragments", force: :cascade do |t|
-    t.bigint "working_article_id"
-    t.bigint "paragraph_id"
-    t.integer "order"
-    t.integer "column"
-    t.string "line_type"
-    t.float "x"
-    t.float "y"
-    t.float "width"
-    t.float "height"
-    t.text "tokens"
-    t.float "text_area_x"
-    t.float "text_area_width"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["paragraph_id"], name: "index_line_fragments_on_paragraph_id"
-    t.index ["working_article_id"], name: "index_line_fragments_on_working_article_id"
   end
 
   create_table "member_images", force: :cascade do |t|
@@ -563,17 +545,6 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
     t.index ["issue_id"], name: "index_pages_on_issue_id"
     t.index ["page_plan_id"], name: "index_pages_on_page_plan_id"
     t.index ["slug"], name: "index_pages_on_slug", unique: true
-  end
-
-  create_table "paragraphs", force: :cascade do |t|
-    t.string "name"
-    t.bigint "working_article_id"
-    t.integer "order"
-    t.text "para_text"
-    t.text "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["working_article_id"], name: "index_paragraphs_on_working_article_id"
   end
 
   create_table "pillars", force: :cascade do |t|
@@ -983,10 +954,6 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
     t.string "subcategory_code"
     t.string "pillar_order"
     t.bigint "pillar_id"
-    t.string "profile_image_position"
-    t.string "frame_sides"
-    t.string "frame_color"
-    t.float "frame_thickness"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"
@@ -1140,12 +1107,9 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
-  add_foreign_key "line_fragments", "paragraphs"
-  add_foreign_key "line_fragments", "working_articles"
   add_foreign_key "member_images", "group_images"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
-  add_foreign_key "paragraphs", "working_articles"
   add_foreign_key "profiles", "publications"
   add_foreign_key "proofs", "working_articles"
   add_foreign_key "reporter_graphics", "users"

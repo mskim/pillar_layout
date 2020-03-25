@@ -1,29 +1,25 @@
-
 <h3 align='center'>출력 현황</h3>
-
-
 <div class="view">
   <% @issue.pages.each do |page| %>
     <div class="col-xs-3 col-md-2" align='center'>
-    <% if page.print_count > 0 %>
-      <embed src="<%= page.printer_file_to_show %>#toolbar=0&navpanes=0&scrollbar=0" style="border-style:solid; border-color:green;" width="245px" height="340px"></embed>
+      <% if page.print_count > 0 %>
+        <embed src="<%= page.printer_file_to_show %>#toolbar=0&navpanes=0&scrollbar=0" style="border-style:solid; border-color:green;" width="245px" height="340px"></embed>
       <!-- %= raw page.to_svg_with_jpg % -->
     <% elsif page.proof_count > 0 %>
       <embed src="<%= page.proof_file_to_show %>#toolbar=0&navpanes=0&scrollbar=0" style="border-style:solid; border-color:yellow;" width="245px" height="340px"></embed>
-    <% else page.proof_count < 0 || page.print_count < 0 %>
-      <embed src="/1/blank_print_image.jpg#toolbar=0&navpanes=0&scrollbar=0"" width="245px" height="340px"></embed>
-    <% end %>
-      <h4 align='center'>
-        <%= page.page_status %>
-      </h4>
-      <h4 align='center'> &#8195;
-      <%= page.print_status %>
-    </h4>
-    <h4 align='center'> &#8195;
-    <%= page.proof_status %>
-  </h4>
-    </div>
-    <!-- true -->
-  <% end %>
-
+  <% else page.proof_count < 0 || page.print_count < 0 %>
+    <embed src="/1/blank_print_image.jpg#toolbar=0&navpanes=0&scrollbar=0"" width="245px" height="340px"></embed>
+<% end %>
+<h4 align='center'>
+  <%= page.page_status %>
+</h4>
+<h4 align='center'> &#8195;
+  <%= page.print_status %>
+</h4>
+<h4 align='center'> &#8195;
+  <%= page.proof_status %>
+</h4>
+</div>
+<!-- true -->
+<% end %>
 </div>

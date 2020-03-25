@@ -7,7 +7,7 @@
 #  announcement_column          :integer
 #  announcement_text            :string
 #  body                         :text
-#  bottom_line                  :integer          default(0)
+#  bottom_line                  :integer          default("0")
 #  boxed_subtitle_text          :string
 #  boxed_subtitle_type          :integer
 #  by_line                      :string
@@ -18,9 +18,6 @@
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
-#  frame_color                  :string
-#  frame_sides                  :string
-#  frame_thickness              :float
 #  grid_height                  :float
 #  grid_width                   :float
 #  grid_x                       :integer
@@ -33,7 +30,7 @@
 #  inactive                     :boolean
 #  is_front_page                :boolean
 #  kind                         :string
-#  left_line                    :integer          default(0)
+#  left_line                    :integer          default("0")
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer
@@ -44,7 +41,6 @@
 #  pillar_order                 :string
 #  price                        :float
 #  profile                      :string
-#  profile_image_position       :string
 #  publication_name             :string
 #  pushed_line_count            :integer
 #  quote                        :text
@@ -58,7 +54,7 @@
 #  quote_v_extra_space          :integer
 #  quote_x_grid                 :integer
 #  reporter                     :string
-#  right_line                   :integer          default(0)
+#  right_line                   :integer          default("0")
 #  row                          :integer
 #  slug                         :string
 #  subcategory_code             :string
@@ -68,7 +64,7 @@
 #  subtitle_type                :string
 #  title                        :text
 #  title_head                   :string
-#  top_line                     :integer          default(0)
+#  top_line                     :integer          default("0")
 #  top_position                 :boolean
 #  top_story                    :boolean
 #  y_in_lines                   :integer

@@ -389,7 +389,7 @@ class IssuesController < ApplicationController
   def generate_web_articles
     # 카테고리
     @pages = Page.all
-    @categories = @pages.select(:section_name).distinct.order("section_name asc")
+    @categories = @pages.select(:section_name).distinct.order('section_name asc')
     # 카테고리에 따라 내용보여주기
     @issue = Issue.find(params[:id])
 
@@ -434,6 +434,6 @@ class IssuesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def issue_params
     # params.require(:issue).permit(:date, :number, :plan, :publication_id, images_attributes: [:id, :issue_id, :image])
-    params.require(:issue).permit(:date, :number, :plan, :publication_id, images_attributes: %i[id issue_id image])
+    params.require(:issue).permit(:date, :number, :plan, :publication_id, :excel_file, images_attributes: %i[id issue_id image])
   end
 end

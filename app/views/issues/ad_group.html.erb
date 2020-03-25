@@ -1,15 +1,15 @@
-
-
-<div class="view">
-  <% @pages.each do |page| %>
-    <div class = "col-xs-6 col-md-3"  align='center'>
-    <!--a href="<%=  page_path(page) %>"><img  src="<%= page.jpg_image_path %>" width="100%"></img></a-->
-    <%= raw page.to_svg_with_jpg %>
-    <% if page.color_page %> 
-    <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-xs" %></h4>
-    <% else %>
-    <h4 align='center'><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-default btn-xs" %></h4>
+<div class="container-fluid">
+  <div class="row">
+    <% @pages.each do |page| %>
+      <div class = "col-xs-6 col-md-3"  align='center'>
+        <!--a href="<%=  page_path(page) %>"><img  src="<%= page.jpg_image_path %>" width="100%"></img></a-->
+        <%= raw page.to_svg_with_jpg %>
+        <% if page.color_page %>
+          <h4 class="text-center mt-2"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-xs" %></h4>
+        <% else %>
+          <h4 class="text-center mt-2"><%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-default btn-xs" %></h4>
+        <% end %>
+      </div>
     <% end %>
-    </div>
-  <% end %>
+  </div>
 </div>

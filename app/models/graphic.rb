@@ -9,7 +9,7 @@
 #  column                :integer
 #  description           :text
 #  detail_mode           :boolean
-#  draw_frame            :boolean          default(FALSE)
+#  draw_frame            :boolean          default("false")
 #  extra_height_in_lines :integer
 #  fit_type              :string
 #  graphic               :string

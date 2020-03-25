@@ -53,18 +53,18 @@
           <div class="tab-pane fade show active" id="edit" role="tabpanel" aria-labelledby="edit-tab">
             <div class="row" style="width: 100%;">
               <div class="col-md-3">
-                  <div class="card mb-3">
-                    <div class="border text-center" style="margin: 5px;">
-                      <%= raw @working_article.page.to_svg_with_jpg %>
-                    </div>
+                <div class="card mb-3">
+                  <div class="border text-center" style="margin: 5px;">
+                    <%= raw @working_article.page.to_svg_with_jpg %>
                   </div>
-                  <p class="text-center">
-                    <% if @working_article.page.color_page %>
-                      <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
-                    <% else %>
-                      <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
-                    <% end %>
-                  </p>
+                </div>
+                <p class="text-center">
+                  <% if @working_article.page.color_page %>
+                    <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
+                  <% else %>
+                    <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
+                  <% end %>
+                </p>
               </div>
               <div class="col-md-4">
                 <div class="card">
@@ -306,21 +306,79 @@
           <!-- 해당 페이지 기사배정 -->
           <div class="tab-pane fade" id="article-batch" role="tabpanel" aria-labelledby="article-batch-tab">
             <div class="row">
-              <div class="col-sm-12 col-md-5">
-                <%= render 'change_story_form', article: @working_article, stories: @stories%>
+              <div class="col-md-3">
+                <% @pages.each do |page| %>
+                  <div class="card mb-3">
+                    <div class="border text-center" style="margin: 5px;">
+                      <%= raw page.to_svg_with_jpg %>
+                    </div>
+                    <div class="card-body text-center">
+                      <% if page.color_page %>
+                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+                      <% else %>
+                        <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
               </div>
-              <div class="col-sm-12 col-md-7">
-                <p><%= render 'show_preview_by_column', article: @working_article %></p>
+              <div class="col-md-9">
+                <% @pages.each do |page| %>
+                  <h4 class="display-4 text-center" style="font-size: 35px;">
+                    <%= "#{page.section_name} #{page.page_number}페이지 기사 목록" %>
+                  </h4>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="text-center">
+                        <th scope="col">배치 번호</th>
+                        <th scope="col">저자</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">예상 글자 수</th>
+                        <th scope="col">기사 배정</th>
+                        <th scope="col">기사 편집</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% page.working_articles.sort_by{|a| a.order}.each do |working_article| %>
+                        <% if working_article.story %>
+                          <tr class="bg-info">
+                          <% else %>
+                            <tr>
+                            <% end %>
+                            <td><%= working_article.order %></td>
+                            <td><%= working_article.reporter %></td>
+                            <td><%= working_article.title %></td>
+                            <td><%= working_article.approximate_char_count %></td>
+                            <td class="text-center">
+                              <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  배정 번호
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <% working_article.page.position_list.each do |list| %>
+                                    <%= link_to list, list, class: "dropdown-item" %>
+                                  <% end %>
+                                  <%#= f.select (working_article.page.position_list) %>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-center"><%= link_to '편집',working_article_path(working_article), method: :get, class: "btn btn-info btn-sm" %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- 기사 미리보기 -->
-          <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab">
-            <div class="row d-flex justify-content-center">
-              <div class="col-md-7">
-                <div class="card">
-                  <div class="text-center border">
-                    <%= raw @working_article.page.to_svg_with_jpg %>
+            <!-- 기사 미리보기 -->
+            <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-7">
+                  <div class="card">
+                    <div class="text-center border">
+                      <%= raw @working_article.page.to_svg_with_jpg %>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -328,14 +386,14 @@
           </div>
         </div>
       </div>
+      <nav class="navbar navbar-light bg-light fixed-bottom">
+        <div class="btn-group" role="group" aria-label="기능">
+          <%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-secondary btn-sm" %>
+          <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-secondary btn-sm" %>
+        </div>
+      </nav>
     </div>
-    <nav class="navbar navbar-light bg-light fixed-bottom">
-      <div class="btn-group" role="group" aria-label="기능">
-        <%= link_to "교정 전송", send_proof_reading_pdf_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
-        <%= link_to "인쇄 전송", send_pdf_to_printer_page_path(@working_article.page), method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>
-        <%= link_to "페이지 PDF", download_pdf_page_path(@working_article.page), method: :get, class: "btn btn-secondary btn-sm" %>
-        <%= link_to "기사 PDF", download_pdf_working_article_path(@working_article), method: :get, class: "btn btn-secondary btn-sm" %>
-      </div>
-    </nav>
   </div>
 </div>
