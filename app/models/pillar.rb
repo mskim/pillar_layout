@@ -288,9 +288,11 @@ class Pillar < ApplicationRecord
       # delete working_articles from pillar
       removing_articles.times do
         w = working_articles.sort_by{|w| w.pillar_order}.last
-        system("rm -rf #{w.path}")
-        w.destroy
-        working_articles.reload
+        if w
+          system("rm -rf #{w.path}")
+          w.destroy
+          working_articles.reload
+        end
       end
     else # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
@@ -324,6 +326,7 @@ class Pillar < ApplicationRecord
   end
   
   def create_layout_node
+    # box_count = 1 if box_count.nil? || box_count < 1
     if box_count > 1
       actions = ["h*#{box_count - 1}"]
     end
@@ -368,6 +371,9 @@ class Pillar < ApplicationRecord
   def init_pillar
     # layout_node = LayoutNode.where(pillar:self, column: column, row: row).first_or_create
     # self.layout_node_id = layout_node.id
+  end
 
+  def delete_folder
+    system("rm -rf #{path}")
   end
 end

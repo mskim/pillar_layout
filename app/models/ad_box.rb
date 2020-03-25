@@ -520,6 +520,10 @@ EOF
     generate_pdf_with_time_stamp
   end
 
+  def delete_folder
+    system("rm -rf #{path}")
+  end
+  
   private
 
   def init_atts

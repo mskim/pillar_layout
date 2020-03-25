@@ -1,13 +1,15 @@
 
 module WorkingArticleSavePdf
   extend ActiveSupport::Concern
-  # attr_reader :heading_obj, :subtitle_obj, :image_objects, :graphic_objects, :quote_object
+  attr_reader :heading_obj, :subtitle_obj, :image_objects, :graphic_objects, :quote_object
   
   #TODO generate pdf without saving things to file
   def layout_article
     @pdf_doc      = HexaPDF::Document.new
     page          = @pdf_doc.pages.add([0, 0, width, height])
     canvas        = page.canvas
+
+    create_news_article
     create_heading
     create_subtitle
     create_images
@@ -21,6 +23,11 @@ module WorkingArticleSavePdf
     @pdf_doc.write(output_path)
     t = Time.now
   end
+
+  def create_news_article
+
+  end
+
 
 
   # make heading as float
@@ -138,10 +145,6 @@ module WorkingArticleSavePdf
 
   def create_body
     create_paragraphs
-  end
-
-  def create_paragraphs
-
   end
 
   def draw_body(canvas)

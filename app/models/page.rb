@@ -875,16 +875,19 @@ class Page < ApplicationRecord
       self.column    = new_page_layout.column
       self.grid_width = publication.grid_width(new_page_layout.column)
     end
+    self.ad_type     = new_page_layout.ad_type
+    self.layout      = eval(new_page_layout.layout)
     self.template_id = new_layout_id
     self.save
 
+    # New page layout and current one has equal number of pillars
     if pillars.length == new_page_layout.pillars.length
-      # New page layout and current one has equal number of pillars
+      bidning.pry
       pillars.each_with_index do |p, i|
         p.change_pillar_layout(new_page_layout.pillars[i])
       end
+    # Current layout has more number of pillars
     elsif pillars.length > new_page_layout.pillars.length
-      # Current layout has more number of pillars
       delete_count = pillars.length - new_page_layout.pillars.length
       pillars.each_with_index do |p, i|
         break unless new_page_layout.pillars[i]
@@ -892,28 +895,31 @@ class Page < ApplicationRecord
       end
       delete_count.times do
         p = pillars.last
+        p.delete_folder
         system "rm -rf #{p.path}"
         p.destroy
       end      
-
+    # New page layout has more pillars than currnt one
     else
-      # New page layout has more pillars than currnt one
-      new_page_layout.each_with_index do |layout, i|
-        if i >= news_layout.length
-          # create new pillar
-          Pillar.where(page_ref: self, grid_x: layout[0], grid_y: layout[1], column: layout[2], row: layout[3], order: i + 1, box_count:layout[4]).first_or_create
+      new_page_layout.pillars.each_with_index do |layout_pillar, i|
+        if i < pillars.length
+          pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
-          p = pillars[i]
-          p.change_pillar_layout(new_page_layout.pillars[i])
+          binding.pry
+          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
         end
       end
     end
 
     # change_ad_box
-    if ad_boxes.first
+    if ad_box = ad_boxes.first
       # case when there is an existing ad, and changed to something else
-      if ad_type != ad_boxes.first.ad_type
-        ad_boxes.first.change_ad_box_layout(ad_type, new_page_layout.column)
+      if ad_type == '광고없음'
+        # detel current ad_box
+        ad_box.delete_folder
+        ad_box.destroy
+      elsif ad_type != ad_boxes.first.ad_type
+        ad_box.change_ad_box_layout(ad_type, new_page_layout.column)
       end
     elsif ad_type && ad_type != '광고없음'
       # this is case when current ad_type='광고없음'  chnaging to some ad_ty[e

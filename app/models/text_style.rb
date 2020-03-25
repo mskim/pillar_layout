@@ -35,6 +35,8 @@
 #  fk_rails_...  (publication_id => publications.id)
 #
 
+
+
 class TextStyle < ApplicationRecord
   belongs_to :publication
 
@@ -42,19 +44,26 @@ class TextStyle < ApplicationRecord
   validates :english, presence: true
 
   after_create :setup
-  attr_reader :style_object
+  attr_reader :style_object, :font_wrapper
 
-  def make_style_object
-    @style_object || HexaPDF::Layout::Style.new(to_h)
-  end
-
-  def to_h
+  # given string, create tokens
+  def create_tokens(string)
+    @doc          ||= HexaPDF::Document.new
+    font_file     = "/Library/Fonts/newspaper/#{font}.ttf"
+    @font_wrapper ||= doc.fonts.add(font_file)
     h = {}
-    h[:font]                = font
+    h[:font]                = @font_wrapper
     h[:font_size]           = font_size
-    h[:character_spacing]   = tracking
-    h[:horizontal_scale]    = tracking
+    h[:character_spacing]   = tracking  if tracking && scale != 0
+    h[:horizontal_scale]    = scale     if scale && scale != 100
     h
+    @style_object ||= HexaPDF::Layout::Style.new(h)
+    s_array = string.split(" ")
+    s_array.map do |s|
+      g_list  = @font_wrapper.decode_utf8(s)
+      width   = g_list.map{|g| @style_object.scaled_item_width(g)}.reduce(:+)
+      [s, width, id]
+    end
   end
 
   def self.to_csv(options = {})

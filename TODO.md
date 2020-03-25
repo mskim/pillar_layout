@@ -47,12 +47,27 @@
     - announcement
     - group_image
 
+2020_03_25
+  - 5단 에서 광고없음 으로 변환시 에러
+  - layout 변환시 에러 177 
+  - change rjob to use ruby_pdf
+
+  - fix error when auto adjust height
+
+  - caption not showing
+  - #### arrow symbol not in the font
+  - **emphasis**
+  - draw article lines
+  - article box height
+
+  - ui update
+  - make regenerate_page
+  - cropping not working
+
 2020_03_24
   - fix subtitle disapearing when image is present
-  - caption not showing
-  - ####
-  - **emphasis**
-  
+  - page_layout [0,0,3,4,0] handle invalid 5th element
+
 2020_03_23
   - fix bug when changing page_layout when new pillar size is not equal 
   - fix update ad_box when change_page_layout

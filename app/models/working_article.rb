@@ -441,7 +441,7 @@ class WorkingArticle < ApplicationRecord
     # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
     new_extended_line_count       = new_box_marker.adjusted_line_count
     if options[:adjustable_height] && new_extended_line_count != 0
-      self.extended_line_count = new_extended_line_count
+      self.extended_line_count    = new_extended_line_count
       self.save
     end
   end
@@ -528,7 +528,7 @@ class WorkingArticle < ApplicationRecord
   # set pushed_line_count for bottom article 
   def auto_adjust_height_all
     pillar.working_articles.each_with_index do |w, i|
-      if @pillar.bottom_article_of_sibllings?(w)
+      if pillar.bottom_article_of_sibllings?(w)
         # we have bottom article
         w.generate_pdf_with_time_stamp(adjustable_height:false)
       else

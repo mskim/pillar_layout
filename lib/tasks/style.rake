@@ -13,8 +13,6 @@ namespace :style do
   end
 
 
-
-
   desc 'convert section.csv pillar.csv'
   task :section2pillar =>:environment do
     csv_path = "#{Rails.root}/public/1/section/sections.csv"
