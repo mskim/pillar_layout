@@ -62,6 +62,9 @@ class PageLayoutsController < ApplicationController
   def update
     respond_to do |format|
       # page_layout_params['layout'] = eval(page_layout_params['layout'])
+      # check if there exist? edited template
+      # redirect to format.html { render :edit }
+      # else create new page_layout
       if @page_layout.update(page_layout_params)
         @page_layout.update_pillar_from_layout
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully updated.' }

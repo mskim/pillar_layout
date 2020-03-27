@@ -369,11 +369,23 @@ class Pillar < ApplicationRecord
   end
 
   def init_pillar
-    # layout_node = LayoutNode.where(pillar:self, column: column, row: row).first_or_create
-    # self.layout_node_id = layout_node.id
+    self.profile = "#{page_ref.column}_#{column}_#{row}_#{box_count}"
   end
 
   def delete_folder
     system("rm -rf #{path}")
+  end
+
+  def copy_from_sample
+    source_folder = "#{Rails.root}/public/1/pillar_sample/#{profile}"
+    FileUtils.cp(source_folder, path)
+  end
+
+  def save_to_sample
+    return unless page_ref.class == Page
+    target_folder = "#{Rails.root}/public/1/pillar_sample/#{profile}"
+    unless File.exist?(source_folder) 
+      FileUtils.cp(path, target_folder)
+    end
   end
 end
