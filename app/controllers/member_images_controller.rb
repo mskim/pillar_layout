@@ -28,7 +28,7 @@ class MemberImagesController < ApplicationController
 
     respond_to do |format|
       if @member_image.save
-        format.html { redirect_to @member_image.group_image, notice: 'Member image was successfully created.' }
+        format.html { redirect_to @member_image.working_article, notice: 'Member image was successfully created.' }
         format.json { render :show, status: :created, location: @member_image }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class MemberImagesController < ApplicationController
   def update
     respond_to do |format|
       if @member_image.update(member_image_params)
-        format.html { redirect_to @member_image.group_image, notice: 'Member image was successfully updated.' }
+        format.html { redirect_to @member_image.working_article, notice: 'Member image was successfully updated.' }
         format.json { render :show, status: :ok, location: @member_image }
       else
         format.html { render :edit }
@@ -56,12 +56,26 @@ class MemberImagesController < ApplicationController
   def destroy
     @member_image.destroy
     respond_to do |format|
-      format.html { redirect_to @member_image.group_image, notice: 'Member image was successfully destroyed.' }
+      format.html { redirect_to @member_image.working_article, notice: 'Member image was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+  def order_valid
+    @member_images = MemberImage.all
+    @member_image = MemberImage.new
+    @member_images.each do |member_image|
+      next unless member_image.order == @member_image.order
+
+      @member_images = MemberImage.where("member_images.order >= #{@member_image.order}")
+      @member_images.each do |member_image|
+        member_image.order += 1
+        member_image.save
+      end
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_member_image
@@ -70,6 +84,6 @@ class MemberImagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def member_image_params
-    params.require(:member_image).permit(:title, :caption, :source, :order, :group_image_id, :image_attach)
+    params.require(:member_image).permit(:title, :caption, :source, :order, :working_article_id, :member_img)
   end
 end

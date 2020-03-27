@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: working_articles
@@ -7,7 +9,7 @@
 #  announcement_column          :integer
 #  announcement_text            :string
 #  body                         :text
-#  bottom_line                  :integer          default("0")
+#  bottom_line                  :integer          default(0)
 #  boxed_subtitle_text          :string
 #  boxed_subtitle_type          :integer
 #  by_line                      :string
@@ -33,7 +35,7 @@
 #  inactive                     :boolean
 #  is_front_page                :boolean
 #  kind                         :string
-#  left_line                    :integer          default("0")
+#  left_line                    :integer          default(0)
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer
@@ -57,7 +59,7 @@
 #  quote_v_extra_space          :integer
 #  quote_x_grid                 :integer
 #  reporter                     :string
-#  right_line                   :integer          default("0")
+#  right_line                   :integer          default(0)
 #  row                          :integer
 #  slug                         :string
 #  subcategory_code             :string
@@ -67,7 +69,7 @@
 #  subtitle_type                :string
 #  title                        :text
 #  title_head                   :string
-#  top_line                     :integer          default("0")
+#  top_line                     :integer          default(0)
 #  top_position                 :boolean
 #  top_story                    :boolean
 #  y_in_lines                   :integer
@@ -106,6 +108,7 @@ class WorkingArticle < ApplicationRecord
   # has_one
   has_one :story
   has_one :group_image
+  has_many :member_images
 
   # has_many
   has_many :images, dependent: :delete_all
@@ -156,7 +159,7 @@ class WorkingArticle < ApplicationRecord
       s.body = body
       s.selected_for_web = true
       s.save
-    else 
+    else
       if reporter.present?
         s = Story.where(working_article_id: id, user_id: reporter_id).first_or_create
         s.date = page.date
@@ -180,29 +183,28 @@ class WorkingArticle < ApplicationRecord
         s.selected_for_web = false
         s.save
       else
-        puts "경고: 기자명이 없습니다!"
+        puts '경고: 기자명이 없습니다!'
       end
     end
     s
   end
 
   def reporter_id
-    if reporter.present?
-      User.find_by(name: reporter).id
-    end
+    User.find_by(name: reporter).id if reporter.present?
   end
 
   def id_by_reporter_name_from_body
     body.match(/^# (.*)/)
-    reporter_name = $1.to_s.sub("# ", "")
+    reporter_name = Regexp.last_match(1).to_s.sub('# ', '')
     User.find_by(name: reporter_name).id
   end
 
   def reporter_from_body
     # return unless reporter
-    body.match(/^# (.*)/) if body && body != ""
-    return $1.to_s.sub("# ", "") if $1
-    return nil
+    body.match(/^# (.*)/) if body && body != ''
+    return Regexp.last_match(1).to_s.sub('# ', '') if Regexp.last_match(1)
+
+    nil
   end
 
   def bump_up_path
@@ -221,7 +223,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def order_to_path
-    "/#{pillar_order.split("_").join("/")}"
+    "/#{pillar_order.split('_').join('/')}"
   end
 
   def path
@@ -229,7 +231,7 @@ class WorkingArticle < ApplicationRecord
       page.path + order_to_path
     else
       page.path + "/#{pillar_order}"
-    end 
+    end
   end
 
   def proof_path
@@ -237,7 +239,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def url
-    "/#{publication.id}/issue/#{page.issue.date.to_s}/#{page.page_number}/#{pillar_order.split("_").join("/")}"
+    "/#{publication.id}/issue/#{page.issue.date}/#{page.page_number}/#{pillar_order.split('_').join('/')}"
   end
 
   def setup
@@ -245,35 +247,34 @@ class WorkingArticle < ApplicationRecord
   end
 
   def images_path
-    path + "/images"
+    path + '/images'
   end
 
   def layout_path
-    path + "/layout.rb"
+    path + '/layout.rb'
   end
 
   def story_path
-    path + "/story.md"
+    path + '/story.md'
   end
 
   def pdf_path
-    path + "/story.pdf"
+    path + '/story.pdf'
   end
 
   def jpg_path
-    path + "/story.jpg"
+    path + '/story.jpg'
   end
 
   def latest_pdf_basename
-    f = Dir.glob("#{path}/story*.pdf").sort.last
+    f = Dir.glob("#{path}/story*.pdf").max
     File.basename(f) if f
   end
 
   def latest_jpg_basename
-    f = Dir.glob("#{path}/story*.jpg").sort.last
+    f = Dir.glob("#{path}/story*.jpg").max
     File.basename(f) if f
   end
-
 
   def pdf_image_path
     url + "/#{latest_pdf_basename}"
@@ -288,11 +289,11 @@ class WorkingArticle < ApplicationRecord
   end
 
   def image_path
-    "/#{publication.id}/issue/#{page.issue.date.to_s}/images"
+    "/#{publication.id}/issue/#{page.issue.date}/images"
   end
 
   def article_info_path
-    path + "/article_info.yml"
+    path + '/article_info.yml'
   end
 
   def issue
@@ -305,9 +306,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def approximate_char_count
-    if article
-      article.char_count  
-    end
+    article&.char_count
     0
   end
 
@@ -334,17 +333,19 @@ class WorkingArticle < ApplicationRecord
     # params['working_article']['title'] = @working_article.filter_to_title(params['working_article']['title'])
     # params['working_article']['subtitle'] = @working_article.filter_to_title(params['working_article']['subtitle'])
     # params['working_article']['body'] = @working_article.filter_to_markdown(params['w
-    self.reporter       = story.reporter
-    self.subject_head   = filter_to_title(story.subject_head) if story.subject_head
+    self.reporter = story.reporter
+    if story.subject_head
+      self.subject_head = filter_to_title(story.subject_head)
+    end
     self.title          = filter_to_title(story.title)
     self.subtitle       = filter_to_title(story.subtitle)
     self.body           = filter_to_markdown(story.body)
-    self.price          = story.price  if story.price
-    self.by_line        = story.by_line  if story.by_line
-    self.category_code  = story.category_code  if story.category_code
-    self.subcategory_code  = story.subcategory_code  if story.subcategory_code
-    self.quote          = story.quote  if story.quote
-    self.save
+    self.price          = story.price if story.price
+    self.by_line        = story.by_line if story.by_line
+    self.category_code  = story.category_code if story.category_code
+    self.subcategory_code = story.subcategory_code if story.subcategory_code
+    self.quote = story.quote if story.quote
+    save
     save_article
     delete_old_files
     stamp_time
@@ -354,9 +355,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def update_reporter_story(body)
-    if story
-      story.update_story_from_article(body)
-    end
+    story&.update_story_from_article(body)
   end
 
   def make_article_path
@@ -376,7 +375,7 @@ class WorkingArticle < ApplicationRecord
   def stamp_time
     t = Time.now
     h = t.hour
-    @time_stamp = "#{t.day.to_s.rjust(2,'0')}#{t.hour.to_s.rjust(2,'0')}#{t.min.to_s.rjust(2,'0')}#{t.sec.to_s.rjust(2,'0')}"
+    @time_stamp = "#{t.day.to_s.rjust(2, '0')}#{t.hour.to_s.rjust(2, '0')}#{t.min.to_s.rjust(2, '0')}#{t.sec.to_s.rjust(2, '0')}"
   end
 
   def delete_old_files
@@ -398,23 +397,23 @@ class WorkingArticle < ApplicationRecord
 
   def wait_for_stamped_pdf
     starting = Time.now
-    times_up = starting + 60*1
-    while !File.exist?(stamped_pdf_file)
+    times_up = starting + 60 * 1
+    until File.exist?(stamped_pdf_file)
       sleep(1)
       if Time.now > times_up
-        puts "Waited for 5 seconds!!! Time is up brake"
+        puts 'Waited for 5 seconds!!! Time is up brake'
         break
       end
     end
   end
 
-  def generate_pdf_with_time_stamp(options={})
-    puts "+++++++++ in generate_pdf_with_time_stamp"
+  def generate_pdf_with_time_stamp(options = {})
+    puts '+++++++++ in generate_pdf_with_time_stamp'
     pdf_starting = Time.now
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_article_pdf(time_stamp: @time_stamp, adjustable_height:options[:adjustable_height])
+      save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
     else
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
     end
@@ -424,7 +423,7 @@ class WorkingArticle < ApplicationRecord
     puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end
 
-  def save_article_pdf(options={})
+  def save_article_pdf(options = {})
     make_article_path
     save_hash                     = {}
     save_hash[:article_path]      = path
@@ -440,8 +439,8 @@ class WorkingArticle < ApplicationRecord
     # RLayout::NewsBoxMaker.new(save_hash) should return new new_extended_line_count
     new_extended_line_count       = new_box_marker.adjusted_line_count
     if options[:adjustable_height] && new_extended_line_count != 0
-      self.extended_line_count    = new_extended_line_count
-      self.save
+      self.extended_line_count = new_extended_line_count
+      save
     end
   end
 
@@ -466,23 +465,21 @@ class WorkingArticle < ApplicationRecord
 
   def character_count
     return 0 unless body
+
     body.length
   end
 
   def extended_line_height
-    if extended_line_count.nil?
-      return 0
-    end
+    return 0 if extended_line_count.nil?
+
     extended_line_count * publication.body_line_height
   end
 
   def pushed_line_height
-    if pushed_line_count.nil?
-      return 0
-    end
+    return 0 if pushed_line_count.nil?
+
     pushed_line_count * publication.body_line_height
   end
-
 
   # expandable? for pillar
   def expandable?(line_count)
@@ -494,29 +491,28 @@ class WorkingArticle < ApplicationRecord
   # pushable? for bottom of sibllings
   def pushable?(line_count)
     article_bottom_spaces_in_lines = 2
-    if height_in_lines - line_count >= 7 
-      return true
-    end
+    return true if height_in_lines - line_count >= 7
+
     false
   end
 
   def revert_all_extended_lines
     pillar.working_articles.each do |w|
-      if w.extended_line_count != 0 || w.pushed_line_count != 0
-        w.extended_line_count = 0
-        w.pushed_line_count = 0
-        w.save
-        w.generate_pdf_with_time_stamp
-      end
+      next unless w.extended_line_count != 0 || w.pushed_line_count != 0
+
+      w.extended_line_count = 0
+      w.pushed_line_count = 0
+      w.save
+      w.generate_pdf_with_time_stamp
     end
     page.generate_pdf_with_time_stamp
   end
 
   # auto adjust height and relayout bottom article
   # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article 
+  # set pushed_line_count for bottom article
   def auto_adjust_height
-    generate_pdf_with_time_stamp(adjustable_height:true)
+    generate_pdf_with_time_stamp(adjustable_height: true)
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
@@ -524,14 +520,14 @@ class WorkingArticle < ApplicationRecord
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article 
+  # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.each_with_index do |w, i|
+    pillar.working_articles.each_with_index do |w, _i|
       if pillar.bottom_article_of_sibllings?(w)
         # we have bottom article
-        w.generate_pdf_with_time_stamp(adjustable_height:false)
+        w.generate_pdf_with_time_stamp(adjustable_height: false)
       else
-        w.generate_pdf_with_time_stamp(no_update_pdf_chain:true, adjustable_height:true)
+        w.generate_pdf_with_time_stamp(no_update_pdf_chain: true, adjustable_height: true)
       end
     end
     page.generate_pdf_with_time_stamp
@@ -539,15 +535,16 @@ class WorkingArticle < ApplicationRecord
 
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
-    return if line_count == self.extended_line_count
+    return if line_count == extended_line_count
+
     bottom_article = pillar.bottom_article_of_sibllings(self)
     puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
     unless bottom_article.pushable?(line_count)
-      puts "bottom sibling not pushable!!!"
-      return 
+      puts 'bottom sibling not pushable!!!'
+      return
     end
     self.extended_line_count = line_count
-    self.save
+    save
     # update(extended_line_count: line_count)
     # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
@@ -556,17 +553,17 @@ class WorkingArticle < ApplicationRecord
   end
 
   # adds extended_line_count with new line_count
-  def extend_line(line_count, options={})
-
+  def extend_line(line_count, _options = {})
     # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
+
     bottom_article = bottom_article_of_sibllings(self)
     unless bottom_article.pushable?(line_count)
-      puts "bottom sibling not pushable!!!"
-      return 
+      puts 'bottom sibling not pushable!!!'
+      return
     end
     self.extended_line_count += line_count
-    self.save
+    save
     # update(extended_line_count: extended_line_count)
     # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
@@ -578,12 +575,11 @@ class WorkingArticle < ApplicationRecord
     self == pillar.bottom_article_of_sibllings(self)
   end
 
-  def bottom_article_of_sibllings(article)
+  def bottom_article_of_sibllings(_article)
     w = pillar.bottom_article_of_sibllings(self)
     puts "w.id:#{w.id}"
     w
   end
-
 
   # this is applied to bottom of sibllings article
   # update pushed_line_sum for all above sibllings height change
@@ -594,6 +590,7 @@ class WorkingArticle < ApplicationRecord
   def empty_lines_count
     h = article_info
     return nil unless h
+
     h[:empty_lines]
   end
 
@@ -608,13 +605,14 @@ class WorkingArticle < ApplicationRecord
   def overflow_line_count
     h = article_info
     return nil unless h
+
     h[:overflow_line_count]
   end
 
   def show_quote_box?
     quote_box_show
   end
-  
+
   def show_quote_box(quote_box_type)
     self.quote_box_show = true
     self.quote_box_type = quote_box_type
@@ -626,41 +624,40 @@ class WorkingArticle < ApplicationRecord
     when '기고3행' || 'opinion3'
       self.quote_box_size = 3
     end
-    self.save
+    save
   end
 
   def hide_quote_box
     self.quote_box_show = false
-    self.save
+    save
   end
- 
+
   def boxed_subtitle_zero
     self.boxed_subtitle_type = 0
-    self.save
+    save
   end
 
   def boxed_subtitle_one
     self.boxed_subtitle_type = 1
-    self.save
+    save
   end
 
   def boxed_subtitle_two
     self.boxed_subtitle_type = 2
-    self.save
+    save
   end
 
   def announcement_zero
-    update(announcement_column:0)
+    update(announcement_column: 0)
   end
 
   def announcement_one
-    update(announcement_column:1)
+    update(announcement_column: 1)
   end
 
   def announcement_two
-    update(announcement_column:2)
+    update(announcement_column: 2)
   end
-
 
   def update_page_pdf
     page_path = page.path
@@ -674,10 +671,10 @@ class WorkingArticle < ApplicationRecord
 
   def article_info
     if File.exist?(article_info_path)
-      return @article_info_hash ||= YAML::load(File.open(article_info_path, 'r'){|f| f.read})
+      @article_info_hash ||= YAML::load(File.open(article_info_path, 'r'){|f| f.read})
     else
       puts "#{article_info_path} does not exist!!!"
-      return nil
+      nil
     end
   end
 
@@ -687,17 +684,31 @@ class WorkingArticle < ApplicationRecord
 
   def story_metadata
     h = {}
-    h['extended_line_count']  = extended_line_count if extended_line_count && extended_line_count > 0
-    h['pushed_line_count']    = pushed_line_count if pushed_line_count && pushed_line_count > 0
-    h['subject_head']         = RubyPants.new(subject_head).to_html if subject_head && subject_head !=""
-    h['title']                = RubyPants.new(title).to_html if title
-    if subtitle
-      h['subtitle']           = RubyPants.new(subtitle).to_html unless (kind == '사설' || kind == '기고')
+    if extended_line_count && extended_line_count > 0
+      h['extended_line_count']  = extended_line_count
     end
-    h['boxed_subtitle_text']  = RubyPants.new(boxed_subtitle_text).to_html if boxed_subtitle_type && boxed_subtitle_type.to_i > 0
-    h['quote']                = RubyPants.new(quote).to_html  if quote && quote !="" if quote_box_size.to_i > 0
-    h['announcement']         = RubyPants.new(announcement_text).to_html  if announcement_column && announcement_column > 0
-    h['reporter']             = reporter if reporter &&  reporter !=""
+    if pushed_line_count && pushed_line_count > 0
+      h['pushed_line_count']    = pushed_line_count
+    end
+    if subject_head && subject_head != ''
+      h['subject_head']         = RubyPants.new(subject_head).to_html
+    end
+    h['title'] = RubyPants.new(title).to_html if title
+    if subtitle
+      unless kind == '사설' || kind == '기고'
+        h['subtitle'] = RubyPants.new(subtitle).to_html
+      end
+    end
+    if boxed_subtitle_type && boxed_subtitle_type.to_i > 0
+      h['boxed_subtitle_text'] = RubyPants.new(boxed_subtitle_text).to_html
+    end
+    if quote_box_size.to_i > 0 && quote && quote != ''
+      h['quote'] = RubyPants.new(quote).to_html
+    end
+    if announcement_column && announcement_column > 0
+      h['announcement'] = RubyPants.new(announcement_text).to_html
+    end
+    h['reporter']             = reporter if reporter && reporter != ''
     h['email']                = email
     h
   end
@@ -710,10 +721,10 @@ class WorkingArticle < ApplicationRecord
   end
 
   def story_md
-    story_md =<<~EOF
-    #{story_metadata.to_yaml}
-    ---
-    #{RubyPants.new(body).to_html if body}
+    story_md = <<~EOF
+      #{story_metadata.to_yaml}
+      ---
+      #{RubyPants.new(body).to_html if body}
     EOF
   end
 
@@ -728,8 +739,8 @@ class WorkingArticle < ApplicationRecord
 
   def opinion_jpg_path
     filtered_name = reporter
-    filtered_name = reporter.split("_").first if reporter.include?("_")
-    filtered_name = reporter.split("=").first if reporter.include?("=")
+    filtered_name = reporter.split('_').first if reporter.include?('_')
+    filtered_name = reporter.split('=').first if reporter.include?('=')
     "/1/opinion/images/#{filtered_name}.jpg"
   end
 
@@ -746,11 +757,11 @@ class WorkingArticle < ApplicationRecord
     profile_hash[:image_path]     = opinion_pdf_path
     profile_hash[:column]         = 1
     profile_hash[:row]            = 1
-    if reporter == '내일시론'
-      profile_hash[:extra_height_in_lines]= -3 # 7+5=12 lines
-    else
-      profile_hash[:extra_height_in_lines]= 5 # 7+5=12 lines
-    end
+    profile_hash[:extra_height_in_lines] = if reporter == '내일시론'
+                                             -3 # 7+5=12 lines
+                                           else
+                                             5 # 7+5=12 lines
+                                           end
     profile_hash[:stroke_width]   = 0
     profile_hash[:position]       = 1
     profile_hash[:is_float]       = true
@@ -763,8 +774,8 @@ class WorkingArticle < ApplicationRecord
 
   def profile_pdf_path
     filtered_name = reporter
-    filtered_name = reporter.split("_").first if reporter.include?("_")
-    filtered_name = reporter.split("=").first if reporter.include?("=")
+    filtered_name = reporter.split('_').first if reporter.include?('_')
+    filtered_name = reporter.split('=').first if reporter.include?('=')
     publication.path + "/profile/#{filtered_name}.pdf"
   end
 
@@ -785,19 +796,12 @@ class WorkingArticle < ApplicationRecord
   end
 
   def image_options
-    if images.first
-      images.first.image_layout_hash
-    else
-      nil
-    end
+    images.first&.image_layout_hash
   end
 
   def image_box_options
-    if images.first
-      images.first.image_layout_hash
-    else
-      nil
-    end  end
+    images.first&.image_layout_hash
+  end
 
   def page_columns
     page.column
@@ -815,37 +819,32 @@ class WorkingArticle < ApplicationRecord
     publication.gutter
   end
 
-
   def x
-    grid_x*grid_width
+    grid_x * grid_width
   end
 
-  # 
   def y
-    y_position =  grid_y*grid_height
+    y_position = grid_y * grid_height
     if top_position?
-      y_position += page_heading_margin_in_lines*body_line_height
+      y_position += page_heading_margin_in_lines * body_line_height
     elsif pushed_line_count && pushed_line_count != 0
-      y_position += pushed_line_count*body_line_height
+      y_position += pushed_line_count * body_line_height
     end
     y_position
   end
 
-
   def width
-    column*grid_width
+    column * grid_width
   end
 
   def height
-    h = row*grid_height
-    if top_position?
-      h -= page_heading_margin_in_lines*body_line_height
-    end
+    h = row * grid_height
+    h -= page_heading_margin_in_lines * body_line_height if top_position?
     if pushed_line_count && pushed_line_count != 0
-      h -= pushed_line_count*body_line_height
+      h -= pushed_line_count * body_line_height
     end
     if extended_line_count && extended_line_count != 0
-      h += extended_line_count*body_line_height
+      h += extended_line_count * body_line_height
     end
     h
   end
@@ -859,15 +858,16 @@ class WorkingArticle < ApplicationRecord
   end
 
   def grid_area
-    column*row
+    column * row
   end
 
   def body_line_height
-    grid_height/7
+    grid_height / 7
   end
 
   def top_story?
     return true if top_story
+
     # return true if page.working_articles.first.kind == self
     # return true if page.working_articles.first.kind != '기사' && order == 2
     false
@@ -881,32 +881,40 @@ class WorkingArticle < ApplicationRecord
 
   def layout_options
     h = {}
-    h[:kind]                          = self.kind if kind
+    h[:kind]                          = kind if kind
     h[:adjustable_height]             = adjustable_height?
-    h[:subtitle_type]                 = self.subtitle_type || '1단' unless kind == '사진'
-    h[:heading_columns]               = self.heading_columns if  heading_columns && heading_columns!= column && heading_columns != ""
-    if kind == '사설' || kind == 'editorial'
-        h[:has_profile_image]             = true if reporter
-        h[:has_profile_image]             = false if reporter == ""
+    h[:subtitle_type] = subtitle_type || '1단' unless kind == '사진'
+    if heading_columns && heading_columns != column && heading_columns != ''
+      h[:heading_columns] = heading_columns
     end
-    h[:page_number]                   = self.page_number
+    if kind == '사설' || kind == 'editorial'
+      h[:has_profile_image] = true if reporter
+      h[:has_profile_image] = false if reporter == ''
+    end
+    h[:page_number]                   = page_number
     h[:stroke_width]                  = 1 if kind == '사설' || kind == 'editorial'
-    h[:column]                        = self.column
-    h[:row]                           = self.row
-    h[:extended_line_count]           = self.extended_line_count if extended_line_count
+    h[:column]                        = column
+    h[:row]                           = row
+    if extended_line_count
+      h[:extended_line_count]           = self.extended_line_count
+    end
     # h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
-    h[:pushed_line_count]             = current_pushed_line_sum  if pillar_bottom?
-    h[:height_in_lines]               = self.height_in_lines     if self.height_in_lines
-    h[:grid_width]                    = self.grid_width
-    h[:grid_height]                   = self.grid_height
-    h[:gutter]                        = self.gutter
-    h[:on_left_edge]                  = self.on_left_edge
-    h[:on_right_edge]                 = self.on_right_edge
-    h[:is_front_page]                 = self.is_front_page
+    if pillar_bottom?
+      h[:pushed_line_count]             = current_pushed_line_sum
+    end
+    h[:height_in_lines]               = height_in_lines if height_in_lines
+    h[:grid_width]                    = grid_width
+    h[:grid_height]                   = grid_height
+    h[:gutter]                        = gutter
+    h[:on_left_edge]                  = on_left_edge
+    h[:on_right_edge]                 = on_right_edge
+    h[:is_front_page]                 = is_front_page
     h[:top_story]                     = top_story?
-    h[:top_story]                     = false   if kind == 'opinion' || kind == '기고'  || kind == 'editorial' || kind == '사설' 
+    if kind == 'opinion' || kind == '기고' || kind == 'editorial' || kind == '사설'
+      h[:top_story]                     = false
+    end
     if kind == '기고' && row >= 10
-      h[:empty_first_column]          = true 
+      h[:empty_first_column]          = true
       h[:adjustable_height]           = false
     end
     h[:top_position]                  = top_position?
@@ -914,33 +922,33 @@ class WorkingArticle < ApplicationRecord
     h[:bottom_article]                = page.bottom_article?(self)
 
     if boxed_subtitle_type && boxed_subtitle_type > 0
-      h[:boxed_subtitle_type]         = self.boxed_subtitle_type
+      h[:boxed_subtitle_type]         = boxed_subtitle_type
     end
     if announcement_column && announcement_column > 0
-      h[:announcement_column]         = self.announcement_column
-      h[:announcement_color]          = self.announcement_color
+      h[:announcement_column]         = announcement_column
+      h[:announcement_color]          = announcement_color
     end
     if show_quote_box?
-      h[:quote_box_size]              = self.quote_box_size 
-      h[:quote_position]              = self.quote_position || 5 
-      h[:quote_x_grid]                = self.quote_x_grid  - 1 if self.quote_x_grid
-      h[:quote_v_extra_space]         = self.quote_v_extra_space || 0
-      h[:quote_alignment]             = self.quote_alignment || 'left'
-      h[:quote_line_type]             = self.quote_line_type || '상하' #'박스'
-      h[:quote_box_type]              = self.quote_box_type || '일반' #'일반, 기고2행, 기고3행'
-      h[:quote_box_column]            = self.quote_box_column || 1
+      h[:quote_box_size]              = quote_box_size
+      h[:quote_position]              = quote_position || 5
+      h[:quote_x_grid] = quote_x_grid - 1 if quote_x_grid
+      h[:quote_v_extra_space]         = quote_v_extra_space || 0
+      h[:quote_alignment]             = quote_alignment || 'left'
+      h[:quote_line_type]             = quote_line_type || '상하' # '박스'
+      h[:quote_box_type]              = quote_box_type || '일반' # '일반, 기고2행, 기고3행'
+      h[:quote_box_column]            = quote_box_column || 1
     end
-    h[:article_bottom_spaces_in_lines]= 2         #publication.article_bottom_spaces_in_lines
-    h[:article_line_thickness]        = 0.3       #publication.article_line_thickness
-    h[:article_line_draw_sides]       = [0,0,0,1] #publication.article_line_draw_sides
-    h[:draw_divider]                  = false     #publication.draw_divider
+    h[:article_bottom_spaces_in_lines] = 2 # publication.article_bottom_spaces_in_lines
+    h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
+    h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
+    h[:draw_divider]                  = false # publication.draw_divider
     h[:overlap]                       = overlap   if overlap
     h[:embedded]                      = embedded  if embedded
     h
   end
 
   def image_layout
-    content = ""
+    content = ''
     images.each do |image|
       content += "  news_image(#{image.image_layout_hash})\n"
     end
@@ -948,7 +956,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def graphic_layout
-    content = ""
+    content = ''
     graphics.each do |graphic|
       content += "  news_image(#{graphic.graphic_layout_hash})\n"
     end
@@ -977,15 +985,17 @@ class WorkingArticle < ApplicationRecord
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
         image_hash = image_options
         # image_hash[:fit_type] = 3 # keep ratio
-        image_hash[:expand] = [:width, :height]
+        image_hash[:expand] = %i[width height]
         content += "  news_image(#{image_hash})\n"
         content += "end\n"
-      elsif first_graphic = graphics.first 
-        h[:draw_frame] = false if first_graphic && first_graphic.draw_frame == false
+      elsif first_graphic = graphics.first
+        if first_graphic && first_graphic.draw_frame == false
+          h[:draw_frame] = false
+        end
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
         image_hash = first_graphic.graphic_layout_hash
         # image_hash[:fit_type] = 3 # keep ratio
-        image_hash[:expand] = [:width, :height]
+        image_hash[:expand] = %i[width height]
         content += "  news_image(#{image_hash})\n"
         content += "end\n"
       else
@@ -1005,23 +1015,21 @@ class WorkingArticle < ApplicationRecord
       end
       content += "end\n"
     elsif kind == '사설' || kind == 'editorial'
-      h[:article_line_draw_sides]  = [0,1,0,0]
+      h[:article_line_draw_sides] = [0, 1, 0, 0]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      content += "  news_column_image(#{profile_image_options})\n" if reporter && reporter != "" # if page_number == 22
+      if reporter && reporter != ''
+        content += "  news_column_image(#{profile_image_options})\n"
+      end # if page_number == 22
       content += "end\n"
-    elsif kind == '기고'  || kind == 'opinion'
-      h[:article_line_draw_sides]  = [0,1,0,1]
+    elsif kind == '기고' || kind == 'opinion'
+      h[:article_line_draw_sides] = [0, 1, 0, 1]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-        content += "  news_image(#{opinion_image_options})\n"
+      content += "  news_image(#{opinion_image_options})\n"
       content += "end\n"
     else
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      if images.length > 0
-        content += image_layout
-      end
-      if graphics.length > 0
-        content += graphic_layout
-      end
+      content += image_layout unless images.empty?
+      content += graphic_layout unless graphics.empty?
       # if quote && quote != ""
       #   content += quote_layout
       # end
@@ -1031,16 +1039,16 @@ class WorkingArticle < ApplicationRecord
   end
 
   def save_story
-    File.open(story_path, 'w'){|f| f.write story_md}
+    File.open(story_path, 'w') { |f| f.write story_md }
   end
 
   def read_story
-    File.open(story_path, 'r'){|f| f.read }
+    File.open(story_path, 'r', &:read)
   end
 
   def save_layout
     layout = layout_rb
-    File.open(layout_path, 'w'){|f| f.write layout}
+    File.open(layout_path, 'w') { |f| f.write layout }
   end
 
   def library_images
@@ -1054,15 +1062,15 @@ class WorkingArticle < ApplicationRecord
   end
 
   def parse_story
-    source      = read_story
+    source = read_story
     begin
       if (md = source.match(/^(---\s*\n.*?\n?)^(---\s*$\n?)/m))
         @contents = md.post_match
-        @metadata = YAML.load(md.to_s)
+        @metadata = YAML.safe_load(md.to_s)
       else
         @contents = source
       end
-    rescue => e
+    rescue StandardError => e
       puts "YAML Exception reading #filename: #{e.message}"
     end
     self.kind           = @metadata['kind'] || 'article'
@@ -1096,7 +1104,7 @@ class WorkingArticle < ApplicationRecord
       parse_article_info
       parse_story
     else
-      #code
+      # code
     end
   end
 
@@ -1107,87 +1115,86 @@ class WorkingArticle < ApplicationRecord
   def section_name_code
     case page.section_name
     when '1면'
-      code = "0009"
+      code = '0009'
     when '정치'
-      code = "0002"
+      code = '0002'
     when '자치행정'
-      code = "0003"
+      code = '0003'
     when '국제통일'
-      code = "0004"
+      code = '0004'
     when '금융'
-      code = "0007"
+      code = '0007'
     when '산업'
-      code = "0006"
+      code = '0006'
     when '기획'
-      code= "0001"
+      code = '0001'
     when '정책'
-      code = "0005"
+      code = '0005'
     when '오피니언'
-      code = "0008"
+      code = '0008'
     end
     code
   end
-  
-  def group_name
-    case page.section_name
-    when '1면'
-      code = "first_group"
-    when '정치'
-      code = "second_group"
-    when '자치행정'
-      code = "third_group"
-    when '국제통일'
-      code = "fourth_group"
-    when '금융'
-      code = "fifth_group"
-    when '산업'
-      code = "sixth_group"
-    when '기획'
-      code= "senventh_group"
-    when '정책'
-      code = "eighth_group"
-    when '오피니언'
-      code = "nineth_group"
-    else
-      code = "first_group"
-    end
 
+  def group_name
+    code = case page.section_name
+           when '1면'
+             'first_group'
+           when '정치'
+             'second_group'
+           when '자치행정'
+             'third_group'
+           when '국제통일'
+             'fourth_group'
+           when '금융'
+             'fifth_group'
+           when '산업'
+             'sixth_group'
+           when '기획'
+             'senventh_group'
+           when '정책'
+             'eighth_group'
+           when '오피니언'
+             'nineth_group'
+           else
+             'first_group'
+           end
   end
 
   def news_class_large_id
     case page.section_name
     when '1면'
-      code = "9"
+      code = '9'
     when '정치'
-      code = "2"
+      code = '2'
     when '자치행정'
-      code = "3"
+      code = '3'
     when '국제통일'
-      code = "4"
+      code = '4'
     when '금융'
-      code = "7"
+      code = '7'
     when '산업'
-      code = "6"
+      code = '6'
     when '기획'
-      code= "1"
+      code = '1'
     when '정책'
-      code = "5"
+      code = '5'
     when '오피니언'
-      code = "8"
+      code = '8'
     end
     code
   end
 
   def opinion_image_path
-    publication.path + "/opinion/images"
+    publication.path + '/opinion/images'
   end
 
   def profile_image_path
-    publication.path + "/profile/images"
+    publication.path + '/profile/images'
   end
 
   def character_count_data_path
-    publication.publication_info_folder + "/charater_count_data/#{Date.today.to_s}_#{page_number}_#{order}"
+    publication.publication_info_folder + "/charater_count_data/#{Date.today}_#{page_number}_#{order}"
   end
 
   # we want to create a compiled database of actual character count on a working_article.
@@ -1198,13 +1205,13 @@ class WorkingArticle < ApplicationRecord
     return unless info
     return unless info[:overflow] == 0
 
-    useage_data   = Hash[attributes.map{ |k, v| [k.to_sym, v] }]
+    useage_data = Hash[attributes.map { |k, v| [k.to_sym, v] }]
     useage_data.delete[:id]
     useage_data.delete[:updated_at]
     useage_data.delete[:updated_at]
     useage_data[:character_count] = character_count
     path = character_count_data_path
-    File.open(path, 'w'){|f| f.write useage_data.to_yaml}
+    File.open(path, 'w') { |f| f.write useage_data.to_yaml }
   end
 
   def calculate_fitting_image_size(image_column, image_row, image_extra_line)
@@ -1212,30 +1219,30 @@ class WorkingArticle < ApplicationRecord
     image_info = [image_column, image_row, image_extra_line]
     if room < image_column
       # current image size is good fit
-      return [image_column, image_row, image_extra_line]
+      [image_column, image_row, image_extra_line]
     elsif room >= image_column
       # There is a room, so image size can grow
       extra_line_count = room % image_column
-      extra_line_sum = extra_line_count  + image_extra_line
+      extra_line_sum = extra_line_count + image_extra_line
       if extra_line_sum > 7
-        extra_rows = (extra_line_sum/7).to_i
+        extra_rows = (extra_line_sum / 7).to_i
         extra_lines = extra_line_sum % 7
-        return [image_column, image_row + extra_rows, extra_lines]
+        [image_column, image_row + extra_rows, extra_lines]
       else
         extra_lines = extra_line_sum % 7
-        return [image_column, image_row, extra_lines]
+        [image_column, image_row, extra_lines]
       end
     else
       # There is an overflow, so image size should be reduced
-      current_image_occupied_lines = image_column*image_row*7 + image_column*image_extra_line
-      overflow_row_count = (overflow_line_count/(image_column*7)).to_i
+      current_image_occupied_lines = image_column * image_row * 7 + image_column * image_extra_line
+      overflow_row_count = (overflow_line_count / (image_column * 7)).to_i
       overflow_extra_lines = overflow_line_count % image_column
       overflow_extra_lines_sum = overflow_extra_lines - image_extra_line
       if overflow_line_count > current_image_occupied_lines || overflow_row_count >= image_row
         # over flow is greater than the total image ares, so make the image as small as we can
-        return [1,1,0]
+        [1, 1, 0]
       else
-        return  [image_column, reducing_rows - overflow_row_count, overflow_extra_lines_sum]
+        [image_column, reducing_rows - overflow_row_count, overflow_extra_lines_sum]
       end
     end
   end
@@ -1260,21 +1267,20 @@ class WorkingArticle < ApplicationRecord
     return true if place_holder
   end
 
-
   # this is called when story was un_assigned from working_article
   def clear_story
     self.title          = "#{order}번 제목은 여기에 여기는 제목"
     self.subtitle       = '부제는 여기에 여기는 부제목 자리'
     self.reporter       = ''
     self.email          = 'gdhong@gmail.com'
-    self.body =<<~EOF
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
-    여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+    self.body = <<~EOF
+      여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+      여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+      여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+      여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
+      여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
     EOF
-    self.save
+    save
     generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
   end
@@ -1282,18 +1288,20 @@ class WorkingArticle < ApplicationRecord
   def layout_info
     layout_info = [grid_x, grid_y, column, row]
     h = {}
-    if kind != '기사'
-      h = {kind: kind}
+    h = { kind: kind } if kind != '기사'
+    if extended_line_count && extended_line_count != 0
+      h[:extended]  = extended_line_count
     end
-    h[:extended]  = extended_line_count if extended_line_count && extended_line_count != 0
-    h[:pushed]    = pushed_line_count   if pushed_line_count && pushed_line_count != 0
-    if images.length > 0
+    if pushed_line_count && pushed_line_count != 0
+      h[:pushed]    = pushed_line_count
+    end
+    unless images.empty?
       h[:images] = []
       images.each do |image|
         h[:images] << image.info
       end
     end
-    if graphics.length > 0
+    unless graphics.empty?
       h[:graphics] = []
       graphics.each do |graphic|
         h[:graphics] << graphic.info
@@ -1303,47 +1311,46 @@ class WorkingArticle < ApplicationRecord
     layout_info
   end
 
-
   def height_in_lines
     if extended_line_count && pushed_line_count
-      row*7 + extended_line_count - pushed_line_count
+      row * 7 + extended_line_count - pushed_line_count
     else
-      row*7
+      row * 7
     end
   end
 
   def to_row_and_pushed(y_position_in_line)
-    row = y_position_in_line/7
+    row = y_position_in_line / 7
     pushed = y_position_in_line % 7
   end
 
   def update_extended_and_pushed
-    self.pushed_line_count = 0 if self.pushed_line_count.nil?
+    self.pushed_line_count = 0 if pushed_line_count.nil?
     if pushed_line_count >= 7
-      row_count              = pushed_line_count/7
+      row_count              = pushed_line_count / 7
       new_pushed_line_count  = pushed_line_count % 7
       self.grid_y            = grid_y + row_count
       self.pushed_line_count = new_pushed_line_count
-      self.y_in_lines        = grid_y*7 + new_pushed_line_count
+      self.y_in_lines        = grid_y * 7 + new_pushed_line_count
     else
-      self.y_in_lines        = row*7 + pushed_line_count
+      self.y_in_lines        = row * 7 + pushed_line_count
     end
 
     self.extended_line_count = 0 if self.extended_line_count.nil?
     if extended_line_count >= 7
-      row_count = extended_line_count/7
+      row_count = extended_line_count / 7
       new_extendted_line_count = extended_line_count % 7
       self.row += row_count
       self.extended_line_count = new_extendted_line_count
     end
-    self.height_in_lines = self.row*7 + self.extended_line_count - y_in_lines
-    self.save
+    self.height_in_lines = self.row * 7 + self.extended_line_count - y_in_lines
+    save
   end
 
   def node_order
-    a = pillar_order.split("_")
+    a = pillar_order.split('_')
     a.shift
-    r = a.join("_")
+    r = a.join('_')
     r
   end
 
@@ -1363,8 +1370,8 @@ class WorkingArticle < ApplicationRecord
       new_grid_x = changing_column
       actions = [node_order, "v#{cut_index}"]
     end
-    changing_pillar_order             = "#{pillar_order}_1"
-    new_pillar_order                  = "#{pillar_order}_2"
+    changing_pillar_order = "#{pillar_order}_1"
+    new_pillar_order = "#{pillar_order}_2"
     pillar.update_working_article_cut(actions)
     update(column: changing_column, pillar_order: changing_pillar_order)
     # delete current working_article content to new folder
@@ -1372,26 +1379,25 @@ class WorkingArticle < ApplicationRecord
     # update wokring_articlr in new folder and generate pdf
     # do not update_pdf_chain, since newly creating article will do it
     generate_pdf_with_time_stamp(no_update_pdf_chain: true)
-    # create new working_article 
-    h = { page: page, pillar: self, pillar_order: "#{new_pillar_order}", grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
+    # create new working_article
+    h = { page: page, pillar: self, pillar_order: new_pillar_order.to_s, grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
     w = WorkingArticle.where(h).first_or_create
   end
-  
+
   def bumpup_pillar_order_by(count)
-    a = pillar_order.split("_")
+    a = pillar_order.split('_')
     new_order = a.last.to_i + count
     a[-1] = new_order
-    new_pillar_order = a.join("_")
+    new_pillar_order = a.join('_')
     update(pillar_order: new_pillar_order)
   end
 
   def next_pillar_order
-    a = pillar_order.split("_")
+    a = pillar_order.split('_')
     new_order = a.last.to_i + 1
     a[-1] = new_order
-    new_pillar_order = a.join("_")
+    new_pillar_order = a.join('_')
   end
-
 
   def pillar_siblings
     pillar.pillar_siblings_of(self)
@@ -1403,14 +1409,14 @@ class WorkingArticle < ApplicationRecord
 
   # divide working_article horizontally
   def h_cut
-    actions                       = [node_order, "h*1"]
+    actions                       = [node_order, 'h*1']
     new_pillar_order              = next_pillar_order
-    changing_row                  = row/2
+    changing_row                  = row / 2
     new_grid_y                    = grid_y + changing_row
     new_row                       = row - changing_row
     update(row: changing_row)
     generate_pdf_with_time_stamp(no_update_pdf_chain: true)
-    h = { page: page, pillar: pillar, pillar_order: "#{new_pillar_order}", grid_x: 0, grid_y: new_grid_y, column: column, row: new_row }
+    h = { page: page, pillar: pillar, pillar_order: new_pillar_order.to_s, grid_x: 0, grid_y: new_grid_y, column: column, row: new_row }
     w = WorkingArticle.where(h).first_or_create
     following_pillar_siblings.each do |w|
       w.bumpup_pillar_order_by(1)
@@ -1418,11 +1424,10 @@ class WorkingArticle < ApplicationRecord
     # update pillar_config file and working_article grid_y and row after cut
     pillar.update_working_article_cut(actions)
     w.generate_pdf_with_time_stamp
-
   end
-  
+
   def layout_with_node_path
-    [grid_x, grid_y, column,row, pillar_order.split("_")].unshift.join("_")
+    [grid_x, grid_y, column, row, pillar_order.split('_')].unshift.join('_')
   end
 
   def sample_path
@@ -1448,6 +1453,7 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+
   private
 
   def init_article
@@ -1456,7 +1462,9 @@ class WorkingArticle < ApplicationRecord
     self.is_front_page        = true if pillar.page_ref.is_front_page?
     self.column               = 4 unless column
     self.row                  = 4 unless row
-    self.top_story            = true if column > 2 && (pillar_order == "1" || pillar_order == "1_1")
+    if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
+      self.top_story = true
+    end
     self.extended_line_count  = 0
     self.pushed_line_count    = 0
     self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines

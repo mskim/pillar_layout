@@ -2,22 +2,23 @@
 #
 # Table name: member_images
 #
-#  id             :bigint           not null, primary key
-#  caption        :string
-#  order          :integer
-#  source         :string
-#  title          :string
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  group_image_id :bigint           not null
+#  id                 :bigint           not null, primary key
+#  caption            :string
+#  member_img         :string
+#  order              :integer
+#  source             :string
+#  title              :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  working_article_id :bigint           not null
 #
 # Indexes
 #
-#  index_member_images_on_group_image_id  (group_image_id)
+#  index_member_images_on_working_article_id  (working_article_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (group_image_id => group_images.id)
+#  fk_rails_...  (working_article_id => working_articles.id)
 #
 
 require 'rails_helper'

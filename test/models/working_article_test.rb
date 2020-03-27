@@ -7,7 +7,7 @@
 #  announcement_column          :integer
 #  announcement_text            :string
 #  body                         :text
-#  bottom_line                  :integer          default("0")
+#  bottom_line                  :integer          default(0)
 #  boxed_subtitle_text          :string
 #  boxed_subtitle_type          :integer
 #  by_line                      :string
@@ -33,7 +33,7 @@
 #  inactive                     :boolean
 #  is_front_page                :boolean
 #  kind                         :string
-#  left_line                    :integer          default("0")
+#  left_line                    :integer          default(0)
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer
@@ -57,7 +57,7 @@
 #  quote_v_extra_space          :integer
 #  quote_x_grid                 :integer
 #  reporter                     :string
-#  right_line                   :integer          default("0")
+#  right_line                   :integer          default(0)
 #  row                          :integer
 #  slug                         :string
 #  subcategory_code             :string
@@ -67,7 +67,7 @@
 #  subtitle_type                :string
 #  title                        :text
 #  title_head                   :string
-#  top_line                     :integer          default("0")
+#  top_line                     :integer          default(0)
 #  top_position                 :boolean
 #  top_story                    :boolean
 #  y_in_lines                   :integer

@@ -1,0 +1,49 @@
+<!-- n면 기사배정 -->
+<% @pages.each do |page| %>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="border text-center" style="margin: 5px;">
+          <%= raw page.to_svg_with_jpg %>
+        </div>
+        <div class="card-body text-center">
+          <% if page.color_page %>
+            <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+          <% else %>
+            <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h4 class="display-4 text-center" style="font-size: 35px;">
+        <%= "#{page.section_name} #{page.page_number}쪽 페이지 기사 목록" %>
+      </h4>
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="text-align:center;">배치번호</th>
+            <th style="text-align:center;">기자</th>
+            <th style="text-align:center;">제목</th>
+            <th style="text-align:center;">예상 글자수</th>
+            <th style="text-align:center;">기사배정</th>
+            <th style="text-align:center;">기사편집</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% page.working_articles.sort_by{|a| a.order}.each do |working_article| %>
+            <tr <% if working_article.story %> style="background-color:skyblue;"<% end %>>
+              <td style="text-align:center;"><%= working_article.pillar_order %></td>
+              <td style="text-align:center;"><%= working_article.reporter %></td>
+              <td><%= working_article.title %></td>
+              <td style="text-align:center;"><%= working_article.approximate_char_count %></td>
+              <td style="text-align:center;"><%= link_to '배정',change_story_working_article_path(working_article), method: :get, class: "btn btn-primary btn-sm" %></td>
+              <td style="text-align:center;"><%= link_to '편집',working_article_path(working_article), method: :get, class: "btn btn-info btn-sm" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <hr>
+<% end %>

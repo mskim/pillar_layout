@@ -1,0 +1,36 @@
+<!-- n_n번 기사편집 탭 -->
+<div class="row">
+  <div class="col-md-3">
+    <div class="card mb-1">
+      <div class="border text-center" style="margin: 5px;">
+        <%= raw @working_article.page.to_svg_with_jpg %>
+      </div>
+    </div>
+    <p class="text-center">
+      <% if @working_article.page.color_page %>
+        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
+      <% else %>
+        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
+      <% end %>
+    </p>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <h5 class="card-header">
+        기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)
+      </h5>
+      <div class="card-body">
+        <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>
+          <%= render 'editorial', article:@working_article, page_number:@working_article.page_number%>
+        <% elsif @working_article.kind == '기고' || @working_article.kind == 'opinion' %>
+          <%= render 'opinion', article: @working_article %>
+        <% else %>
+          <%= render 'form', article: @working_article %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <%= render 'show_preview', article: @working_article %>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<!-- n_n번 기사배정 -->
+<div class="row">
+  <div class="col-md-3">
+    <p><%= render 'show_preview_by_column', article: @working_article %></p>
+  </div>
+  <div class="col-md-9">
+    <%= render 'change_story_form', article: @working_article, stories: @stories %>
+  </div>
+</div>
