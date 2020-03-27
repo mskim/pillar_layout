@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pages
@@ -48,7 +50,6 @@
 require 'erb'
 require 'net/ftp'
 
-
 class Page < ApplicationRecord
   # before & after
   # before_create :copy_attributes_from_template
@@ -63,13 +64,13 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
+  has_many :pillars, as: :page_ref, dependent: :delete_all #:dependent=> :destroy
   # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
   has_many :ad_boxes
 
   # scope
-  scope :clone_page, -> {where("clone_name!=?", nil)}
-  scope :odd_page, -> {where("clone_name!=?", nil)}
+  scope :clone_page, -> { where('clone_name!=?', nil) }
+  scope :odd_page, -> { where('clone_name!=?', nil) }
   serialize :layout, Array
   serialize :layout_with_pillar_path, Array
   attr_reader :time_stamp
@@ -78,14 +79,18 @@ class Page < ApplicationRecord
   include PageSavePdf
   include PageSaveXml
   include StorageBackupPage
-  # extend FriendlyId 
+  # extend FriendlyId
   # friendly_id :friendly_string, :use => [:slugged]
 
-  DAYS_IN_KOREAN = %w{일요일 월요일 화요일 수요일 목요일 금요일 토요일 }
+  DAYS_IN_KOREAN = %w[일요일 월요일 화요일 수요일 목요일 금요일 토요일].freeze
   DAYS_IN_ENGLISH = Date::DAYNAMES
 
+  def working_articles
+    pillars.map(&:working_articles).flatten
+  end
+
   def friendly_string
-    "#{date.to_s}_#{page_number}"
+    "#{date}_#{page_number}"
   end
 
   def is_front_page?
@@ -97,25 +102,25 @@ class Page < ApplicationRecord
   end
 
   def heading_space
-    page_heading_margin_in_lines*body_line_height
+    page_heading_margin_in_lines * body_line_height
   end
 
   def path
-    "#{Rails.root}/public/#{publication_id}/issue/#{date.to_s}/#{page_number}"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}"
   end
 
   def relative_path
     # "/#{publication_id}/issue/#{date.to_s}/#{page_number}"
-    #Todo
-    "/#{publication_id}/issue/#{date.to_s}/#{page_number}"
+    # Todo
+    "/#{publication_id}/issue/#{date}/#{page_number}"
   end
 
   def url
-    "/#{publication_id}/issue/#{date.to_s}/#{page_number}"
+    "/#{publication_id}/issue/#{date}/#{page_number}"
   end
 
   def latest_pdf
-    f = Dir.glob("#{path}/section*.pdf").sort.last
+    f = Dir.glob("#{path}/section*.pdf").max
     File.basename(f) if f
   end
 
@@ -123,7 +128,7 @@ class Page < ApplicationRecord
     if @time_stamp
       f = Dir.glob("#{path}/section#{@time_stamp}.pdf")
     else
-      f = Dir.glob("#{path}/section*.pdf").sort.last
+      f = Dir.glob("#{path}/section*.pdf").max
       File.basename(f) if f
     end
   end
@@ -132,31 +137,31 @@ class Page < ApplicationRecord
     if @time_stamp
       f = Dir.glob("#{path}/section#{@time_stamp}.jpg")
     else
-      f = Dir.glob("#{path}/section*.jpg").sort.last
+      f = Dir.glob("#{path}/section*.jpg").max
       File.basename(f) if f
     end
   end
 
   def pdf_image_path
     # if @time_stamp
-    "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_pdf_basename}"
+    "/#{publication_id}/issue/#{date}/#{page_number}/#{latest_pdf_basename}"
   end
 
   def pdf_path
-    "#{Rails.root}/public/#{publication_id}/issue/#{date.to_s}/#{page_number}/section.pdf"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/section.pdf"
   end
 
   def jpg_image_path
-    "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_jpg_basename}"
+    "/#{publication_id}/issue/#{date}/#{page_number}/#{latest_jpg_basename}"
   end
 
   def jpg_path
-    "#{Rails.root}/public/#{publication_id}/issue/#{date.to_s}/#{page_number}/section.jpg"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/section.jpg"
   end
 
   def to_hash
     p_hash = attributes
-    p_hash.delete('created_at')    # delete created_at
+    p_hash.delete('created_at') # delete created_at
     p_hash.delete('updated_at')     # delete updated_at
     p_hash.delete('id')             # delete id
     p_hash
@@ -168,7 +173,7 @@ class Page < ApplicationRecord
     grid_bottom     = article.grid_y + article.row
     siblings_array = working_articles.select do |wa|
       wa_right_edge = wa.grid_x + wa.column
-      wa.grid_y == grid_bottom && wa.grid_x >= grid_x && wa_right_edge <= grid_right_edge  && wa != article
+      wa.grid_y == grid_bottom && wa.grid_x >= grid_x && wa_right_edge <= grid_right_edge && wa != article
     end
     # siblings_array += image_boxes.select do |image_box|
     #   image_box.grid_y == grid_bottom && wa.grid_x >= grid_x && wa != article
@@ -180,12 +185,15 @@ class Page < ApplicationRecord
     article_x_grid          = article.grid_x
     article_y_grid          = article.grid_y
     return true if article_bottom_grid == row
+
     ad_box = ad_boxes.first
     return false if ad_box.nil?
-    ad_box_x_max_grid       = ad_box.grid_x + ad_box.column
+
+    ad_box_x_max_grid = ad_box.grid_x + ad_box.column
     if ad_box.grid_y == article_bottom_grid && ad_box.grid_x <= article_x_grid && article_x_grid <= ad_box_x_max_grid
       return true
     end
+
     false
   end
 
@@ -205,7 +213,7 @@ class Page < ApplicationRecord
     h[:clone_name] = 'd'
     unless c = Page.where(h).first
       Page.create!(h)
-      return
+      nil
     end
   end
 
@@ -214,15 +222,15 @@ class Page < ApplicationRecord
   end
 
   def page_heading_path
-    path + "/heading"
+    path + '/heading'
   end
 
   def page_heading_url
-    url + "/heading"
+    url + '/heading'
   end
 
   def page_headig_layout_path
-    page_heading_path + "/layout.rb"
+    page_heading_path + '/layout.rb'
   end
 
   def doc_width
@@ -300,19 +308,18 @@ class Page < ApplicationRecord
   end
 
   def issue_ads_folder
-    "#{Rails.root}/public/#{publication_id}/issue/#{date.to_s}/ads"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/ads"
   end
 
   def ad_image_string
     ad = ad_images.first
-    if ad
-      return ad_images.first.ad_image_string
-    end
-    ""
+    return ad_images.first.ad_image_string if ad
+
+    ''
   end
 
   def save_issue_plan_ad
-    if ad_type && ad_type != ""
+    if ad_type && ad_type != ''
       issue_ad_string = "#{page_number}_#{ad_type}"
       system "cd #{issue_ads_folder} && touch #{issue_ad_string}"
     end
@@ -323,23 +330,23 @@ class Page < ApplicationRecord
   end
 
   def copy_sample_ad
-    if ad_type && ad_type != ""
+    if ad_type && ad_type != ''
       sample = select_sample_ad
       basename = File.basename(sample)
       ad_name  = "#{page_number}_#{basename}"
       system "cp #{sample} #{issue_ads_folder}/ad_name"
     end
   end
-  
+
   def template_page_number
-    template_path = "#{Rails.root}/public/1/section/#{page_number}" 
-    if File.exist?(template_path)
-      number = page_number
-    elsif page_number.even?
-      number = 100
-    else
-      number = 101
-    end
+    template_path = "#{Rails.root}/public/1/section/#{page_number}"
+    number = if File.exist?(template_path)
+               page_number
+             elsif page_number.even?
+               100
+             else
+               101
+             end
     number
   end
 
@@ -348,32 +355,32 @@ class Page < ApplicationRecord
     if File.exist?(s)
       s
     else
-      if page_number.odd?
-        template_page_number = 101
-      else 
-        template_page_number = 100
-      end
+      template_page_number = if page_number.odd?
+                               101
+                             else
+                               100
+                             end
       "#{Rails.root}/public/#{publication_id}/section/#{template_page_number}/#{profile}/#{template_id}"
     end
   end
 
   def story_backup_folder
-    path + "/story_backup"
+    path + '/story_backup'
   end
 
   def backup_stories(story_number)
-    #code
+    # code
   end
 
   def config_path
-    path + "/config.yml"
+    path + '/config.yml'
   end
 
   def config_hash
     h = {}
     h['section_name']                   = section_name
     h['page_heading_margin_in_lines']   = page_heading_margin_in_lines
-    h['ad_type']                        = ad_type || "no_ad"
+    h['ad_type']                        = ad_type || 'no_ad'
     h['is_front_page']                  = is_front_page?
     # h['profile']                        = profile
     # h['section_id']                     = id
@@ -389,7 +396,7 @@ class Page < ApplicationRecord
     h['gutter']                         = gutter
     h['story_frames']                   = layout
     h['article_line_thickness']         = article_line_thickness
-    h['draw_divider']                   = true if page_number != 22 || page_number != 23
+    h['draw_divider'] = true if page_number != 22 || page_number != 23
     h
   end
 
@@ -399,16 +406,16 @@ class Page < ApplicationRecord
       layout << wa.layout_info
     end
     self.layout = layout.to_s
-    self.save
+    save
   end
 
   def set_divider_to_draw
-    update(draw_divider:true)
+    update(draw_divider: true)
     generate_pdf_with_time_stamp
   end
 
   def set_divider_not_to_draw
-    update(draw_divider:false)
+    update(draw_divider: false)
     generate_pdf_with_time_stamp
   end
 
@@ -416,48 +423,49 @@ class Page < ApplicationRecord
     h = config_hash
     h['layout'] = update_working_article_layout
     yaml = h.to_yaml
-    File.open(config_yml_path, 'w'){|f| f.write yaml}
+    File.open(config_yml_path, 'w') { |f| f.write yaml }
   end
 
   def config_yml_path
-    path + "/config.yml"
+    path + '/config.yml'
   end
 
-  def set_draw_divider(status)
+  def set_draw_divider(_status)
     new_config_yaml = con
   end
 
   def copy_config_file
-    source = section_template_folder + "/config.yml"
-    config_hash = YAML::load_file(source)
+    source = section_template_folder + '/config.yml'
+    config_hash = YAML.load_file(source)
     config_hash['date'] = date.to_s
-    target = path + "/config.yml"
-    File.open(target, 'w'){|f| f.write(config_hash.to_yaml)}
+    target = path + '/config.yml'
+    File.open(target, 'w') { |f| f.write(config_hash.to_yaml) }
   end
 
   def copy_section_pdf
-    source = section_template_folder + "/section.pdf"
-    target = path + "/section.pdf"
+    source = section_template_folder + '/section.pdf'
+    target = path + '/section.pdf'
     system "cp #{source} #{target}"
-    jpg_source = section_template_folder + "/section.jpg"
-    jpg_target = path + "/section.jpg"
+    jpg_source = section_template_folder + '/section.jpg'
+    jpg_target = path + '/section.jpg'
     system "cp #{jpg_source} #{jpg_target}"
   end
 
   def put_space_between_chars(string)
-    return string if string.include?(" ")
-    string.split("").join(" ")
+    return string if string.include?(' ')
+
+    string.split('').join(' ')
   end
-  
+
   def heading_page_number
-    page_heading_path = "#{Rails.root}/public/1/page_heading/#{page_number}" 
-    if File.exist?(page_heading_path)
-      number = page_number
-    elsif page_number.even?
-      number = 100
-    else
-      number = 101
-    end
+    page_heading_path = "#{Rails.root}/public/1/page_heading/#{page_number}"
+    number = if File.exist?(page_heading_path)
+               page_number
+             elsif page_number.even?
+               100
+             else
+               101
+             end
     number
   end
 
@@ -465,21 +473,20 @@ class Page < ApplicationRecord
     FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
     source = issue.publication.heading_path + "/#{heading_page_number}"
     target = page_heading_path
-    layout_erb_path     = page_heading_path + "/layout.erb"
+    layout_erb_path = page_heading_path + '/layout.erb'
     system "cp -R #{source}/ #{target}/"
-    layout_erb_content  = File.open(layout_erb_path, 'r'){|f| f.read}
-    erb                 = ERB.new(layout_erb_content)
-    @date               = korean_date_string
-    @section_name       = put_space_between_chars(section_name)
-    @page_number        = page_number
-    layout_content      = erb.result(binding)
-    layout_rb_path      = page_heading_path + "/layout.rb"
-    File.open(layout_rb_path, 'w'){|f| f.write layout_content}
+    layout_erb_content = File.open(layout_erb_path, 'r', &:read)
+    erb = ERB.new(layout_erb_content)
+    @date = korean_date_string
+    @section_name = put_space_between_chars(section_name)
+    @page_number = page_number
+    layout_content = erb.result(binding)
+    layout_rb_path = page_heading_path + '/layout.rb'
+    File.open(layout_rb_path, 'w') { |f| f.write layout_content }
     system "cd #{page_heading_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
   end
 
   def copy_section_template(section)
-    
     old_article_count = working_articles.length
     new_aricle_count  = section.story_count
     copy_config_file
@@ -488,13 +495,13 @@ class Page < ApplicationRecord
       source = section.path + "/#{i + 1}"
       article_folder = path + "/#{i + 1}"
       # if artile folder is empty, copy the whole article template folder
-      unless File.exist?(article_folder)
+      if File.exist?(article_folder)
+        layout_template = source + '/layout.rb'
+        system("cp  #{layout_template} #{article_folder}/")
+      else
         FileUtils.mkdir_p article_folder
         system("cp -r #{source}/ #{article_folder}/")
-      # if there are current article, copy layout.rb from article template
-      else
-        layout_template = source + "/layout.rb"
-        system("cp  #{layout_template} #{article_folder}/")
+        # if there are current article, copy layout.rb from article template
       end
     end
     copy_ad_folder(section)
@@ -502,7 +509,7 @@ class Page < ApplicationRecord
   end
 
   def copy_ad_folder(section)
-    ad_folder = section.path + "/ad"
+    ad_folder = section.path + '/ad'
     system("cp  -r #{ad_folder} #{path}") if File.exist? ad_folder
   end
 
@@ -510,37 +517,37 @@ class Page < ApplicationRecord
     heading_atts                  = {}
     heading_atts[:page_number]    = page_number
     heading_atts[:section_name]   = display_name || section_name
-    heading_atts[:page_id]        = self.id
+    heading_atts[:page_id]        = id
     heading_atts[:date]           = date
     result                        = PageHeading.where(heading_atts).first_or_create
   end
 
   def change_heading
-    section  = Section.find(template_id)
+    section = Section.find(template_id)
     FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
     source = section.page_heading_path
     target = page_heading_path
-    layout_erb_path     = page_heading_path + "/layout.erb"
+    layout_erb_path = page_heading_path + '/layout.erb'
     # unless File.exist? layout_erb_path
     system "cp -R #{source}/ #{target}/"
     # end
-    layout_erb_content  = File.open(layout_erb_path, 'r'){|f| f.read}
-    erb                 = ERB.new(layout_erb_content)
-    @date               = korean_date_string
+    layout_erb_content = File.open(layout_erb_path, 'r', &:read)
+    erb = ERB.new(layout_erb_content)
+    @date = korean_date_string
     # @section_name       = section_name
-    @section_name       = put_space_between_chars(section_name)
-    @page_number        = page_number
-    layout_content      = erb.result(binding)
-    layout_rb_path      = page_heading_path + "/layout.rb"
-    File.open(layout_rb_path, 'w'){|f| f.write layout_content}
+    @section_name = put_space_between_chars(section_name)
+    @page_number = page_number
+    layout_content = erb.result(binding)
+    layout_rb_path = page_heading_path + '/layout.rb'
+    File.open(layout_rb_path, 'w') { |f| f.write layout_content }
     system "cd #{page_heading_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
   end
 
   def save_as_default
     default_issue_plan_path = issue.default_issue_plan_path
-    issue_hash = eval(File.open(default_issue_plan_path, 'r'){|f| f.read})
+    issue_hash = eval(File.open(default_issue_plan_path, 'r', &:read))
     issue_hash[page_number - 1] << template_id
-    File.open(default_issue_plan_path, 'w'){|f| f.write issue_hash.to_s}
+    File.open(default_issue_plan_path, 'w') { |f| f.write issue_hash.to_s }
   end
 
   def generate_heading_pdf
@@ -550,7 +557,7 @@ class Page < ApplicationRecord
   def stamp_time
     t = Time.now
     h = t.hour
-    @time_stamp = "#{t.day.to_s.rjust(2,'0')}#{t.hour.to_s.rjust(2,'0')}#{t.min.to_s.rjust(2,'0')}#{t.sec.to_s.rjust(2,'0')}"
+    @time_stamp = "#{t.day.to_s.rjust(2, '0')}#{t.hour.to_s.rjust(2, '0')}#{t.min.to_s.rjust(2, '0')}#{t.sec.to_s.rjust(2, '0')}"
   end
 
   def stamped_pdf_file
@@ -559,11 +566,11 @@ class Page < ApplicationRecord
 
   def wait_for_stamped_pdf
     starting = Time.now
-    times_up = starting + 60*1
-    while !File.exist?(stamped_pdf_file)
+    times_up = starting + 60 * 1
+    until File.exist?(stamped_pdf_file)
       sleep(1)
       if Time.now > times_up
-        puts "Waited for 5 seconds!!! Time is up brake"
+        puts 'Waited for 5 seconds!!! Time is up brake'
         break
       end
     end
@@ -584,31 +591,27 @@ class Page < ApplicationRecord
     delete_old_files
     stamp_time
     if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_page_pdf(time_stamp:@time_stamp, jpg:true)
+      save_page_pdf(time_stamp: @time_stamp, jpg: true)
     else # 'rubymotion'
       system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
     end
   end
 
   def generate_pdf
-    puts "generate_pdf for page"
+    puts 'generate_pdf for page'
     # PageWorker.perform_async(path, nil)
     save_pdf
   end
 
   def regenerate_pdf
     generate_heading_pdf
-    working_articles.each do |working_article|
-      working_article.generate_pdf
-    end
-    ad_boxes.each do |ad_box|
-      ad_box.generate_pdf
-    end
+    working_articles.each(&:generate_pdf)
+    ad_boxes.each(&:generate_pdf)
     PageWorker.perform_async(path, nil)
   end
 
   def site_path
-    File.expand_path("~/Sites/naeil/#{date.to_s}/#{page_number}")
+    File.expand_path("~/Sites/naeil/#{date}/#{page_number}")
   end
 
   def copy_outputs_to_site
@@ -623,15 +626,15 @@ class Page < ApplicationRecord
   end
 
   def page_heading_jpg_path
-    page_heading_url + "/output.jpg"
+    page_heading_url + '/output.jpg'
   end
 
   def page_heading_pdf_path
-    page_heading_path + "/output.pdf"
+    page_heading_path + '/output.pdf'
   end
 
   def page_heading_pdf_url
-    page_heading_url + "/output.pdf"
+    page_heading_url + '/output.pdf'
   end
 
   def page_svg
@@ -645,6 +648,7 @@ class Page < ApplicationRecord
     box_element_svg += page_heading.box_svg if page_number == 1
     working_articles.each do |article|
       next if article.inactive
+
       box_element_svg += article.box_svg
     end
     if ad_box = ad_boxes.first
@@ -655,11 +659,11 @@ class Page < ApplicationRecord
   end
 
   def to_svg
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-      <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-      #{box_svg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{box_svg}
+      </svg>
     EOF
   end
 
@@ -670,6 +674,7 @@ class Page < ApplicationRecord
     box_element_svg += page_heading.box_svg if page_number == 1
     working_articles.each do |article|
       next if article.inactive
+
       box_element_svg += article.story_svg
     end
     if ad_box = ad_boxes.first
@@ -680,20 +685,20 @@ class Page < ApplicationRecord
   end
 
   def to_svg_with_jpg
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-      <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-      #{box_svg_with_jpg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{box_svg_with_jpg}
+      </svg>
     EOF
   end
 
   def to_svg_test
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-      <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-      #{page_svg_with_jpg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{page_svg_with_jpg}
+      </svg>
     EOF
   end
 
@@ -720,24 +725,24 @@ class Page < ApplicationRecord
   end
 
   def svg_path
-    path + "/page.svg"
+    path + '/page.svg'
   end
 
   def save_svg
-    File.open(svg_path, 'w'){|f| f.write to_svg_with_jpg}
+    File.open(svg_path, 'w') { |f| f.write to_svg_with_jpg }
   end
 
   def to_story_svg
-    svg=<<~EOF
-    <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-      <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-      #{story_svg}
-    </svg>
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{story_svg}
+      </svg>
     EOF
   end
 
   def section_pages
-    issue.pages.select{|p| p.section_name == section_name}
+    issue.pages.select { |p| p.section_name == section_name }
   end
 
   def page_template_folder
@@ -770,7 +775,7 @@ class Page < ApplicationRecord
   end
 
   def download_path
-    path + "_download"
+    path + '_download'
   end
 
   def prepare_for_download
@@ -779,19 +784,14 @@ class Page < ApplicationRecord
     copy_ad_image_for_download
   end
 
-  def copy_page_folder_for_download
-
-  end
+  def copy_page_folder_for_download; end
 
   def copy_working_article_images_for_download
     # heading_image
     # article images, graphics
-
   end
 
-  def copy_ad_image_for_download
-
-  end
+  def copy_ad_image_for_download; end
 
   def zipfile_path
     "#{path}.zip"
@@ -800,7 +800,7 @@ class Page < ApplicationRecord
   def zip_page
     # zip page folder for download
     input_filenames = Dir.glob("#{path}/**/*")
-    FileUtils.rm_rf("#{zipfile_path}") if File.exist?(zipfile_path)
+    FileUtils.rm_rf(zipfile_path.to_s) if File.exist?(zipfile_path)
     # zip a folder with files and subfolders
     Zip::File.open(zipfile_path, Zip::File::CREATE) do |zipfile|
       Dir["#{path}/**/**"].each do |file|
@@ -811,7 +811,6 @@ class Page < ApplicationRecord
       end
       # zipfile.get_output_stream("success") { |os| os.write "All done successfully" }
     end
-
   end
 
   def copy_ready_made_from_sample
@@ -834,22 +833,22 @@ class Page < ApplicationRecord
     layout.each_with_index do |item, i|
       if item.first.class == String
         self.ad_type = item
-        self.save
+        save
         create_ad_box
       # elsif item.first.class == Array
       #   create_pillar_layout_node(item, i + 1)
       # elsif item.first[4].class == Hash
       #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:item[4]).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4]).first_or_create
       elsif item.length == 4
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count:1).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
       end
     end
   end
 
   # this is called from issue_plan when ad_type for page_plan is saved
-  # it updates ad_type and calls change_page_layout, 
+  # it updates ad_type and calls change_page_layout,
   # which then calls ad_boxes.first.change_layout(ad_type)
   def change_ad_type(new_ad_type)
     template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
@@ -864,7 +863,7 @@ class Page < ApplicationRecord
     end
     self.ad_type = new_ad_type
     self.template_id = template.id
-    self.save
+    save
     change_page_layout(template.id)
   end
 
@@ -872,13 +871,13 @@ class Page < ApplicationRecord
     new_page_layout = PageLayout.find(new_layout_id)
     self.template_id = new_layout_id
     if column != new_page_layout.column
-      self.column    = new_page_layout.column
+      self.column = new_page_layout.column
       self.grid_width = publication.grid_width(new_page_layout.column)
     end
     self.ad_type     = new_page_layout.ad_type
     self.layout      = eval(new_page_layout.layout)
     self.template_id = new_layout_id
-    self.save
+    save
 
     # New page layout and current one has equal number of pillars
     if pillars.length == new_page_layout.pillars.length
@@ -891,6 +890,7 @@ class Page < ApplicationRecord
       delete_count = pillars.length - new_page_layout.pillars.length
       pillars.each_with_index do |p, i|
         break unless new_page_layout.pillars[i]
+
         p.change_pillar_layout(new_page_layout.pillars[i])
       end
       delete_count.times do
@@ -898,7 +898,7 @@ class Page < ApplicationRecord
         p.delete_folder
         system "rm -rf #{p.path}"
         p.destroy
-      end      
+      end
     # New page layout has more pillars than currnt one
     else
       new_page_layout.pillars.each_with_index do |layout_pillar, i|
@@ -906,7 +906,7 @@ class Page < ApplicationRecord
           pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
           binding.pry
-          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
+          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count: layout_pillar.box_count).first_or_create!
         end
       end
     end
@@ -923,7 +923,7 @@ class Page < ApplicationRecord
       end
     elsif ad_type && ad_type != '광고없음'
       # this is case when current ad_type='광고없음'  chnaging to some ad_ty[e
-      # create new ad_box, 
+      # create new ad_box,
       create_ad_box
     end
     generate_pdf_with_time_stamp
@@ -933,22 +933,22 @@ class Page < ApplicationRecord
   def other_page_layout_choices
     choices = []
     if page_number == 1
-      choices =PageLayout.where(ad_type: ad_type, page_type: 1).all
+      choices = PageLayout.where(ad_type: ad_type, page_type: 1).all
     else
-      choices += PageLayout.where(ad_type: ad_type, page_type:page_number).all
-      if page_number.odd?
-        choices += PageLayout.where(ad_type: ad_type, page_type:101).all
-      else
-        choices += PageLayout.where(ad_type: ad_type, page_type:100).all
-      end
+      choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all
+      choices += if page_number.odd?
+                   PageLayout.where(ad_type: ad_type, page_type: 101).all
+                 else
+                   PageLayout.where(ad_type: ad_type, page_type: 100).all
+                 end
     end
-    # also select page specified template 
+    # also select page specified template
     # choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all
     choices
   end
 
   def create_ad_box
-    info = {page_id: self.id, order:1}
+    info = { page_id: id, order: 1 }
     case ad_type
     when '15단통'
       info[:grid_x] = 0
@@ -1023,8 +1023,8 @@ class Page < ApplicationRecord
 
   def position_list
     positions = []
-    pillars.sort_by{|p| p.order}.each do |p|
-      positions += p.working_articles.map{|w| w.pillar_order}
+    pillars.sort_by(&:order).each do |p|
+      positions += p.working_articles.map(&:pillar_order)
     end
     positions
   end
@@ -1036,7 +1036,7 @@ class Page < ApplicationRecord
     self.publication_id         = publication.id
     self.date                   = issue.date
     self.lines_per_grid         = 7
-    self.article_line_thickness = publication.article_line_thickness 
+    self.article_line_thickness = publication.article_line_thickness
     self.page_heading_margin_in_lines = publication.page_heading_margin_in_lines(page_number)
     self.row                    = 15
     self.grid_width             = publication.grid_width(column)
@@ -1053,21 +1053,19 @@ class Page < ApplicationRecord
     if page_number == 25
       # this is spread page
       self.ad_type                = ad_type
-      self.width                  = publication.width*2 + publication.left_margin*2 + publication.right_margin*2
-      self.section_name           = "양면광고"
+      self.width                  = publication.width * 2 + publication.left_margin * 2 + publication.right_margin * 2
+      self.section_name           = '양면광고'
     else
-      template                    = PageLayout.find(template_id)      # case when page_template is given
+      template                    = PageLayout.find(template_id) # case when page_template is given
       self.layout                 = eval(template.layout)
       self.column                 = template.column
       self.ad_type                = template.ad_type
       self.story_count            = template.story_count
       # 예: section_name = 정치(코로나 바이러스 특집)
-      if section_name =~/.+\((.+)\)/
-        self.display_name = $1
-        self.section_name = section_name.split("(").first
+      if section_name =~ /.+\((.+)\)/
+        self.display_name = Regexp.last_match(1)
+        self.section_name = section_name.split('(').first
       end
     end
   end
-
-
 end

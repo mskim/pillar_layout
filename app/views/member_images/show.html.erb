@@ -1,29 +1,22 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @member_image.title %>
-</p>
-
-<p>
-  <strong>Caption:</strong>
-  <%= @member_image.caption %>
-</p>
-
-<p>
-  <strong>Source:</strong>
-  <%= @member_image.source %>
-</p>
-
-<p>
-  <strong>Order:</strong>
-  <%= @member_image.order %>
-</p>
-
-<p>
-  <strong>Group image:</strong>
-  <%= @member_image.group_image_id %>
-</p>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-md-4">
+    <div class="card rounded-0 mb-3">
+          <div class="card-header text-white bg-dark text-center font-weight-bold">
+          상세보기
+          </div>
+          <%= image_tag @member_image.member_img.url, class: "card-img-top rounded-0", style: "height: 100%;" %>
+          <div class="card-body">
+            <h5><%= @member_image.title %></h5>
+            <p><%= @member_image.caption %></p>
+            <p class="card-text mt-0"><small class="text-muted"><%= @member_image.source %></small></p>
+            <hr>
+            <p>사진순서: <%= @member_image.order %></p>
+            <p>Working Article ID: <%= @member_image.working_article_id %></p>
+          </div>
+        </div>
+    </div>
+  </div>
 
 <%= link_to 'Edit', edit_member_image_path(@member_image) %> |
 <%= link_to 'Back', member_images_path %>

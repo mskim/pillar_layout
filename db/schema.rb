@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_224015) do
+ActiveRecord::Schema.define(version: 2020_03_26_124102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -435,10 +435,11 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
     t.string "caption"
     t.string "source"
     t.integer "order"
-    t.bigint "group_image_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["group_image_id"], name: "index_member_images_on_group_image_id"
+    t.bigint "working_article_id", null: false
+    t.string "member_img"
+    t.index ["working_article_id"], name: "index_member_images_on_working_article_id"
   end
 
   create_table "opinion_writers", force: :cascade do |t|
@@ -1110,7 +1111,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_224015) do
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
-  add_foreign_key "member_images", "group_images"
+  add_foreign_key "member_images", "working_articles"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
   add_foreign_key "profiles", "publications"

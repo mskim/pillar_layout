@@ -1,0 +1,19 @@
+<!-- 카테고리 면 -->
+<div class="row">
+  <% @pages.each do |page| %>
+    <div class="col-md-3">
+      <div class="card rounded-0">
+        <div class="border text-center m-1">
+          <%= raw page.to_svg_with_jpg %>
+        </div>
+        <div class="card-body text-center pt-1 pb-1">
+          <% if page.color_page %>
+            <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>
+          <% else %>
+            <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-light btn-sm border" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
