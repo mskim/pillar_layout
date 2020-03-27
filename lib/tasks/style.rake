@@ -1,7 +1,20 @@
 namespace :style do
   require 'csv'
   
+  desc 'copy article pdf to sample folder'
+  task :article_copy_to_sample =>:environment do
+    WorkingArticle.all.each do |w|
+      w.copy_to_sample
+    end
+  end
 
+  desc 'copy article pdf to sample folder'
+  task :ad_box_copy_to_sample =>:environment do
+    AdBox.all.each do |ad|
+      ad.copy_to_sample
+    end
+  end
+  
   desc 'generate issue pdf'
   task :pdf_all =>:environment do
     WorkingArticle.all.each do |w|

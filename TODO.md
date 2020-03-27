@@ -47,12 +47,38 @@
     - announcement
     - group_image
 
+2020_03_27
+  - page add has_many working_articles
+
+  - stamp_page_pdf
+  - ad_box sample folder
+    - call copy_from_sample to check if sample exists
+  - article_sample folder
+    - copy_from_sample
+    - profile 
+      page-column_column_row_top-story
+      page-column_column_row_top-position
+      page-column_column_row_middle
+
+  - rjob from ruby
+    - ad_box
+    - page_heading
+    - opnion
+    - profile
+
+2020_03_26
+    - not working
+      - ## 고딕으로 
+      - ### 고딕으로 
+      - #### 20면 으로 연결
+    - fix error when auto adjust height
+    - page_layout edit error
+    - update_pillar_from_layout, when editing page_layout
+
 2020_03_25
   - 5단 에서 광고없음 으로 변환시 에러
   - layout 변환시 에러 177 
   - change rjob to use ruby_pdf
-
-  - fix error when auto adjust height
 
   - caption not showing
   - #### arrow symbol not in the font
@@ -63,6 +89,7 @@
   - ui update
   - make regenerate_page
   - cropping not working
+  - fix editorial head not showing if image is preosent
 
 2020_03_24
   - fix subtitle disapearing when image is present

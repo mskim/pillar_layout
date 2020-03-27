@@ -1425,8 +1425,30 @@ class WorkingArticle < ApplicationRecord
     [grid_x, grid_y, column,row, pillar_order.split("_")].unshift.join("_")
   end
 
-  private
+  def sample_path
+    "#{Rails.root}/public/1/sample/article/#{profile.split("_").join("/")}"
+  end
 
+  def copy_to_sample
+    unless File.exist?(sample_path)
+      FileUtils.mkdir_p(sample_path) unless File.exist?(sample_path)
+      command = "cp -r #{path}/* #{sample_path}"
+      system("#{command}")
+    end
+  end
+
+  def copy_from_sample
+    if File.exist?(pdf_path)
+    else
+      if File.exist?(sample_path)
+        system("cp -r #{sample_path}/* #{path}")
+      else
+        generate_pdf_with_time_stamp
+      end
+    end
+  end
+
+  private
 
   def init_article
     self.grid_width           = pillar.page_ref.grid_width
@@ -1442,7 +1464,14 @@ class WorkingArticle < ApplicationRecord
     self.title        = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle     = '여기는 부제목 입니다.' unless subtitle
     self.reporter     = '홍길동' unless reporter
-
+    self.profile      = "#{pillar.page_ref.column}_#{column}x#{row}"
+    if self.top_story?
+      self.profile      = "#{self.profile}_top-story"           
+    elsif pillar.top_position? && grid_y == 0
+      self.profile      = "#{self.profile}_top-position"        
+    else
+      self.profile      = "#{pillar.page_ref.column}_#{column}x#{row}_middle"
+    end
     body_text = ""
     unit_text = '여기는 본문입니다. ' 
     area = self.column*self.row
@@ -1460,13 +1489,4 @@ class WorkingArticle < ApplicationRecord
     # generate_pdf_with_time_stamp
   end
 
-  def copy_from_sample
-    source = "#{Rails.root}/public/1/issue_sample/#{page_number}#{order_to_path}"
-    if File.exist?(pdf_path)
-    elsif File.exist?(source)
-      system("cp -r #{source} #{path}/")
-    else
-      generate_pdf_with_time_stamp
-    end
-  end
 end
