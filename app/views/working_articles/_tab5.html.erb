@@ -17,7 +17,12 @@
   <div class="col-md-4">
     <div class="card">
       <h5 class="card-header">
-        기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)
+        <% if @working_article.pillar_bottom? %>
+          기사 편집: 맨 아래 박스 줄인 행수(<%= @working_article.pushed_line_count %>)
+        <% else %>
+          기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)
+        <% end %>
+
       </h5>
       <div class="card-body">
         <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>

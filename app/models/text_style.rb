@@ -216,7 +216,7 @@ class TextStyle < ApplicationRecord
 
   def setup
     system("mkdir -p #{path}") unless File.directory?(path)
-    create_style_object
+    # create_style_object
   end
 
   def save_layout

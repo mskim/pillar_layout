@@ -47,6 +47,31 @@
     - announcement
     - group_image
 
+2020_03_31
+
+  - fix adjustable height layout error when overflow
+  - fix title subtitle adjusted point size not applied
+    - fix space_width
+
+  - fix adjust_height
+    - display bottom article adjusted line
+    - fix bottom box y and height after adjust_height
+    - fix page config update
+
+  - draw tittle, subtitle, overflow red mark
+    
+  - rjob from ruby
+    - ad_box
+    - page_heading
+    - opnion
+    - profile
+
+
+  - 177 page not creating, only 6 page created
+
+2020_03_29
+  - caption_column draw_pdf
+  
 2020_03_27
   - page add has_many working_articles
 
@@ -60,11 +85,7 @@
       page-column_column_row_top-position
       page-column_column_row_middle
 
-  - rjob from ruby
-    - ad_box
-    - page_heading
-    - opnion
-    - profile
+
 
 2020_03_26
     - not working

@@ -101,19 +101,19 @@ class WorkingArticle < ApplicationRecord
   after_create :setup_article
 
   # belongs_to
-  # belongs_to :page
+  belongs_to :page
   belongs_to :pillar
   belongs_to :article, optional: true
 
-  # has_one
   has_one :story
-  has_one :group_image
-  has_many :member_images
+  # has_one :group_image
 
   # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
   has_many :proofs
+  has_many :member_images
+
   # has_many :story_category
   # has_many :story_subcategory
 
@@ -510,11 +510,10 @@ class WorkingArticle < ApplicationRecord
 
   # auto adjust height and relayout bottom article
   # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article
   def auto_adjust_height
     generate_pdf_with_time_stamp(adjustable_height: true)
     bottom_article = bottom_article_of_sibllings(self)
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
 
@@ -545,11 +544,16 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count = line_count
     save
-    # update(extended_line_count: line_count)
-    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
+  end
+
+  def update_pushed_line
+    count = current_pushed_line_sum
+    self.pushed_line_count = count
+    save
+    generate_pdf_with_time_stamp
   end
 
   # adds extended_line_count with new line_count
@@ -564,10 +568,8 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count += line_count
     save
-    # update(extended_line_count: extended_line_count)
-    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
 
@@ -729,8 +731,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def publication
-    # page.issue.publication
-    Publication.first
+    page.issue.publication
+    # Publication.first
   end
 
   def opinion_pdf_path

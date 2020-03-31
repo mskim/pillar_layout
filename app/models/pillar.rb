@@ -52,6 +52,7 @@ class Pillar < ApplicationRecord
   end
 
   def extened_line_sum(article)
+    working_articles.reload
     pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
