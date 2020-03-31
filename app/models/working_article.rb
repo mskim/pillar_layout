@@ -521,12 +521,11 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.each_with_index do |w, _i|
+    pillar.working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, _i|
       if pillar.bottom_article_of_sibllings?(w)
-        # we have bottom article
-        w.generate_pdf_with_time_stamp(adjustable_height: false)
+        w.update_pushed_line
       else
-        w.generate_pdf_with_time_stamp(no_update_pdf_chain: true, adjustable_height: true)
+        w.generate_pdf_with_time_stamp(adjustable_height: true)
       end
     end
     page.generate_pdf_with_time_stamp
