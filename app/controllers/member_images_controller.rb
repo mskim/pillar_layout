@@ -63,20 +63,6 @@ class MemberImagesController < ApplicationController
 
   private
 
-  def order_valid
-    @member_images = MemberImage.all
-    @member_image = MemberImage.new
-    @member_images.each do |member_image|
-      next unless member_image.order == @member_image.order
-
-      @member_images = MemberImage.where("member_images.order >= #{@member_image.order}")
-      @member_images.each do |member_image|
-        member_image.order += 1
-        member_image.save
-      end
-    end
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_member_image
     @member_image = MemberImage.find(params[:id])
