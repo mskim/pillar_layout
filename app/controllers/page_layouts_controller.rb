@@ -4,19 +4,17 @@ class PageLayoutsController < ApplicationController
   # GET /page_layouts
   # GET /page_layouts.json
   def index
-    # @page_layouts = PageLayout.order(:page_type, :ad_type).page(params[:page]).per(10)
 
     if params[:page]
       session[:current_section_pagination] = params[:page]
     end
-    @q = PageLayout.ransack(params[:q])
-    # @sections_search = @q.result.order(:id, :created_at, :ad_type, :page_number, :column).page(params[:page]).reverse_order.per(10) 
+    @q            = PageLayout.ransack(params[:q])
     @page_layouts = @q.result.order(:updated_at, :ad_type, :page_type, :column).page(params[:page]).reverse_order.per(10) 
-    @page_layouts = PageLayouts.all  if request.format == 'csv'
+    @page_layouts = PageLayout.all.order(:id)  if request.format == 'csv'
     respond_to do |format|
       format.html 
       format.json { render :index}
-      format.csv { send_data @sections.to_csv }
+      format.csv { send_data @page_layouts.to_csv }
     end
   end
 
@@ -62,6 +60,9 @@ class PageLayoutsController < ApplicationController
   def update
     respond_to do |format|
       # page_layout_params['layout'] = eval(page_layout_params['layout'])
+      # check if there exist? edited template
+      # redirect to format.html { render :edit }
+      # else create new page_layout
       if @page_layout.update(page_layout_params)
         @page_layout.update_pillar_from_layout
         format.html { redirect_to @page_layout, notice: 'Page layout was successfully updated.' }

@@ -64,8 +64,8 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, as: :page_ref, dependent: :delete_all #:dependent=> :destroy
-  # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
+  has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
+  has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
   has_many :ad_boxes
 
   # scope
@@ -84,10 +84,6 @@ class Page < ApplicationRecord
 
   DAYS_IN_KOREAN = %w[일요일 월요일 화요일 수요일 목요일 금요일 토요일].freeze
   DAYS_IN_ENGLISH = Date::DAYNAMES
-
-  def working_articles
-    pillars.map(&:working_articles).flatten
-  end
 
   def friendly_string
     "#{date}_#{page_number}"
@@ -587,6 +583,19 @@ class Page < ApplicationRecord
     end
   end
 
+  # this is used when sample pdf file is copied
+  # we want to creat stamped file so that the browser can display it.
+  def stamp_page_pdf
+    delete_old_files
+    stamp_time
+    section_pdf = path + "section.pdf"
+    section_jpg = path + "section.jpg"
+    stamped_pdf = path + "/section_#{@time_stamp}.pdf"
+    stamped_jpg = path + "/section_#{@time_stamp}.jpg"
+    FileUtils_cp(section_pdf, stamped_pdf)
+    FileUtils_cp(section_jpg, stamped_jpg)
+  end
+
   def generate_pdf_with_time_stamp
     delete_old_files
     stamp_time
@@ -814,7 +823,7 @@ class Page < ApplicationRecord
   end
 
   def copy_ready_made_from_sample
-    source = "#{Rails.root}/public/1/issue_sample/#{page_number}"
+    source = "#{Rails.root}/public/1/sample/issue/#{page_number}"
     if File.exist?(pdf_path)
     elsif File.exist?(source)
       system("cp -r #{source} #{path}/")
@@ -881,7 +890,6 @@ class Page < ApplicationRecord
 
     # New page layout and current one has equal number of pillars
     if pillars.length == new_page_layout.pillars.length
-      bidning.pry
       pillars.each_with_index do |p, i|
         p.change_pillar_layout(new_page_layout.pillars[i])
       end
@@ -905,8 +913,7 @@ class Page < ApplicationRecord
         if i < pillars.length
           pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
-          binding.pry
-          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count: layout_pillar.box_count).first_or_create!
+          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
         end
       end
     end
@@ -948,7 +955,7 @@ class Page < ApplicationRecord
   end
 
   def create_ad_box
-    info = { page_id: id, order: 1 }
+    info = {page_id: self.id, order:1, ad_type: ad_type}
     case ad_type
     when '15단통'
       info[:grid_x] = 0

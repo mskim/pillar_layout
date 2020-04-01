@@ -98,7 +98,7 @@ class PageLayout < ApplicationRecord
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      header = %w[page_type column ad_type layout]
+      header = %w[page_type column layout]
       csv << header
       all.each do |item|
         csv << item.attributes.values_at(*header)
@@ -153,19 +153,24 @@ class PageLayout < ApplicationRecord
   end
 
   def update_pillar_from_layout
-    article_layouts =  layout_array.select{|item| item.class == Array}
-    if article_layouts.length > pillars.length
-      # TODO
-      # create new pillars
-    elsif article_layouts.length == pillars.length
-      layout_with_out_ad.each_with_index do |item, i|
-        pipllar = pillars[i]
-        pipllar.update_pillar(item)
-      end
-    else
-      # TODO
-      # delte some pillars
-    end
+
+    # check if 
+    # create_new_page_layout
+
+
+    # article_layouts =  layout_array.select{|item| item.class == Array}
+    # if article_layouts.length > pillars.length
+    #   # TODO
+    #   # create new pillars
+    # elsif article_layouts.length == pillars.length
+    #   layout_with_out_ad.each_with_index do |item, i|
+    #     pipllar = pillars[i]
+    #     pipllar.update_pillar(item)
+    #   end
+    # else
+    #   # TODO
+    #   # delte some pillars
+    # end
   end
 
   def body_line_height

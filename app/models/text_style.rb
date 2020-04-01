@@ -44,25 +44,26 @@ class TextStyle < ApplicationRecord
   validates :english, presence: true
 
   after_create :setup
-  attr_reader :style_object, :font_wrapper
-
+  attr_reader :pdf_doc, :font_wrapper, :style_object
   # given string, create tokens
-  def create_tokens(string)
-    @doc          ||= HexaPDF::Document.new
-    font_file     = "/Library/Fonts/newspaper/#{font}.ttf"
-    @font_wrapper ||= doc.fonts.add(font_file)
+
+  def create_tokens(text_string)
+    s_array = text_string.split(" ")
+    @pdf_doc      ||= HexaPDF::Document.new
+    font_foleder  = "/Users/Shared/SoftwareLab/font_width"
+    font_file     = font_foleder + "/#{font}.ttf"
+    @font_wrapper ||= @pdf_doc.fonts.add(font_file)
     h = {}
     h[:font]                = @font_wrapper
     h[:font_size]           = font_size
-    h[:character_spacing]   = tracking  if tracking && scale != 0
-    h[:horizontal_scale]    = scale     if scale && scale != 100
+    h[:character_spacing]   = tracking  if tracking && tracking != 0
+    h[:horizontal_scaling]  = scale     if scale && scale != 100
     h
     @style_object ||= HexaPDF::Layout::Style.new(h)
-    s_array = string.split(" ")
     s_array.map do |s|
-      g_list  = @font_wrapper.decode_utf8(s)
-      width   = g_list.map{|g| @style_object.scaled_item_width(g)}.reduce(:+)
-      [s, width, id]
+      glyphs  = @font_wrapper.decode_utf8(s)
+      width   = glyphs.map{|g| @style_object.scaled_item_width(g)}.reduce(:+)
+      [s, width, english]
     end
   end
 
@@ -215,6 +216,7 @@ class TextStyle < ApplicationRecord
 
   def setup
     system("mkdir -p #{path}") unless File.directory?(path)
+    # create_style_object
   end
 
   def save_layout

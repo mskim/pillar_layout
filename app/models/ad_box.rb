@@ -55,11 +55,6 @@ class AdBox < ApplicationRecord
     File.extname(storage_ad_image.blob[:filename])
   end
 
-  def setup
-    FileUtils.mkdir_p path unless File.exist?(path)
-    generate_pdf_with_time_stamp
-  end
-
   def issue
     page.issue
   end
@@ -109,7 +104,11 @@ class AdBox < ApplicationRecord
   # end
 
   def height
-    grid_height*row
+    if top_position?
+      grid_height*row - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*row
+    end
   end
 
   def x
@@ -117,11 +116,19 @@ class AdBox < ApplicationRecord
   end
 
   def y
-    grid_height*grid_y
+    if top_position?
+      grid_height*grid_y - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*grid_y
+    end
   end
 
   def ad_height
-    grid_height*row
+    if top_position?
+      grid_height*row - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*row
+    end
   end
 
   def top_position?
@@ -211,7 +218,23 @@ class AdBox < ApplicationRecord
     save_layout
     delete_old_files
     stamp_time
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
+    # if NEWS_LAYOUT_ENGINE == 'ruby'
+    #   save_ad_box_pdf
+    # else
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
+    # end
+  end
+
+  def make_ad_box_path
+    FileUtils.mkdir_p(path) unless File.exist?(path)
+  end
+
+  def save_ad_box_pdf(options={})
+    make_ad_box_path
+    save_hash                     = {}
+    save_hash[:article_path]      = path
+    save_hash[:layout_rb]         = layout_rb
+    new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
   end
 
   def generate_pdf
@@ -523,7 +546,41 @@ EOF
   def delete_folder
     system("rm -rf #{path}")
   end
+
+  def profile
+    "#{page.column}_#{ad_type}"
+  end
+
+  def sample_path
+    "#{Rails.root}/public/1/sample/ad_box/#{page.column}/#{ad_type}"
+  end
   
+  def copy_to_sample
+    return if ad_type == "광고없음"
+    unless File.exist?(sample_path)
+      FileUtils.mkdir_p(sample_path) unless File.exist?(sample_path)
+      command = "cp -r #{path}/* #{sample_path}"
+      system("#{command}")
+    end
+  end
+
+  def copy_from_sample
+    return if ad_type == "광고없음"
+    if File.exist?(pdf_path)
+    else
+      if File.exist?(sample_path)
+        system("cp -r #{sample_path}/* #{path}")
+      else
+        generate_pdf_with_time_stamp
+      end
+    end
+  end
+
+  def setup
+    FileUtils.mkdir_p path unless File.exist?(path)
+    copy_from_sample
+  end
+
   private
 
   def init_atts

@@ -195,6 +195,11 @@ module WorkingArticleSavePdf
     filipped    = filipped_origin
     filipped[1] -= extended_line_sum*body_line_height
     image_path  = path + "/story.pdf"
-    page_canvas.image(image_path, at: filipped, width: width, height: height)
+    if File.exist?(image_path)
+      page_canvas.image(image_path, at: filipped, width: width, height: height)
+    else
+      #TODO copy sample and draw or generate pdf
+      puts "missing image_path :#{image_path} !!!"
+    end
   end
 end

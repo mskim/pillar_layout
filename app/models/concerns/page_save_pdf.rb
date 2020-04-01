@@ -10,7 +10,8 @@ module PageSavePdf
     # draw page_headinng
     image_path = page_heading_pdf_path
     if File.exist?(image_path)
-      canvas.image(image_path, at: filipped_origin(page_heading), width: page_heading.width, height: page_heading.height)
+      filipped_heading_origin = [left_margin, height - (top_margin + page_heading.height)]
+      canvas.image(image_path, at: filipped_heading_origin, width: page_heading.width, height: page_heading.height)
     end
     pillars.sort_by{|p| p.order}.each do |p|
       extended_line_sum = 0
@@ -34,6 +35,14 @@ module PageSavePdf
     end
   end
 
+  def filipped_origin(w)
+    if w.top_position?
+      [left_margin + w.grid_x*grid_width, height - heading_space - (top_margin  + w.grid_y*grid_height + w.height)]
+    else
+      [left_margin + w.grid_x*grid_width, height - (top_margin  + w.grid_y*grid_height + w.height)]
+    end
+  end
+
   def convert_pdf2jpg(output_path)
     pdf_folder    = File.dirname(output_path)
     pdf_base_name = File.basename(output_path)
@@ -42,10 +51,6 @@ module PageSavePdf
     system(commend)
   end
 
-  def filipped_origin(w)
-    [left_margin + w.grid_x*grid_width, height - (top_margin  + w.grid_y*grid_height + w.height)]
-  end
-  
   def stack_pdf(pdf_files, output, direction)
     if pdf_files.length == 0
       puts "pdf_files count == 0 at: output :#{output}"

@@ -31,6 +31,34 @@ class Pillar < ApplicationRecord
   after_create :create_layout
   include RectUtils
   
+  def add_article
+    # add box to layout_node
+    # change_pillar_layout with new
+      # update remaininng working_articles current sizes are less than the new_pillar, create some 
+    # new_box_count     = new_pillar.box_count
+    # new_layout        =  new_pillar.layout_with_pillar_path.dup
+
+    self.box_count    +=  1
+    self.save
+      
+      # working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+      #   box_rect = new_layout[i].dup
+      #   pillar_order = "#{order}_#{i+1}"
+      #   box_rect[4]  = pillar_order
+      #   w.change_article(box_rect)
+      # end
+      # working_articles_count = working_articles.length
+      # # add working_articles to pillar
+      # box_rect = new_layout[working_articles_count + i]
+      # h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+      # w = WorkingArticle.where(h).first_or_create
+
+  end
+
+  def delete_last_artile
+
+  end
+
   def pillar_siblings_of(article)
     article_pillar_order_depth = article.pillar_order.split("_").length
     article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}.sort_by{|a| a.pillar_order}
@@ -52,6 +80,7 @@ class Pillar < ApplicationRecord
   end
 
   def extened_line_sum(article)
+    working_articles.reload
     pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
@@ -369,11 +398,23 @@ class Pillar < ApplicationRecord
   end
 
   def init_pillar
-    # layout_node = LayoutNode.where(pillar:self, column: column, row: row).first_or_create
-    # self.layout_node_id = layout_node.id
+    self.profile = "#{page_ref.column}_#{column}_#{row}_#{box_count}"
   end
 
   def delete_folder
     system("rm -rf #{path}")
+  end
+
+  def copy_from_sample
+    source_folder = "#{Rails.root}/public/1/pillar_sample/#{profile}"
+    FileUtils.cp(source_folder, path)
+  end
+
+  def save_to_sample
+    return unless page_ref.class == Page
+    target_folder = "#{Rails.root}/public/1/pillar_sample/#{profile}"
+    unless File.exist?(source_folder) 
+      FileUtils.cp(path, target_folder)
+    end
   end
 end

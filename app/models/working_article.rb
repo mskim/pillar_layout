@@ -101,19 +101,19 @@ class WorkingArticle < ApplicationRecord
   after_create :setup_article
 
   # belongs_to
-  # belongs_to :page
+  belongs_to :page
   belongs_to :pillar
   belongs_to :article, optional: true
 
-  # has_one
   has_one :story
-  has_one :group_image
-  has_many :member_images
+  # has_one :group_image
 
   # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
   has_many :proofs
+  has_many :member_images
+
   # has_many :story_category
   # has_many :story_subcategory
 
@@ -510,11 +510,10 @@ class WorkingArticle < ApplicationRecord
 
   # auto adjust height and relayout bottom article
   # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article
   def auto_adjust_height
     generate_pdf_with_time_stamp(adjustable_height: true)
     bottom_article = bottom_article_of_sibllings(self)
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
 
@@ -522,12 +521,11 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.each_with_index do |w, _i|
+    pillar.working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, _i|
       if pillar.bottom_article_of_sibllings?(w)
-        # we have bottom article
-        w.generate_pdf_with_time_stamp(adjustable_height: false)
+        w.update_pushed_line
       else
-        w.generate_pdf_with_time_stamp(no_update_pdf_chain: true, adjustable_height: true)
+        w.generate_pdf_with_time_stamp(adjustable_height: true)
       end
     end
     page.generate_pdf_with_time_stamp
@@ -545,11 +543,16 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count = line_count
     save
-    # update(extended_line_count: line_count)
-    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
+  end
+
+  def update_pushed_line
+    count = current_pushed_line_sum
+    self.pushed_line_count = count
+    save
+    generate_pdf_with_time_stamp
   end
 
   # adds extended_line_count with new line_count
@@ -564,10 +567,8 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count += line_count
     save
-    # update(extended_line_count: extended_line_count)
-    # bottom_article.update_pushed_line
     generate_pdf_with_time_stamp
-    bottom_article.generate_pdf_with_time_stamp
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
 
@@ -729,8 +730,8 @@ class WorkingArticle < ApplicationRecord
   end
 
   def publication
-    # page.issue.publication
-    Publication.first
+    page.issue.publication
+    # Publication.first
   end
 
   def opinion_pdf_path
@@ -1430,12 +1431,45 @@ class WorkingArticle < ApplicationRecord
     [grid_x, grid_y, column, row, pillar_order.split('_')].unshift.join('_')
   end
 
+  def sample_path
+    "#{Rails.root}/public/1/sample/article/#{profile.split("_").join("/")}"
+  end
+
+  def copy_to_sample
+    unless File.exist?(sample_path)
+      FileUtils.mkdir_p(sample_path) unless File.exist?(sample_path)
+      command = "cp -r #{path}/* #{sample_path}"
+      system("#{command}")
+    end
+  end
+
+  def copy_from_sample
+    if File.exist?(pdf_path)
+    else
+      if File.exist?(sample_path)
+        system("cp -r #{sample_path}/* #{path}")
+      else
+        generate_pdf_with_time_stamp
+      end
+    end
+  end
+
+  def on_left_edge?
+    pillar.grid_x == 0 && grid_x == 0
+  end
+
+  def on_right_edge?
+    pillar.grid_x + column == pillar.page_ref.column
+  end
+
   private
 
   def init_article
     self.grid_width           = pillar.page_ref.grid_width
     self.grid_height          = pillar.page_ref.grid_height
     self.is_front_page        = true if pillar.page_ref.is_front_page?
+    self.on_left_edge         = true if on_left_edge?
+    self.on_right_edge        = true if on_right_edge?
     self.column               = 4 unless column
     self.row                  = 4 unless row
     if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
@@ -1448,13 +1482,20 @@ class WorkingArticle < ApplicationRecord
     self.title        = "여기는 #{pillar_order}제목." if column <= 2
     self.subtitle     = '여기는 부제목 입니다.' unless subtitle
     self.reporter     = '홍길동' unless reporter
-
-    body_text = ''
-    unit_text = '여기는 본문입니다. '
-    area = column * self.row
-    # area.times do
-    body_text += unit_text
-    body_text += "\n\n"
+    self.profile      = "#{pillar.page_ref.column}_#{column}x#{row}"
+    if self.top_story?
+      self.profile      = "#{self.profile}_top-story"           
+    elsif pillar.top_position? && grid_y == 0
+      self.profile      = "#{self.profile}_top-position"        
+    else
+      self.profile      = "#{pillar.page_ref.column}_#{column}x#{row}_middle"
+    end
+    body_text = ""
+    unit_text = '여기는 본문입니다. ' 
+    area = self.column*self.row
+    # area.times do 
+      body_text += unit_text
+      body_text += "\n\n"
     # end
     self.body = body_text
   end
@@ -1466,13 +1507,4 @@ class WorkingArticle < ApplicationRecord
     # generate_pdf_with_time_stamp
   end
 
-  def copy_from_sample
-    source = "#{Rails.root}/public/1/issue_sample/#{page_number}#{order_to_path}"
-    if File.exist?(pdf_path)
-    elsif File.exist?(source)
-      system("cp -r #{source} #{path}/")
-    else
-      generate_pdf_with_time_stamp
-    end
-  end
 end

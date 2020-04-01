@@ -47,12 +47,79 @@
     - announcement
     - group_image
 
+2020_04_1
+  - download page_layout csv
+  - 전면 광고 하시라 없음
+  - 양측 기사 여백 지우기 on the edge error
+
+  - 2면 20면 광고없음 다른 템플렛으로 바꾸기 에러
+  - auto adjust_height page config error
+  - add page_layout template 
+  - fix crop 
+  - 22, 23 면 열기 error
+  - display add_article menu at bottom article
+    - when height is > 14
+
+  - display delete_article menu at bottom article
+    - when height is < 7
+
+  - 아래와 기사 바꾸기
+    - change pillar_order 
+
+  - 세로 자르기, undo
+
+
+2020_03_31
+
+  - fix adjustable height layout error when overflow
+  - fix title subtitle adjusted point size not applied
+    - fix space_width
+  - fix adjust_height
+    - display bottom article adjusted line
+    - fix bottom box y and height after adjust_height
+    - fix page config update
+  - draw tittle, subtitle, overflow red mark
+    
+  - rjob from ruby
+    - ad_box
+    - page_heading
+    - opnion
+    - profile
+
+
+  - 177 page not creating, only 6 page created
+
+2020_03_29
+  - caption_column draw_pdf
+  
+2020_03_27
+  - page add has_many working_articles
+
+  - stamp_page_pdf
+  - ad_box sample folder
+    - call copy_from_sample to check if sample exists
+  - article_sample folder
+    - copy_from_sample
+    - profile 
+      page-column_column_row_top-story
+      page-column_column_row_top-position
+      page-column_column_row_middle
+
+
+
+2020_03_26
+    - not working
+      - ## 고딕으로 
+      - ### 고딕으로 
+      - #### 20면 으로 연결
+    - fix error when auto adjust height
+    - page_layout edit error
+    - update_pillar_from_layout, when editing page_layout
+
 2020_03_25
   - 5단 에서 광고없음 으로 변환시 에러
   - layout 변환시 에러 177 
   - change rjob to use ruby_pdf
-
-  - fix error when auto adjust height
 
   - caption not showing
   - #### arrow symbol not in the font
@@ -63,6 +130,7 @@
   - ui update
   - make regenerate_page
   - cropping not working
+  - fix editorial head not showing if image is preosent
 
 2020_03_24
   - fix subtitle disapearing when image is present

@@ -296,7 +296,7 @@ date
   slug
   tag
   ad_type
-  page_coumns
+  page_column
   story_count
   config:text
 
