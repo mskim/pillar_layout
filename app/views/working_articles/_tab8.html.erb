@@ -20,7 +20,6 @@
         <tr>
           <th scope="col">순서</th>
           <th scope="col">제목</th>
-          <th scope="col">설명</th>
           <th scope="col">액션</th>
         </tr>
       </thead>
@@ -28,8 +27,7 @@
         <% @working_article.member_images.order(:order).each do |member_image| %>
           <tr>
             <th scope="row"><%= member_image.order %></th>
-            <td><%= member_image.title %></td>
-            <td><%= member_image.caption %></td>
+            <td><%= truncate(member_image.title, length: 10) %></td>
             <!-- 버튼 트리거 모달 시작 -->
             <td>
               <%= button_tag "상세보기", type: "button", class: "btn btn-sm btn-primary", data: { toggle: "modal", target: "##{member_image.modal_title}" } %>
@@ -48,7 +46,9 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <%= image_tag member_image.member_img.url, width: "100%;" %>
+                    <% if member_image.member_img.url %>
+                      <%= image_tag member_image.member_img.url, width: "100%;" %>
+                    <% end %>
                     <h5 class="mt-2"><%= member_image.title %></h5>
                     <p><%= member_image.caption %></p>
                     <p class="card-text mt-0"><small class="text-muted"><%= member_image.source %></small></p>

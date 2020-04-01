@@ -9,49 +9,44 @@
       </ul>
     </div>
   <% end %>
-  <div class="form-group">
-    <div class="btn-group btn-block">
-      <%= f.button "저장", class: "btn btn-primary" %>
-      <%= link_to '삭제', graphic, method: :delete, data: { confirm: '그래픽 이미지를 삭제하시겠습니까?' }, class: "btn btn-danger" %>
+  <div class="form-row align-items-center">
+    <div class="form-group col-md-6">
+      <div class="form-inline mt-1">
+        <%= f.label :position, "위치" %>
+        <%= f.text_field :position, style: "width: 26px;", class: "form-control form-control-sm" %>
+      </div>
+      <div class="form-inline mt-1">
+        <%= f.label :x_grid, "가로시작 설정:" %>
+        <%= f.text_field :x_grid, style: "width: 26px;", class: "form-control form-control-sm" %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= f.check_box :draw_frame, class: "form-check-input" %>
+        <%= f.label "테두리", class: "form-check-label" %>
+      </div>
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <%= f.label :fit_type, "그래픽 정렬", class: "col-form-label col-form-label-sm" %>
+        </div>
+        <div class="col-auto">
+          <%= f.select :fit_type, %w[최적 가로 세로 욱여넣기], {include_blank: false}, class: "form-control form-control-sm" %>
+        </div>
+      </div>
+      <div class="form-inline mt-1">
+        <%= f.label :column, "크기설정:", class: "col-form-label col-form-label-sm" %>
+        <%= f.text_field :column, style: "width: 26px", class: 'form-control form-control-sm' %> 단  x  
+        <%= f.text_field :row, style: "width: 26px", class: 'form-control form-control-sm' %> 열
+        <%= f.text_field :extra_height_in_lines, style: "width: 26px", class: 'form-control form-control-sm' %> 행 추가
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="custom-file">
-      <%= f.file_field :storage_graphic, class: "custom-file-input", id: "customFileLangHTML" %>
-      <%= f.label :storage_graphic, class: "custom-file-label", for: "customFileLangHTML", data: {browse: "첨부파일"} %>
+    <div class="form-group col-md-6 border shadow-sm">
+      <p class="text-center mb-0">이미지 사이즈:<br><%= graphic.size_string %></p>
+      <% if graphic.storage_graphic.attached? %>
+        <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
+        <%= image_tag graphic.storage_graphic, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
+      <% else%>
+        <%= image_tag graphic.empty_image_url, :width => "100%", style: "padding-bottom:20px" %>
+      <% end %>
     </div>
-  </div>
-  <div class="form-group mt-3 p-3 border shadow-sm">
-    <% if graphic.storage_graphic.attached? %>
-      <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
-      <%= image_tag graphic.storage_graphic, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
-    <% else%>
-      <%= image_tag graphic.empty_image_url, :width => "100%", style: "padding-bottom:20px" %>
-    <% end %>
-    <p class="text-center mb-0">이미지 사이즈: <%= graphic.size_string %></p>
-  </div>
-  <div class="form-check form-check-inline mt-3">
-    <%= f.check_box :draw_frame, class: "form-check-input" %>
-    <%= f.label "테두리선 추가:", class: "form-check-label" %>
-  </div>
-  <hr>
-  <div class="form-group">
-    <%= f.label :fit_type, "그래픽 정렬설정:" %>
-    <%= f.select :fit_type, %w[최적 가로 세로 욱여넣기], {include_blank: false}, class: "form-control" %>
-  </div>
-  <hr>
-  <div class="form-group mt-3">
-    <%= f.label :position, "위치설정:" %>
-    <%= f.text_field :position, style: "width: 40px", class: 'form-control' %> / 
-    <%= f.label :x_grid, "가로시작 설정:" %>
-    <%= f.text_field :x_grid, style: "width: 40px", class: 'form-control' %>
-  </div>
-  <hr>
-  <div class="form-group mt-3">
-    <%= f.label :column, "크기설정:" %>
-    <%= f.text_field :column, style: "width: 40px", class: 'form-control' %> 단  x  
-    <%= f.text_field :row, style: "width: 40px", class: 'form-control' %> 열
-    <%= f.text_field :extra_height_in_lines, style: "width: 40px", class: 'form-control' %> 행 추가
   </div>
   <!-- div class="field">
           <%= f.label '페이지' %>
@@ -62,22 +57,25 @@
           <%= f.text_field :story_number %>
         </div -->
   <hr>
-  <h5 class="text-center mt-3">XML 전송용 필드</h5>
+  <h6 class="text-center mt-3">XML 전송용 필드</h6>
   <div class="form-group">
     <%= f.label "XML 전송용 제목:" %>
-    <%= f.text_field :title, class: "form-control" %>
+    <%= f.text_field :title, class: "form-control form-control-sm" %>
   </div>
   <div class="form-group">
     <%= f.label "XML 전송용 설명:" %>
-    <%= f.text_area :description, class: "form-control", style: "height: 350px;" %>
+    <%= f.text_area :description, class: "form-control form-control-sm", style: "height: 75px;" %>
+  </div>
+  <div class="form-group mt-1">
+    <%= f.button "저장", class: "btn-sm btn-primary" %>
+    <%= link_to '삭제', graphic, method: :delete, data: { confirm: '그래픽 이미지를 삭제하시겠습니까?' }, class: "btn btn-sm btn-danger" %>
   </div>
   <div class="form-group">
-    <div class="btn-group btn-block">
-      <%= f.button "저장", class: "btn btn-primary" %>
-      <%= link_to '삭제', graphic, method: :delete, data: { confirm: '그래픽 이미지를 삭제하시겠습니까?' }, class: "btn btn-danger" %>
+    <div class="custom-file">
+      <%= f.file_field :storage_graphic, class: "custom-file-input", id: "customFileLangHTML" %>
+      <%= f.label :storage_graphic, class: "custom-file-label", for: "customFileLangHTML", data: {browse: "첨부파일"} %>
     </div>
   </div>
-  <hr>
   <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 
   <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="btn-group" role="group" aria-label="기능">

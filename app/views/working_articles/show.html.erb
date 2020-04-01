@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link" id="story-edit-tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="story-edit" aria-selected="false"><span><%= icon('fas', 'edit') %></span> <%= @working_article.pillar_order %> 기사편집</a>
+      <a class="nav-link active" id="story-edit-tab" data-toggle="tab" href="#tab5" role="tab" aria-controls="story-edit" aria-selected="true"><span><%= icon('fas', 'edit') %></span> <%= @working_article.pillar_order %> 기사편집</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active" id="section-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="section" aria-selected="true"><span><%= icon('fas', 'newspaper') %> <%= @working_article.page.section_name %></span></a>
+      <a class="nav-link" id="section-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="section" aria-selected="false"><span><%= icon('fas', 'newspaper') %> <%= @working_article.page.section_name %></span></a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="preview-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="preview" aria-selected="false"><span><%= icon('fas', 'eye') %></span> <%= @working_article.page.page_number %>면 미리보기</a>
@@ -27,11 +27,11 @@
   </ul>
   <div class="tab-content p-4 mb-5" id="myTabContent">
     <!-- n번 기사편집 -->
-    <div class="tab-pane fade" id="tab5" role="tabpanel" aria-labelledby="story-edit-tab">
+    <div class="tab-pane fade show active" id="tab5" role="tabpanel" aria-labelledby="story-edit-tab">
       <%= render 'working_articles/tab5' %>
     </div>
     <!-- 모든 "카테고리"면 -->
-    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="section-tab">
+    <div class="tab-pane fade" id="tab1" role="tabpanel" aria-labelledby="section-tab">
       <%= render 'working_articles/tab1' %>
     </div>
     <!-- 미리보기 -->

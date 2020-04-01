@@ -24,6 +24,8 @@
 #
 
 class MemberImage < ApplicationRecord
+  before_create :set_new_order
+
   # CarrierWave
   mount_uploader :member_img, MemberImgUploader
 
@@ -38,5 +40,26 @@ class MemberImage < ApplicationRecord
 
   def modal_title
     title.split(' ').join('')
+  end
+
+  def re_order_images(changing_image)
+    position = changing_image.order
+    working_article.member_images.sort_by{|i| i.order}.each_with_index do |member_image, i|
+    # changing_image 보다 뒤에 것 들 order += 1
+      if member_image.order < position
+      elsif member_image.order == position
+        next if member_image == changing_image # 바뀐거 자체일 경우
+        member_image.order = i + 2
+      else # member_image.order > position
+        member_image.order = i + 2
+      end
+    end
+  end
+  private
+
+  def set_new_order
+    member_images = working_article.member_images
+    current_order = member_images.count
+    self.order = current_order + 1
   end
 end
