@@ -49,12 +49,13 @@
 
 2020_04_1
   - download page_layout csv
-  - 2면 20면 광고없음 면을로 바꾸기 에러
+  - 전면 광고 하시라 없음
   - 양측 기사 여백 지우기 on the edge error
+
+  - 2면 20면 광고없음 다른 템플렛으로 바꾸기 에러
   - auto adjust_height page config error
   - add page_layout template 
   - fix crop 
-  - 전면 광고 하시라 없음
   - 22, 23 면 열기 error
   - display add_article menu at bottom article
     - when height is > 14

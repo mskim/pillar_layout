@@ -98,7 +98,7 @@ class PageLayout < ApplicationRecord
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
-      header = %w[page_type column ad_type layout]
+      header = %w[page_type column layout]
       csv << header
       all.each do |item|
         csv << item.attributes.values_at(*header)

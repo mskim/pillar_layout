@@ -1459,7 +1459,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def on_right_edge?
-    pillar.grid_x + column == pillar.page_ref.coumn
+    pillar.grid_x + column == pillar.page_ref.column
   end
 
   private
