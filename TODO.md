@@ -47,17 +47,36 @@
     - announcement
     - group_image
 
+2020_04_1
+  - download page_layout csv
+  - 2면 20면 광고없음 면을로 바꾸기 에러
+  - 양측 기사 여백 지우기 on the edge error
+  - auto adjust_height page config error
+  - add page_layout template 
+  - fix crop 
+  - 전면 광고 하시라 없음
+  - 22, 23 면 열기 error
+  - display add_article menu at bottom article
+    - when height is > 14
+
+  - display delete_article menu at bottom article
+    - when height is < 7
+
+  - 아래와 기사 바꾸기
+    - change pillar_order 
+
+  - 세로 자르기, undo
+
+
 2020_03_31
 
   - fix adjustable height layout error when overflow
   - fix title subtitle adjusted point size not applied
     - fix space_width
-
   - fix adjust_height
     - display bottom article adjusted line
     - fix bottom box y and height after adjust_height
     - fix page config update
-
   - draw tittle, subtitle, overflow red mark
     
   - rjob from ruby

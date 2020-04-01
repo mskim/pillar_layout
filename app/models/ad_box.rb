@@ -104,7 +104,11 @@ class AdBox < ApplicationRecord
   # end
 
   def height
-    grid_height*row
+    if top_position?
+      grid_height*row - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*row
+    end
   end
 
   def x
@@ -112,11 +116,19 @@ class AdBox < ApplicationRecord
   end
 
   def y
-    grid_height*grid_y
+    if top_position?
+      grid_height*grid_y - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*grid_y
+    end
   end
 
   def ad_height
-    grid_height*row
+    if top_position?
+      grid_height*row - page_heading_margin_in_lines*page.body_line_height
+    else
+      grid_height*row
+    end
   end
 
   def top_position?

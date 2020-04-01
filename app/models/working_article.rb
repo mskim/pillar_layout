@@ -1454,6 +1454,13 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def on_left_edge?
+    pillar.grid_x == 0 && grid_x == 0
+  end
+
+  def on_right_edge?
+    pillar.grid_x + column == pillar.page_ref.coumn
+  end
 
   private
 
@@ -1461,6 +1468,8 @@ class WorkingArticle < ApplicationRecord
     self.grid_width           = pillar.page_ref.grid_width
     self.grid_height          = pillar.page_ref.grid_height
     self.is_front_page        = true if pillar.page_ref.is_front_page?
+    self.on_left_edge         = true if on_left_edge?
+    self.on_right_edge        = true if on_right_edge?
     self.column               = 4 unless column
     self.row                  = 4 unless row
     if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
