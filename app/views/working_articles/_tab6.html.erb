@@ -40,7 +40,7 @@
                 <%= f.label :storage_image, class: "custom-file-label", for: "customFile", data: {browse: "첨부파일"} %>
               </div>
               <div class="form-group mt-1">
-                <%= f.button "저장", issue: @working_article.issue, class: "btn btn-block btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+                <%= f.button "저장", issue: @working_article.issue, class: "btn btn-sm btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
               </div>
             <% end %>
           <% end %>

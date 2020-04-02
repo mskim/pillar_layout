@@ -18,19 +18,15 @@ require("@rails/ujs").start();
 require("turbolinks").start();
 require("@rails/activestorage").start();
 require("channels");
-
 require("@rails/actiontext");
 require("trix");
-
 require("../includes/group_check");
+global.$ = jQuery;
 
-import bsCustomFileInput from "bs-custom-file-input";
+import "controllers";
 
 $(document).ready(function() {
   bsCustomFileInput.init();
 });
 
-import "controllers";
 // import "bootstrap";
-
-global.$ = jQuery;
