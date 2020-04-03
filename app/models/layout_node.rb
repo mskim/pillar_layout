@@ -54,11 +54,7 @@ class LayoutNode < ApplicationRecord
   end
 
   def update_layout_with_pillar_path
-    if root?
-      result = [grid_x,grid_y, column, row, "1"]
-    else
-      result = leaf_node_layout_with_pillar_path
-    end
+    result = leaf_node_layout_with_pillar_path
     update(layout_with_pillar_path: result)
     result
   end
@@ -271,6 +267,7 @@ class LayoutNode < ApplicationRecord
   end
 
   def add_v_child
+    binding.pry
     would_be_children_count = children_count + 1
     if would_be_children_count >  row
       puts "children_count is greater than currnt row!!!"

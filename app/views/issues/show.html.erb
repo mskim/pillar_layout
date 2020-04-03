@@ -3,7 +3,7 @@
     <% @issue.pages.each do |page| %>
       <div class="col-xs-6 col-md-2">
         <div class="card mb-2 shadow">
-          <%= link_to (image_tag page.pdf_image_path, style: "width: 100%;", class: "border border-secondary"), page_path(page) %>
+          <%= link_to (image_tag page.jpg_image_path, style: "width: 100%;", class: "border border-secondary"), page_path(page) %>
           <!-- %= raw page.to_svg_with_jpg % -->
         </div>
         <% if page.color_page %>

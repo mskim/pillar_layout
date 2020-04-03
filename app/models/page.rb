@@ -860,7 +860,7 @@ class Page < ApplicationRecord
   # it updates ad_type and calls change_page_layout,
   # which then calls ad_boxes.first.change_layout(ad_type)
   def change_ad_type(new_ad_type)
-    template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
+    template = PageLayout.where(page_type: page_number, ad_type: new_ad_type).first
     # If not found, look for odd even  tempate
     unless template
       page_type = page_number.odd? ? '101' : '102'

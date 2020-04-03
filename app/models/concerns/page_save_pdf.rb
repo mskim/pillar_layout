@@ -13,9 +13,10 @@ module PageSavePdf
       filipped_heading_origin = [left_margin, height - (top_margin + page_heading.height)]
       canvas.image(image_path, at: filipped_heading_origin, width: page_heading.width, height: page_heading.height)
     end
+    working_articles.reload
     pillars.sort_by{|p| p.order}.each do |p|
-      extended_line_sum = 0
       p.working_articles.each_with_index do |w, i|
+        extended_line_sum = 0
         w.draw_article_in_page(canvas, extended_line_sum)
         extended_line_sum += w.extended_line_count if w.extended_line_count
       end

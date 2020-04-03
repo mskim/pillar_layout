@@ -116,6 +116,7 @@ GEM
       image_processing (~> 1.1)
       mimemagic (>= 0.3.0)
       mini_mime (>= 0.1.3)
+    childprocess (3.0.0)
     chronic (0.10.2)
     cmdparse (3.0.5)
     coderay (1.1.2)
@@ -386,6 +387,9 @@ GEM
       activerecord (>= 4)
       activesupport (>= 4)
     selectize-rails (0.12.6)
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
     shellany (0.0.1)
     shoulda-matchers (3.1.3)
@@ -435,6 +439,10 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webdrivers (4.2.0)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webpacker (5.0.1)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -526,6 +534,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  webdrivers
   webpacker
   whenever
   zip-zip

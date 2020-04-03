@@ -32,31 +32,40 @@ class Pillar < ApplicationRecord
   include RectUtils
   
   def add_article
-    # add box to layout_node
-    # change_pillar_layout with new
-      # update remaininng working_articles current sizes are less than the new_pillar, create some 
-    # new_box_count     = new_pillar.box_count
-    # new_layout        =  new_pillar.layout_with_pillar_path.dup
-
     self.box_count    +=  1
     self.save
-      
-      # working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
-      #   box_rect = new_layout[i].dup
-      #   pillar_order = "#{order}_#{i+1}"
-      #   box_rect[4]  = pillar_order
-      #   w.change_article(box_rect)
-      # end
-      # working_articles_count = working_articles.length
-      # # add working_articles to pillar
-      # box_rect = new_layout[working_articles_count + i]
-      # h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
-      # w = WorkingArticle.where(h).first_or_create
-
+    layout_node.add_v_child
+    layout_node.update_layout_with_pillar_path
+    new_layout = layout_node.layout_with_pillar_path.dup
+    working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+      box_rect      = new_layout[i].dup
+      box_rect[4]   = w.pillar_order
+      w.change_article(box_rect)
+    end
+    working_articles_count = working_articles.length
+    box_rect = new_layout.last
+    h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+    w = WorkingArticle.where(h).first_or_create
+    page_ref.generate_pdf_with_time_stamp
   end
 
-  def delete_last_artile
-
+  def remove_last_artile
+    self.box_count    -=  1
+    self.save
+    layout_node.remove_last_child
+    layout_node.update_layout_with_pillar_path
+    new_layout = layout_node.layout_with_pillar_path.dup
+    last = working_articles.sort_by{|w| w.pillar_order}.last
+    last.delete_folder
+    last.destroy
+    working_articles.reload
+    working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+      box_rect      = new_layout[i].dup
+      binding.pry
+      box_rect[4]   = w.pillar_order
+      w.change_article(box_rect)
+    end
+    page_ref.generate_pdf_with_time_stamp
   end
 
   def pillar_siblings_of(article)
@@ -286,7 +295,7 @@ class Pillar < ApplicationRecord
     union
   end
 
-  def change_pillar_layout( new_pillar)
+  def change_pillar_layout(new_pillar)
     current_box_count = box_count
     new_box_count     = new_pillar.box_count
     new_layout        =  new_pillar.layout_with_pillar_path.dup

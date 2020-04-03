@@ -108,6 +108,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'launchy'
   gem 'rails-controller-testing'
+  gem 'webdrivers'
 end
 
 # gem 'bullet', group: 'development'

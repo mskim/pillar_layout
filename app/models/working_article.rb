@@ -203,7 +203,6 @@ class WorkingArticle < ApplicationRecord
     # return unless reporter
     body.match(/^# (.*)/) if body && body != ''
     return Regexp.last_match(1).to_s.sub('# ', '') if Regexp.last_match(1)
-
     nil
   end
 
@@ -315,19 +314,6 @@ class WorkingArticle < ApplicationRecord
     # ArticleWorker.perform(path, @time_stamp, '내일신문' )
   end
 
-  # def run_generate_pdf
-  #   ArticleWorker.new.perform(path, nil)
-  # end
-
-  def mac_pdf
-    puts __method__
-    ArticleWorker.perform_async(path, nil)
-  end
-
-  def ruby_pdf
-    ArticleRubyWorker.perform_async(path, nil)
-  end
-
   def update_story_content(story)
     # update content with new story content
     # params['working_article']['title'] = @working_article.filter_to_title(params['working_article']['title'])
@@ -421,7 +407,8 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
     puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
-  end
+  end 
+  alias gen_pdf generate_pdf_with_time_stamp
 
   def save_article_pdf(options = {})
     make_article_path
