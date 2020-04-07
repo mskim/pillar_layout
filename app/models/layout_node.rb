@@ -267,7 +267,6 @@ class LayoutNode < ApplicationRecord
   end
 
   def add_v_child
-    binding.pry
     would_be_children_count = children_count + 1
     if would_be_children_count >  row
       puts "children_count is greater than currnt row!!!"

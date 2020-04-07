@@ -61,7 +61,6 @@ class Pillar < ApplicationRecord
     working_articles.reload
     working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
       box_rect      = new_layout[i].dup
-      binding.pry
       box_rect[4]   = w.pillar_order
       w.change_article(box_rect)
     end
@@ -88,9 +87,9 @@ class Pillar < ApplicationRecord
     article == bottom_article_of_sibllings(article)
   end
 
-  def extened_line_sum(article)
-    working_articles.reload
-    pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
+  def article_extened_line_sum
+    working_articles.sum(:extended_line_count)
+    # pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
   # update pillar_config file and working_article grid_y and row after cut

@@ -36,9 +36,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
+# gem 'redis-rails', '~> 5.0', '>= 5.0.2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -79,7 +79,8 @@ gem 'carrierwave'
 gem 'devise'
 gem 'devise-i18n'
 gem 'faker'
-gem 'hexapdf', '=0.11.4'
+# gem 'hexapdf', '=0.11.4'
+gem 'hexapdf', '=0.11.5'
 gem 'kaminari'
 gem 'rails_layout'
 gem 'ransack'

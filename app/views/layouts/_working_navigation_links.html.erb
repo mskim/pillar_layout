@@ -171,7 +171,7 @@
           <div class="dropdown-divider"></div>
           <%= link_to '기사 추가', add_article_working_article_path, class: "dropdown-item" %>
         <% end %>
-        <% if @working_article.row <= 2 #TODO change it to line_count <= 14> %>
+        <% if @working_article.pillar.working_articles.count > 1  %>
           <div class="dropdown-divider"></div>
           <%= link_to '기사 삭제', remove_article_working_article_path, class: "dropdown-item" %>
         <% end %>
