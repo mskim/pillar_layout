@@ -1,7 +1,9 @@
-<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-md">
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top">
   <div class="container">
-  <button type="button" class="navbar-toggler" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-     <%= link_to '뉴스고', change_current_issue_path(Issue.last), class: 'navbar-brand' %>
+    <button type="button" class="navbar-toggler" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <%= link_to '뉴스고', change_current_issue_path(Issue.last), class: 'navbar-brand' %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav mr-auto">
         <%= render 'layouts/navigation_links' %>
