@@ -47,6 +47,61 @@
     - announcement
     - group_image
 
+2020_04_3
+
+  - display add_article menu at bottom article
+  - display remove_last_article menu at bottom article
+    if pillar has more than 1 article
+
+  - set expanded_line_count to 0 not changeing the value
+  - artitcle box height being sqeezed, not caculateing y position and height
+  - image caption position in side image
+    image should align to top
+  - mixed token for body  ^ for reporter
+  - refresh page and working article after tempale change
+  - regenerate opinion profile images with ruby_pdf
+  - draw line
+  
+  # TODO find font_wapper from font name
+
+2020_04_6
+  - editorial not showing title, lines
+      heading_for_title draw_pdf
+  - task to convert person_image.eps to person_image.pdf for opinion and profile
+  - fix error when generating subject_head in editorial
+  - draw_sides
+
+2020_04_5
+  - user PDF image instead of EPS
+    - check to see if we can convert EPS with clip into PDF with clip info
+    - yes  we can
+     cd to_image_path && convert -density 300  filtered_name.eps filtered_name.pdf
+  - OpinionWriter
+    - convert EPS to PDF with path
+      convert -density 300  홍면기.eps 홍면기.pdf
+      generate_jpg
+    - do the same for profile
+  - OpinionWriter
+  - merge personal_images to single folder
+
+  - opinion page, editorial page
+
+  - 아래와 기사 바꾸기
+    - change pillar_order 
+
+  - 세로 자르기, undo
+    - 1-2-2-1
+    - 1-2-2-2
+    
+  - fix crop 
+  - graphic file fit_type
+  - put graphic file name
+  - fixcrop
+
+2020_04_2
+  - add remove_last_article
+
+
 2020_04_1
   - download page_layout csv
   - 전면 광고 하시라 없음
@@ -54,20 +109,6 @@
 
   - 2면 20면 광고없음 다른 템플렛으로 바꾸기 에러
   - auto adjust_height page config error
-  - add page_layout template 
-  - fix crop 
-  - 22, 23 면 열기 error
-  - display add_article menu at bottom article
-    - when height is > 14
-
-  - display delete_article menu at bottom article
-    - when height is < 7
-
-  - 아래와 기사 바꾸기
-    - change pillar_order 
-
-  - 세로 자르기, undo
-
 
 2020_03_31
 

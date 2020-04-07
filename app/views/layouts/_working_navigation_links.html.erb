@@ -167,6 +167,14 @@
           <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
           <%= link_to '세로 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
         <% end %>
+        <% if @working_article.row > 2 %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '기사 추가', add_article_working_article_path, class: "dropdown-item" %>
+        <% end %>
+        <% if @working_article.pillar.working_articles.count > 1  %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '기사 삭제', remove_article_working_article_path, class: "dropdown-item" %>
+        <% end %>
       </div>
 
   <% elsif @working_article.pillar%>
@@ -184,7 +192,8 @@
       <%= link_to '3행 줄이기', reduce_three_working_article_path, class: "dropdown-item" %>
       <div class="dropdown-divider"></div>
       <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
-      <%= link_to '글줄기 자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
+      <%# <%= link_to '글줄기 모두 자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %> %>
+      <div class="dropdown-divider"></div>
       <%= link_to '글줄기 모두 0 행 복구', revert_all_extended_lines_working_article_path, class: "dropdown-item" %>
 
       <div class="dropdown-divider"></div>
@@ -200,10 +209,7 @@
         <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
         <%= link_to '세로 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
       <% end %>
-      <div class="dropdown-divider"></div>
-      <% if @working_article.row > 2 %>
-        <%= link_to '가로 나누기', h_cut_working_article_path, class: "dropdown-item" %>
-      <% end %>
+
       <div class="dropdown-divider"></div>
       <% if @working_article.overlapable? %>
         <%= link_to '첨부박스 생성', create_overlap_working_article_path(@working_article), class: "dropdown-item" %>

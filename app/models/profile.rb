@@ -57,11 +57,50 @@ class Profile < ApplicationRecord
     "#{Rails.root}/public/#{publication.id}/profile/#{profile.csv}"
   end
 
+  def convert_eps_to_pdf
+    system("cd ##{person_image_folder}convert -density 300  #{name}.eps 홍면기.pdf")
+  end
+
+  def picture_name
+    picture_name = name
+    picture_name = name.split("_").first if name.include?("_")
+    picture_name = name.split("=").first if name.include?("=")
+    picture_name
+  end
+
+  def picture_folder
+    path + "/images"
+  end
+
+  def picture_eps_path
+    picture_folder + "/#{picture_name}.eps"
+  end
+
+  def picture_pdf_path
+    picture_folder + "/#{picture_name}.pdf"
+  end
+
+  def convert_eps_to_pdf
+    unless File.exist?(picture_eps_path)
+      puts "No EPS file found!!!"
+      return
+    end
+    system("cd #{picture_folder} && convert -density 300  #{picture_name}.eps #{picture_name}.pdf")
+  end
+
+  def person_image_folder
+    folder_path = path + "/images"
+  end
+
+  def person_image_path
+    person_image_folder + "/#{name}"
+  end
+
   def layout_erb
     layout =<<~EOF
     RLayout::Container.new(width:158.74015748031,  height: 75) do
       rect(x: 0, y: 10, width:158.74015748031, height: 65, fill_color:"CMYK=0,0,0,10")
-      image(local_image: '<%= name %>.eps', x: 98.74015748031, y: 0, width: 60, height: 75, fill_color: 'clear')
+      image(image_path: '<%= picture_pdf_path %>', x: 98.74015748031, y: 0, width: 60, height: 75, fill_color: 'clear')
       container(x: 0, y: 20, width:100, bottom_margin: 10, fill_color: 'clear') do
         <% if name && work && work != "" && position && position != "" %>
           <% if name.include?('-') %>
@@ -91,16 +130,43 @@ class Profile < ApplicationRecord
     EOF
   end
 
-  def save_layout
+  def layout_rb
     erb = ERB.new(layout_erb)
-    layout_rb = erb.result(binding)
-    puts layout_rb
+    erb.result(binding)
+  end
+
+  def save_layout
     File.open(layout_path, 'w'){|f| f.write layout_rb}
   end
 
+  # def generate_pdf
+  #   save_layout
+  #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
+  # end
+
   def generate_pdf
-    save_layout
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
+    if RUBY_ENGINE !='rubymotion'
+      save_pdf_in_ruby
+    else
+      save_layout
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
+    end
+  end
+
+  def save_pdf_in_ruby
+    convert_eps_to_pdf unless File.exist?(picture_pdf_path)
+    output_path = path + "/#{name}.pdf"
+    script = layout_rb
+    RLayout::RJob.new(script: layout_rb, output_path: output_path)
+    convert_pdf2jpg(output_path)
+  end
+
+  def convert_pdf2jpg(output_path)
+    pdf_folder    = File.dirname(output_path)
+    pdf_base_name = File.basename(output_path)
+    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
+    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
+    system(commend)
   end
 
   def self.to_csv(options = {})

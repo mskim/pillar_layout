@@ -46,24 +46,16 @@ class OpinionWriter < ApplicationRecord
     "/#{publication.id}/opinion/#{name}.jpg"
   end
 
-  def profile_jpg_path
-    filtered_name = name
-    filtered_name = name.split("_").first if name.include?("_")
-    filtered_name = name.split("=").first if name.include?("=")
-    "/#{publication.id}/opinion/images/#{filtered_name}.jpg"
-  end
-
-  def layout_path
-    path + "/#{name}.rb"
-  end
-
   def csv_path
     "#{Rails.root}/public/#{publication.id}/opinion/#{opinion.csv}"
   end
 
-  def save_layout
+  def layout_rb
     erb = ERB.new(layout_erb)
-    layout_rb = erb.result(binding)
+    erb.result(binding)
+  end
+
+  def save_layout
     File.open(layout_path, 'w'){|f| f.write layout_rb}
   end
 
@@ -82,17 +74,37 @@ class OpinionWriter < ApplicationRecord
     end
   end
 
-  def generate_pdf_with_time_stamp
-    save_layout
-    delete_old_files
-    stamp_time
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
-  end
+  # def generate_pdf_with_time_stamp
+  #   save_layout
+  #   delete_old_files
+  #   stamp_time
+  #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
+  # end
 
 
   def generate_pdf
-    save_layout
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
+    if RUBY_ENGINE !='rubymotion'
+      save_pdf_in_ruby
+    else
+      save_layout
+      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
+    end
+  end
+
+  def save_pdf_in_ruby
+    convert_eps_to_pdf unless File.exist?(picture_pdf_path)
+    output_path = path + "/#{name}.pdf"
+    script = layout_rb
+    RLayout::RJob.new(script: layout_rb, output_path: output_path)
+    convert_pdf2jpg(output_path)
+  end
+
+  def convert_pdf2jpg(output_path)
+    pdf_folder    = File.dirname(output_path)
+    pdf_base_name = File.basename(output_path)
+    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
+    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
+    system(commend)
   end
 
   def self.to_csv(options = {})
@@ -105,6 +117,40 @@ class OpinionWriter < ApplicationRecord
     end
   end
 
+  def profile_jpg_path
+    "/#{publication.id}/opinion/images/#{picture_name}.jpg"
+  end
+
+  def picture_name
+    picture_name = name
+    picture_name = name.split("_").first if name.include?("_")
+    picture_name = name.split("=").first if name.include?("=")
+    picture_name
+  end
+
+  def picture_folder
+    path + "/images"
+  end
+
+  def picture_eps_path
+    picture_folder + "/#{picture_name}.eps"
+  end
+
+  def picture_pdf_path
+    picture_folder + "/#{picture_name}.pdf"
+  end
+
+  def convert_eps_to_pdf
+    unless File.exist?(picture_eps_path)
+      puts "No EPS file found!!!"
+      return
+    end
+    system("cd #{picture_folder} && convert -density 300  #{picture_name}.eps #{picture_name}.pdf")
+  end
+
+  def layout_path
+    path + "/#{name}.rb"
+  end
 
   def layout_erb
 
@@ -113,15 +159,7 @@ class OpinionWriter < ApplicationRecord
       line(x: 0 , y: 1.35, width: 158.74015748031, stroke_width: 3.5, height:0, stroke_color:'CMYK=0,0,0,100')
       text('<%= title %>', x: 0, y:8, font: 'KoPubDotumPB', font_size: 12, width: 170, text_color:'CMYK=0,0,0,100')
       rect(x: 0, y: 70, width:158.74015748031, height: 65,  fill_color:'CMYK=0,0,0,10')
-      <% if name.include?('_')  %>
-        <% name_without_rest = name.split('_').first %>
-        image(local_image: '<%= name_without_rest %>.eps', y: 60, width: 60, height: 75, fill_color: 'clear')
-      <% elsif name.include?('=') %>
-        <% name_without_rest = name.split('=').first %>
-        image(local_image: '<%= name_without_rest %>.eps', y: 60, width: 60, height: 75, fill_color: 'clear')
-      <% else %>
-        image(local_image: '<%= name %>.eps', y: 60, width: 60, height: 75, fill_color: 'clear')
-      <% end %>
+      image(image_path: '<%= picture_pdf_path %>', y: 60, width: 60, height: 75, fill_color: 'clear')
       container(x: 70, y: 80, width:150, bottom_margin: 10, fill_color: 'clear') do
         <% if name && name.include?('_') %>
           text('<%= work %>', y:30, font: 'KoPubDotumPL', font_size: 8, fill_color: 'clear', text_color:'CMYK=0,0,0,100' )

@@ -560,11 +560,18 @@ class WorkingArticlesController < ApplicationController
     w.v_cut_at(cut_index)
   end
 
-  def h_cut
+  def add_article
     set_working_article
-    @working_article.h_cut
+    # @working_article.h_cut
+    @working_article.pillar.add_article
     redirect_to @working_article
-    redirect_to @working_article
+  end
+
+  def remove_article
+    set_working_article
+    @working_article.pillar.remove_last_artile
+    page = @working_article.page
+    redirect_to page
   end
 
   def create_overlap
