@@ -71,7 +71,7 @@ module WorkingArticleSavePdf
       if @profile_image_position == "하단 오른쪽"
         subject_head(options)
       end
-    when 'box_opinion', '박스기고'
+    when 'box_opinion'
       @stroke[:sides]     = [1,2,1,1]
       h[:y]     = @body_line_height
       if @on_right_edge
@@ -192,8 +192,12 @@ module WorkingArticleSavePdf
 
   # extended_line_sum is used to caculate y_offset
   def draw_article_in_page(page_canvas, extended_line_sum)
+    # binding.pry
     filipped    = filipped_origin
-    filipped[1] -= extended_line_sum*body_line_height
+    if pillar_bottom?
+    else
+      filipped[1] -= extended_line_sum*body_line_height
+    end
     image_path  = path + "/story.pdf"
     if File.exist?(image_path)
       page_canvas.image(image_path, at: filipped, width: width, height: height)

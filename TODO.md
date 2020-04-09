@@ -46,6 +46,78 @@
     - graphic
     - announcement
     - group_image
+    # TODO find font_wapper from font name
+
+2020_04_10
+  - 10면 3-1 not artice showing
+  - 20면 1-1 not artice showing
+
+2020_04_9
+  - opinion and book intro heading 4 lines
+    - redo container_pdf_view save_pdf_in_ruby
+    - change Hevetical-light to KoPubBatangPM ???
+
+  - when changing template, content order gets mixed up even in the 
+  - draw divider 20면, 
+
+  - fix bottom_article height after auto_adjusting article
+  - add vertical cut
+  - add level 3 horizontal cut 
+  - image and graphic position not appying, graphic fit
+  
+2020_04_8
+  - menu coverted by nav-bar in PC
+  - remove 박스기고 from kind popup
+  - use box with 테두리, no 박스기사
+  - add opinion with profile image at bottom right
+    - draw full column line on top of subject_head
+    - fix profile image 홍길동 image fit 
+
+
+  - fix line edge drawing, shift position inwards 
+  - graphic fiting 
+
+
+2020_04_7
+  - make bottom_article to be pushed, but maintain the position at the bottom
+  - display it with clickable area 
+
+2020_04_6
+  - editorial not showing title, lines
+      heading_for_title draw_pdf
+  - task to convert person_image.eps to person_image.pdf for opinion and profile
+  - fix error when generating subject_head in editorial
+  - draw_sides
+  - friday opinion 
+
+2020_04_5
+  - user PDF image instead of EPS
+    - check to see if we can convert EPS with clip into PDF with clip info
+    - yes  we can
+     cd to_image_path && convert -density 300  filtered_name.eps filtered_name.pdf
+  - OpinionWriter
+    - convert EPS to PDF with path
+      convert -density 300  홍면기.eps 홍면기.pdf
+      generate_jpg
+    - do the same for profile
+  - OpinionWriter
+
+  - opinion page, editorial page
+
+  - replace heading pdf that was causing error 
+
+  - merge personal_images to single folder
+
+  - 아래와 기사 바꾸기
+    - change pillar_order 
+
+  - 세로 자르기, undo
+    - 1-2-2-1
+    - 1-2-2-2
+    
+  - fix crop 
+  - graphic file fit_type
+  - put graphic file name
 
 2020_04_3
 
@@ -62,42 +134,7 @@
   - regenerate opinion profile images with ruby_pdf
   - draw line
   
-  # TODO find font_wapper from font name
-
-2020_04_6
-  - editorial not showing title, lines
-      heading_for_title draw_pdf
-  - task to convert person_image.eps to person_image.pdf for opinion and profile
-  - fix error when generating subject_head in editorial
-  - draw_sides
-
-2020_04_5
-  - user PDF image instead of EPS
-    - check to see if we can convert EPS with clip into PDF with clip info
-    - yes  we can
-     cd to_image_path && convert -density 300  filtered_name.eps filtered_name.pdf
-  - OpinionWriter
-    - convert EPS to PDF with path
-      convert -density 300  홍면기.eps 홍면기.pdf
-      generate_jpg
-    - do the same for profile
-  - OpinionWriter
-  - merge personal_images to single folder
-
-  - opinion page, editorial page
-
-  - 아래와 기사 바꾸기
-    - change pillar_order 
-
-  - 세로 자르기, undo
-    - 1-2-2-1
-    - 1-2-2-2
-    
-  - fix crop 
-  - graphic file fit_type
-  - put graphic file name
-  - fixcrop
-
+  
 2020_04_2
   - add remove_last_article
 

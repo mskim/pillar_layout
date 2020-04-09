@@ -20,7 +20,7 @@
         그래픽 편집
       </h5>
       <div class="card-body">
-        <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+        <% if @working_article.kind == '기사' || @working_article.kind == '사진'  %>
           <% if @reporter_graphics.length > 0 %>
             <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
           <% end %>

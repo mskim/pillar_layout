@@ -46,6 +46,7 @@
 #  pillar_order                 :string
 #  price                        :float
 #  profile                      :string
+#  profile_image_position       :string
 #  publication_name             :string
 #  pushed_line_count            :integer
 #  quote                        :text
@@ -331,7 +332,7 @@ class WorkingArticle < ApplicationRecord
     self.category_code  = story.category_code if story.category_code
     self.subcategory_code = story.subcategory_code if story.subcategory_code
     self.quote = story.quote if story.quote
-    save
+    self.save
     save_article
     delete_old_files
     stamp_time
@@ -425,11 +426,14 @@ class WorkingArticle < ApplicationRecord
     #TODO RLayout::NewsBoxMaker.new(save_hash) should return article_info hash
     # from this we should get adjusted_line_count, overflow_text, overflow_line_count
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
+    new_extended_line_count       = new_box_marker.adjusted_line_count
     if options[:adjustable_height] && new_extended_line_count != 0
-      new_extended_line_count     = new_box_marker.adjusted_line_count
-      self.extended_line_count = new_extended_line_count
-      self.height_in_lines = calculate_height_in_lines
-      save
+      self.extended_line_count    = new_extended_line_count
+      self.height_in_lines        = calculate_height_in_lines
+      self.save
+    # elsif pillar_bottom?
+    #   self.height_in_lines        = calculate_height_in_lines
+    #   self.save
     end
   end
 
@@ -509,9 +513,11 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   def auto_adjust_height
     generate_pdf_with_time_stamp(adjustable_height: true)
+    # sleep 3
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
+
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
@@ -539,7 +545,7 @@ class WorkingArticle < ApplicationRecord
       return
     end
     self.extended_line_count = line_count
-    save
+    self.save
     generate_pdf_with_time_stamp
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
@@ -548,8 +554,10 @@ class WorkingArticle < ApplicationRecord
   def update_pushed_line
     count = current_pushed_line_sum
     self.pushed_line_count = count
-    save
+    self.save
     generate_pdf_with_time_stamp
+    #TODO ??????
+    page.generate_pdf_with_time_stamp
   end
 
   # adds extended_line_count with new line_count
@@ -563,7 +571,7 @@ class WorkingArticle < ApplicationRecord
       return
     end
     self.extended_line_count += line_count
-    save
+    self.save
     generate_pdf_with_time_stamp
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
@@ -622,27 +630,27 @@ class WorkingArticle < ApplicationRecord
     when '기고3행' || 'opinion3'
       self.quote_box_size = 3
     end
-    save
+    self.save
   end
 
   def hide_quote_box
     self.quote_box_show = false
-    save
+    self.save
   end
 
   def boxed_subtitle_zero
     self.boxed_subtitle_type = 0
-    save
+    self.save
   end
 
   def boxed_subtitle_one
     self.boxed_subtitle_type = 1
-    save
+    self.save
   end
 
   def boxed_subtitle_two
     self.boxed_subtitle_type = 2
-    save
+    self.save
   end
 
   def announcement_zero
@@ -886,6 +894,11 @@ class WorkingArticle < ApplicationRecord
       h[:has_profile_image] = true if reporter
       h[:has_profile_image] = false if reporter == ''
     end
+    if frame_sides == '테두리'
+      h[:frame_sides]                 = '테두리'
+      h[:frame_color]                 = frame_color || 'black'
+      h[:frame_thickness]             = frame_thickness || 0.3
+    end
     h[:page_number]                   = page_number
     # h[:stroke_width]                  = 1 if kind == '사설' || kind == 'editorial'
     h[:stroke_width]                  = 0.3 if kind == '사설' || kind == 'editorial'
@@ -1011,18 +1024,49 @@ class WorkingArticle < ApplicationRecord
       end
       content += "end\n"
     elsif kind == '사설' || kind == 'editorial'
-      h[:article_line_draw_sides] = [0, 1, 0, 0]
+
+      h[:article_line_draw_sides]  = [0,1,0,0]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      if reporter && reporter != ''
-        content += "  news_column_image(#{profile_image_options})\n"
-      end # if page_number == 22
+      content += "  news_column_image(#{editorial_image_options})\n" if reporter && reporter != "" # if page_number == 22
       content += "end\n"
+
+
+
+      # h[:article_line_draw_sides] = [0, 1, 0, 0]
+      # content = "RLayout::NewsArticleBox.new(#{h}) do\n"
+      # if reporter && reporter != ''
+      #   content += "  news_column_image(#{profile_image_options})\n"
+      # end # if page_number == 22
+      # content += "end\n"
+
+
+
     elsif kind == '기고' || kind == 'opinion'
-      h[:article_line_draw_sides] = [0, 1, 0, 1]
+
+      h[:empty_first_column] = true if row >= 10
+      h[:profile_image_position] = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
+      h[:article_line_draw_sides]  = [0,1,0,1]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      content += "  news_image(#{opinion_image_options})\n"
+        if profile_image_position && profile_image_position ==  "하단 오른쪽"#
+          content += "  news_image(#{opinion_profile_lower_right_options})\n"
+        else
+          content += "  news_image(#{opinion_profile_options})\n"
+        end
+        if images.length > 0
+          content += image_layout
+        end
+        if graphics.length > 0
+          content += graphic_layout
+        end
       content += "end\n"
+
+      # h[:article_line_draw_sides] = [0, 1, 0, 1]
+      # content = "RLayout::NewsArticleBox.new(#{h}) do\n"
+      # content += "  news_image(#{opinion_image_options})\n"
+      # content += "end\n"
     else
+      h[:profile_image_position] = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
+      h[:article_line_draw_sides]  = [0,1,0,1]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += image_layout unless images.empty?
       content += graphic_layout unless graphics.empty?
@@ -1032,6 +1076,70 @@ class WorkingArticle < ApplicationRecord
       content += "end\n"
     end
     content
+  end
+
+  def opinion_profile_pdf_path
+    publication.path + "/opinion/#{reporter}.pdf"
+  end
+
+  def opinion_profile_jpg_path
+    publication.path + "/opinion/#{reporter}.jpg"
+  end
+
+  def opinion_profile_options
+    profile_hash                  = {}
+    profile_hash[:image_path]     = opinion_profile_pdf_path
+    profile_hash[:column]         = 1
+    profile_hash[:row]            = 1
+    if reporter == '내일시론'
+      profile_hash[:extra_height_in_lines]= -3 # 7+5=12 lines
+    else
+      profile_hash[:extra_height_in_lines]= 5 # 7+5=12 lines
+    end
+    profile_hash[:stroke_width]   = 0
+    profile_hash[:position]       = 1
+    profile_hash[:is_float]       = true
+    profile_hash[:fit_type]       = 1 # IMAGE_FIT_TYPE_HORIZONTAL=2 , IMAGE_FIT_TYPE_VERTICAL =1, # IMAGE_FIT_TYPE_IGNORE_RATIO   = 4
+    profile_hash[:before_title]   = true
+    profile_hash[:layout_expand]  = nil
+    profile_hash
+  end
+
+  def opinion_profile_lower_right_options
+    profile_hash                          = {}
+    profile_hash[:image_path]             = editorial_profile_pdf_path
+    profile_hash[:inside_first_column]    = true
+    profile_hash[:width_in_colum]         = 'half'
+    profile_hash[:image_height_in_line]   = 7
+    profile_hash[:bottom_room_margin]     = 2
+    profile_hash[:extra_height_in_lines]  = 0 # 7+5=12 lines
+    profile_hash[:stroke_width]           = 0
+    profile_hash[:is_float]               = true
+    profile_hash[:fit_type]               = IMAGE_FIT_TYPE_VERTICAL
+    profile_hash[:before_title]           = false
+    profile_hash[:layout_expand]          = nil
+    profile_hash[:position]               = 9
+    profile_hash
+  end
+
+  def editorial_profile_pdf_path
+    publication.path + "/profile/#{reporter}.pdf"
+  end
+
+  def editorial_image_options
+    profile_hash                          = {}
+    profile_hash[:image_path]             = editorial_profile_pdf_path
+    profile_hash[:inside_first_column]    = true
+    profile_hash[:width_in_colum]         = 'half'
+    profile_hash[:image_height_in_line]   = 7
+    profile_hash[:bottom_room_margin]     = 2
+    profile_hash[:extra_height_in_lines]  = 5 # 7+5=12 lines
+    profile_hash[:stroke_width]           = 0
+    profile_hash[:is_float]               = true
+    profile_hash[:fit_type]               = 4
+    profile_hash[:before_title]           = true
+    profile_hash[:layout_expand]          = nil
+    profile_hash
   end
 
   def save_story
@@ -1274,7 +1382,7 @@ class WorkingArticle < ApplicationRecord
       여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
       여기는 본문이 입니다 본문을 여기에 입력 하시면 됩니다. 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다. 여기는 본문이 입니다.
     EOF
-    save
+    self.save
     generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
   end
@@ -1330,7 +1438,7 @@ class WorkingArticle < ApplicationRecord
       self.extended_line_count = new_extendted_line_count
     end
     self.height_in_lines = self.row * 7 + self.extended_line_count - y_in_lines
-    save
+    self.save
   end
 
   def node_order

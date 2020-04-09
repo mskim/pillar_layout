@@ -88,8 +88,8 @@ class Pillar < ApplicationRecord
   end
 
   def article_extened_line_sum
+    working_articles.reload
     working_articles.sum(:extended_line_count)
-    # pillar_siblings_of(article).map{|a| a.extended_line_count}.compact.reduce(:+) 
   end
 
   # update pillar_config file and working_article grid_y and row after cut

@@ -328,6 +328,35 @@ date
   price:float
   date:date
 
+## table_maker
+  has_head:boolean
+  has_source:boolean
+  category_level:integer
+  cycle_color:boolean
+
+  width:
+  height:
+  column:
+  row:
+  style:integer
+
+## table_style
+  - name
+  - has_heading:boolean
+  - has_source:boolean
+  - heading:text
+      - sides
+      - font
+      - font_size
+      - alignment
+      
+  - body:text
+  - category_level:
+  - category_colors:text
+  - cycle_color:boolean
+  - cycle_color_list:text
+
+
 TO: publication_name@naeil.design
 subject: 3x4
 

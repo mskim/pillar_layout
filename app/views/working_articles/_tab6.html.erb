@@ -20,7 +20,7 @@
         사진 편집
       </h5>
       <div class="card-body">
-        <% if @working_article.kind == '기사' || @working_article.kind == '사진' || @working_article.kind == '박스기고' %>
+        <% if @working_article.kind == '기사' || @working_article.kind == '사진'  %>
           <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
             <%= render 'images/form', image: image %>
           <% end %>

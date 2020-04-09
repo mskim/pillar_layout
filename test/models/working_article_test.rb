@@ -44,6 +44,7 @@
 #  pillar_order                 :string
 #  price                        :float
 #  profile                      :string
+#  profile_image_position       :string
 #  publication_name             :string
 #  pushed_line_count            :integer
 #  quote                        :text
