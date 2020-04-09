@@ -131,6 +131,8 @@ class PageHeading < ApplicationRecord
   def heading_height
     if page_number == 1
       publication.front_page_heading_height_in_pt
+    elsif page_number == 22 || page_number == 22
+      publication.opinion_page_heading_height_in_pt
     else
       publication.inner_page_heading_height_in_pt
     end

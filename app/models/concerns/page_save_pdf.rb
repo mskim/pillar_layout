@@ -15,8 +15,8 @@ module PageSavePdf
     end
     working_articles.reload
     pillars.sort_by{|p| p.order}.each do |p|
-      p.working_articles.each_with_index do |w, i|
-        extended_line_sum = 0
+      extended_line_sum = 0
+      p.working_articles.sort_by{|w| w.pillar_order}.each do |w|
         w.draw_article_in_page(canvas, extended_line_sum)
         extended_line_sum += w.extended_line_count if w.extended_line_count
       end
