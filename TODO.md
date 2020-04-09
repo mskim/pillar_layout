@@ -48,12 +48,22 @@
     - group_image
     # TODO find font_wapper from font name
 
+2020_04_10
+  - 10면 3-1 not artice showing
+  - 20면 1-1 not artice showing
+
 2020_04_9
   - opinion and book intro heading 4 lines
+    - redo container_pdf_view save_pdf_in_ruby
+    - change Hevetical-light to KoPubBatangPM ???
+
+  - when changing template, content order gets mixed up even in the 
+  - draw divider 20면, 
+
   - fix bottom_article height after auto_adjusting article
   - add vertical cut
   - add level 3 horizontal cut 
-  - 
+  - image and graphic position not appying, graphic fit
   
 2020_04_8
   - menu coverted by nav-bar in PC
@@ -66,8 +76,6 @@
 
   - fix line edge drawing, shift position inwards 
   - graphic fiting 
-  - when changing template, content order gets mixed up even in the 
-  - draw divider
 
 
 2020_04_7
