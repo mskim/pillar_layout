@@ -154,6 +154,14 @@ class Pillar < ApplicationRecord
     false
   end
 
+  def on_left_edge?
+    return true if grid_x == 0 
+  end
+
+  def on_right_edge?
+    return true if grid_x + column == page_ref.column
+  end
+
   def heading_space
       page_ref.heading_space
   end
