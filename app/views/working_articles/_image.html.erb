@@ -50,7 +50,10 @@
     <%= f.label :기사종류 %>
     <%= f.select :kind, ['기사', '사진', '기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
   </div>
-
+  <div class="form-group">
+    <%= f.label :top_story, "메인기사" %>
+    <%= f.check_field :top_story, ['기사', '사진', '기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
+  </div>
 <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
   <nav class="navbar navbar-default navbar-fixed-bottom">
       <ul class="nav navbar-nav navbar-left">

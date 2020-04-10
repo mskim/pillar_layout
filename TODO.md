@@ -49,9 +49,14 @@
     # TODO find font_wapper from font name
 
 2020_04_10
-  - 10면 3-1 not artice showing
-  - 20면 1-1 not artice showing
+  - 10면 맨 위 그래픽 on_left_edge, on_right_edge
 
+  - convert pdf2 jpg at high res
+    - need page_preview high_resolution
+    - i should try saving pdf image on a larger page and save, then convert that to jpg
+  - 자동 높이 조절시 사진 위치 변경
+  - checkbox to make article top_article
+  - 
 2020_04_9
   - opinion and book intro heading 4 lines
     - redo container_pdf_view save_pdf_in_ruby

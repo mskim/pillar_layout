@@ -915,8 +915,8 @@ class WorkingArticle < ApplicationRecord
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter
-    h[:on_left_edge]                  = on_left_edge
-    h[:on_right_edge]                 = on_right_edge
+    h[:on_left_edge]                  = on_left_edge?
+    h[:on_right_edge]                 = on_right_edge?
     h[:is_front_page]                 = is_front_page
     h[:top_story]                     = top_story?
     if kind == 'opinion' || kind == '기고' || kind == 'editorial' || kind == '사설'
