@@ -13,57 +13,59 @@
   <% end %>
 
   <div class="row">
-  <div class="col-md-12">
-    <div class="form-group">
-      <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+      </div>
+      <div class="form-group">
+        <%= f.label :기사종류 %>
+        <%= f.select :kind, ['기사', '사진', '기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
+      </div>
+      <div class="form-group">
+        <%= f.label :문패 %>
+        <% if page_number == 23 %>
+          <%= f.text_field :subject_head, size: 8, class: "form-control form-control-sm" %>
+          <%#= f.text_field :subject_head, size: 8 %>
+        <% elsif page_number == 22 %>
+          <%= f.text_field :subject_head, size: 8, class: "form-control form-control-sm" %>
+        <% else %>
+          <%= f.text_field :subject_head, size: 8, class: "form-control form-control-sm" %>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <%= f.label :제목 %>
+        <%= f.text_field :title, size: 34, class: 'form-control title', autocomplete: 'off' %>
+      </div>
+      <div class="form-group" style="display:none">
+        <%= f.label :부제목 %>
+        <%= f.text_area :subtitle, cols: "40", rows: "2", class: 'form-control', autocomplete: 'off'%>
+      </div>
+      <div class="form-group">
+        <%= f.label "글쓴이 사진"%>
+        <%= f.check_box :has_profile_image %>
+      </div>
+      <div class="form-group">
+        <%= f.label "글쓴이"%>
+        <%= f.text_field :reporter, size: 20, class: 'form-control', autocomplete: 'off' %>
+      </div>
+      <div class="form-group">
+        <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+      </div>
+      <div class="field">
+        <%= f.text_field :image, type: "hidden" %>
+      </div>
+      <div class="field">
+        <%= f.text_field :has_profile_image, type: "hidden" %>
+      </div>
+      <div class="field">
+        <%= f.text_field :quote, type: "hidden" %>
+      </div>
     </div>
-    <div class="form-group">
-      <%= f.label :기사종류 %>
-      <%= f.select :kind, ['기사', '사진', '기고', '사설'], {}, {onChange: 'this.form.submit();'}%>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :본문 %>
+        <%= f.text_area :body, cols: "40", rows: "18", class: 'form-control shinmoon', autocomplete: 'off' %>
+      </div>
     </div>
-    <div class="form-group">
-      <%= f.label :문패 %>
-      <% if page_number == 23 %>
-        <%= f.text_field :subject_head, size: 8, class: "form-control" %>
-        <%#= f.text_field :subject_head, size: 8 %>
-      <% elsif page_number == 22 %>
-        <%= f.text_field :subject_head, size: 8, class: "form-control" %>
-      <% else %>
-        <%= f.text_field :subject_head, size: 8, class: "form-control" %>
-      <% end %>
-    </div>
-    <div class="form-group">
-      <%= f.label :제목 %>
-      <%= f.text_field :title, size: 34, class: 'form-control title', autocomplete: 'off' %>
-    </div>
-    <div class="form-group" style="display:none">
-      <%= f.label :부제목 %>
-      <%= f.text_area :subtitle, cols: "40", rows: "2", class: 'form-control', autocomplete: 'off'%>
-    </div>
-    <div class="form-group">
-      <%= f.label "글쓴이 사진"%>
-      <%= f.check_box :has_profile_image %>
-    </div>
-    <div class="form-group">
-      <%= f.label "글쓴이"%>
-      <%= f.text_field :reporter, size: 20, class: 'form-control', autocomplete: 'off' %>
-    </div>
-    <div class="form-group">
-      <%= f.label :본문 %>
-      <%= f.text_area :body, cols: "40", rows: "20", class: 'form-control shinmoon', autocomplete: 'off' %>
-    </div>
-    <div class="form-group">
-      <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-    </div>
-    <div class="field">
-      <%= f.text_field :image, type: "hidden" %>
-    </div>
-    <div class="field">
-      <%= f.text_field :has_profile_image, type: "hidden" %>
-    </div>
-    <div class="field">
-      <%= f.text_field :quote, type: "hidden" %>
-    </div>
-    </div>  
   </div>
 <% end %>
