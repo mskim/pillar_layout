@@ -121,9 +121,6 @@ class WorkingArticle < ApplicationRecord
   # accepts_nested_attributes_for
   accepts_nested_attributes_for :images
 
-  # include
-  # include ArticleSplitable
-  # include PageSplitable
   include ArticleSwapable
   include RectUtils
   include ArticleSaveXml
@@ -133,7 +130,8 @@ class WorkingArticle < ApplicationRecord
   include PageSavePdf
   include WorkingArticleOverlapable
   include WorkingArticleSavePdf
-  # include StorageBackupWorkingArticle
+  include Pdf2jpg
+
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
@@ -431,9 +429,6 @@ class WorkingArticle < ApplicationRecord
       self.extended_line_count    = new_extended_line_count
       self.height_in_lines        = calculate_height_in_lines
       self.save
-    # elsif pillar_bottom?
-    #   self.height_in_lines        = calculate_height_in_lines
-    #   self.save
     end
   end
 
@@ -517,7 +512,6 @@ class WorkingArticle < ApplicationRecord
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
-
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
@@ -551,8 +545,15 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
+  def status_report
+    puts "row:#{row}"
+    puts "extended_line_count:#{extended_line_count}"
+    puts "height_in_lines:#{height_in_lines}"
+  end
+
   def update_pushed_line
     count = current_pushed_line_sum
+    puts "current_pushed_line_sum:#{count}"
     self.pushed_line_count = count
     self.save
     generate_pdf_with_time_stamp
@@ -900,7 +901,6 @@ class WorkingArticle < ApplicationRecord
       h[:frame_thickness]             = frame_thickness || 0.3
     end
     h[:page_number]                   = page_number
-    # h[:stroke_width]                  = 1 if kind == '사설' || kind == 'editorial'
     h[:stroke_width]                  = 0.3 if kind == '사설' || kind == 'editorial'
     h[:column]                        = column
     h[:row]                           = row
@@ -911,7 +911,7 @@ class WorkingArticle < ApplicationRecord
     if pillar_bottom?
       h[:pushed_line_count]             = current_pushed_line_sum
     end
-    h[:height_in_lines]               = height_in_lines if height_in_lines
+    # h[:height_in_lines]               = height_in_lines if height_in_lines
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter
@@ -1416,29 +1416,6 @@ class WorkingArticle < ApplicationRecord
   def to_row_and_pushed(y_position_in_line)
     row = y_position_in_line / 7
     pushed = y_position_in_line % 7
-  end
-
-  def update_extended_and_pushed
-    self.pushed_line_count = 0 if pushed_line_count.nil?
-    if pushed_line_count >= 7
-      row_count              = pushed_line_count / 7
-      new_pushed_line_count  = pushed_line_count % 7
-      self.grid_y            = grid_y + row_count
-      self.pushed_line_count = new_pushed_line_count
-      self.y_in_lines        = grid_y * 7 + new_pushed_line_count
-    else
-      self.y_in_lines        = row * 7 + pushed_line_count
-    end
-
-    self.extended_line_count = 0 if self.extended_line_count.nil?
-    if extended_line_count >= 7
-      row_count = extended_line_count / 7
-      new_extendted_line_count = extended_line_count % 7
-      self.row += row_count
-      self.extended_line_count = new_extendted_line_count
-    end
-    self.height_in_lines = self.row * 7 + self.extended_line_count - y_in_lines
-    self.save
   end
 
   def node_order

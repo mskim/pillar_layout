@@ -47,29 +47,41 @@
     - announcement
     - group_image
     # TODO find font_wapper from font name
+    - use Redis for speed improvement
+    - use TablePlus for taking data from 213 to apply to 177
 
-2020_04_10
-  - 10면 맨 위 그래픽 on_left_edge, on_right_edge
 
+2020_4_12
+  - add preparing stage before ceating new issue 
+    upload excel, preview, and create new 
+
+2020_4_11
+  - fix bottom_article y_position error after auto_adjust
+  
+  - fix covert_pdf2jpg
   - convert pdf2 jpg at high res
     - need page_preview high_resolution
     - i should try saving pdf image on a larger page and save, then convert that to jpg
-  - 자동 높이 조절시 사진 위치 변경
+  - add vertical cut
+  - add level 3 horizontal cut 
+  - image and graphic position not appying, graphic fit
+  - draw divider , 
+  - when changing template, content order gets mixed up even in the, 20면
+  - Excel issue_plan upload
+  - Spread Ad
+  
+2020_04_10
+  - 10면 맨 위 그래픽 on_left_edge, on_right_edge
   - checkbox to make article top_article
-  - 
+  - 자동 높이 조절시 사진 위치 변경
+  - fix bottom_article height after auto_adjusting article
+  - fix editorial stroke_sides
+
 2020_04_9
   - opinion and book intro heading 4 lines
     - redo container_pdf_view save_pdf_in_ruby
     - change Hevetical-light to KoPubBatangPM ???
 
-  - when changing template, content order gets mixed up even in the 
-  - draw divider 20면, 
-
-  - fix bottom_article height after auto_adjusting article
-  - add vertical cut
-  - add level 3 horizontal cut 
-  - image and graphic position not appying, graphic fit
-  
 2020_04_8
   - menu coverted by nav-bar in PC
   - remove 박스기고 from kind popup

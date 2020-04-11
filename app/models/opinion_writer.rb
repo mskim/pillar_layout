@@ -29,6 +29,7 @@ class OpinionWriter < ApplicationRecord
   belongs_to :publication
   mount_uploader :opinion_image, OpinionImageUploader
   mount_uploader :opinion_jpg_image, OpinionJpgImageUploader
+  include Pdf2jpg
 
   def path
     "#{Rails.root}/public/#{publication.id}/opinion"

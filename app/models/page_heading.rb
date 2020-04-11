@@ -162,14 +162,18 @@ class PageHeading < ApplicationRecord
     path + "/images/1_bg.pdf"
   end
 
+  def p22_page_image_full_path
+    path + "/images/22_bg.pdf"
+  end
+
   def front_page_content
     page_heading_width  = publication.page_heading_width
     heading_ad_image_path = path + "/1/heading/images/#{issue.date.to_s}"
     first_page=<<~EOF
     RLayout::Container.new(width: #{page_heading_width}, height: #{publication.front_page_heading_height_in_pt}, layout_direction: 'horinoztal') do
-      image(image_path: #{background_image_full_path}, x:0, y:0, width: #{page_heading_width}, height: 139.0326207874)
+      image(image_path: '#{background_image_full_path}', x:0, y:0, width: #{page_heading_width}, height: 139.0326207874)
       text('#{page.korean_date_string}', x: 828.00, y: 109.25, fill_color:'clear', width: 200, font: 'KoPubDotumPL', font_size: 9.5, font_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color: 'clear')
-      image(image_path: #{heading_ad_full_path}, x:809.137, y:13.043, width: 219.257, height: 71.2)
+      image(image_path: '#{heading_ad_full_path}', x:809.137, y:13.043, width: 219.257, height: 71.2)
     end
   EOF
   end
@@ -187,7 +191,7 @@ class PageHeading < ApplicationRecord
 
     odd=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
-      image(image_path: #{odd_page_image_full_path}, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
+      image(image_path: '#{odd_page_image_full_path}', width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
       t = text('<%= section_name_with_space %>', font_size: 20.5,x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
       text('<%= date %>', tracking: -0.7, x: 779.213, y: 12.16,  width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color:'clear')
@@ -211,7 +215,7 @@ class PageHeading < ApplicationRecord
     section_name_with_space        = put_space_between_chars(section_name)
     even=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
-      image(image_path: #{even_page_image_full_path}, x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
+      image(image_path: '#{even_page_image_full_path}', x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
       t = text('<%= section_name_with_space %>', font_size: 20.5, x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
       text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'KoPubBatangPM', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
@@ -221,7 +225,6 @@ class PageHeading < ApplicationRecord
     page_heading_erb = ERB.new(even)
     page_heading_erb.result(binding)
   end
-
 
   def p22_content
     page_heading_width  = publication.page_heading_width
@@ -233,7 +236,7 @@ class PageHeading < ApplicationRecord
     section_name_with_space        = put_space_between_chars(section_name)
     template=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
-      image(local_image: '22_bg.pdf', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
+      image(image_path: '#{p22_page_image_full_path}' , x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
       text('<%= date %>', x: 864.104, y: 8.88, fill_color: 'clear', tracking: -0.7, width: 110, height: 12, font: 'KoPubDotumPL', text_color: "CMYK=0,0,0,100", font_size: 10.5, text_alignment: 'right')
       text('22', tracking: -0.2, x: 0, y: -4.97, text_alignment: 'center', fill_color: 'clear', font: 'KoPubBatangPM', font_size: 36, text_color: "CMYK=0,0,0,100", width: 40, height: 44)
     end
@@ -280,22 +283,8 @@ class PageHeading < ApplicationRecord
     end
   end
 
-  def self.layout_content(page)
-    if page.page_number == 1
-      return self.front_page_content
-    elsif page.page_number.even?
-      return self.even_content(page)
-    else
-      return self.odd_content(page)
-    end
-  end
-
   def save_layout
     File.open(layout_path, 'w'){|f| f.write layout_content}
-  end
-
-  def self.save_layout(page)
-    File.open(self.layout_path(page), 'w'){|f| f.write layout_content(page)}
   end
 
   def generate_pdf

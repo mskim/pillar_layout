@@ -26,6 +26,8 @@
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
   has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
+  # has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
+
   has_one :layout_node
   before_create :init_pillar
   after_create :create_layout

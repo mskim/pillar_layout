@@ -28,6 +28,7 @@ class Profile < ApplicationRecord
   belongs_to :publication
   mount_uploader :profile_image, ProfileImageUploader
   mount_uploader :profile_jpg_image, ProfileJpgImageUploader
+  include Pdf2jpg
 
   def path
     "#{Rails.root}/public/#{publication.id}/profile"
@@ -78,14 +79,6 @@ class Profile < ApplicationRecord
 
   def picture_pdf_path
     picture_folder + "/#{picture_name}.pdf"
-  end
-
-  def convert_eps_to_pdf
-    unless File.exist?(picture_eps_path)
-      puts "No EPS file found!!!"
-      return
-    end
-    system("cd #{picture_folder} && convert -density 300  #{picture_name}.eps #{picture_name}.pdf")
   end
 
   def person_image_folder
@@ -159,14 +152,6 @@ class Profile < ApplicationRecord
     script = layout_rb
     RLayout::RJob.new(script: layout_rb, output_path: output_path)
     convert_pdf2jpg(output_path)
-  end
-
-  def convert_pdf2jpg(output_path)
-    pdf_folder    = File.dirname(output_path)
-    pdf_base_name = File.basename(output_path)
-    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
-    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
-    system(commend)
   end
 
   def self.to_csv(options = {})

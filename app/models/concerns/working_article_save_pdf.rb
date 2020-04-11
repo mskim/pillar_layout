@@ -28,8 +28,6 @@ module WorkingArticleSavePdf
 
   end
 
-
-
   # make heading as float
   def create_heading(options={})
     h = {}
@@ -194,16 +192,24 @@ module WorkingArticleSavePdf
   def draw_article_in_page(page_canvas, extended_line_sum)
     # binding.pry
     filipped    = filipped_origin
+    image_path  = path + "/story.pdf"
+
     if pillar_bottom?
+      h = row * grid_height
+      h -= extended_line_sum * body_line_height
+      if File.exist?(image_path)
+        page_canvas.image(image_path, at: filipped, width: width, height: h)
+      else
+        puts "missing image_path :#{image_path} !!!"
+      end
     else
       filipped[1] -= extended_line_sum*body_line_height
+      if File.exist?(image_path)
+        page_canvas.image(image_path, at: filipped, width: width, height: height)
+      else
+        puts "missing image_path :#{image_path} !!!"
+      end    
     end
-    image_path  = path + "/story.pdf"
-    if File.exist?(image_path)
-      page_canvas.image(image_path, at: filipped, width: width, height: height)
-    else
-      #TODO copy sample and draw or generate pdf
-      puts "missing image_path :#{image_path} !!!"
-    end
+
   end
 end

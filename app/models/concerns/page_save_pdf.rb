@@ -32,7 +32,7 @@ module PageSavePdf
     if options[:time_stamp]
       stamped_path = path + "/section_#{options[:time_stamp]}.pdf"
       system("cp #{pdf_path} #{stamped_path}" )
-      convert_pdf2jpg(stamped_path)
+      convert_pdf2jpg(stamped_path, ratio:2.0)
     end
   end
 
@@ -42,14 +42,6 @@ module PageSavePdf
     else
       [left_margin + w.grid_x*grid_width, height - (top_margin  + w.grid_y*grid_height + w.height)]
     end
-  end
-
-  def convert_pdf2jpg(output_path)
-    pdf_folder    = File.dirname(output_path)
-    pdf_base_name = File.basename(output_path)
-    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
-    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
-    system(commend)
   end
 
   def stack_pdf(pdf_files, output, direction)
