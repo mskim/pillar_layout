@@ -167,6 +167,18 @@ class PagesController < ApplicationController
     redirect_to @page
   end
 
+  def set_divider_to_draw
+    set_page
+    @page.set_divider_to_draw
+    redirect_to @page, notice: "현 페이지에서 세로선을 성공적으로 생성했습니다."
+  end
+
+  def set_divider_not_to_draw
+    set_page
+    @page.set_divider_not_to_draw
+    redirect_to @page, notice: "현 페이지에서 세로선을 성공적으로 지웠습니다."
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page

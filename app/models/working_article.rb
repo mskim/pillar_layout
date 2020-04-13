@@ -518,7 +518,7 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, _i|
+    pillar.working_articles.each_with_index do |w, _i|
       if pillar.bottom_article_of_sibllings?(w)
         w.update_pushed_line
       else
@@ -580,6 +580,18 @@ class WorkingArticle < ApplicationRecord
 
   def pillar_bottom?
     self == pillar.bottom_article_of_sibllings(self)
+  end
+
+  def max_grid_x
+    grid_x + column
+  end
+
+  def max_grid_y
+    grid_y + row
+  end
+
+  def page_bottomn_article?
+    page.bottom_article?(self)
   end
 
   def bottom_article_of_sibllings(_article)

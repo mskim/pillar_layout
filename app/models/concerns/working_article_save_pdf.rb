@@ -183,33 +183,47 @@ module WorkingArticleSavePdf
     puts __method__
   end
 
-  def filipped_origin
-    pillar_flipped_origin = pillar.filipped_origin
+  def flipped_origin
+    pillar_flipped_origin = pillar.flipped_origin
     [pillar.x, pillar_flipped_origin[1] + pillar.height - y - height]
   end
 
   # extended_line_sum is used to caculate y_offset
   def draw_article_in_page(page_canvas, extended_line_sum)
     # binding.pry
-    filipped    = filipped_origin
+    flipped    = flipped_origin
     image_path  = path + "/story.pdf"
 
     if pillar_bottom?
       h = row * grid_height
       h -= extended_line_sum * body_line_height
       if File.exist?(image_path)
-        page_canvas.image(image_path, at: filipped, width: width, height: h)
+        page_canvas.image(image_path, at: flipped, width: width, height: h)
       else
         puts "missing image_path :#{image_path} !!!"
       end
     else
-      filipped[1] -= extended_line_sum*body_line_height
+      flipped[1] -= extended_line_sum*body_line_height
       if File.exist?(image_path)
-        page_canvas.image(image_path, at: filipped, width: width, height: height)
+        page_canvas.image(image_path, at: flipped, width: width, height: height)
       else
         puts "missing image_path :#{image_path} !!!"
       end    
     end
+    if page.draw_divider && !on_right_edge
+      starting_x = flipped[0] + width
+      starting_y = flipped[1]
+      ending_x   = starting_x
+      ending_y   = flipped[1] + height
+      page_canvas.line_width(0.3)
+      if pillar_bottom?
+        starting_y = flipped[1] + body_line_height*2
+      elsif top_position?
+        ending_y   = flipped[1] + height - body_line_height
+      end
+      page_canvas.stroke_color(0, 0, 0, 254).line(starting_x, starting_y, ending_x, ending_y).stroke
 
+    end
   end
+
 end

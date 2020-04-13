@@ -52,8 +52,25 @@
 
 
 2020_4_12
-  - add preparing stage before ceating new issue 
-    upload excel, preview, and create new 
+  - draw page divider, 
+    - add color page checkbox, and divider checkbox
+    
+  - split vertical
+    - left_most box determines height, right side siblling are bound to this height
+    - x_2_1 except bottom can be auto_adjusted
+    - bottom articles should be pushed down as acorrding style 
+    - add vertical cut
+    - add level 3 horizontal cut 
+  - image and graphic position not appying, graphic fit
+
+  - Spread Ad
+  - add preparing issue_plan before ceating new issue 
+    - upload excel, preview, and create new 
+  - add sand_box issue before ceating new issue 
+    - add  사전제작용 move page content to currnt issue
+    - add copy_to_current_issue menu in sand_box 
+      working_article to move sand_box content to current_issue  working_article
+      entire page to move sand_box content to current_issue page 
 
 2020_4_11
   - fix bottom_article y_position error after auto_adjust
@@ -62,13 +79,7 @@
   - convert pdf2 jpg at high res
     - need page_preview high_resolution
     - i should try saving pdf image on a larger page and save, then convert that to jpg
-  - add vertical cut
-  - add level 3 horizontal cut 
-  - image and graphic position not appying, graphic fit
-  - draw divider , 
-  - when changing template, content order gets mixed up even in the, 20면
-  - Excel issue_plan upload
-  - Spread Ad
+
   
 2020_04_10
   - 10면 맨 위 그래픽 on_left_edge, on_right_edge

@@ -245,6 +245,7 @@ Rails.application.routes.draw do
       get 'create_overlap'
       get 'delete_overlap'
       patch 'clear_crop_rect'
+      get 'copy_to_current_issue' 
     end
   end
 
@@ -253,6 +254,8 @@ Rails.application.routes.draw do
       get 'change_current'
       get 'update_plan'
       get 'current_plan'
+      get 'prepare_plan'
+      get 'sand_box'
       get 'images'
       patch 'upload_images'
       get 'ad_images'
@@ -317,6 +320,9 @@ Rails.application.routes.draw do
       get 'assign_stories'
       get 'download_zip'
       patch 'change_page_layout'
+      get 'set_divider_to_draw'
+      get 'set_divider_not_to_draw'
+
     end
   end
 

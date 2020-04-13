@@ -6,9 +6,11 @@
           <%= raw @page.to_svg_with_jpg %>
         </div>
       </div>
-    </div>
-    <div class="col-md-9">
+      <%= render 'change_page_info', page: @page %>
 
+    </div>
+
+    <div class="col-md-9">
       <div class="row">
         <% @page.other_page_layout_choices.each do |page_layout| %>
           <div class="card text-white bg-info mb-3 p-1" style="width: 10rem;">

@@ -25,8 +25,8 @@
 
 class Pillar < ApplicationRecord
   belongs_to :page_ref, polymorphic: true
-  has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
-  # has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
+  # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
+  has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
 
   has_one :layout_node
   before_create :init_pillar
@@ -39,7 +39,7 @@ class Pillar < ApplicationRecord
     layout_node.add_v_child
     layout_node.update_layout_with_pillar_path
     new_layout = layout_node.layout_with_pillar_path.dup
-    working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+    working_articles.each_with_index do |w, i|
       box_rect      = new_layout[i].dup
       box_rect[4]   = w.pillar_order
       w.change_article(box_rect)
@@ -57,11 +57,11 @@ class Pillar < ApplicationRecord
     layout_node.remove_last_child
     layout_node.update_layout_with_pillar_path
     new_layout = layout_node.layout_with_pillar_path.dup
-    last = working_articles.sort_by{|w| w.pillar_order}.last
+    last = working_articles.last
     last.delete_folder
     last.destroy
     working_articles.reload
-    working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+    working_articles.each_with_index do |w, i|
       box_rect      = new_layout[i].dup
       box_rect[4]   = w.pillar_order
       w.change_article(box_rect)
@@ -75,13 +75,21 @@ class Pillar < ApplicationRecord
   end
 
   def following_pillar_siblings_of(article)
-    working_articles.sort_by{|a| a.pillar_order}.select{|a| a.pillar_order > article.pillar_order}
+    working_articles.select{|a| a.pillar_order > article.pillar_order}
   end
 
   # retrun bottom siblling of given article
   def bottom_article_of_sibllings(article)
     article_siblings = pillar_siblings_of(article)
     article_siblings.last
+  end
+
+  def max_grid_x
+    grid_x + column
+  end
+
+  def max_grid_y
+    grid_y + row
   end
 
   # check if given article is  bottom of sibllings
@@ -98,7 +106,7 @@ class Pillar < ApplicationRecord
   def update_working_article_cut(cut_action)
     layout_node.add_action(cut_action)
     new_layouts = layout_with_pillar_path
-    sorted_working_articles = working_articles.sort_by{|w| w.pillar_order}
+    sorted_working_articles = working_articles
     new_layouts.each_with_index do |new_layout, i|
       sorted_working_articles[i].update(grid_x: new_layout[0], grid_y:new_layout[1], column:new_layout[2], row:new_layout[3])
     end
@@ -168,7 +176,7 @@ class Pillar < ApplicationRecord
       page_ref.heading_space
   end
 
-  def filipped_origin
+  def flipped_origin
     [page_ref.left_margin + grid_x*page_ref.grid_width, page_ref.height - height - y]
   end
 
@@ -319,14 +327,14 @@ class Pillar < ApplicationRecord
     removing_articles = current_box_count - new_box_count
     if removing_articles == 0
       # current and new pillar size are equal
-      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+      working_articles.each_with_index do |w, i|
         box_rect     = new_layout[i]
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
         w.change_article(box_rect)
       end
     elsif removing_articles > 0 # current box is greater than new_layout
-      ordered_working_articles  = working_articles.sort_by{|w| w.pillar_order}
+      ordered_working_articles  = working_articles
       new_layout.each_with_index do |box_rect, i|
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order
@@ -334,7 +342,7 @@ class Pillar < ApplicationRecord
       end
       # delete working_articles from pillar
       removing_articles.times do
-        w = working_articles.sort_by{|w| w.pillar_order}.last
+        w = working_articles.last
         if w
           system("rm -rf #{w.path}")
           w.destroy
@@ -343,7 +351,7 @@ class Pillar < ApplicationRecord
       end
     else # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
-      working_articles.sort_by{|w| w.pillar_order}.each_with_index do |w, i|
+      working_articles.each_with_index do |w, i|
         box_rect = new_layout[i].dup
         pillar_order = "#{order}_#{i+1}"
         box_rect[4]  = pillar_order

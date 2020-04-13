@@ -14,3 +14,8 @@
     <%= f.button "컬러면 저장", class: "btn btn-md btn-primary", remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
   </div>
 <% end %>
+<% if @page.draw_divider == true %>
+  <%= link_to "세로선 제거", set_divider_not_to_draw_page_path, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-danger" %>
+<% else %>
+  <%= link_to "세로선 생성", set_divider_to_draw_page_path, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-success" %>
+<% end %>

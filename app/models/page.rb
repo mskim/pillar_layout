@@ -178,19 +178,22 @@ class Page < ApplicationRecord
   end
 
   def bottom_article?(article)
-    article_bottom_grid     = article.grid_y + article.row
-    article_x_grid          = article.grid_x
-    article_y_grid          = article.grid_y
+    article_bottom_grid     = article.pillar.grid_y + article.max_grid_y
+    article_x_grid          = article.pillar.grid_x + article.grid_x
+    article_y_grid          = article.pillar.grid_y + article.grid_y
     return true if article_bottom_grid == row
-
     ad_box = ad_boxes.first
-    return false if ad_box.nil?
-
-    ad_box_x_max_grid = ad_box.grid_x + ad_box.column
-    if ad_box.grid_y == article_bottom_grid && ad_box.grid_x <= article_x_grid && article_x_grid <= ad_box_x_max_grid
+    ad_type = '광고없음' if ad_box.nil? 
+    if ad_type == '광고없음' || ad_type == 'no_ad' 
+      ad_box_grid_top = 15
+      ad_box_x_max_grid = column
+    else
+      ad_box_x_max_grid = ad_box.grid_x + ad_box.column
+      ad_box_grid_top = ad_box.grid_y
+    end
+    if ad_box_grid_top == article_bottom_grid && ad_box.grid_x <= article_x_grid && article_x_grid <= ad_box_x_max_grid
       return true
     end
-
     false
   end
 

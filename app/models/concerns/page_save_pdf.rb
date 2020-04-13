@@ -16,7 +16,7 @@ module PageSavePdf
     working_articles.reload
     pillars.sort_by{|p| p.order}.each do |p|
       extended_line_sum = 0
-      p.working_articles.sort_by{|w| w.pillar_order}.each do |w|
+      p.working_articles.each do |w|
         w.draw_article_in_page(canvas, extended_line_sum)
         extended_line_sum += w.extended_line_count if w.extended_line_count
       end
@@ -24,9 +24,10 @@ module PageSavePdf
     ad_boxes.each do |ad|
       image_path = ad.pdf_path
       if File.exist?(image_path)
-        canvas.image(image_path, at: filipped_origin(ad), width: ad.width, height: ad.height)
+        canvas.image(image_path, at: flipped_origin(ad), width: ad.width, height: ad.height)
       end
     end
+
     pdf_path = path + "/section.pdf"
     pdf_doc.write(pdf_path, optimize: true)
     if options[:time_stamp]
@@ -36,7 +37,7 @@ module PageSavePdf
     end
   end
 
-  def filipped_origin(w)
+  def flipped_origin(w)
     if w.top_position?
       [left_margin + w.grid_x*grid_width, height - heading_space - (top_margin  + w.grid_y*grid_height + w.height)]
     else

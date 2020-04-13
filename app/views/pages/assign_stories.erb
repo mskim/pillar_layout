@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @page.working_articles.sort_by{|a| a.order}.each do |working_article| %>
+        <% @page.working_articles.sort_by{|a| a.pillar_order}.each do |working_article| %>
           <% if working_article.story %>
           <tr style="background-color:skyblue;">
           <% else  %>

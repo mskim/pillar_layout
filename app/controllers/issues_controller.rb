@@ -94,6 +94,19 @@ class IssuesController < ApplicationController
     @available_ads_for_pages = @issue.available_ads_for_pages
   end
 
+  def prepare_plan
+    @issue            = Issue.new
+    @publication      = Publication.first
+    @previous_date    = Issue.last.date.to_s        if Issue.last
+    @previous_number  = Issue.last.number.to_i      if Issue.last
+    @new_issue_number = Issue.last.number.to_i + 1  if Issue.last
+    session[:current_issue] = @issue
+    half = @issue.page_plans.count / 2
+    @front_page_plans = @issue.page_plans.select { |x| x.page_number <= half }.sort_by(&:page_number)
+    @back_page_plans  = @issue.page_plans.select { |x| x.page_number > half }.sort_by(&:page_number).reverse
+    @available_ads_for_pages = @issue.available_ads_for_pages
+  end
+
   def print_status
     @pages = @issue.pages
   end
@@ -234,7 +247,8 @@ class IssuesController < ApplicationController
     @reporters        = User.reject { |u| u.group.nil? }.sort_by(&:group)
     @working_articles = []
     @issue.pages.each do |page|
-      @working_articles += page.working_articles.sort_by(&:order)
+      @working_articles += page.working_articles.sort_by(&:pillar_order)
+      # @working_articles += page.working_articles(&:order)
     end # code
   end
 
