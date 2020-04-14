@@ -100,14 +100,6 @@ class OpinionWriter < ApplicationRecord
     convert_pdf2jpg(output_path)
   end
 
-  def convert_pdf2jpg(output_path)
-    pdf_folder    = File.dirname(output_path)
-    pdf_base_name = File.basename(output_path)
-    jpg_base_name = pdf_base_name.gsub(/.pdf$/, ".jpg")
-    commend  = "cd #{pdf_folder} && vips copy #{pdf_base_name}[n=-1] #{jpg_base_name}"
-    system(commend)
-  end
-
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       header = %w[name  title  work  position  email  cell  opinion_image  publication_id   category_code]

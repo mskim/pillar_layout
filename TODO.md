@@ -50,6 +50,10 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_4_14
+  - fix ad_box layout error
+  - image and graphic position not appying, graphic fit
+  - image reversed
 
 2020_4_12
   - draw page divider, 
@@ -61,7 +65,6 @@
     - bottom articles should be pushed down as acorrding style 
     - add vertical cut
     - add level 3 horizontal cut 
-  - image and graphic position not appying, graphic fit
 
   - Spread Ad
   - add preparing issue_plan before ceating new issue 
@@ -71,6 +74,7 @@
     - add copy_to_current_issue menu in sand_box 
       working_article to move sand_box content to current_issue  working_article
       entire page to move sand_box content to current_issue page 
+  - hyphenation enhencement
 
 2020_4_11
   - fix bottom_article y_position error after auto_adjust

@@ -254,7 +254,6 @@ Rails.application.routes.draw do
       get 'change_current'
       get 'update_plan'
       get 'current_plan'
-      get 'prepare_plan'
       get 'sand_box'
       get 'images'
       patch 'upload_images'
@@ -303,6 +302,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'prepare_plan'
     end
   end
 

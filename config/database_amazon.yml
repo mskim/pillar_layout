@@ -27,8 +27,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: <%= ENV['USER'] %>
-  password:
+  # username: <%= ENV['USER'] %>
+  username: newsgo
+  password: 41414141
   # port: 5432
   # timeout: 5000
 
@@ -44,11 +45,20 @@ wire_service:
   # export WIRE_SERVER_IP_IN='10.9.50.45'
   port: 5432
   timeout: 5000
+# original-about
+# development:
+#   <<: *default
+#   database: style_guide_development
+#   username: <%= ENV['USER'] %>
 
+# new-about
 development:
   <<: *default
   database: style_guide_development
-  username: <%= ENV['USER'] %>
+  # username: <%= ENV['MASTER_NAME'] %>
+  # password: <%= ENV["RDS_PASSWORD"] %>
+  host: <%= ENV["RDS_END_POINT"] %>
+  port: 5432
 # test:
 #   <<: *default
 #   database: style_guide__test
@@ -57,5 +67,7 @@ development:
 # production:
 #   <<: *default
 #   database: style_guide_production
-#   username: <%= ENV['USER'] %>
-
+#   username: <%= ENV['MASTER_NAME'] %>
+#   password: <%= ENV["RDS_PASSWORD"] %>
+#   host: <%= ENV["RDS_END_POINT"] %>
+#   port: 5432

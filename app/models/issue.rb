@@ -202,10 +202,52 @@ class Issue < ApplicationRecord
     "#{news_cms_host}/update_issue_plan"
   end
 
+  def excel_file_path
+    path + "/excel/issue_plan.xlsx"
+  end
+
+  def parse_excel_file
+    if File.exist?(excel_file_path)
+      plan = []
+      front_half = []
+      back_half = []
+      half_position = 4
+      require 'rubyXL'
+      workbook = RubyXL::Parser.parse(excel_file_path)
+      worksheet = workbook[0]
+      worksheet.each_with_index do |row, i|
+        if j == 0
+          
+        elsif j == 1
+
+        else
+          first_half = []
+          second_half = []
+          row.cells.each_with_index do |cell, j|
+            if j < half_position
+              first_half << cell.value
+            else
+              second_half << cell.value
+
+            end
+          end
+          front_half << first_half
+          back_half << second_half
+        end
+        front_half += back_half
+      end
+      return front_half
+    end
+    false
+  end
+
   def make_default_issue_plan
-    # plan
+    # check if we have uploaded Excel file
     # section_names_array = eval(publication.section_names)
-    default_plans = eval(plan)
+    if default_plans = parse_excel_file
+    else
+      default_plans = eval(plan)
+    end
     default_plans.each_with_index do |page_array, i|
       page_hash = {}
       page_hash[:issue_id] = id

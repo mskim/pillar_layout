@@ -1438,6 +1438,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def v_cut_at(cut_index)
+    # let pillar_handle the cut
     # divide working article into two
     action = []
     if cut_index > 0
