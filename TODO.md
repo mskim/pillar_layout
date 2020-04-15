@@ -50,6 +50,21 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_4_15
+  - profile save_pdf_in_ruby, save_pdf_with_ruby error
+
+  - fix editorial position moved to top
+  - make working_article hi-res
+  - fix 광고 여백 2, 1
+  - erro box height after delete
+  - fix ^ becomes body style
+  - graphic 바꾸기
+  - display original file name 
+  - draw line at the bottom of 사진기사
+  - 10면 그래픽 1 line down, draw line at top
+
+  - jpg cmyk picture showing as reversed
+
 2020_4_14
   - fix ad_box layout error
   - image and graphic position not appying, graphic fit

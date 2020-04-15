@@ -195,7 +195,7 @@ class PageHeading < ApplicationRecord
       t = text('<%= section_name_with_space %>', font_size: 20.5,x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
       text('<%= date %>', tracking: -0.7, x: 779.213, y: 12.16,  width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color:'clear')
-      text('<%= page_number %>', tracking: -0.2, x: 974.69, y: -6.47, font: 'KoPubBatangPM', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color:'clear', text_alignment: 'right')
+      text('<%= page_number %>', tracking: -0.2, x: 974.69, y: -6.47, font: 'KoPubDotumPB', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color:'clear', text_alignment: 'right')
     end
   EOF
     page_heading_erb = ERB.new(odd)
@@ -218,7 +218,7 @@ class PageHeading < ApplicationRecord
       image(image_path: '#{even_page_image_full_path}', x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
       t = text('<%= section_name_with_space %>', font_size: 20.5, x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
-      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'KoPubBatangPM', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
+      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'KoPubDotumPB', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
       text('<%= date %>', tracking: -0.7, x: 50, y: 12.16, width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'left', fill_color: 'clear')
     end
     EOF
@@ -238,7 +238,7 @@ class PageHeading < ApplicationRecord
     RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
       image(image_path: '#{p22_page_image_full_path}' , x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
       text('<%= date %>', x: 864.104, y: 8.88, fill_color: 'clear', tracking: -0.7, width: 110, height: 12, font: 'KoPubDotumPL', text_color: "CMYK=0,0,0,100", font_size: 10.5, text_alignment: 'right')
-      text('22', tracking: -0.2, x: 0, y: -4.97, text_alignment: 'center', fill_color: 'clear', font: 'KoPubBatangPM', font_size: 36, text_color: "CMYK=0,0,0,100", width: 40, height: 44)
+      text('22', tracking: -0.2, x: 0, y: -4.97, text_alignment: 'center', fill_color: 'clear', font: 'KoPubDotumPB', font_size: 36, text_color: "CMYK=0,0,0,100", width: 40, height: 44)
     end
     EOF
     page_heading_erb = ERB.new(template)

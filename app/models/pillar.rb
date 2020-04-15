@@ -33,6 +33,20 @@ class Pillar < ApplicationRecord
   after_create :create_layout
   include RectUtils
   
+  def v_cut_working_article_at(changing_article, cut_index)
+    # this assumes working_article is at depth of 2
+    # working_article with with depth of 1 shold also work
+    node_order = changing_article.pillar_order.last
+    layout_node.v_cut_node_at_index(node_order, cut_index)
+    
+    box_rect      = new_layout[i].dup
+    box_rect[4]   = w.pillar_order
+    changing_article.change_article(box_rect)
+    h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+    w = WorkingArticle.where(h).first_or_create
+    page_ref.generate_pdf_with_time_stamp
+  end
+
   def add_article
     self.box_count    +=  1
     self.save

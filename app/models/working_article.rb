@@ -859,12 +859,9 @@ class WorkingArticle < ApplicationRecord
   def height
     h = row * grid_height
     h -= page_heading_margin_in_lines * body_line_height if top_position?
-    if pushed_line_count && pushed_line_count != 0
-      h -= pushed_line_count * body_line_height
-    end
-    if extended_line_count && extended_line_count != 0
-      h += extended_line_count * body_line_height
-    end
+    # h -= pushed_line_count * body_line_height
+    h += extended_line_count * body_line_height
+    # bottom box is calculated with extended_line_sum
     h
   end
 
@@ -1437,8 +1434,12 @@ class WorkingArticle < ApplicationRecord
     r
   end
 
-  def v_cut_at(cut_index)
+  def v_cut_at(cut_instruction)
     # let pillar_handle the cut
+    cut_column_position = cut_instruction
+    cut_column_position = column + cut_instruction if cut_instruction < 0
+    pillar.v_cut_working_article_at(self, cut_column_position)
+
     # divide working article into two
     action = []
     if cut_index > 0

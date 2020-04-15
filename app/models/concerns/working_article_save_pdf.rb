@@ -194,7 +194,7 @@ module WorkingArticleSavePdf
     flipped    = flipped_origin
     image_path  = path + "/story.pdf"
 
-    if pillar_bottom?
+    if pillar_bottom? && !top_position?
       h = row * grid_height
       h -= extended_line_sum * body_line_height
       if File.exist?(image_path)

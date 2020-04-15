@@ -218,6 +218,11 @@ class LayoutNode < ApplicationRecord
     true
   end
 
+  def v_cut_node_at_index(node_order, column)
+
+  end
+
+  
   def v_divide_at(position)
     update(direction: 'horizontal', selected: false)
     first_child_column    = position
@@ -228,7 +233,6 @@ class LayoutNode < ApplicationRecord
     end
     LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
     LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
-    
   end
 
   def undo_v_divide(undo_info)
