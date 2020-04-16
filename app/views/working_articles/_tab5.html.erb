@@ -17,7 +17,7 @@
   <div class="col-md-9">
     <div class="card">
       <h5 class="card-header">
-        <% if @working_article.pillar_bottom? %>
+        <% if @working_article.pillar_bottom? && !@working_article.single_child?%>
           기사 편집: 맨 아래 박스 줄인 행수(<%= @working_article.pushed_line_count %>)
         <% else %>
           기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)

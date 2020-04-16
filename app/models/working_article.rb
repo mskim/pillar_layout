@@ -552,9 +552,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def update_pushed_line
-    count = current_pushed_line_sum
-    puts "current_pushed_line_sum:#{count}"
-    self.pushed_line_count = count
+    self.pushed_line_count = current_pushed_line_sum
     self.save
     generate_pdf_with_time_stamp
     #TODO ??????
@@ -869,6 +867,14 @@ class WorkingArticle < ApplicationRecord
     grid_y == 0 && pillar && pillar.top_position?
   end
 
+  def pillar_top?
+    grid_y == 0
+  end
+
+  def single_child?
+    pillar.working_articles.length == 1
+  end
+
   def y_max
     y + height
   end
@@ -916,10 +922,10 @@ class WorkingArticle < ApplicationRecord
     if extended_line_count
       h[:extended_line_count]           = self.extended_line_count
     end
-    # h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
-    if pillar_bottom?
-      h[:pushed_line_count]             = current_pushed_line_sum
-    end
+    h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
+    # if pillar_bottom?
+    #   h[:pushed_line_count]             = current_pushed_line_sum
+    # end
     # h[:height_in_lines]               = height_in_lines if height_in_lines
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height

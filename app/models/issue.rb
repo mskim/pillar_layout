@@ -202,63 +202,146 @@ class Issue < ApplicationRecord
     "#{news_cms_host}/update_issue_plan"
   end
 
+  def make_default_issue_plan
+    # check if we have uploaded Excel file
+    # section_names_array = eval(publication.section_names)
+    if File.exist?(excel_file_path)
+      excel_info    = parse_excel_file
+      issue_info    = excel_info[:issue_info]
+      default_plans = excel_info[:issue_plan]
+      default_plans.each_with_index do |page_array, i|
+        page_hash = {}
+        page_hash[:issue_id] = id
+        # puts "page_hash[:section_name]:#{page_hash[:section_name]}"
+        page_hash[:dead_line]    = page_array[0]
+        page_hash[:page_number]  = i + 1
+        # ad display_name to page_plan
+        # parse the data
+        page_hash[:section_name] = page_array[2]
+        # TODO parse ad_data into know values
+        if page_array[3]
+          ad_info_array           = page_array[3].split(" ")
+          ad_type                 = ad_info_array[0]
+          advertiser              = ad_info_array[1]
+          page_hash[:ad_type]     = ad_type
+          page_hash[:advertiser]  = advertiser
+        elsif page_array[3].nil? || '광고없음'
+          page_hash[:ad_type]      = '광고없음'
+        end
+        if page_array[4] == '컬러' || page_array[4] == '칼러' || page_array[4] == '칼라'
+          page_hash[:color_page]   = true 
+        else
+          page_hash[:color_page]   = false 
+        end
+        p = PagePlan.where(page_hash).first_or_create!
+      end
+    else
+      default_plans = eval(plan)
+      default_plans.each_with_index do |page_array, i|
+        page_hash = {}
+        page_hash[:issue_id] = id
+        # puts "page_hash[:section_name]:#{page_hash[:section_name]}"
+        page_hash[:page_number]  = i + 1
+        page_hash[:section_name] = page_array[0]
+        page_hash[:ad_type]      = page_array[1]
+        page_hash[:color_page]   = page_array[2] if page_array.length > 2
+        p = PagePlan.where(page_hash).first_or_create!
+      end
+    end
+
+  end
+
+
   def excel_file_path
     path + "/excel/issue_plan.xlsx"
   end
 
+  # first row us the issue_info row
+  # second row is empty
+  # third row is headings
+  # first 4 cell are front and next 4 cell are paired back page 
+  # body row are made up with 2 rows, first cell if second row has color information
   def parse_excel_file
-    if File.exist?(excel_file_path)
-      plan = []
-      front_half = []
-      back_half = []
-      half_position = 4
-      require 'rubyXL'
-      workbook = RubyXL::Parser.parse(excel_file_path)
-      worksheet = workbook[0]
-      worksheet.each_with_index do |row, i|
-        if j == 0
-          
-        elsif j == 1
-
-        else
-          first_half = []
-          second_half = []
-          row.cells.each_with_index do |cell, j|
-            if j < half_position
+    front_half  = [] # 1..12
+    back_half   = [] # 24..13
+    first_half  = [] # 0,1,2,3  1,2,3,4
+    second_half = [] # 4,5,6,7  24,23,22,21
+    half_position = 4
+    workbook = RubyXL::Parser.parse(excel_file_path)
+    worksheet = workbook[0]
+    worksheet.each_with_index do |row, i|
+      if i == 0
+        @issue_info = row[0].value
+        next
+      elsif i == 1
+        # this is blank lind
+        next
+      elsif i == 2
+        next
+        # this is haading row
+      else
+        row.cells.each_with_index do |cell, j|
+          if j < half_position
+            if cell.value.class == DateTime
+              first_half << "#{cell.value.hour}:#{cell.value.min}"
+            else
               first_half << cell.value
+            end
+          else
+            if cell.value.class == DateTime
+              second_half << "#{cell.value.hour}:#{cell.value.min}"
             else
               second_half << cell.value
-
             end
           end
-          front_half << first_half
-          back_half << second_half
         end
-        front_half += back_half
+        front_half  << first_half
+        back_half   << second_half
+        first_half = []
+        second_half = []
       end
-      return front_half
     end
-    false
+    merged_front  = merge_front_rows(front_half)
+    merged_back   = merge_back_rows(back_half)
+    issue_plan    = merged_front + merged_back
+    info = {issue_info: @issue_info, issue_plan: issue_plan}
   end
 
-  def make_default_issue_plan
-    # check if we have uploaded Excel file
-    # section_names_array = eval(publication.section_names)
-    if default_plans = parse_excel_file
-    else
-      default_plans = eval(plan)
+  # merge 1..12
+  # second row has color information
+  def merge_front_rows(front_half)
+    result = []
+    front = []
+    front_half.each_with_index do |row, i|
+      if i.even?
+        front = row
+      else
+        front << row[0]
+        result << front
+      end
     end
-    default_plans.each_with_index do |page_array, i|
-      page_hash = {}
-      page_hash[:issue_id] = id
-      # puts "page_hash[:section_name]:#{page_hash[:section_name]}"
-      page_hash[:page_number]  = i + 1
-      page_hash[:section_name] = page_array[0]
-      page_hash[:ad_type]      = page_array[1]
-      page_hash[:color_page]   = page_array[2] if page_array.length > 2
-      p = PagePlan.where(page_hash).first_or_create!
-    end
+    result
   end
+
+  # merge 24..13 
+  # first reverse the array and and color infor to following row
+  # unlike merge_front_rows, first row has color information
+  def merge_back_rows(back_half)
+    result  = []
+    front   = []
+    current_color = nil?
+    back_half.reverse.each_with_index do |row, i|
+      if i.even?
+        current_color = row[0]
+      else
+        front = row
+        front << current_color
+        result << front
+      end
+    end
+    result
+  end
+
 
   def update_plan
     make_pages

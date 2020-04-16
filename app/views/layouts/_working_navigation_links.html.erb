@@ -150,7 +150,7 @@
    </div>
   </li>
   
-  <% if @working_article.pillar_bottom?%>
+  <% if @working_article.pillar_bottom? && @working_article.single_child?%>
     <li class="dropdown nav-item">
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
