@@ -111,7 +111,7 @@ class Pillar < ApplicationRecord
     article == bottom_article_of_sibllings(article)
   end
 
-  def article_extened_line_sum
+  def extened_line_sum
     working_articles.reload
     working_articles.sum(:extended_line_count)
   end

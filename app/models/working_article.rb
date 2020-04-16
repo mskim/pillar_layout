@@ -552,10 +552,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def update_pushed_line
-    self.pushed_line_count = current_pushed_line_sum
-    self.save
     generate_pdf_with_time_stamp
-    #TODO ??????
     page.generate_pdf_with_time_stamp
   end
 
@@ -596,12 +593,6 @@ class WorkingArticle < ApplicationRecord
     w = pillar.bottom_article_of_sibllings(self)
     puts "w.id:#{w.id}"
     w
-  end
-
-  # this is applied to bottom of sibllings article
-  # update pushed_line_sum for all above sibllings height change
-  def current_pushed_line_sum
-    pillar.article_extened_line_sum
   end
 
   def empty_lines_count
@@ -923,10 +914,6 @@ class WorkingArticle < ApplicationRecord
       h[:extended_line_count]           = self.extended_line_count
     end
     h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
-    # if pillar_bottom?
-    #   h[:pushed_line_count]             = current_pushed_line_sum
-    # end
-    # h[:height_in_lines]               = height_in_lines if height_in_lines
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter

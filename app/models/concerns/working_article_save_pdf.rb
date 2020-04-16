@@ -190,14 +190,18 @@ module WorkingArticleSavePdf
 
   # extended_line_sum is used to caculate y_offset
   def draw_article_in_page(page_canvas, extended_line_sum)
-    # binding.pry
     flipped    = flipped_origin
     image_path  = path + "/story.pdf"
     if File.exist?(image_path)
       if pillar_bottom? && !top_position?
+        pushed_line_count = pillar.extened_line_sum
+        self.pushed_line_count = pushed_line_count
+        self.save
         h = row * grid_height
-        h -= extended_line_sum * body_line_height
-        flipped[1] += extended_line_sum*body_line_height
+        # h -= extended_line_sum * body_line_height
+        # flipped[1] += extended_line_sum*body_line_height
+        h -= pushed_line_count* body_line_height
+        flipped[1] += pushed_line_count*body_line_height
         page_canvas.image(image_path, at: flipped, width: width, height: h)
       else
         flipped[1] -= extended_line_sum*body_line_height
