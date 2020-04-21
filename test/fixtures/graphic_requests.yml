@@ -28,16 +28,7 @@
 
 one:
   date: 2017-10-12
-  title: MyString
-  requester: MyString
-  person_in_charge: MyString
   status: MyString
-  description: MyText
-
 two:
   date: 2017-10-12
-  title: MyString
-  requester: MyString
-  person_in_charge: MyString
   status: MyString
-  description: MyText

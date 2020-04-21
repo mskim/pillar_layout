@@ -504,14 +504,31 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
+  # used to limit pushed_line_count, so that bottom articles do not get pushed too deep.
+  # If articel is pushed too deep, we can not click it.
+  # Pushed bottom articles will get stacked at minimun of 1 row height each.
+  # User will need to delete the bottom most article before growing articles beyond currnt max_pushed_line_count
+  # def max_pushed_line_count
+  #   pillar.max_pushed_line_count
+  # end
+
+  def available_bottom_space
+    pillar.available_bottom_space
+  end
+
   # auto adjust height and relayout bottom article
   # set height_in_lines, extended_line_count
   def auto_adjust_height
+    # space = available_bottom_space
+    # if space > 0
+      # max_pushed_line_count = pillar.max_pushed_line_count
+    # else
+    # end
     generate_pdf_with_time_stamp(adjustable_height: true)
-    # sleep 3
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
+
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article

@@ -237,6 +237,9 @@ Rails.application.routes.draw do
       get 'select_reporter_graphic'
       get 'create_new_proof'
 
+      get 'v_cut_one'
+      get 'v_cut_two'
+      get 'v_cut_three'
       get 'v_cut_minus_one'
       get 'v_cut_minus_two'
       get 'v_cut_minus_three'

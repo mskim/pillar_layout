@@ -219,10 +219,11 @@ class LayoutNode < ApplicationRecord
   end
 
   def v_cut_node_at_index(node_order, column)
-
+    node = find_node_with_tag(node_order)
+    node.v_divide_at(column)
+    self
   end
 
-  
   def v_divide_at(position)
     update(direction: 'horizontal', selected: false)
     first_child_column    = position
@@ -570,7 +571,8 @@ class LayoutNode < ApplicationRecord
     if node_kind == 'ad'
       ad_type
     elsif children_count == 0
-      [grid_x,grid_y,column, row, order]
+      [[grid_x, grid_y, column, row, tree_path]]
+      # [grid_x,grid_y,column, row, order]
     else
       leaf_nodes.sort_by{|n| [n.grid_y, n.grid_x]}.map{|n| n.node_area_with_tree_path}
     end
@@ -715,6 +717,7 @@ class LayoutNode < ApplicationRecord
   end
 
   def find_node_with_tag(tag)
+    # binding.pry
     return self if tag.nil?
     level = tag.split("_")
     case level.length

@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require popper
 //= require turbolinks
-//= require datatables
 //= require bootstrap-sprockets
 //= require cropper.min
 //= require jquery-cropper.min

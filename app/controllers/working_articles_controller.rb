@@ -538,6 +538,24 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
+  def v_cut_one
+    set_working_article
+    v_cut_at(@working_article, 1)
+    redirect_to @working_article
+  end
+
+  def v_cut_two
+    set_working_article
+    v_cut_at(@working_article, 2)
+    redirect_to @working_article
+  end
+
+  def v_cut_three
+    set_working_article
+    v_cut_at(@working_article, 3)
+    redirect_to @working_article
+  end
+
   def v_cut_minus_one
     set_working_article
     v_cut_at(@working_article, -1)

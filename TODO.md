@@ -50,19 +50,43 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
-2020_4_15
-  - profile save_pdf_in_ruby, save_pdf_with_ruby error
-
-  - fix editorial position moved to top
-  - make working_article hi-res
-  - fix 광고 여백 2, 1
-  - erro box height after delete
+2020_4_21
+  - add v_cut
+    - make suer we have properly formed layout_node
+      some layout_node seem not to be properly formed
+  - add def max_pushed_line_count
+    This limits pushed_line_count, so that bottom articles do not get pushed too deep.
+    If articel is pushed too deep, we can not click it.
+    Bottom articles will get stacked at minimun of 1 row height each.
+    User will need to delete the bottom article before growing article too tall
+  - 사진 그래픽, 최적 않됨, need image crop 
+  - prepare_issue with page_plan index
   - fix ^ becomes body style
   - graphic 바꾸기
   - display original file name 
-  - draw line at the bottom of 사진기사
-  - 10면 그래픽 1 line down, draw line at top
 
+2020_4_20
+  - fix node_layout leaf_node_layout_with_pillar_path for single node
+
+
+2020_4_17
+  - draw line at the bottom of 사진기사
+  - opinion 자동 행 조절시 제목 위로 본문 침범
+  - 광고 1줄 올리기
+  - 세로 나누기란 표현을 / 기사박스 나누기-좌우/ 기사박스 나누기-위-아래 이렇게 바꾸면 안될까?
+  - delete working_article
+      new_layout gives flat level array of if there are only one article box[0,0,2,5, nil]
+      where as we are expecting Array of rects this gives an error 
+      at pillar.rb 
+  
+    giving error 
+    ·   and ~ similar font not supported
+  
+
+2020_4_15
+  - profile save_pdf_in_ruby, save_pdf_with_ruby error
+  - fix editorial position moved to top
+  - make working_article hi-res
   - jpg cmyk picture showing as reversed
 
 2020_4_14

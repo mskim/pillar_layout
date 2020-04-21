@@ -149,23 +149,30 @@
 
    </div>
   </li>
-  
-  <% if @working_article.pillar_bottom? && @working_article.single_child?%>
+  <% if @working_article.single_child?%>
+
+  <% elsif @working_article.pillar_bottom?%>
     <li class="dropdown nav-item">
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <% if @working_article.column < 2 %>
         <% elsif @working_article.column < 4 %>
           <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '세로 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>
         <% elsif @working_article.column < 6 %>
           <div class="dropdown-divider"></div>
-          <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
-          <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>               
+          <%= link_to '기사박스 나누기 좌측+2', v_cut_two_working_article_path, class: "dropdown-item" %>
         <% else %>
           <div class="dropdown-divider"></div>
-          <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
-          <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
-          <%= link_to '세로 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>          <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 좌측+2', v_cut_two_working_article_path, class: "dropdown-item" %>          <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사박스 나누기 좌측+3', v_cut_three_working_article_path, class: "dropdown-item" %>
         <% end %>
         <% if @working_article.row > 2 %>
           <div class="dropdown-divider"></div>
@@ -199,14 +206,21 @@
 
       <% if @working_article.column < 2 %>
       <% elsif @working_article.column < 4 %>
-        <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>
+
       <% elsif @working_article.column < 6 %>
-        <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
-        <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 좌측+2', v_cut_two_working_article_path, class: "dropdown-item" %>          
       <% else %>
-        <%= link_to '세로 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
-        <%= link_to '세로 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
-        <%= link_to '세로 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-1', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-2', v_cut_minus_two_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 우측-3', v_cut_minus_three_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 좌측+1', v_cut_one_working_article_path, class: "dropdown-item" %>
+        <%= link_to '기사박스 나누기 좌측+2', v_cut_two_working_article_path, class: "dropdown-item" %>          
+        <%= link_to '기사박스 나누기 좌측+3', v_cut_three_working_article_path, class: "dropdown-item" %>
       <% end %>
 
       <div class="dropdown-divider"></div>

@@ -32,17 +32,35 @@ class Pillar < ApplicationRecord
   before_create :init_pillar
   after_create :create_layout
   include RectUtils
-  
+
+
+  def max_pushed_line_count
+    (row - working_articles.length)*7
+  end
+
+  def bottom_article
+    working_articles.last
+  end
+
+  def available_bottom_space
+    if working_articles.length > 1
+      room = (working_articles.last.row - 1)*7
+      extened_line_sum - room
+    else
+      0
+    end
+  end
+
   def v_cut_working_article_at(changing_article, cut_index)
-    # this assumes working_article is at depth of 2
-    # working_article with with depth of 1 shold also work
-    node_order = changing_article.pillar_order.last
+    node_order = changing_article.pillar_order.split("_").last
     layout_node.v_cut_node_at_index(node_order, cut_index)
-    
-    box_rect      = new_layout[i].dup
-    box_rect[4]   = w.pillar_order
+    new_layout    = layout_node.layout_with_pillar_path
+    changing_article_index = working_articles.index_of(changing_article)
+    box_rect      = new_layout[changing_article_index].dup
+    new_pilar_order = changing_article.pillar_order + "_1"
+    box_rect[4]   = new_pilar_order
     changing_article.change_article(box_rect)
-    h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+    h = { page_id: page_ref.id, pillar: self, pillar_order: changing_article.pillar_order + "_2", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
     page_ref.generate_pdf_with_time_stamp
   end

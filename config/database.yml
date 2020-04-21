@@ -49,10 +49,11 @@ development:
   <<: *default
   database: style_guide_development
   username: <%= ENV['USER'] %>
-# test:
-#   <<: *default
-#   database: style_guide__test
-#   username: <%= ENV['USER'] %>
+  
+test:
+  <<: *default
+  database: style_guide__test
+  username: <%= ENV['USER'] %>
 
 # production:
 #   <<: *default

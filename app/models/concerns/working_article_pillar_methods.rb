@@ -89,18 +89,19 @@ module WorkingArticlePillarMethods
     return if (box_info == current_info) && !page_column_changed
 
     clear_old_files
-    h                     = {}
-    h[:grid_x]            = box_info[0]
-    h[:grid_y]            = box_info[1]
-    h[:column]            = box_info[2]
-    h[:row]               = box_info[3]
-    h[:pillar_order]      = box_info[4]
-    h[:grid_width]        = page.grid_width if page_column_changed
-    self.is_front_page    = true if pillar.page_ref.is_front_page?
-    self.on_left_edge     = true if pillar.on_left_edge? && grid_x == 0
-    self.on_right_edge    = true if pillar.on_right_edge? && pillar.grid_x + column  == pillar.page_ref.column
+    self.grid_x             = box_info[0]
+    self.grid_y             = box_info[1]
+    self.column             = box_info[2]
+    self.row                = box_info[3]
+    self.pillar_order       = box_info[4]
+    self.grid_width         = page.grid_width if page_column_changed
+    self.is_front_page      = true if pillar.page_ref.is_front_page?
+    self.on_left_edge       = true if pillar.on_left_edge? && grid_x == 0
+    self.on_right_edge      = true if pillar.on_right_edge? && pillar.grid_x + column  == pillar.page_ref.column
+    self.extended_line_count = 0
+    self.pushed_line_count  = 0
 
-    update(h)
+    self.save
     create_article_folder
     generate_pdf_with_time_stamp(no_page_pdf: true)
   end
