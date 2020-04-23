@@ -52,15 +52,19 @@ class Pillar < ApplicationRecord
   end
 
   def v_cut_working_article_at(changing_article, cut_index)
-    node_order = changing_article.pillar_order.split("_").last
+    current_pillar_order = changing_article.pillar_order
+    node_order      = changing_article.pillar_order.split("_").last
     layout_node.v_cut_node_at_index(node_order, cut_index)
-    new_layout    = layout_node.layout_with_pillar_path
-    changing_article_index = working_articles.index_of(changing_article)
-    box_rect      = new_layout[changing_article_index].dup
-    new_pilar_order = changing_article.pillar_order + "_1"
-    box_rect[4]   = new_pilar_order
+    new_layout      = layout_node.layout_with_pillar_path.uniq
+    #TODO assuming level 2 article
+    # binding.pry
+    changing_article_index = node_order.to_i - 1
+    box_rect        = new_layout[changing_article_index].dup
+    box_rect[4]     = current_pillar_order + "_1"
     changing_article.change_article(box_rect)
-    h = { page_id: page_ref.id, pillar: self, pillar_order: changing_article.pillar_order + "_2", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+    new_box_rect    = new_layout[changing_article_index + 1].dup
+    new_pillar_order = current_pillar_order + "_2"
+    h = { page_id: page_ref.id, pillar: self, pillar_order: new_pillar_order, grid_x: new_box_rect[0], grid_y: new_box_rect[1], column: new_box_rect[2], row: new_box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
     page_ref.generate_pdf_with_time_stamp
   end

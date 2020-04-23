@@ -1446,37 +1446,36 @@ class WorkingArticle < ApplicationRecord
 
   def v_cut_at(cut_instruction)
     # let pillar_handle the cut
-    cut_column_position = cut_instruction
-    cut_column_position = column + cut_instruction if cut_instruction < 0
-    pillar.v_cut_working_article_at(self, cut_column_position)
-
-    # divide working article into two
-    action = []
-    if cut_index > 0
-      # cut from left, , cut_index is positive value
-      changing_column = cut_index
-      new_column = column - cut_index
-      new_grid_x = cut_index
-      actions = [node_order, "v+#{cut_index}"]
-    else
-      # cut from right, cut_index is negative value
-      changing_column = column + cut_index
-      new_column = cut_index.abs
-      new_grid_x = changing_column
-      actions = [node_order, "v#{cut_index}"]
-    end
-    changing_pillar_order = "#{pillar_order}_1"
-    new_pillar_order = "#{pillar_order}_2"
-    pillar.update_working_article_cut(actions)
-    update(column: changing_column, pillar_order: changing_pillar_order)
-    # delete current working_article content to new folder
-    delete_folder # renane_folder?
-    # update wokring_articlr in new folder and generate pdf
-    # do not update_pdf_chain, since newly creating article will do it
-    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
-    # create new working_article
-    h = { page: page, pillar: self, pillar_order: new_pillar_order.to_s, grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
-    w = WorkingArticle.where(h).first_or_create
+    cut_index = cut_instruction
+    cut_index = column + cut_instruction if cut_instruction < 0
+    pillar.v_cut_working_article_at(self, cut_index)
+    # # divide working article into two
+    # action = []
+    # if cut_index > 0
+    #   # cut from left, , cut_index is positive value
+    #   changing_column = cut_index
+    #   new_column = column - cut_index
+    #   new_grid_x = cut_index
+    #   actions = [node_order, "v+#{cut_index}"]
+    # else
+    #   # cut from right, cut_index is negative value
+    #   changing_column = column + cut_index
+    #   new_column = cut_index.abs
+    #   new_grid_x = changing_column
+    #   actions = [node_order, "v#{cut_index}"]
+    # end
+    # changing_pillar_order = "#{pillar_order}_1"
+    # new_pillar_order = "#{pillar_order}_2"
+    # pillar.update_working_article_cut(actions)
+    # update(column: changing_column, pillar_order: changing_pillar_order)
+    # # delete current working_article content to new folder
+    # delete_folder # renane_folder?
+    # # update wokring_articlr in new folder and generate pdf
+    # # do not update_pdf_chain, since newly creating article will do it
+    # generate_pdf_with_time_stamp(no_update_pdf_chain: true)
+    # # create new working_article
+    # h = { page: page, pillar: self, pillar_order: new_pillar_order.to_s, grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
+    # w = WorkingArticle.where(h).first_or_create
   end
 
   def bumpup_pillar_order_by(count)

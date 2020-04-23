@@ -185,7 +185,7 @@ module WorkingArticleSavePdf
 
   def flipped_origin
     pillar_flipped_origin = pillar.flipped_origin
-    [pillar.x, pillar_flipped_origin[1] + pillar.height - y - height]
+    [pillar.x + x, pillar_flipped_origin[1] + pillar.height - y - height]
   end
 
   # extended_line_sum is used to caculate y_offset

@@ -43,6 +43,12 @@ class LayoutNode < ApplicationRecord
     end
   end
 
+  def update_layout_with_pillar_path
+    result = leaf_node_layout_with_pillar_path
+    update(layout_with_pillar_path: result)
+    result
+  end
+
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
       header = %w[column row actions]
@@ -52,13 +58,6 @@ class LayoutNode < ApplicationRecord
       end
     end
   end
-
-  def update_layout_with_pillar_path
-    result = leaf_node_layout_with_pillar_path
-    update(layout_with_pillar_path: result)
-    result
-  end
-
 
   def update_after_split
     new_layout_with_pillar_path = leaf_node_layout_with_pillar_path
@@ -221,19 +220,25 @@ class LayoutNode < ApplicationRecord
   def v_cut_node_at_index(node_order, column)
     node = find_node_with_tag(node_order)
     node.v_divide_at(column)
+    news_layout = leaf_node_layout_with_pillar_path
+    puts "news_layout:#{news_layout}"
+    update(layout_with_pillar_path:news_layout,  direction: 'horizontal', box_count:2, selected: false)
     self
   end
 
   def v_divide_at(position)
-    update(direction: 'horizontal', selected: false)
+    # update(direction: 'horizontal', box_count:2, selected: false)
     first_child_column    = position
     second_child_column   = column - position
     if position < 0
       first_child_column  = column + position
       second_child_column = position
     end
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
-    LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
+    first_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
+    second_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
+    binding.pry
+    puts "first_child.id = #{first_child.id}"
+    puts "second_child.id = #{second_child.id}"
   end
 
   def undo_v_divide(undo_info)
@@ -640,9 +645,11 @@ class LayoutNode < ApplicationRecord
     when 'v+1','v+2','v+3'
       position = action.split("+")[1].to_i
       v_divide_at(position)
+      update(direction: 'horizontal', box_count:2, selected: false)
     when 'v-1','v-2', 'v-3'
       position = action.split("-")[1].to_i
       v_divide_at(position)
+      update(direction: 'horizontal', box_count:2, selected: false)
     else
       puts "Action:#{action} not supported !!!"
     end
@@ -650,7 +657,6 @@ class LayoutNode < ApplicationRecord
 
   # this is called right after LayoutNode is created
   def set_actions
-    puts  "+++++++ actions:#{actions}"
     return if actions == []
     actions.each do |action_item|
       if action_item.class == String
@@ -683,7 +689,6 @@ class LayoutNode < ApplicationRecord
     count                         = leaf_nodes.count
     new_layout_with_pillar_path   = leaf_node_layout_with_pillar_path
     update(box_count: count, actions: actions,  layout_with_pillar_path:new_layout_with_pillar_path)
-    puts "all actions succeeded!"
     return self
   end
 

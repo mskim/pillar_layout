@@ -1026,7 +1026,6 @@ class Page < ApplicationRecord
       info[:column] = 3
       info[:row]    = 7
     else
-      puts "ad_type #{ad_type} is not supported !!!"
       return
     end
     AdBox.create(info)

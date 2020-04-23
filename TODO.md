@@ -50,10 +50,22 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
-2020_4_21
+2020_4_22
+  - 기사 상단 여백 1행 광고여백 수정후 틀어짐
+  - 사진 테두리
+
+  
   - add v_cut
     - make suer we have properly formed layout_node
       some layout_node seem not to be properly formed
+
+  - 사진 크기 자동 행조절 후 변화
+  - when line breaking '글  or  "글  space is put in place
+    giving error 
+    ·   and ~ similar font not supported
+
+2020_4_21
+
   - add def max_pushed_line_count
     This limits pushed_line_count, so that bottom articles do not get pushed too deep.
     If articel is pushed too deep, we can not click it.
@@ -78,11 +90,7 @@
       new_layout gives flat level array of if there are only one article box[0,0,2,5, nil]
       where as we are expecting Array of rects this gives an error 
       at pillar.rb 
-  
-    giving error 
-    ·   and ~ similar font not supported
-  
-
+    
 2020_4_15
   - profile save_pdf_in_ruby, save_pdf_with_ruby error
   - fix editorial position moved to top
