@@ -57,7 +57,6 @@ class Pillar < ApplicationRecord
     layout_node.v_cut_node_at_index(node_order, cut_index)
     new_layout      = layout_node.layout_with_pillar_path.uniq
     #TODO assuming level 2 article
-    # binding.pry
     changing_article_index = node_order.to_i - 1
     box_rect        = new_layout[changing_article_index].dup
     box_rect[4]     = current_pillar_order + "_1"

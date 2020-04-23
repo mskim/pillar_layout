@@ -185,12 +185,14 @@ module WorkingArticleSavePdf
 
   def flipped_origin
     pillar_flipped_origin = pillar.flipped_origin
+    # [pillar.x + x, pillar_flipped_origin[1] + pillar.height - y - height]
     [pillar.x + x, pillar_flipped_origin[1] + pillar.height - y - height]
   end
 
   # extended_line_sum is used to caculate y_offset
   def draw_article_in_page(page_canvas, extended_line_sum)
     flipped    = flipped_origin
+    # flipped[1] -= y
     image_path  = path + "/story.pdf"
     if File.exist?(image_path)
       if pillar_bottom? && !top_position?

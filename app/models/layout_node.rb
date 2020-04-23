@@ -236,7 +236,6 @@ class LayoutNode < ApplicationRecord
     end
     first_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
     second_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
-    binding.pry
     puts "first_child.id = #{first_child.id}"
     puts "second_child.id = #{second_child.id}"
   end
@@ -722,7 +721,6 @@ class LayoutNode < ApplicationRecord
   end
 
   def find_node_with_tag(tag)
-    # binding.pry
     return self if tag.nil?
     level = tag.split("_")
     case level.length
