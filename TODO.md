@@ -50,11 +50,28 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_4_26
+  - media_plan
+      news
+      Forum
+      section_plan
+      ad_booking
+  - cms
+      my_story
+
+2020_4_23
+  - 사진 기사 박스 일때 테두리 두께 
+
+2020_4_22
+  - 새로자르기 에러, 
+  - 새로자르기 후 자동 행 조절 적용 않됨
+  - 사진 편집창 에서 사진이 여러게 일때 button 반복 에러
+    http://211.35.70.177:3000/working_articles/2537
+    
 2020_4_22
   - 기사 상단 여백 1행 광고여백 수정후 틀어짐
   - 사진 테두리
 
-  
   - add v_cut
     - make suer we have properly formed layout_node
       some layout_node seem not to be properly formed
@@ -63,6 +80,8 @@
   - when line breaking '글  or  "글  space is put in place
     giving error 
     ·   and ~ similar font not supported
+    # 183
+    # 126
 
 2020_4_21
 
