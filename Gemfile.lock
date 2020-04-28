@@ -475,6 +475,7 @@ DEPENDENCIES
   bootstrap_form
   browser
   bundler (~> 2.1, >= 2.1.2)
+  byebug
   carrierwave
   coffee-rails
   database_cleaner (~> 1.7)

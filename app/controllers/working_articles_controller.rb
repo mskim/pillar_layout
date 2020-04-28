@@ -575,7 +575,7 @@ class WorkingArticlesController < ApplicationController
   end
 
   def v_cut_at(w, cut_index)
-    w.v_cut_at(cut_index)
+    w.pillar.v_cut_working_article_at(w, cut_index)
   end
 
   def add_article
@@ -587,7 +587,7 @@ class WorkingArticlesController < ApplicationController
 
   def remove_article
     set_working_article
-    @working_article.pillar.remove_last_artile
+    @working_article.pillar.remove_article(@working_article)
     page = @working_article.page
     redirect_to page
   end

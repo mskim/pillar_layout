@@ -22,6 +22,27 @@ module WorkingArticlePillarMethods
     pillar_order.split("_").join("/")
   end
 
+  def layout_node_order
+    pillar_order.split("_")[1..-1].join("_")
+  end
+
+  def add_able?
+    # it should have enough room
+    false
+  end
+
+  def delete_able?
+    # it should be pillar_bottom 
+    # non single article
+    pillar_order.count("_") >= 2
+  end
+
+  def v_splitable?
+    # it should not have horzontal 
+    # node_level shoud be 1
+    pillar_order.count("_") < 2 && column > 1 
+  end
+
   def pillar_member?
     # true
     pillar_order && pillar_order.include?("_")

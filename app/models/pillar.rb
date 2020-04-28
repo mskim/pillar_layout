@@ -53,8 +53,12 @@ class Pillar < ApplicationRecord
 
   def v_cut_working_article_at(changing_article, cut_index)
     current_pillar_order = changing_article.pillar_order
-    node_order      = changing_article.pillar_order.split("_").last
-    layout_node.v_cut_node_at_index(node_order, cut_index)
+    cut_column     = cut_index
+    cut_column     = column + cut_index if cut_index < 0
+    node_order     = changing_article.layout_node_order
+    # binding.pry
+    layout_node.v_cut_node_at_index(node_order, cut_column)
+    # binding.pry
     new_layout      = layout_node.layout_with_pillar_path.uniq
     #TODO assuming level 2 article
     changing_article_index = node_order.to_i - 1
@@ -69,6 +73,8 @@ class Pillar < ApplicationRecord
   end
 
   def add_article
+
+    # check if it is addable?
     self.box_count    +=  1
     self.save
     layout_node.add_v_child
@@ -85,20 +91,21 @@ class Pillar < ApplicationRecord
     w = WorkingArticle.where(h).first_or_create
     page_ref.generate_pdf_with_time_stamp
   end
-
-  def remove_last_artile
+  
+  def remove_article(article)
     self.box_count    -=  1
     self.save
-    layout_node.remove_last_child
+    # layout_node.remove_last_child
+    layout_node_order = article.layout_node_order
+    article.delete_folder
+    article.destroy
+    layout_node.remove_child(layout_node_order)
     layout_node.update_layout_with_pillar_path
     new_layout = layout_node.layout_with_pillar_path.dup
-    last = working_articles.last
-    last.delete_folder
-    last.destroy
     working_articles.reload
     working_articles.each_with_index do |w, i|
       box_rect      = new_layout[i].dup
-      box_rect[4]   = w.pillar_order
+      box_rect[4]   = w.pillar_order.split("_")[0..-2].join("_")
       w.change_article(box_rect)
     end
     page_ref.generate_pdf_with_time_stamp
@@ -477,5 +484,13 @@ class Pillar < ApplicationRecord
     unless File.exist?(source_folder) 
       FileUtils.cp(path, target_folder)
     end
+  end
+
+  def article_info
+    working_articles.map{|w| w.rect_with_order}
+  end
+
+  def node_info
+    layout_node.leaf_nodes.map{|n| n.rect_with_tag}
   end
 end

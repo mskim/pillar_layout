@@ -50,7 +50,19 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_4_28
+  - add working_article has_one: layout_node
+  - layout_node belongs_to :working_article, optional: trie
+2020_4_27
+  - fix v_split at 2 from right
+  - fix pillar#remove_article
+    - update back to 2_2, when  2_2_2 is deleted
+  
+  - fix split_box 에 기사 추가?
+  - add 기사 after, before
+  
 2020_4_26
+  - add node_layout_id:integer  to working_article
   - media_plan
       news
       Forum

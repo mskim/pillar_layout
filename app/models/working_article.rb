@@ -108,6 +108,7 @@ class WorkingArticle < ApplicationRecord
 
   has_one :story
   # has_one :group_image
+  has_one :layout_node
 
   # has_many
   has_many :images, dependent: :delete_all
@@ -488,14 +489,13 @@ class WorkingArticle < ApplicationRecord
   def pushable?(line_count)
     article_bottom_spaces_in_lines = 2
     return true if height_in_lines - line_count >= 7
-
     false
   end
 
+  # used for 글줄기 모두 0 행 복구
   def revert_all_extended_lines
     pillar.working_articles.each do |w|
       next unless w.extended_line_count != 0 || w.pushed_line_count != 0
-
       w.extended_line_count = 0
       w.pushed_line_count = 0
       w.save
@@ -591,7 +591,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def pillar_bottom?
-    self == pillar.bottom_article_of_sibllings(self)
+    max_grid_y == pillar.row
   end
 
   def max_grid_x
@@ -849,6 +849,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def y
+    # binding.pry
     y_position = grid_y * grid_height
     if top_position?
       y_position += page_heading_margin_in_lines * body_line_height
@@ -1442,40 +1443,6 @@ class WorkingArticle < ApplicationRecord
     a.shift
     r = a.join('_')
     r
-  end
-
-  def v_cut_at(cut_instruction)
-    # let pillar_handle the cut
-    cut_index = cut_instruction
-    cut_index = column + cut_instruction if cut_instruction < 0
-    pillar.v_cut_working_article_at(self, cut_index)
-    # # divide working article into two
-    # action = []
-    # if cut_index > 0
-    #   # cut from left, , cut_index is positive value
-    #   changing_column = cut_index
-    #   new_column = column - cut_index
-    #   new_grid_x = cut_index
-    #   actions = [node_order, "v+#{cut_index}"]
-    # else
-    #   # cut from right, cut_index is negative value
-    #   changing_column = column + cut_index
-    #   new_column = cut_index.abs
-    #   new_grid_x = changing_column
-    #   actions = [node_order, "v#{cut_index}"]
-    # end
-    # changing_pillar_order = "#{pillar_order}_1"
-    # new_pillar_order = "#{pillar_order}_2"
-    # pillar.update_working_article_cut(actions)
-    # update(column: changing_column, pillar_order: changing_pillar_order)
-    # # delete current working_article content to new folder
-    # delete_folder # renane_folder?
-    # # update wokring_articlr in new folder and generate pdf
-    # # do not update_pdf_chain, since newly creating article will do it
-    # generate_pdf_with_time_stamp(no_update_pdf_chain: true)
-    # # create new working_article
-    # h = { page: page, pillar: self, pillar_order: new_pillar_order.to_s, grid_x: new_grid_x, grid_y: 0, column: new_column, row: row }
-    # w = WorkingArticle.where(h).first_or_create
   end
 
   def bumpup_pillar_order_by(count)

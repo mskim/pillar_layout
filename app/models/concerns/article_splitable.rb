@@ -37,9 +37,6 @@ module ArticleSplitable
     spitable_positions
   end
 
-  def v_splitable?
-    column > 1
-  end
 
   def h_splitable?
     row > 1

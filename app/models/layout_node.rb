@@ -20,6 +20,7 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  pillar_id               :bigint
+#  working_article_id      :integer
 #
 # Indexes
 #
@@ -30,6 +31,7 @@
 # a Array of node array [x,y,width,height, ancestry] sorted by by order
 class LayoutNode < ApplicationRecord
   belongs_to :pillar, optional: true
+  belongs_to :working_article, optional: true
   before_create :init_layout_node
   has_ancestry
   serialize :actions, Array
@@ -218,12 +220,16 @@ class LayoutNode < ApplicationRecord
   end
 
   def v_cut_node_at_index(node_order, column)
-    node = find_node_with_tag(node_order)
+    # node = find_node_with_tag(node_order)
+    node = find_leaf_node_with_tag(node_order)
     node.v_divide_at(column)
     news_layout = leaf_node_layout_with_pillar_path
-    puts "news_layout:#{news_layout}"
     update(layout_with_pillar_path:news_layout,  direction: 'horizontal', box_count:2, selected: false)
     self
+  end
+
+  def find_leaf_node_with_tag(tag)
+    leaf_nodes.select{|node| node.tag == tag}.first
   end
 
   def v_divide_at(position)
@@ -236,8 +242,12 @@ class LayoutNode < ApplicationRecord
     end
     first_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x, grid_y: grid_y, column:first_child_column, row: row, order: 1, box_count: 1)
     second_child = LayoutNode.create(parent:self, node_kind:'article', grid_x: grid_x + first_child_column, grid_y: grid_y, column:second_child_column, row: row, order: 2, box_count: 1)
-    puts "first_child.id = #{first_child.id}"
-    puts "second_child.id = #{second_child.id}"
+    puts "+++++++++ first_child.id = #{first_child.id}"
+    puts "+++++++++ second_child.id = #{second_child.id}"
+  end
+
+  def rect_with_tag
+    [grid_x, grid_y, column, row, tag]
   end
 
   def undo_v_divide(undo_info)
@@ -304,6 +314,28 @@ class LayoutNode < ApplicationRecord
   def undo_add_v_child(undo_info)
   end
 
+  def remove_child(node_order)
+    binding.pry
+    node = find_leaf_node_with_tag(node_order)
+    # node = find_node_with_tag(node_order)
+    case node.depth
+    when  1
+      node.destroy 
+      relayout_children
+    when 2
+      remaining_node_siblings = node.siblings
+      parent = node.parent
+      node.destroy 
+      parent.relayout_children(level: 2)
+    when 3
+      # todo
+      remaining_node_siblings = node.siblings
+      parent = node.parent
+      node.destroy 
+      parent.relayout_children(level: 3)
+    end
+  end
+
   def remove_last_child
     return if children_count <= 1
     if children_count == 2
@@ -319,7 +351,7 @@ class LayoutNode < ApplicationRecord
   def undo_remove_last_child(undo_info)
   end
 
-  def relayout_children
+  def relayout_children(opions={})
     currnt_children_count   = children.length
     child_row_remainder     = 0
     child_column_remainder  = 0
@@ -506,7 +538,6 @@ class LayoutNode < ApplicationRecord
         svg += "<a xlink:href='/layout_nodes/#{id}/select'><rect class='rectfill' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
     end
   end
-
 
   def h_scale
     10
@@ -778,9 +809,10 @@ class LayoutNode < ApplicationRecord
     self.grid_y = 0 unless grid_y
     self.actions = actions || []
     self.box_count = 1 
-    self.layout_with_pillar_path = [[grid_x, grid_y, column, row, "1"]]
     self.node_kind = 'article' unless node_kind
     self.tag = tree_path
+    self.layout_with_pillar_path = [[grid_x, grid_y, column, row, "1"]]
+    self.layout_with_pillar_path = [[grid_x, grid_y, column, row, tree_path]] if tree_path
     self.profile = "#{column}x#{row}_#{box_count}"
     true
   end
