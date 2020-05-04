@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_033755) do
+ActiveRecord::Schema.define(version: 2020_05_03_001718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -427,7 +427,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_033755) do
     t.bigint "pillar_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "working_article_id"
     t.index ["pillar_id"], name: "index_layout_nodes_on_pillar_id"
   end
 
@@ -562,6 +561,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_033755) do
     t.string "page_ref_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "has_drop_article"
     t.index ["page_ref_id"], name: "index_pillars_on_page_ref_id"
   end
 
@@ -960,6 +960,9 @@ ActiveRecord::Schema.define(version: 2020_04_28_033755) do
     t.string "frame_color"
     t.float "frame_thickness"
     t.string "profile_image_position"
+    t.string "ancestry"
+    t.string "frame_bg_color"
+    t.boolean "locked"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"

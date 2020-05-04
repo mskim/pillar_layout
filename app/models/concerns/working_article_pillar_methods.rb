@@ -172,25 +172,24 @@ module WorkingArticlePillarMethods
     svg += "<a xlink:href='/working_articles/#{id}/change_story'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
-  # private
-  # def init_article
-  #   self.column = 4 unless column
-  #   self.row = 4 unless row
-  #   self.title = "여기는 #{pillar_order}제목 입니다." unless title
-  #   self.title = "여기는 #{pillar_order}제목." if column <= 2
-  #   self.subtitle = '여기는 부제목 입니다.' unless subtitle
-  #   body_text = '여기는 본문입니다. '*20 
-  #   body_text += '여기는 본문입니다. '*20 
-  #   body_text =<<~EOF
-  #   #{body_text}
+  def drop_starting_index
+    pillar_order.split('_')[1].to_i - 1
+  end
 
-  #   #{body_text}
+  # create aritcle on the right side which spans from top of current article to the bottom on pillar
+  # if current article is not the top article, lock all article above the currnt one.
+  def add_right_drop(column_width_in_grid)
+    pillar.add_right_drop(column_width_in_grid, drop_starting_index)
+  end
 
-  #   #{body_text}
+  # create aritcle on the left side which spans from top of current article to the bottom on pillar
+  # if current article is not the top article, lock all article above the currnt one.
+  def add_left_drop(column_width_in_grid)
+    pillar.add_left_drop(column_width_in_grid, drop_starting_index)
+  end
 
-  #   EOF
-  #   self.body = body_text unless body
-  # end
-
+  def remove_drop
+    pillar.remove_drop
+  end
 end
 

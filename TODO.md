@@ -50,9 +50,60 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_1
+  - right_drop 
+    right side article starting at given article and drop to the bottom of pillar
+  - left_drop
+    left side article starting at given article and drop to the bottom of pillar
+
+2020_4_30
+  - side_drop
+    side article starting at given article and drop to the bottom of pillar
+  - side_article
+    only expand in the current article
+    
+  - overlap
+  - fix image fit_type
+  - fix image cliping
+  - add frame_bg_color to boxed article
+
+2020_4_30
+  - right_drop
+  - left_drop
+  
+    1-L, 2-R
+  - article_sidebar_right_1
+    1-1-1_R2
+    1-1-2_R2
+
 2020_4_28
+  - 7단 기사 에서 자동행조절 하면 오른쪽 기사 위로 올라감 제목 넒이가 6단 만 가림
+    fixed change @text_area[2] > 10 to 20
+    def unoccupied_line?
+      layed_out_line == false && @text_area[2] > 20
+    end
+NameError (undefined local variable or method `token_options' for #<RLayout::RParagraph:0x00007f9700de34d0>
+Did you mean?  token_string):
+
+  - 아동·청소년
+  - Root article shoud manage its children, instead of pillar managing it. 
+  - add ancestry:string to WorkingArticle
+  - WorkingArticle has_ancestry
+  Root article should make things much simpler to add, delete additional article on right, left, or overlap
+  only root article belongs_to pillar
+  root article also should handle 
+    - PDF merging
+    - svg view generation
+
+  naming convention
+    root article 1_1
+    children article 1_1_1, 1_1_2, 1_1_3
   - add working_article has_one: layout_node
   - layout_node belongs_to :working_article, optional: trie
+
+  - 2020_4_28 기자이름 영문일때 우측 space
+  - 메인가사 자동 설정
+
 2020_4_27
   - fix v_split at 2 from right
   - fix pillar#remove_article

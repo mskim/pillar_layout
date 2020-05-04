@@ -20,7 +20,6 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  pillar_id               :bigint
-#  working_article_id      :integer
 #
 # Indexes
 #

@@ -575,20 +575,77 @@ class WorkingArticlesController < ApplicationController
   end
 
   def v_cut_at(w, cut_index)
-    w.pillar.v_cut_working_article_at(w, cut_index)
+    w.v_cut_children_at(cut_index)
   end
 
   def add_article
     set_working_article
-    # @working_article.h_cut
     @working_article.pillar.add_article
     redirect_to @working_article
   end
 
   def remove_article
     set_working_article
-    @working_article.pillar.remove_article(@working_article)
     page = @working_article.page
+    if @working_article.overlap 
+      @working_article.pillar.remove_drop
+    elsif @working_article.parent?
+      @working_article.parent.remove_attached_article
+    else
+      @working_article.pillar.remove_article(@working_article)
+    end
+    redirect_to page
+  end
+
+  def add_right_drop_one
+    set_working_article
+    add_right_drop(@working_article, 1)
+    redirect_to @working_article
+  end
+
+  def add_right_drop_two
+    set_working_article
+    add_right_drop(@working_article, 2)
+    redirect_to @working_article.page  
+  end
+
+  def add_right_drop_three
+    set_working_article
+    add_right_drop(@working_article, 3)
+    redirect_to @working_article.page  
+  end
+
+  def add_right_drop(w, column)
+    set_working_article
+    w.add_right_drop(column)
+  end
+
+  def add_left_drop_one
+    set_working_article
+    add_right_drop(1)
+    redirect_to @working_article.page  
+  end
+
+  def add_left_drop_two
+    set_working_article
+    add_right_drop(2)
+    redirect_to @working_article.page  
+  end
+
+  def add_left_drop_three
+    set_working_article
+    add_right_drop(3)
+    redirect_to @working_article.page  
+  end
+
+  def add_left_drop(column)
+    @working_articce.add_right_drop(column)
+  end
+
+  def remove_drop
+    page = @working_article.page 
+    set_working_article
+    @working_article.pillar.remove_drop
     redirect_to page
   end
 

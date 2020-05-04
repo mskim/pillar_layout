@@ -4,19 +4,20 @@
 #
 # Table name: pillars
 #
-#  id            :bigint           not null, primary key
-#  box_count     :integer
-#  column        :integer
-#  direction     :string
-#  grid_x        :integer
-#  grid_y        :integer
-#  order         :integer
-#  page_ref_type :string
-#  profile       :string
-#  row           :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  page_ref_id   :bigint
+#  id               :bigint           not null, primary key
+#  box_count        :integer
+#  column           :integer
+#  direction        :string
+#  grid_x           :integer
+#  grid_y           :integer
+#  has_drop_article :boolean
+#  order            :integer
+#  page_ref_type    :string
+#  profile          :string
+#  row              :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  page_ref_id      :bigint
 #
 # Indexes
 #
@@ -49,27 +50,6 @@ class Pillar < ApplicationRecord
     else
       0
     end
-  end
-
-  def v_cut_working_article_at(changing_article, cut_index)
-    current_pillar_order = changing_article.pillar_order
-    cut_column     = cut_index
-    cut_column     = column + cut_index if cut_index < 0
-    node_order     = changing_article.layout_node_order
-    # binding.pry
-    layout_node.v_cut_node_at_index(node_order, cut_column)
-    # binding.pry
-    new_layout      = layout_node.layout_with_pillar_path.uniq
-    #TODO assuming level 2 article
-    changing_article_index = node_order.to_i - 1
-    box_rect        = new_layout[changing_article_index].dup
-    box_rect[4]     = current_pillar_order + "_1"
-    changing_article.change_article(box_rect)
-    new_box_rect    = new_layout[changing_article_index + 1].dup
-    new_pillar_order = current_pillar_order + "_2"
-    h = { page_id: page_ref.id, pillar: self, pillar_order: new_pillar_order, grid_x: new_box_rect[0], grid_y: new_box_rect[1], column: new_box_rect[2], row: new_box_rect[3] }
-    w = WorkingArticle.where(h).first_or_create
-    page_ref.generate_pdf_with_time_stamp
   end
 
   def add_article
@@ -165,12 +145,6 @@ class Pillar < ApplicationRecord
       "#{Rails.root}/public/pillar/#{column}/#{row}/#{box_count}/#{id}"
     end
   end
-
-
-  # def pdf_image_path
-  #   # if @time_stamp
-  #   "/#{publication_id}/issue/#{date.to_s}/#{page_number}/#{latest_pdf_basename}"
-  # end
 
   def publication_id
     page_ref.publication_id
@@ -327,16 +301,6 @@ class Pillar < ApplicationRecord
   end
 
   def layout_svg
-    # s = ''
-    # layout_array = layout
-    # layout_array.each do |rect|
-    #   s += if rect.is_a?(Hash)
-    #          box_svg(rect.values.first)
-    #        else
-    #          box_svg(rect)
-    #        end
-    # end
-    # s
     "<rect fill='yellow' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />\n"
   end
 
@@ -348,7 +312,6 @@ class Pillar < ApplicationRecord
     union = pillar_rects.first
     pillar_rects.each_with_index do |rect, i|
       next if i == 0
-
       union = union_rect(union, rect)
     end
     union
@@ -492,5 +455,82 @@ class Pillar < ApplicationRecord
 
   def node_info
     layout_node.leaf_nodes.map{|n| n.rect_with_tag}
+  end
+
+
+  # +++++++++++ drop article ++++++++++++++++++++
+  # create aritcle on the right side which spans from top of current article to the bottom on pillar
+  # if current article is not the top article, lock all article above the currnt one.
+  
+  def has_drop_article?
+    has_drop_article == true
+  end
+  
+  def add_right_drop(column_width_in_grid, starting_row_index=0)
+    return if column_width_in_grid >= column - 1
+    return if has_drop_article?
+    update(has_drop_article: true)
+    # update all existing articles column
+    new_column = column - column_width_in_grid
+    working_articles.each_with_index do |w, i|
+      next if i < starting_row_index
+      w.update(column:new_column)
+      w.generate_pdf_with_time_stamp
+    end
+    h           = {}
+    h[:overlap] = "right_drop"
+    h[:grid_x]  = column - column_width_in_grid
+    h[:grid_y]  = working_articles[starting_row_index].grid_y
+    h[:column]  = column_width_in_grid
+    h[:row]     = row - h[:grid_y]
+    h[:pillar]  = self
+    h[:page_id] = page_ref.id
+    h[:pillar_order]    = "#{order}_R"
+
+    w = WorkingArticle.create(h)
+    w.generate_pdf_with_time_stamp
+    page_ref.generate_pdf_with_time_stamp
+  end
+
+  # create aritcle on the left side which spans from top of current article to the bottom on pillar
+  # if current article is not the top article, lock all article above the currnt one.
+  def add_left_drop(column_width_in_grid, starting_row_index=0)
+    return if column_width_in_grid >= column - 1
+    return if has_drop_article?
+    update(has_drop_article: true)
+    new_column = column - column_width_in_grid
+    # update all existing articles grid_x and column
+    working_articles.each_with_index do |w, i|
+      next if i < starting_row_index
+      w.update(grid_x:column_width_in_grid, column:new_column)
+      w.generate_pdf_with_time_stamp
+    end
+    h           = {}
+    h[:overlap] = "left_drop"
+    h[:grid_x]  = 0
+    h[:grid_y]  = working_articles[starting_row_index].grid_y
+    h[:column]  = column_width_in_grid
+    h[:row]     = row - h[:grid_y]
+    h[:pillar]  = self
+    h[:page_id] = page_ref.id
+    h[:pillar_order]    = "#{order}_L"
+    w = WorkingArticle.create(h)
+    w.generate_pdf_with_time_stamp
+    page_ref.generate_pdf_with_time_stamp
+  end
+
+  def remove_drop
+    return unless has_drop_article?
+    update(has_drop_article: false)
+    working_articles.each do |w|
+      if w.overlap == 'right_drop' || w.overlap == 'left_drop'
+        w.delete_folder
+        w.destroy
+      elsif w.column != column
+        w.update(grid_x:0, column:column)
+        w.generate_pdf_with_time_stamp
+      end
+    end
+    page_ref.generate_pdf_with_time_stamp
   end
 end

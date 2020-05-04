@@ -248,7 +248,14 @@ Rails.application.routes.draw do
       get 'create_overlap'
       get 'delete_overlap'
       patch 'clear_crop_rect'
-      get 'copy_to_current_issue' 
+      get 'copy_to_current_issue'
+      get 'add_right_drop_one' 
+      get 'add_right_drop_two' 
+      get 'add_right_drop_three' 
+      get 'add_left_drop_one' 
+      get 'add_left_drop_two' 
+      get 'add_left_drop_three' 
+      get 'remove_drop' 
     end
   end
 
