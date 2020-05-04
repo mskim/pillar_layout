@@ -5,6 +5,7 @@
 # Table name: working_articles
 #
 #  id                           :integer          not null, primary key
+#  ancestry                     :string
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
@@ -20,6 +21,7 @@
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
+#  frame_bg_color               :string
 #  frame_color                  :string
 #  frame_sides                  :string
 #  frame_thickness              :float
@@ -36,6 +38,7 @@
 #  is_front_page                :boolean
 #  kind                         :string
 #  left_line                    :integer          default(0)
+#  locked                       :boolean
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer
@@ -108,8 +111,7 @@ class WorkingArticle < ApplicationRecord
 
   has_one :story
   # has_one :group_image
-  has_one :layout_node
-
+  has_ancestry
   # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
@@ -132,7 +134,9 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleOverlapable
   include WorkingArticleSavePdf
   include Pdf2jpg
-
+  include ArticleChildrenManager
+  serialize :overlap, Array # rect array
+                            
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
   attr_reader :time_stamp
@@ -144,7 +148,7 @@ class WorkingArticle < ApplicationRecord
   # when working_article is split, we need to bumped up folder names
 
   def page
-    pillar.page_ref
+    pillar.page_ref if pillar
   end
 
   def save_to_story
@@ -323,13 +327,13 @@ class WorkingArticle < ApplicationRecord
     if story.subject_head
       self.subject_head = filter_to_title(story.subject_head)
     end
-    self.title          = filter_to_title(story.title)
-    self.subtitle       = filter_to_title(story.subtitle)
-    self.body           = filter_to_markdown(story.body)
+    self.title          = filter_to_title(story.title) if story.title
+    self.subtitle       = filter_to_title(story.subtitle) if story.subtitle
+    self.body           = filter_to_markdown(story.content.to_plain_text) if story.content
     self.price          = story.price if story.price
     self.by_line        = story.by_line if story.by_line
     self.category_code  = story.category_code if story.category_code
-    self.subcategory_code = story.subcategory_code if story.subcategory_code
+    # self.subcategory_code = story.subcategory_code if story.subcategory_code
     self.quote = story.quote if story.quote
     self.save
     save_article
@@ -519,11 +523,7 @@ class WorkingArticle < ApplicationRecord
   # auto adjust height and relayout bottom article
   # set height_in_lines, extended_line_count
   def auto_adjust_height
-    # space = available_bottom_space
-    # if space > 0
-      # max_pushed_line_count = pillar.max_pushed_line_count
-    # else
-    # end
+    return if locked
     generate_pdf_with_time_stamp(adjustable_height: true)
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.update_pushed_line
@@ -849,7 +849,6 @@ class WorkingArticle < ApplicationRecord
   end
 
   def y
-    # binding.pry
     y_position = grid_y * grid_height
     if top_position?
       y_position += page_heading_margin_in_lines * body_line_height
@@ -921,6 +920,7 @@ class WorkingArticle < ApplicationRecord
     end
     if frame_sides == '테두리'
       h[:frame_sides]                 = '테두리'
+      h[:frame_bg_color]              = frame_bg_color || 'white'
       h[:frame_color]                 = frame_color || 'black'
       h[:frame_thickness]             = frame_thickness || 0.3
     end
@@ -971,7 +971,7 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
-    h[:overlap]                       = overlap   if overlap
+    h[:overlap]                       = overlap   if overlap.length > 3
     h[:embedded]                      = embedded  if embedded
     h
   end

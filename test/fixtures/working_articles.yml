@@ -3,6 +3,7 @@
 # Table name: working_articles
 #
 #  id                           :integer          not null, primary key
+#  ancestry                     :string
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
@@ -18,6 +19,7 @@
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
+#  frame_bg_color               :string
 #  frame_color                  :string
 #  frame_sides                  :string
 #  frame_thickness              :float
@@ -34,6 +36,7 @@
 #  is_front_page                :boolean
 #  kind                         :string
 #  left_line                    :integer          default(0)
+#  locked                       :boolean
 #  on_left_edge                 :boolean
 #  on_right_edge                :boolean
 #  order                        :integer

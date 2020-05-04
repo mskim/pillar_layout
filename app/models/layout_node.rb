@@ -20,7 +20,6 @@
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  pillar_id               :bigint
-#  working_article_id      :integer
 #
 # Indexes
 #
@@ -31,7 +30,6 @@
 # a Array of node array [x,y,width,height, ancestry] sorted by by order
 class LayoutNode < ApplicationRecord
   belongs_to :pillar, optional: true
-  belongs_to :working_article, optional: true
   before_create :init_layout_node
   has_ancestry
   serialize :actions, Array
@@ -315,7 +313,6 @@ class LayoutNode < ApplicationRecord
   end
 
   def remove_child(node_order)
-    binding.pry
     node = find_leaf_node_with_tag(node_order)
     # node = find_node_with_tag(node_order)
     case node.depth

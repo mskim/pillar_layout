@@ -575,13 +575,18 @@ class WorkingArticlesController < ApplicationController
   end
 
   def v_cut_at(w, cut_index)
-    w.pillar.v_cut_working_article_at(w, cut_index)
+    w.v_cut_children_at(cut_index)
   end
 
   def add_article
     set_working_article
-    # @working_article.h_cut
     @working_article.pillar.add_article
+    redirect_to @working_article
+  end
+
+  def remove_attached_article
+    set_working_article
+    @working_article.remove_attached_article
     redirect_to @working_article
   end
 
@@ -590,6 +595,40 @@ class WorkingArticlesController < ApplicationController
     @working_article.pillar.remove_article(@working_article)
     page = @working_article.page
     redirect_to page
+  end
+
+  def add_right_drop_one
+    set_working_article
+    add_right_drop(@working_article, 1)
+    redirect_to @working_article
+  end
+
+  def add_right_drop_two
+    set_working_article
+    add_right_drop(@working_article, 2)
+    redirect_to @working_article  
+  end
+
+  def add_right_drop(w, column)
+    w.add_right_drop(column)
+  end
+
+  def add_left_drop_one
+    add_right_drop(1)
+  end
+
+  def add_left_drop_two
+    add_right_drop(2)
+  end
+
+  def add_left_drop(column)
+    @working_articce.add_right_drop(column)
+  end
+
+  def delete_drop
+    set_working_article
+    @working_article.delete_span
+    redirect_to @working_article
   end
 
   def create_overlap

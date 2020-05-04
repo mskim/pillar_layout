@@ -900,16 +900,15 @@ class Page < ApplicationRecord
     # Current layout has more number of pillars
     elsif pillars.length > new_page_layout.pillars.length
       delete_count = pillars.length - new_page_layout.pillars.length
-      pillars.each_with_index do |p, i|
-        break unless new_page_layout.pillars[i]
-
-        p.change_pillar_layout(new_page_layout.pillars[i])
-      end
       delete_count.times do
         p = pillars.last
         p.delete_folder
-        system "rm -rf #{p.path}"
         p.destroy
+        pillars.reload
+      end
+      pillars.each_with_index do |p, i|
+        break unless new_page_layout.pillars[i]
+        p.change_pillar_layout(new_page_layout.pillars[i])
       end
     # New page layout has more pillars than currnt one
     else

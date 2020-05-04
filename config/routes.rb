@@ -243,12 +243,18 @@ Rails.application.routes.draw do
       get 'v_cut_minus_one'
       get 'v_cut_minus_two'
       get 'v_cut_minus_three'
+      get 'remove_attached_article'
       get 'add_article'
       get 'remove_article'
       get 'create_overlap'
       get 'delete_overlap'
       patch 'clear_crop_rect'
-      get 'copy_to_current_issue' 
+      get 'copy_to_current_issue'
+      get 'add_right_drop_one' 
+      get 'add_right_drop_two' 
+      get 'add_left_drop_one' 
+      get 'add_left_drop_two' 
+      get 'delete_drop' 
     end
   end
 
