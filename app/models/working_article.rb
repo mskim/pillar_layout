@@ -135,7 +135,11 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleSavePdf
   include Pdf2jpg
   include ArticleChildrenManager
+<<<<<<< HEAD
   # serialize :overlap, Array # rect array
+=======
+  serialize :overlap, Array # rect array
+>>>>>>> df805eb1520f83411f6a37909da978633fd956d1
                             
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
@@ -971,7 +975,11 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
+<<<<<<< HEAD
     h[:overlap]                       = overlap   #if overlap.length > 3
+=======
+    h[:overlap]                       = overlap   if overlap.length > 3
+>>>>>>> df805eb1520f83411f6a37909da978633fd956d1
     h[:embedded]                      = embedded  if embedded
     h
   end

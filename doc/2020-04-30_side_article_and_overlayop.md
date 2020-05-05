@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # 내림 기사박스란 사용법
 
@@ -42,13 +43,23 @@
 # handling drop_article and overlap
 
 ## WorkingArticle side drop articles
+=======
+# handling side_boxes and overlap
+
+## WorkingArticle
+>>>>>>> df805eb1520f83411f6a37909da978633fd956d1
   has_ancestry # this keep track of attached articles 
   serialize :overlap Array 
     kind: # left_side, right_side, overlap, extended_left, extended_right
     [kind, grid_x, grid_y, column, row]
 
+<<<<<<< HEAD
 side_boxes can be used for vitical division article and beyond 
 
+=======
+
+side_boxes can be used for vitical division article and beyond 
+>>>>>>> df805eb1520f83411f6a37909da978633fd956d1
 ## locking
   when is locked, adjust_height is no longer available
 
