@@ -661,7 +661,6 @@ class Page < ApplicationRecord
     box_element_svg += page_heading.box_svg if page_number == 1
     working_articles.each do |article|
       next if article.inactive
-
       box_element_svg += article.box_svg
     end
     if ad_box = ad_boxes.first
@@ -680,22 +679,6 @@ class Page < ApplicationRecord
     EOF
   end
 
-  def story_svg
-    box_element_svg = page_svg_with_jpg
-    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
-    # box_element_svg += page_svg
-    box_element_svg += page_heading.box_svg if page_number == 1
-    working_articles.each do |article|
-      next if article.inactive
-
-      box_element_svg += article.story_svg
-    end
-    if ad_box = ad_boxes.first
-      box_element_svg += ad_box.box_svg
-    end
-    box_element_svg += '</g>'
-    box_element_svg
-  end
 
   def to_svg_with_jpg
     svg = <<~EOF
@@ -743,15 +726,6 @@ class Page < ApplicationRecord
 
   def save_svg
     File.open(svg_path, 'w') { |f| f.write to_svg_with_jpg }
-  end
-
-  def to_story_svg
-    svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-        #{story_svg}
-      </svg>
-    EOF
   end
 
   def section_pages

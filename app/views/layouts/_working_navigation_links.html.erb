@@ -229,9 +229,7 @@
       <% if @working_article.delete_able? %>
           <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
       <% end %>
-      <% if @working_article.pillar.has_drop_article? %>
-        <%= link_to '내림기사 삭제', remove_drop_working_article_path(@working_article), class: "dropdown-item" %>
-      <% elsif !@working_article.has_children? %>
+      <% if !@working_article.has_children? %>
         <div class="dropdown-divider"></div>
         <% if @working_article.column < 4 %>
           <%= link_to '우측 내림기사 1단', add_right_drop_one_working_article_path(@working_article.pillar), class: "dropdown-item" %>

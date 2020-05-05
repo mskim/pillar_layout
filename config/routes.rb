@@ -252,17 +252,11 @@ Rails.application.routes.draw do
       get 'copy_to_current_issue'
       get 'add_right_drop_one' 
       get 'add_right_drop_two' 
-<<<<<<< HEAD
       get 'add_right_drop_three' 
       get 'add_left_drop_one' 
       get 'add_left_drop_two' 
       get 'add_left_drop_three' 
       get 'remove_drop' 
-=======
-      get 'add_left_drop_one' 
-      get 'add_left_drop_two' 
-      get 'delete_drop' 
->>>>>>> df805eb1520f83411f6a37909da978633fd956d1
     end
   end
 

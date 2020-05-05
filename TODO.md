@@ -50,6 +50,9 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_5
+  - issue/1/firt_group_stories, fix display number
+
 2020_5_1
   - right_drop 
     right side article starting at given article and drop to the bottom of pillar
