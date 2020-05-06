@@ -50,6 +50,12 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_6
+  - fix image fit_type, crop
+  - mixed token style in same line
+  - fix empty space when last token has "mark
+  - 
+  
 2020_5_5
   - issue/1/firt_group_stories, fix display number
 

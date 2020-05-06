@@ -25,8 +25,4 @@ global.$ = jQuery;
 
 import "controllers";
 
-$(document).ready(function() {
-  bsCustomFileInput.init();
-});
-
 // import "bootstrap";
