@@ -121,7 +121,15 @@ class Pillar < ApplicationRecord
 
   def extened_line_sum
     working_articles.reload
-    working_articles.sum(:extended_line_count)
+    root_articles = working_articles.select{|w| !w.parent && w.attached_type.nil?}
+    root_articles.map{|w| w.extended_line_count}.reduce(:+)
+    #TODO
+    # binding.pry
+    # working_articles.select{|w| !w.parent && w.attached_type.nil?}.sum{:extended_line_count}
+  end
+
+  def extened_line_sum_for_previous_root_articles(bordering_y)
+    working_articles.select{|w| w.grid_y < bordering_y}.sum{:extended_line_count}
   end
 
   # update pillar_config file and working_article grid_y and row after cut
@@ -466,6 +474,8 @@ class Pillar < ApplicationRecord
     has_drop_article == true
   end
   
+  # create aritcle on the left side which spans from top of current article to the bottom on pillar
+  # if current article is not the top article, lock all article above the currnt one.
   def add_right_drop(column_width_in_grid, starting_row_index=0)
     return if column_width_in_grid >= column - 1
     return if has_drop_article?
@@ -478,7 +488,7 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp
     end
     h           = {}
-    h[:overlap] = "right_drop"
+    h[:attached_type] = "right_drop"
     h[:grid_x]  = column - column_width_in_grid
     h[:grid_y]  = working_articles[starting_row_index].grid_y
     h[:column]  = column_width_in_grid
@@ -506,7 +516,7 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp
     end
     h           = {}
-    h[:overlap] = "left_drop"
+    h[:attached_type] = "left_drop"
     h[:grid_x]  = 0
     h[:grid_y]  = working_articles[starting_row_index].grid_y
     h[:column]  = column_width_in_grid
@@ -523,7 +533,7 @@ class Pillar < ApplicationRecord
     return unless has_drop_article?
     update(has_drop_article: false)
     working_articles.each do |w|
-      if w.overlap == 'right_drop' || w.overlap == 'left_drop'
+      if w.attached_type == 'right_drop' || w.attached_type == 'left_drop'
         w.delete_folder
         w.destroy
       elsif w.column != column
@@ -533,4 +543,5 @@ class Pillar < ApplicationRecord
     end
     page_ref.generate_pdf_with_time_stamp
   end
+
 end

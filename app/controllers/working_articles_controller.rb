@@ -593,10 +593,11 @@ class WorkingArticlesController < ApplicationController
   def remove_article
     set_working_article
     page = @working_article.page
-    if @working_article.overlap 
+    if @working_article.has_parent?
+      @working_article.parent.remove_attached_article    
+    elsif @working_article.attached_type
+      # side drop
       @working_article.pillar.remove_drop
-    elsif @working_article.parent?
-      @working_article.parent.remove_attached_article
     else
       @working_article.pillar.remove_article(@working_article)
     end
@@ -628,24 +629,24 @@ class WorkingArticlesController < ApplicationController
 
   def add_left_drop_one
     set_working_article
-    add_right_drop(1)
+    add_left_drop(1)
     redirect_to @working_article.page  
   end
 
   def add_left_drop_two
     set_working_article
-    add_right_drop(2)
+    add_left_drop(2)
     redirect_to @working_article.page  
   end
 
   def add_left_drop_three
     set_working_article
-    add_right_drop(3)
+    add_left_drop(3)
     redirect_to @working_article.page  
   end
 
   def add_left_drop(column)
-    @working_articce.add_right_drop(column)
+    @working_articce.add_left_drop(column)
   end
 
   def remove_drop
@@ -655,38 +656,12 @@ class WorkingArticlesController < ApplicationController
     redirect_to page
   end
 
-  def add_right_drop_one
-    set_working_article
-    add_right_drop(@working_article, 1)
-    redirect_to @working_article
+  def add_left_overlap(column)
+
   end
 
-  def add_right_drop_two
-    set_working_article
-    add_right_drop(@working_article, 2)
-    redirect_to @working_article  
-  end
+  def add_right_overlap(column)
 
-  def add_right_drop(w, column)
-    w.add_right_drop(column)
-  end
-
-  def add_left_drop_one
-    add_right_drop(1)
-  end
-
-  def add_left_drop_two
-    add_right_drop(2)
-  end
-
-  def add_left_drop(column)
-    @working_articce.add_right_drop(column)
-  end
-
-  def delete_drop
-    set_working_article
-    @working_article.delete_span
-    redirect_to @working_article
   end
 
   def create_overlap

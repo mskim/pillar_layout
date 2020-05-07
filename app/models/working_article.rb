@@ -99,6 +99,20 @@
 # price
 # category_code
 
+# ancestry
+# keeps ancestry path(parent child relation info) in decence's ancestry field as /ancestry/path
+# a root article can have attached articles(left_divide, right_divide, left_overlap, right_overlap)
+# as children
+# but left_drop and right_drop is not treated as child, they belong to pillar
+
+# attached_types
+# attached articles keep their attached_types info in this field
+# left_divide, right_divide, left_overlap, right_overlap, left_drop, right_drop
+
+# overlap
+# overlapping area only one is allow
+# we might have left_overlap, right_overlap or none or  overlap from page
+
 class WorkingArticle < ApplicationRecord
   # before & after
   before_create :init_article
@@ -131,11 +145,10 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleLayout
   include WorkingArticlePillarMethods
   include PageSavePdf
-  include WorkingArticleOverlapable
   include WorkingArticleSavePdf
   include Pdf2jpg
   include ArticleChildrenManager
-  # serialize :overlap, Array # rect array
+  serialize :overlap, Array # rect array
                             
   # extend FriendlyId
   # friendly_id :make_frinedly_slug, :use => [:slugged]
@@ -524,7 +537,15 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   def auto_adjust_height
     return if locked
+    before_extended_line_count = extended_line_count
     generate_pdf_with_time_stamp(adjustable_height: true)
+    after_extended_line_count = extended_line_count
+    if has_children? && (before_extended_line_count != after_extended_line_count)
+      # update child height
+      children.first.update(extended_line_count: extended_line_count)
+      children.first.generate_pdf_with_time_stamp
+    end
+    
     bottom_article = bottom_article_of_sibllings(self)
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
@@ -548,7 +569,6 @@ class WorkingArticle < ApplicationRecord
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
     return if line_count == extended_line_count
-
     bottom_article = pillar.bottom_article_of_sibllings(self)
     puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
     unless bottom_article.pushable?(line_count)
@@ -558,6 +578,10 @@ class WorkingArticle < ApplicationRecord
     self.extended_line_count = line_count
     self.save
     generate_pdf_with_time_stamp
+    if has_children?
+      children.first.update(extended_line_count: extended_line_count)
+      children.first.generate_pdf_with_time_stamp
+    end
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
@@ -577,7 +601,6 @@ class WorkingArticle < ApplicationRecord
   def extend_line(line_count, _options = {})
     # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
-
     bottom_article = bottom_article_of_sibllings(self)
     unless bottom_article.pushable?(line_count)
       puts 'bottom sibling not pushable!!!'
@@ -586,6 +609,10 @@ class WorkingArticle < ApplicationRecord
     self.extended_line_count += line_count
     self.save
     generate_pdf_with_time_stamp
+    if has_children?
+      children.first.update(extended_line_count: extended_line_count)
+      children.first.generate_pdf_with_time_stamp
+    end
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
@@ -931,6 +958,10 @@ class WorkingArticle < ApplicationRecord
     if extended_line_count
       h[:extended_line_count]           = self.extended_line_count
     end
+    # if it has a parent  
+    if parent
+      h[:extended_line_count]           = parent.extended_line_count
+    end
     h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
@@ -971,7 +1002,7 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
-    h[:overlap]                       = overlap   #if overlap.length > 3
+    h[:overlap]                       = overlap.length > 0 
     h[:embedded]                      = embedded  if embedded
     h
   end

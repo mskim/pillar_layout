@@ -54,8 +54,13 @@
   - fix image fit_type, crop
   - mixed token style in same line
   - fix empty space when last token has "mark
-  - 
-  
+  - side_drop
+    - handle adjustable_height push
+    - divider line for side_drop
+  - chidren
+    - handle extended_line
+    - divider line for chidren
+
 2020_5_5
   - issue/1/firt_group_stories, fix display number
 
