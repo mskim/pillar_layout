@@ -50,16 +50,29 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_8
+  - create 부고, 인사, as float
+  - overlap as 첨부기사?, 기사첨부?
+
+2020_5_7
+  - create website
+    - create sample website
+    - web desking
+
 2020_5_6
-  - fix image fit_type, crop
-  - mixed token style in same line
-  - fix empty space when last token has "mark
   - side_drop
     - handle adjustable_height push
     - divider line for side_drop
   - chidren
     - handle extended_line
     - divider line for chidren
+
+  - fix image fit_type, crop
+  - mixed token style in same line
+  - fix empty space when last token has "mark
+  - show pictures from wire
+    - 나의 기사, 섹션으로 출고
+  - 기사 첨부, 1x1, 1x2, 2x2, 3x3
 
 2020_5_5
   - issue/1/firt_group_stories, fix display number

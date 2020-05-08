@@ -216,7 +216,8 @@ module WorkingArticleSavePdf
         page_canvas.image(image_path, at: flipped, width: width, height: h)
       else
         if parent
-          flipped[1] -= pillar.extened_line_sum_for_previous_root_articles(grid_y)*body_line_height
+          sum = pillar.extened_line_sum_for_previous_root_articles(grid_y)
+          flipped[1] -= pillar.extened_line_sum_for_previous_root_articles(grid_y)*body_line_height if sum
         else
           flipped[1] -= extended_line_sum*body_line_height
         end

@@ -7,7 +7,7 @@ module ArticleChildrenManager
       if cut_index < 0
         changing_column  = column + cut_index
         update(column:changing_column)
-        child_grid_x     =  new_column   
+        child_grid_x     =  changing_column   
         child_column     = 0 - cut_index
       else
         changing_column   = column - cut_index
@@ -55,37 +55,47 @@ module ArticleChildrenManager
   end
 
   def overlapable?
-    column > 2 && row > 2
+    column > 3 && row > 3
   end
 
   def has_overlap?
-    !attached_type.nil?
+    attached_type == 'right_overlap' || attached_type == 'left_overlap'
   end
 
-  def add_overlap_at(cut_index=2)
-    # allow only one attached child
-    unless has_children?
-      child_column     = cut_index
-      if cut_index < 0
-        child_column   = 0 - cut_index
-      end
-      child_row  = row/2
-      child_row += 1 if (row % 2) != 0
-      child_grid_y = grid_y + (row - child_row)
-      generate_pdf_with_time_stamp
-      new_pillar_order = pillar_order + "_1"
-      h = {page_id:page.id, pillar:pillar,  pillar_order: new_pillar_order, grid_x:new_column , grid_y: child_grid_y, column: child_column, row: child_row }
-      created_overlap = self.children.create(h)
-      update(overlap:created_overlap.overlap_in_array)
-      w.generate_pdf_with_time_stamp
-      page.generate_pdf_with_time_stamp
-    else
-      puts "already has child!!!"
+  def add_overlap
+    position = 9
+    overlap_column    = column/2
+    overlap_row       = overlap_row/2
+    create_overlap(position, overlap_column, overlap_row)
+  end
+
+  def create_overlap(child_position, child_column, child_row)
+    child_pillar_order = pillar_order + "_1"
+    if child_position == 7
+      child_grid_x  = 0 
+    elsif child_position == 9
+      child_grid_x  = column - child_column
     end
+    child_grid_y       = row - child_row
+    h = {page_id:page.id, pillar:pillar,  pillar_order: child_pillar_order, grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row }
+    created_overlap = self.children.create(h)
+    update(overlap:created_overlap.rect_with_order)
+    generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
-  def overlap_in_array
-    [rect_with_order]
+  def change_overlap(child_position, child_column, child_row)
+    if child_position == 7
+      child_grid_x  = 0 
+    elsif child_position == 9
+      child_grid_x  = column - child_column
+    end
+    child_grid_y       = row - child_row
+    update(grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row)
+    generate_pdf_with_time_stamp
+    parent.update(overlap:changed_overlap.rect_with_order)
+    parent.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
 end

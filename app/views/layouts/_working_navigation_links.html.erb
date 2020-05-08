@@ -156,7 +156,7 @@
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <% if @working_article.v_splitable? %>
-          <% if @working_article.column < 4 %>
+          <% if @working_article.column > 4 && @working_article.attached_type == nil%>
             <%= link_to '기사박스 나누기 우측 1단', v_cut_minus_one_working_article_path, class: "dropdown-item" %>
             <%= link_to '기사박스 나누기 좌측 1단', v_cut_one_working_article_path, class: "dropdown-item" %>
           <% elsif @working_article.column < 6 %>
@@ -229,7 +229,7 @@
       <% if @working_article.delete_able? %>
           <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
       <% end %>
-      <% if !@working_article.has_children? %>
+      <% if !@working_article.has_drop_article? %>
         <div class="dropdown-divider"></div>
         <% if @working_article.column < 4 %>
           <%= link_to '우측 내림기사 1단', add_right_drop_one_working_article_path(@working_article.pillar), class: "dropdown-item" %>
@@ -239,6 +239,7 @@
           <%= link_to '우측 내림기사 2단', add_right_drop_two_working_article_path(@working_article), class: "dropdown-item" %>
           <%= link_to '좌측 내림기사 1단', add_left_drop_one_working_article_path(@working_article), class: "dropdown-item" %>
           <%= link_to '좌측 내림기사 2단', add_left_drop_two_working_article_path(@working_article), class: "dropdown-item" %>
+
         <% else %>
           <%= link_to '우측 내림기사 1단', add_right_drop_one_working_article_path(@working_article), class: "dropdown-item" %>
           <%= link_to '우측 내림기사 2단', add_right_drop_two_working_article_path(@working_article), class: "dropdown-item" %>
@@ -247,14 +248,10 @@
           <%= link_to '좌측 내림기사 2단', add_left_drop_two_working_article_path(@working_article), class: "dropdown-item" %>
           <%= link_to '좌측 내림기사 3단', add_left_drop_three_working_article_path(@working_article), class: "dropdown-item" %>
         <% end %>
-
       <% end %>
-      <div class="dropdown-divider"></div>
-      <% if !@working_article.overlapable? %>
-        <%= link_to '첨부박스 생성', create_overlap_working_article_path(@working_article), class: "dropdown-item" %>
-      <% end %>
-      <% if @working_article.has_overlap? %>
-        <%= link_to '첨부박스 삭제', delete_overlap_working_article_path, class: "dropdown-item" %>
+      <% if @working_article.overlapable? %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '첨부박스 생성', add_overlap_working_article_path(@working_article), class: "dropdown-item" %>
       <% end %>
 
       <% if @working_article.siblings.length == 1 %>

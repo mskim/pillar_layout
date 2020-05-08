@@ -124,12 +124,16 @@ class Pillar < ApplicationRecord
     root_articles = working_articles.select{|w| !w.parent && w.attached_type.nil?}
     root_articles.map{|w| w.extended_line_count}.reduce(:+)
     #TODO
-    # binding.pry
     # working_articles.select{|w| !w.parent && w.attached_type.nil?}.sum{:extended_line_count}
   end
 
   def extened_line_sum_for_previous_root_articles(bordering_y)
-    working_articles.select{|w| w.grid_y < bordering_y}.sum{:extended_line_count}
+    working_articles.reload
+    sum = 0
+    root_articles = working_articles.select{|w| !w.parent && w.attached_type.nil?}
+    amount =root_articles.select{|w| w.grid_y < bordering_y}.map{|w| w.extended_line_count}.reduce(:+)
+    sum += amount if amount
+    # working_articles.select{|w| w.grid_y < bordering_y}.sum{:extended_line_count}
   end
 
   # update pillar_config file and working_article grid_y and row after cut

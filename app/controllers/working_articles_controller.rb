@@ -656,23 +656,9 @@ class WorkingArticlesController < ApplicationController
     redirect_to page
   end
 
-  def add_left_overlap(column)
-
-  end
-
-  def add_right_overlap(column)
-
-  end
-
-  def create_overlap
+  def add_overlap
     set_working_article
-    @working_article.create_overlap
-    redirect_to @working_article
-  end
-
-  def delete_overlap
-    set_working_article
-    @working_article.delete_overlap
+    @working_article.add_overlap
     redirect_to @working_article
   end
 
