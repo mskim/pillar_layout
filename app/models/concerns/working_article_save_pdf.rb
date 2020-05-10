@@ -195,7 +195,7 @@ module WorkingArticleSavePdf
     # flipped[1] -= y
     image_path  = path + "/story.pdf"
     if File.exist?(image_path)
-      if overlap && !top_position? && (overlap == 'right_drop' || overlap == 'left_drop')
+      if !top_position? && (attached_type == 'right_drop' || attached_type == 'left_drop')
         # this is for side_drop starting not at the top, but in the middle
         pushed_line_count = pillar.extened_line_sum_for_previous_root_articles(grid_y)
         self.pushed_line_count = pushed_line_count
@@ -226,9 +226,9 @@ module WorkingArticleSavePdf
     else
       puts "missing image_path :#{image_path} !!!"
     end
-    if overlap && overlap == 'right_drop'
+    if attached_type == 'right_drop'
 
-    elsif overlap && overlap == 'left_drop'
+    elsif attached_type == 'left_drop'
 
     elsif page.draw_divider && !on_right_edge
       starting_x = flipped[0] + width

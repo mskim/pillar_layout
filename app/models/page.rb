@@ -65,7 +65,8 @@ class Page < ApplicationRecord
 
   # has_many
   has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
-  has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy
+  has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
+
   has_many :ad_boxes
 
   # scope

@@ -500,7 +500,6 @@ class Pillar < ApplicationRecord
     h[:pillar]  = self
     h[:page_id] = page_ref.id
     h[:pillar_order]    = "#{order}_R"
-
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page_ref.generate_pdf_with_time_stamp

@@ -53,8 +53,7 @@
 
 ## 하단 달린박스(overlap child box)
 
-"right_overlap"
-"left_overlap"
+"overlap"
 
 하단 기사박스가 추가 되면 어미 기사 박스는 잠금상태(locked) 가 된다.
 잠금상태란 자동 행조절이 나나 행 추가가 금지된 상태를 말한다.
