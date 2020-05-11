@@ -495,7 +495,12 @@ class WorkingArticlesController < ApplicationController
     # i = Image.create!(working_article_id:@working_article.id, reporter_image_path:reporter_image.full_size_path)
     i = Image.create!(working_article_id: @working_article.id, reporter_image_path: layout_target)
     i.caption_title = reporter_image.title
+    # binding.pry
     i.caption = reporter_image.caption
+    i.storage_image.attach(
+      io: File.open(source),
+      filename: filename
+    )
     i.save
     @working_article.generate_pdf_with_time_stamp
     @working_article.update_page_pdf_with_time_stamp

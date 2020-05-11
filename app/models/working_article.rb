@@ -9,6 +9,7 @@
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
+#  attached_type                :string
 #  body                         :text
 #  bottom_line                  :integer          default(0)
 #  boxed_subtitle_text          :string

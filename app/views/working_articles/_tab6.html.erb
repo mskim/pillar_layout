@@ -1,4 +1,7 @@
 <!-- 사진 탭 -->
+<% if @reporter_images.length > 0 %>
+  <%= render 'reporter_image', reporter_images: @reporter_images %>
+<% end %>
 <div class="row" style="width: 100%;">
   <div class="col-md-3">
     <div class="card mb-1">
