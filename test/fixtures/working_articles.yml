@@ -7,6 +7,10 @@
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
+<<<<<<< HEAD
+=======
+#  attached_position            :integer
+>>>>>>> upstream/master
 #  attached_type                :string
 #  body                         :text
 #  bottom_line                  :integer          default(0)

@@ -11,7 +11,7 @@
     </ul>
   </div>
 <% end %>
-
+qnrh
 <div class="view">
   <div class="col-sm-6">
     <div class="col-md-11">
@@ -23,6 +23,15 @@
         <%= f.label :기사종류 %>
         <%= f.select :kind, ['기사', '사진', '기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
       </div>
+
+      <% if article.attached_type == 'overlap' %>
+        <div class="form-group">
+          <%= f.label :첨부기사 %>
+          <%= f.label :위치 %><%= f.select :attached_position, [7,9] , style: "width:40px", class: 'form-control' %>
+          <%= f.label :너비_단 %><%= f.select :column, article.possible_overlap_columns , style: "width:40px", class: 'form-control' %>
+        </div>
+    <% end %>
+
       <div class="form-group">
         <%= f.label :문패 %>
         <!-- <%= f.text_field :title, class: 'form-control' %> -->

@@ -10,6 +10,10 @@ module WorkingArticlePillarMethods
     [grid_x, grid_y, column, row]
   end
 
+  def overlap_rect
+    [grid_x, grid_y, column, row, extended_line_count]
+  end
+
   def size
     [column, row]
   end

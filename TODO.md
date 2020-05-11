@@ -79,9 +79,11 @@
 
 2020_5_1
   - right_drop 
-    right side article starting at given article and drop to the bottom of pillar
+    right_side article starting at given article and drop to the bottom of pillar
   - left_drop
     left side article starting at given article and drop to the bottom of pillar
+  - right_overlap
+
 
 2020_4_30
   - side_drop

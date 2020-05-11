@@ -478,6 +478,10 @@ class Pillar < ApplicationRecord
     has_drop_article == true
   end
   
+  def add_drop(starting_row_index = 0)
+    add_right_drop(2, starting_row_index)
+  end
+
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
   def add_right_drop(column_width_in_grid, starting_row_index=0)
@@ -500,7 +504,6 @@ class Pillar < ApplicationRecord
     h[:pillar]  = self
     h[:page_id] = page_ref.id
     h[:pillar_order]    = "#{order}_R"
-
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page_ref.generate_pdf_with_time_stamp

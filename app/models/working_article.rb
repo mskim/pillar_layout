@@ -9,6 +9,10 @@
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
+<<<<<<< HEAD
+=======
+#  attached_position            :integer
+>>>>>>> upstream/master
 #  attached_type                :string
 #  body                         :text
 #  bottom_line                  :integer          default(0)
@@ -102,17 +106,17 @@
 
 # ancestry
 # keeps ancestry path(parent child relation info) in decence's ancestry field as /ancestry/path
-# a root article can have attached articles(left_divide, right_divide, left_overlap, right_overlap)
+# a root article can have attached articles(left_divide, right_divide, overlap, overlap)
 # as children
 # but left_drop and right_drop is not treated as child, they belong to pillar
 
 # attached_types
 # attached articles keep their attached_types info in this field
-# left_divide, right_divide, left_overlap, right_overlap, left_drop, right_drop
+# left_divide, right_divide, overlap, left_drop, right_drop
 
 # overlap
 # overlapping area only one is allow
-# we might have left_overlap, right_overlap or none or  overlap from page
+# we might have overlap or none or  overlap from page
 
 class WorkingArticle < ApplicationRecord
   # before & after
@@ -1003,8 +1007,13 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
-    h[:overlap]                       = overlap.length > 0 
-    h[:embedded]                      = embedded  if embedded
+    if has_children? && children.first.attached_type =~/overlap/
+      overlap_rect = children.first.overlap_rect
+      overlap_rect[0] -= grid_x
+      overlap_rect[1] -= grid_y
+      h[:overlap]     = overlap_rect
+    end
+    h[:embedded]      = embedded  if embedded
     h
   end
 
