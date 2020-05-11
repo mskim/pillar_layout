@@ -151,14 +151,16 @@
   </li>
   <% if @working_article.single_child?%>
     <% # sigle child pillar%>
-  <% elsif @working_article.attached_type?%>
-    <% # article is attached one %>
-    <% if @working_article.splitable?%>
-        <%= link_to '내림기사 추가', split_drop_working_article_path(@working_article), class: "dropdown-item" %>
-
-    <% end %>
-
-    <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+  <% elsif @working_article.attached_type %>
+    <li class="dropdown nav-item">
+      <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <% if @working_article.drop_splitable?%>
+          <%= link_to '내림기사 추가', split_drop_working_article_path(@working_article), class: "dropdown-item" %>
+        <% end %>
+        <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+      </div>
+      </div>
   <% elsif @working_article.pillar_bottom?%>
     <li class="dropdown nav-item">
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>

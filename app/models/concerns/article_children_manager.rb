@@ -163,7 +163,7 @@ module ArticleChildrenManager
     column > 2 
   end
   
-  def splitable?
+  def drop_splitable?
     # article should be a drop type and row row > 2
     is_drop? && row > 2
   end
