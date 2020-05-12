@@ -1,9 +1,9 @@
 <div class="row">
   <% reporter_images.each do |picture| %>
     <div class="card col-md-2">
-      <img src="<%= picture.preview_path %>" class="repoter_img_thumb card-img-top w-100">
+      <img src="<%= picture.preview_path %>" class="repoter_img_thumb card-img-top w-100" style="height: 190px;">
       <div class="card-body text-center">
-        <h5 class="card-title"><%= picture.title %></h5>
+        <h6 class="card-title"><%= picture.title %></h6>
         <%= link_to '사진 선택', select_reporter_image_working_article_path(@working_article, reporter_image: picture), class: "btn btn-primary btn-sm" %>
       </div>
     </div>
