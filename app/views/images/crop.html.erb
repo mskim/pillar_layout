@@ -36,7 +36,11 @@
                   <%= f.text_field :crop_h, placeholder: "세로", id:"dataH", class: "form-control"%>
                 </div>
               </div>
-
+              <hr>
+              x축: <span id="getDataCropX"><%= @image.crop_x %></span><br>
+              y축: <span id="getDataCropY"><%= @image.crop_y %></span><br>
+              width: <span id="getDataCropW"><%= @image.crop_w %></span><br>
+              height: <span id="getDataCropH"><%= @image.crop_h %></span><br>
             <div class="row">
               <%= f.text_field :column, style: "width:40px", class: 'form-control' %>
               <%= f.text_field :row, style: "width:40px", class: 'form-control' %>
