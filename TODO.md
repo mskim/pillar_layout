@@ -50,6 +50,10 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_12
+  - fix mixed token line
+    - in caption_title, caption, souce  paragraph set style_name to tokens 
+
 2020_5_8
   - create 부고, 인사, as float
   - overlap as 첨부기사?, 기사첨부?

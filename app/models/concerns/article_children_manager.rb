@@ -46,6 +46,8 @@ module ArticleChildrenManager
     unless has_children?
       child_column     = cut_index
       attached_type    = 'right_divide'
+      attached_position = '우'
+      
       if cut_index < 0
         changing_column  = column + cut_index
         update(column:changing_column)
@@ -56,16 +58,30 @@ module ArticleChildrenManager
         update(grid_x:cut_index, column:changing_column)
         child_grid_x      =  0   
         attached_type     = 'left_divide'
+        attached_position = '좌'
       end
       generate_pdf_with_time_stamp
       new_pillar_order = pillar_order + "_1"
-      h = {page_id:page.id, pillar:pillar,  pillar_order: new_pillar_order, grid_x:child_grid_x , grid_y: grid_y, column: child_column, row: row, attached_type: attached_type }
+      h = {page_id:page.id, pillar:pillar,  pillar_order: new_pillar_order, grid_x:child_grid_x , grid_y: grid_y, column: child_column, row: row, attached_type: attached_type, attached_position: attached_position}
       w = self.children.create(h)
       w.generate_pdf_with_time_stamp
       page.generate_pdf_with_time_stamp
     else
       puts "already has child!!!"
     end
+  end
+
+  def change_divide(new_position, new_column)
+    if attached_position != new_position
+    # TODO
+
+    end
+
+    if column != new_column
+    # TODO
+
+    end
+
   end
 
   # remove last attached article
@@ -97,7 +113,7 @@ module ArticleChildrenManager
   end
 
   def possible_overlap_columns
-    [7,9]
+    ['좌','우']
   end
 
   def add_overlap
@@ -125,12 +141,12 @@ module ArticleChildrenManager
     page.generate_pdf_with_time_stamp
   end
 
-  def change_overlap(child_position, child_column, child_row)
+  def change_overlap(child_position)
     # return if changing params are same as current
-    return if position == child_position && column == child_column && row == child_row
-    if child_position == 7
+    return if position == child_position
+    if child_position == '좌'
       child_grid_x  = 0 
-    elsif child_position == 9
+    elsif child_position == '우'
       child_grid_x  = column - child_column
     else
       # anything other than 7,9 make it as 9 bottom_right

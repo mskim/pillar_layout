@@ -269,7 +269,7 @@ class Article < ApplicationRecord
 
   def image_options
     # code
-    images.first&.image_layout_hash
+    images.first.image_layout_hash
   end
 
   def page_number

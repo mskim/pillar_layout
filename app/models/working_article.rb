@@ -9,7 +9,7 @@
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
-#  attached_position            :integer
+#  attached_position            :string
 #  attached_type                :string
 #  body                         :text
 #  bottom_line                  :integer          default(0)
@@ -324,8 +324,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def approximate_char_count
-    article&.char_count
-    0
+    body.length
   end
 
   def change_story(new_story)
@@ -360,7 +359,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def update_reporter_story(body)
-    story&.update_story_from_article(body)
+    story.update_story_from_article(body)
   end
 
   def make_article_path
@@ -850,11 +849,11 @@ class WorkingArticle < ApplicationRecord
   end
 
   def image_options
-    images.first&.image_layout_hash
+    images.first.image_layout_hash
   end
 
   def image_box_options
-    images.first&.image_layout_hash
+    images.first.image_layout_hash
   end
 
   def page_columns

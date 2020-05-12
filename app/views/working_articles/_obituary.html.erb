@@ -27,7 +27,7 @@ qnrh
       <% if article.attached_type == 'overlap' %>
         <div class="form-group">
           <%= f.label :첨부기사 %>
-          <%= f.label :위치 %><%= f.select :attached_position, [7,9] , style: "width:40px", class: 'form-control' %>
+          <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
           <%= f.label :너비_단 %><%= f.select :column, article.possible_overlap_columns , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>

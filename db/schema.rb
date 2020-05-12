@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2020_05_06_210053) do
-=======
 ActiveRecord::Schema.define(version: 2020_05_09_041633) do
->>>>>>> upstream/master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -968,10 +964,7 @@ ActiveRecord::Schema.define(version: 2020_05_09_041633) do
     t.string "frame_bg_color"
     t.boolean "locked"
     t.string "attached_type"
-<<<<<<< HEAD
-=======
-    t.integer "attached_position"
->>>>>>> upstream/master
+    t.string "attached_position"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"

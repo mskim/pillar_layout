@@ -7,7 +7,7 @@
 #  announcement_color           :string
 #  announcement_column          :integer
 #  announcement_text            :string
-#  attached_position            :integer
+#  attached_position            :string
 #  attached_type                :string
 #  body                         :text
 #  bottom_line                  :integer          default(0)

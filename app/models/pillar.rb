@@ -469,7 +469,6 @@ class Pillar < ApplicationRecord
     layout_node.leaf_nodes.map{|n| n.rect_with_tag}
   end
 
-
   # +++++++++++ drop article ++++++++++++++++++++
   # create aritcle on the right side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
@@ -479,7 +478,9 @@ class Pillar < ApplicationRecord
   end
   
   def add_drop(starting_row_index = 0)
-    add_right_drop(2, starting_row_index)
+    default_column = 1
+    default_column = 2 if column > 4
+    add_right_drop(default_column, starting_row_index)
   end
 
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
@@ -497,6 +498,7 @@ class Pillar < ApplicationRecord
     end
     h           = {}
     h[:attached_type] = "right_drop"
+    h[:attached_position] = "우"
     h[:grid_x]  = column - column_width_in_grid
     h[:grid_y]  = working_articles[starting_row_index].grid_y
     h[:column]  = column_width_in_grid
@@ -524,6 +526,7 @@ class Pillar < ApplicationRecord
     end
     h           = {}
     h[:attached_type] = "left_drop"
+    h[:attached_position] = "좌"
     h[:grid_x]  = 0
     h[:grid_y]  = working_articles[starting_row_index].grid_y
     h[:column]  = column_width_in_grid
