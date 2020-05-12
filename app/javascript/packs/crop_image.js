@@ -16,7 +16,7 @@ var $getDataCropY = parseInt($("#getDataCropY")[0].innerText);
 var $getDataCropW = parseInt($("#getDataCropW")[0].innerText);
 var $getDataCropH = parseInt($("#getDataCropH")[0].innerText);
 
-new Cropper(image, {
+const cropper = new Cropper(image, {
   viewMode: 2,
   dragMode: "move",
   aspectRatio: $setWidth / $setHeight,
@@ -29,14 +29,16 @@ new Cropper(image, {
   cropBoxResizable: true,
   toggleDragModeOnDblclick: false,
   modal: true,
-
-  ready: function() {
-    
-  }
-  // crop(event) {
-  //   $dataX.val(Math.round(event.detail.x));
-  //   $dataY.val(Math.round(event.detail.y));
-  //   $dataW.val(Math.round(event.detail.width));
-  //   $dataH.val(Math.round(event.detail.height));
-  // }
+  data: {
+    x: $getDataCropX,
+    y: $getDataCropY,
+    width: $getDataCropW,
+    height: $getDataCropH,
+  },
+  crop(event) {
+    $dataX.val(Math.round(event.detail.x));
+    $dataY.val(Math.round(event.detail.y));
+    $dataW.val(Math.round(event.detail.width));
+    $dataH.val(Math.round(event.detail.height));
+  },
 });
