@@ -1,4 +1,4 @@
-<div align='center'>
+<div align='center' data-controller="cropbox">
   <div class="panel panel-danger">
     <div class="panel-heading">
       <h3 class="panel-title">영역선택</h3>
@@ -8,43 +8,38 @@
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
           <div class="mb3">
-            <%= image_tag @image.storage_image, id: "cropbox", width: 500 %>
+            <%= image_tag @image.storage_image, width: 500, data: { target: "cropbox.originImg" } %>
           </div>
           <%= simple_form_for(@image) do |f| %>
-            <div class="form-group">
-              <%= f.button :submit, '크롭 적용', id: "saveCropData", method: :fetch,  class: "btn btn-primary btn-lg btn-block", style: "border-radius: 0" %>
+            <div class="btn-group btn-block">
+              <%= f.button :submit, '크롭 적용', id: "saveCropData", method: :fetch,  class: "btn btn-primary btn-lg" %>
+              <%= link_to '취소', working_article_path(@image.working_article), class: "btn btn-danger btn-lg" %>
+              <%= link_to '크롭 원상 복구', clear_crop_rect_working_article_path(@image.working_article, image_id: @image.id,),  method: :patch, class: "btn btn-success btn-lg" %>
             </div>
-            <div class="form-group">
-              <%= link_to '취소', working_article_path(@image.working_article), class: "btn btn-danger btn-lg btn-block", style: "border-radius: 0" %>
-            </div>
-            <div class="form-group">
-              <%= link_to '크롭 원상 복구', clear_crop_rect_working_article_path(@image.working_article, image_id: @image.id,),  method: :patch, class: "btn btn-success btn-lg btn-block", style: "border-radius: 0" %>
-            </div>
-
             <div class="form-group">
               <div class="row">
                 <div class="col-md-3 mb-3">
-                  <%= f.text_field :crop_x, placeholder: "x축", id:"dataX", class: "form-control"%>
+                  <%= f.text_field :crop_x, placeholder: "x축", id:"dataX", class: "form-control", data: { target: "cropbox.watchCropX" } %>
                 </div>
                 <div class="col-md-3 mb-3">
-                  <%= f.text_field :crop_y, placeholder: "y축", id:"dataY", class: "form-control"%>
+                  <%= f.text_field :crop_y, placeholder: "y축", id:"dataY", class: "form-control", data: { target: "cropbox.watchCropY" } %>
                 </div>
                 <div class="col-md-3 mb-3">
-                  <%= f.text_field :crop_w, placeholder: "가로", id:"dataW", class: "form-control"%>
+                  <%= f.text_field :crop_w, placeholder: "가로", id:"dataW", class: "form-control", data: { target: "cropbox.watchCropW" } %>
                 </div>
                 <div class="col-md-3 mb-3">
-                  <%= f.text_field :crop_h, placeholder: "세로", id:"dataH", class: "form-control"%>
+                  <%= f.text_field :crop_h, placeholder: "세로", id:"dataH", class: "form-control", data: { target: "cropbox.watchCropH" } %>
                 </div>
               </div>
               <hr>
-              x축: <span id="getDataCropX"><%= @image.crop_x %></span><br>
-              y축: <span id="getDataCropY"><%= @image.crop_y %></span><br>
-              width: <span id="getDataCropW"><%= @image.crop_w %></span><br>
-              height: <span id="getDataCropH"><%= @image.crop_h %></span><br>
+              x축: <span id="getDataCropX" data-target="cropbox.savedDataCropX"><%= @image.crop_x %></span><br>
+              y축: <span id="getDataCropY" data-target="cropbox.savedDataCropY"><%= @image.crop_y %></span><br>
+              width: <span id="getDataCropW" data-target="cropbox.savedDataCropW"><%= @image.crop_w %></span><br>
+              height: <span id="getDataCropH" data-target="cropbox.savedDataCropH"><%= @image.crop_h %></span><br>
             <div class="row">
-              <%= f.text_field :column, style: "width:40px", class: 'form-control' %>
-              <%= f.text_field :row, style: "width:40px", class: 'form-control' %>
-              <%= f.text_field :extra_height_in_lines, style: "width:40px", class: 'form-control' %>
+              <%= f.text_field :column, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataColumn" } %>
+              <%= f.text_field :row, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataRow" } %>
+              <%= f.text_field :extra_height_in_lines, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataLine" } %>
             </div>
           <% end %>
 
