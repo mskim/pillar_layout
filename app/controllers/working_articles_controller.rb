@@ -495,6 +495,7 @@ class WorkingArticlesController < ApplicationController
   def select_reporter_image
     set_working_article
     reporter_image = ReporterImage.find(params[:reporter_image])
+    reporter_image.update(used_in_layout: true)
 
     # 지면으로 출고된 나의 사진을 선택하면 today_issue/images 로 사진 복사
     filename = "#{@working_article.page_number}_#{@working_article.order}_#{@working_article.images.count}.jpg"
