@@ -50,6 +50,16 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+
+
+2020_5_13
+  - fix image width height mismatch
+    - set one dimension only in canvas draw
+  - fix page_layout order by like
+    when creating new issue use page_layout with highest like as default
+    - db migration for setting default like to 0
+    - db migration for setting default column and row of image and graphic to 1
+
 2020_5_12
   - fix mixed token line
     - in caption_title, caption, souce  paragraph set style_name to tokens 
