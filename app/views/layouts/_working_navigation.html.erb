@@ -1,12 +1,10 @@
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top">
-  <div class="container">
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse"> <span class="sr-only">Toggle navigation</span>&#x2630;</button>
   <%= link_to '뉴스고', change_current_issue_path(Issue.last), class: 'navbar-brand' %>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <%= render 'layouts/working_navigation_links', page_number: @working_article.page_number %>
-      </ul>
-    </div>
+  <div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+      <%= render 'layouts/working_navigation_links', page_number: @working_article.page_number %>
+    </ul>
   </div>
 </nav>
 
