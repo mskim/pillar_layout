@@ -477,22 +477,23 @@ class Pillar < ApplicationRecord
     has_drop_article == true
   end
   
-  def add_drop(starting_row_index = 0)
+  def add_default_drop(starting_article_order = 1)
     default_column = 1
     default_column = 2 if column > 4
-    add_right_drop(default_column, starting_row_index)
+    add_right_drop(default_column, starting_article_order)
   end
+
 
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
-  def add_right_drop(column_width_in_grid, starting_row_index=0)
+  def add_right_drop(column_width_in_grid, starting_article_order=1)
     return if column_width_in_grid >= column - 1
     return if has_drop_article?
     update(has_drop_article: true)
     # update all existing articles column
     new_column = column - column_width_in_grid
     working_articles.each_with_index do |w, i|
-      next if i < starting_row_index
+      next if i < starting_article_order - 1
       w.update(column:new_column)
       w.generate_pdf_with_time_stamp
     end
@@ -500,7 +501,7 @@ class Pillar < ApplicationRecord
     h[:attached_type] = "right_drop"
     h[:attached_position] = "우"
     h[:grid_x]  = column - column_width_in_grid
-    h[:grid_y]  = working_articles[starting_row_index].grid_y
+    h[:grid_y]  = working_articles[starting_article_order - 1].grid_y
     h[:column]  = column_width_in_grid
     h[:row]     = row - h[:grid_y]
     h[:pillar]  = self
@@ -513,14 +514,14 @@ class Pillar < ApplicationRecord
 
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
-  def add_left_drop(column_width_in_grid, starting_row_index=0)
+  def add_left_drop(column_width_in_grid, starting_article_order=1)
     return if column_width_in_grid >= column - 1
     return if has_drop_article?
     update(has_drop_article: true)
     new_column = column - column_width_in_grid
     # update all existing articles grid_x and column
     working_articles.each_with_index do |w, i|
-      next if i < starting_row_index
+      next if i < starting_article_order - 1
       w.update(grid_x:column_width_in_grid, column:new_column)
       w.generate_pdf_with_time_stamp
     end
@@ -537,6 +538,10 @@ class Pillar < ApplicationRecord
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page_ref.generate_pdf_with_time_stamp
+  end
+
+  def change_drop(new_side, new_column)
+
   end
 
   def remove_drop

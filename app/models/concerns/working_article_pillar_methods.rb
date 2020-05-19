@@ -183,24 +183,5 @@ module WorkingArticlePillarMethods
   #   svg += "<a xlink:href='/working_articles/#{id}/change_story'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   # end
 
-  def drop_starting_index
-    pillar_order.split('_')[1].to_i - 1
-  end
-
-  # create aritcle on the right side which spans from top of current article to the bottom on pillar
-  # if current article is not the top article, lock all article above the currnt one.
-  def add_right_drop(column_width_in_grid)
-    pillar.add_right_drop(column_width_in_grid, drop_starting_index)
-  end
-
-  # create aritcle on the left side which spans from top of current article to the bottom on pillar
-  # if current article is not the top article, lock all article above the currnt one.
-  def add_left_drop(column_width_in_grid)
-    pillar.add_left_drop(column_width_in_grid, drop_starting_index)
-  end
-
-  def remove_drop
-    pillar.remove_drop
-  end
 end
 
