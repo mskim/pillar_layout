@@ -150,7 +150,7 @@ module WorkingArticleAttachment
     has_children? && children.first.is_overlap?
   end
 
-  def possible_overlap_columns
+  def possible_attachment_columns
     overlap_column = pillar.column/2
     (1..overlap_column).to_a
   end
