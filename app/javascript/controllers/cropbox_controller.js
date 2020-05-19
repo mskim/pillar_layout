@@ -31,9 +31,9 @@ export default class extends Controller {
     const watchCropY = this.watchCropYTarget;
     const watchCropW = this.watchCropWTarget;
     const watchCropH = this.watchCropHTarget;
-    const getDataColumn = this.getDataColumnTarget.value;
-    const getDataRow = this.getDataRowTarget.value;
-    const getDataLine = this.getDataLineTarget.value;
+    const getDataColumn = parseInt(this.data.get("column"));
+    const getDataRow = parseInt(this.data.get("row"));
+    const getDataLine = parseInt(this.data.get("extra-height-in-lines"));
     // 계산된 크롭박스 정보
     const computedWidth = getDataColumn * 171.496062992123;
     const computedHeight =
@@ -69,5 +69,6 @@ export default class extends Controller {
           (watchCropH.value = Math.round(event.detail.height));
       },
     });
+    console.log(getDataLine);
   }
 }

@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require popper
 //= require bootstrap-sprockets
-
 //= require moment
 //= require activestorage
 //= require_tree .

@@ -1,4 +1,4 @@
-<div align='center' data-controller="cropbox">
+<div class='text-center' data-controller="cropbox" data-cropbox-column="<%= @image.column %>" data-cropbox-row="<%= @image.row %>" data-cropbox-extra-height-in-lines="<%= @image.extra_height_in_lines %>">
   <div class="panel panel-danger">
     <div class="panel-heading">
       <h3 class="panel-title">영역선택</h3>
@@ -36,11 +36,6 @@
               y축: <span id="getDataCropY" data-target="cropbox.savedDataCropY"><%= @image.crop_y %></span><br>
               width: <span id="getDataCropW" data-target="cropbox.savedDataCropW"><%= @image.crop_w %></span><br>
               height: <span id="getDataCropH" data-target="cropbox.savedDataCropH"><%= @image.crop_h %></span><br>
-            <div class="row">
-              <%= f.text_field :column, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataColumn" } %>
-              <%= f.text_field :row, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataRow" } %>
-              <%= f.text_field :extra_height_in_lines, style: "width:40px", class: 'form-control', data: { target: "cropbox.getDataLine" } %>
-            </div>
           <% end %>
 
           <br>
