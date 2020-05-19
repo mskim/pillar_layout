@@ -50,7 +50,25 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_19
+    remove_article_working_articles_path was being called twice, 
+    so the second call after working_article is removed was giving params id not found
+    so I tried removing turbolinks and it seems to work correctly.
+    removed from application.js
+      //= require turbolinks
 
+2020_5_18
+  - 내림기사 나누기
+  - 메뉴바 정리
+  - overlap => 쪽기사 추가
+
+2020_5_14
+  - reporter_image add wire_caption field to save and edit caption
+  - fix image height with extended_line_count 
+  - toggle_attached_side
+    - toggle_divide_side
+    - toggle_drop_sed
+    - toggle_overlap_side
 
 2020_5_13
   - fix image width height mismatch
@@ -59,6 +77,7 @@
     when creating new issue use page_layout with highest like as default
     - db migration for setting default like to 0
     - db migration for setting default column and row of image and graphic to 1
+  - reporter_image.update(used_in_layout:true) when selected in working_article 
 
 2020_5_12
   - fix mixed token line

@@ -27,14 +27,28 @@
       <span class="font-weight-bold">테두리 <%= f.select :frame_sides, ['기본', '테두리'], {} %> 테두리 두께 <%= f.select :frame_thickness, [0.3, 2.0], {} %> 테두리 컬러 <%= f.select :frame_color, ['검정', '회색', '자주', '파랑'], {} %></span>
     </div>
 
+
+    <% if article.attached_type =~ 'divide' %>
+        <div class="form-group">
+          <%= f.label :첨부기사 %>
+          <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
+          <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
+        </div>
+    <% end %>
+    <% if article.attached_type =~ 'drop' %>
+        <div class="form-group">
+          <%= f.label :첨부기사 %>
+          <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
+          <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
+        </div>
+    <% end %>
     <% if article.attached_type == 'overlap' %>
         <div class="form-group">
           <%= f.label :첨부기사 %>
-          <%= f.label :위치 %><%= f.select :attached_position, [7,9] , style: "width:40px", class: 'form-control' %>
-          <%= f.label :너비_단 %><%= f.select :column, article.possible_overlap_columns , style: "width:40px", class: 'form-control' %>
+          <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
+          <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>
-
     <% if @working_article.page.page_number == 1 %>
       <% if @working_article.category_code %>
         카테고리: <%= @working_article.category_code %> 서브 카테고리: <%= @working_article.subcategory_code %>

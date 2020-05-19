@@ -86,15 +86,8 @@ class WorkingArticlesController < ApplicationController
       params['working_article']['subtitle'] = @working_article.filter_to_quote(params['working_article']['subtitle'])
       params['working_article']['body'] = @working_article.filter_to_markdown(params['working_article']['body'])
       params['working_article']['body'] = @working_article.filter_to_quote(params['working_article']['body'])
+
       if @working_article.update(working_article_params)
-        # if @working_article.draft_mode
-        #   h = {}
-        #   h[:draft_mode]    = true
-        #   h[:story_md]      = @working_article.story_md
-        #   h[:article_path]  = @working_article.path
-        #   RLayout::NewsBoxMaker.new(h)
-        #   # send_data pdf.render, filename: "#{@working_article.id}", type: "application/pdf", disposition: "inline"
-        # else
         @working_article.generate_pdf_with_time_stamp
         @working_article.page.generate_pdf_with_time_stamp
         # end
@@ -508,7 +501,6 @@ class WorkingArticlesController < ApplicationController
     # i = Image.create!(working_article_id:@working_article.id, reporter_image_path:reporter_image.full_size_path)
     i = Image.create!(working_article_id: @working_article.id, reporter_image_path: layout_target)
     i.caption_title = reporter_image.title
-    # binding.pry
     i.caption = reporter_image.caption
     i.storage_image.attach(
       io: File.open(source),
@@ -556,44 +548,10 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
-  def divide_left_one
+  def divide_at_default
     set_working_article
-    divide_at(@working_article, 1)
+    @working_article.divide_at_default
     redirect_to @working_article
-  end
-
-  def divide_left_two
-    set_working_article
-    divide_at(@working_article, 2)
-    redirect_to @working_article
-  end
-
-  def divide_left_three
-    set_working_article
-    divide_at(@working_article, 3)
-    redirect_to @working_article
-  end
-
-  def divide_right_one
-    set_working_article
-    divide_at(@working_article, -1)
-    redirect_to @working_article
-  end
-
-  def divide_right_two
-    set_working_article
-    divide_at(@working_article, -2)
-    redirect_to @working_article
-  end
-
-  def divide_right_three
-    set_working_article
-    divide_at(@working_article, -3)
-    redirect_to @working_article
-  end
-
-  def divide_at(w, cut_index)
-    w.divide_at(cut_index)
   end
 
   def add_article
@@ -602,76 +560,32 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
-  def remove_attached_article
-    set_working_article
-    @working_article.remove_attached_article
-    redirect_to @working_article
-  end
-
   def remove_article
     set_working_article
-    page = @working_article.page
-    binding.pry
+    @page = @working_article.page
     if @working_article.has_parent?
-      @working_article.parent.remove_attached_article    
+      @working_article.parent.remove_attached_article   
     elsif @working_article.attached_type
       # side drop
       @working_article.pillar.remove_drop
     else
       @working_article.pillar.remove_article(@working_article)
     end
-    redirect_to page
+    redirect_to @page
   end
 
-  def add_right_drop_one
+  def add_default_drop
     set_working_article
-    add_right_drop(@working_article, 1)
-    redirect_to @working_article
-  end
-
-  def add_right_drop_two
-    set_working_article
-    add_right_drop(@working_article, 2)
-    redirect_to @working_article.page  
-  end
-
-  def add_right_drop_three
-    set_working_article
-    add_right_drop(@working_article, 3)
-    redirect_to @working_article.page  
-  end
-
-  def add_right_drop(w, column)
-    set_working_article
-    w.add_right_drop(column)
-  end
-
-  def add_left_drop_one
-    set_working_article
-    add_left_drop(1)
-    redirect_to @working_article.page  
-  end
-
-  def add_left_drop_two
-    set_working_article
-    add_left_drop(2)
-    redirect_to @working_article.page  
-  end
-
-  def add_left_drop_three
-    set_working_article
-    add_left_drop(3)
-    redirect_to @working_article.page  
-  end
-
-  def add_left_drop(column)
-    @working_articce.add_left_drop(column)
+    page = @working_article.page 
+    @working_article.add_default_drop
+    redirect_to page  
   end
 
   def split_drop
     set_working_article
-    @working_articce.split_drop
-    redirect_to @working_article.page  
+    page = @working_article.page 
+    @working_article.split_drop
+    redirect_to page
   end
 
   def remove_drop

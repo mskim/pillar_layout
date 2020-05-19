@@ -24,5 +24,4 @@ require("../includes/group_check");
 global.$ = jQuery;
 
 import "controllers";
-
-// import "bootstrap";
+import "bootstrap";

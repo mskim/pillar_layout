@@ -149,7 +149,7 @@ class WorkingArticle < ApplicationRecord
   include PageSavePdf
   include WorkingArticleSavePdf
   include Pdf2jpg
-  include ArticleChildrenManager
+  include WorkingArticleAttachment
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
