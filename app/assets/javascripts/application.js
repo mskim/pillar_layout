@@ -15,8 +15,6 @@
 //= require popper
 //= require turbolinks
 //= require bootstrap-sprockets
-//= require cropper.min
-//= require jquery-cropper.min
 //= require moment
 //= require activestorage
 //= require_tree .

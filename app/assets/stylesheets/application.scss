@@ -18,7 +18,7 @@
  *= require_self
  */
 // @import "bootstrap-sprockets";
-@import "bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "working_articles";
 @import "trix/dist/trix";
 @import "font-awesome-sprockets";

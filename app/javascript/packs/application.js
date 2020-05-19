@@ -16,13 +16,16 @@
 
 require("@rails/ujs").start();
 require("turbolinks").start();
+require("jquery");
 require("@rails/activestorage").start();
 require("channels");
 require("@rails/actiontext");
 require("trix");
-require("../includes/group_check");
 global.$ = jQuery;
 
 import "controllers";
+import "bootstrap";
 
-// import "bootstrap";
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip();
+});
