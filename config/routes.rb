@@ -240,6 +240,7 @@ Rails.application.routes.draw do
       get 'add_article'
       get 'remove_article'
       get 'add_overlap'
+      get 'add_overlap_one'
       get 'delete_overlap'
       patch 'clear_crop_rect'
       get 'copy_to_current_issue'

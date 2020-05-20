@@ -109,7 +109,7 @@
 
 # attached_types
 # attached articles keep their attached_types info in this field
-# left_divide, right_divide, overlap, left_drop, right_drop
+# divide, drop, overlap
 
 # overlap
 # overlapping area only one is allow

@@ -166,10 +166,11 @@
         <% if @working_article.v_splitable? && !@working_article.pillar.has_drop_article? %>
           <%= link_to '기사박스 나누기', divide_at_default_working_article_path(@working_article), class: "dropdown-item" %>
         <% end %>
-        <% if @working_article.overlapable? %>
+        <% if @working_article.overlapable_one? %>
             <div class="dropdown-divider"></div>
             <%= link_to '쪽기사 추가', add_overlap_working_article_path(@working_article), class: "dropdown-item" %>
         <% end %>
+
         <% if @working_article.row > 2 && !@working_article.overlap%>
           <div class="dropdown-divider"></div>
           <%= link_to '기사 추가', add_article_working_article_path, class: "dropdown-item" %>
