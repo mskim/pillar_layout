@@ -42,6 +42,21 @@ module WorkingArticleAttachment
     has_children? && children.first.is_attached_article?
   end
 
+  def update_attachment_value(old_attachment_position, old_attachment_column)
+    old_attachment_position = old_values[:attached_position]
+    old_attachment_column = old_values[:column]
+    case attached_type
+    when 'divide'
+      change_divide(old_attachment_position, old_attachment_column)
+    when 'drop'
+      pillar.change_drop_value(old_attachment_position, old_attachment_column)
+    when 'overlap'
+      change_overlap(old_attachment_position, old_attachment_column)
+    end
+  end
+
+  ######## divide ###########################
+  
   def divide_at_default
     # default dividing child column is 1 from right side
     default_child_column = -1
@@ -54,7 +69,7 @@ module WorkingArticleAttachment
   def divide_at(cut_index)
     unless has_children?
       child_column     = cut_index
-      attached_type    = 'right_divide'
+      attached_type    = 'divide'
       attached_position = '우'
       if cut_index < 0
         changing_column  = column + cut_index
@@ -116,15 +131,24 @@ module WorkingArticleAttachment
       pillar.save
       last_child = children.last
       child_attached_type = last_child.attached_type
+      child_attached_position = last_child.attached_position
       last_child.delete_folder
       last_child.destroy
       case child_attached_type
-      when 'right_divide'
-        update(column:pillar.column)
-      when 'left_divide'
-        update(grid_x:0, column:pillar.column)
+      when 'divide'
+        if child_attached_position == '우'
+          update(column:pillar.column)
+        else
+          update(grid_x:0, column:pillar.column)
+        end
       when 'overlap'
         update(overlap:[])
+      # when 'drop'
+      #   if child_attached_position == '우'
+      #     update(column:pillar.column)
+      #   else
+      #     update(grid_x:0, column:pillar.column)
+      #   end
       when 'split_drop'
         # this is when split_drop is removed from
         new_row = pillar.row - grid_y
@@ -138,8 +162,17 @@ module WorkingArticleAttachment
   ########## overlap ################
 
   def overlapable?
+    # overlap can have only one child
+    return false if has_children?
     # overlaping parent article column must be large enough
     column > 2 && row > 2
+  end
+
+  def overlapable_one?
+    # overlap can have only one child
+    return false if has_children?
+    # overlap_one parent article column must be 2x2 or larger
+    column > 1 && row > 1
   end
 
   def is_overlap?
@@ -155,12 +188,21 @@ module WorkingArticleAttachment
     (1..overlap_column).to_a
   end
 
-  def add_overlap
+  def add_overlap_one_by_one
     position = 9
-    overlap_column    = column/2
-    overlap_row       = row/2
+    overlap_column    = 1
+    overlap_row       = 1
     position          = '우'
     create_overlap(position, overlap_column, overlap_row)
+  end
+
+  def add_overlap
+    add_overlap_one_by_one
+    # position = 9
+    # overlap_column    = column/2
+    # overlap_row       = row/2
+    # position          = '우'
+    # create_overlap(position, overlap_column, overlap_row)
   end
 
   def create_overlap(child_position, child_column, child_row)
@@ -284,7 +326,6 @@ module WorkingArticleAttachment
 
   def toggle_drop_side
     # TODO
-
 
   end
 end

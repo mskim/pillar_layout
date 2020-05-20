@@ -51,6 +51,15 @@
     - use TablePlus for taking data from 213 to apply to 177
 
 2020_5_19
+    - 쪽기사 추가시 크기는 1x1
+    - 첨부기사
+    - 메인기사 default value
+
+    - 내림기사 선긋기
+    - 사진기사 일경우 사진크기 정보 없이 기사박스 사용
+
+    - 기사에 사진이 있을경우 자동 행조절 하면 박스크기 고정상태에서 상하 찌그러지는 현상
+
     remove_article_working_articles_path was being called twice, 
     so the second call after working_article is removed was giving params id not found
     so I tried removing turbolinks and it seems to work correctly.
