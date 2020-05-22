@@ -51,11 +51,12 @@
     - use TablePlus for taking data from 213 to apply to 177
 
 2020_5_20
-  - 면배열표 전면광고 3단통
-  - no ad
+  - 면배열표 odd page has no 전면광고 
+    - add 15단통 in page_layout page 101
+  - delete page with no ad
   - do spread
   -
-  
+
 2020_5_20
   - add possible_row_chices
 
