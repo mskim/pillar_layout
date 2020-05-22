@@ -540,8 +540,9 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp
   end
 
-  def change_drop(new_side, new_column)
-
+  def change_drop_value(new_side, new_column)
+    # TODO
+    
   end
 
   def remove_drop

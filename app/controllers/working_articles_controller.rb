@@ -91,10 +91,11 @@ class WorkingArticlesController < ApplicationController
         # so we can compare and update layout to changed values
         current_attachment_position     = @working_article.attached_position
         current_attachment_column       = @working_article.column
+        current_attachment_column       = @working_article.row
       end
       if @working_article.update(working_article_params)
         if @working_article.attached_type
-          @working_article.update_attachment_value(current_attachment_position, current_attachment_column)
+          @working_article.update_attachment_value(current_attachment_position, current_attachment_column, old_attachment_row: current_attachment_column)
         end
         @working_article.generate_pdf_with_time_stamp
         @working_article.page.generate_pdf_with_time_stamp

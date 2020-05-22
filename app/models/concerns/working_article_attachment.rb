@@ -42,16 +42,15 @@ module WorkingArticleAttachment
     has_children? && children.first.is_attached_article?
   end
 
-  def update_attachment_value(old_attachment_position, old_attachment_column)
-    old_attachment_position = old_values[:attached_position]
-    old_attachment_column = old_values[:column]
+  def update_attachment_value(old_attachment_position, old_attachment_column, options={})
     case attached_type
     when 'divide'
       change_divide(old_attachment_position, old_attachment_column)
     when 'drop'
       pillar.change_drop_value(old_attachment_position, old_attachment_column)
     when 'overlap'
-      change_overlap(old_attachment_position, old_attachment_column)
+      old_attachment_row = options[:old_attachment_row]
+      change_overlap(old_attachment_position, old_attachment_column, old_attachment_row)
     end
   end
 
@@ -188,6 +187,11 @@ module WorkingArticleAttachment
     (1..overlap_column).to_a
   end
 
+  def possible_overlap_rows
+    overlap_rows = parent.row-1
+    (1..overlap_rows).to_a
+  end
+
   def add_overlap_one_by_one
     position = 9
     overlap_column    = 1
@@ -223,22 +227,23 @@ module WorkingArticleAttachment
     page.generate_pdf_with_time_stamp
   end
 
-  def change_overlap(child_position)
+  def change_overlap(child_position, child_column, child_row)
     # return if changing params are same as current
-    return if position == child_position
+    # TODO ???????????
+    return if attached_position == child_position && column == child_column && row == child_row
     if child_position == '좌'
       child_grid_x  = 0 
     elsif child_position == '우'
-      child_grid_x  = column - child_column
+      child_grid_x  = parent.column - column
     else
       # anything other than 7,9 make it as 9 bottom_right
       child_position = 9
-      child_grid_x  = column - child_column
+      child_grid_x  = parent.column - child_column
     end
-    child_grid_y       = row - child_row
+    child_grid_y       = parent.grid_y +  parent.row - row
     update(grid_x:child_grid_x , grid_y:child_grid_y, column:child_column, row:child_row, attached_position:child_position)
     generate_pdf_with_time_stamp
-    parent.update(overlap:changed_overlap.rect_with_order)
+    parent.update(overlap:rect_with_order)
     parent.generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
   end

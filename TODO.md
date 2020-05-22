@@ -50,6 +50,18 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_20
+  - 면배열표 전면광고 3단통
+  - no ad
+  - do spread
+  -
+  
+2020_5_20
+  - add possible_row_chices
+
+  - add 높이 select to attachment edit
+
+
 2020_5_19
     - 쪽기사 추가시 크기는 1x1
     - 첨부기사
