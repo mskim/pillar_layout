@@ -18,6 +18,7 @@
 #  category_name                :string
 #  column                       :integer
 #  date                         :date
+#  drop_floor                   :integer          default(0)
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer

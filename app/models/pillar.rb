@@ -474,7 +474,11 @@ class Pillar < ApplicationRecord
   # if current article is not the top article, lock all article above the currnt one.
   
   def has_drop_article?
-    has_drop_article == true
+    # has_drop_article == true
+    working_articles.each do |w|
+      return true if w.attached_type == 'drop'
+    end
+    false
   end
   
   def add_default_drop(starting_article_order = 1)
@@ -489,7 +493,7 @@ class Pillar < ApplicationRecord
   def add_right_drop(column_width_in_grid, starting_article_order=1)
     return if column_width_in_grid >= column - 1
     return if has_drop_article?
-    update(has_drop_article: true)
+    # update(has_drop_article: true)
     # update all existing articles column
     new_column = column - column_width_in_grid
     working_articles.each_with_index do |w, i|
@@ -498,7 +502,7 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp
     end
     h           = {}
-    h[:attached_type] = "right_drop"
+    h[:attached_type] = "drop"
     h[:attached_position] = "우"
     h[:grid_x]  = column - column_width_in_grid
     h[:grid_y]  = working_articles[starting_article_order - 1].grid_y
@@ -506,7 +510,7 @@ class Pillar < ApplicationRecord
     h[:row]     = row - h[:grid_y]
     h[:pillar]  = self
     h[:page_id] = page_ref.id
-    h[:pillar_order]    = "#{order}_R"
+    h[:pillar_order]    = "#{order}_D"
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page_ref.generate_pdf_with_time_stamp
@@ -526,7 +530,7 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp
     end
     h           = {}
-    h[:attached_type] = "left_drop"
+    h[:attached_type] = "drop"
     h[:attached_position] = "좌"
     h[:grid_x]  = 0
     h[:grid_y]  = working_articles[starting_row_index].grid_y
@@ -540,16 +544,41 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp
   end
 
-  def change_drop_value(new_side, new_column)
-    # TODO
-    
+  # get articles that are affected following drop_starting_article
+  def drop_affected_articles(drop_starting_article)
+    working_articles.select do |w| 
+      w.grid_y >= drop_starting_article.grid_y && w.attached_type !~ /^drop/
+    end
   end
 
+  def change_drop_value(drop_article, old_side, old_column)
+    drop_column_changed = false
+    new_article_column = column - drop_article.column
+    drop_column = drop_article.column
+    # position has changed
+    drop_side = '우'
+    if drop_article.attached_position == '좌'
+      drop_side = '좌'
+      drop_article.update(grid_x:0)
+    else
+      drop_side = '우'
+      drop_article.update(grid_x:new_article_column)
+    end
+
+    # update drop_childen if drop_article.has_children?
+    drop_article.change_drop_childen if drop_article.has_children?
+    drop_affected_articles(drop_article).each do |affected_article|
+      affected_article.adjust_room_for_drop(drop_side, drop_column)
+    end
+  end
+
+  # remove drop and its children
   def remove_drop
     return unless has_drop_article?
     update(has_drop_article: false)
     working_articles.each do |w|
-      if w.attached_type == 'right_drop' || w.attached_type == 'left_drop'
+      if w.attached_type == 'drop'
+        w.delete_drop_childen if w.has_children?
         w.delete_folder
         w.destroy
       elsif w.column != column

@@ -246,7 +246,6 @@ Rails.application.routes.draw do
       get 'copy_to_current_issue'
       get 'add_default_drop'
       get 'split_drop'
-      get 'remove_drop' 
     end
   end
 

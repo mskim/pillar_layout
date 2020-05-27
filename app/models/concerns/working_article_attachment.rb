@@ -42,15 +42,17 @@ module WorkingArticleAttachment
     has_children? && children.first.is_attached_article?
   end
 
-  def update_attachment_value(old_attachment_position, old_attachment_column, options={})
+  def update_attachment_value(old_attached_position, old_attached_column, options={})
     case attached_type
     when 'divide'
-      change_divide(old_attachment_position, old_attachment_column)
+      change_divide(old_attached_position, old_attached_column)
     when 'drop'
-      pillar.change_drop_value(old_attachment_position, old_attachment_column)
+      if old_attached_position != attached_position || old_attached_column != column
+        pillar.change_drop_value(self, old_attached_position, old_attached_column)
+      end
     when 'overlap'
       old_attachment_row = options[:old_attachment_row]
-      change_overlap(old_attachment_position, old_attachment_column, old_attachment_row)
+      change_overlap(old_attached_position, old_attached_column, old_attachment_row)
     end
   end
 
@@ -109,13 +111,33 @@ module WorkingArticleAttachment
     end
   end
 
-  def change_divide(new_position, new_column)
-    if attached_position != new_position
-    # TODO
+  # attached_position and row value has been update 
+  # change layout if they are different from old values
+  def change_divide(old_position, old_column)
+    return if attached_position == old_position && column == old_column
+    if attached_position != old_position
+      if attached_position == '좌'
+        # move position from right to left
+        update(grid_x: 0)
+        parent.update(grid_x:column)
+      else
+        # move position from left to right
+        new_grid_x = pillar.column - column
+        update(grid_x: new_grid_x)
+        parent.update(grid_x:0)
+      end
     end
-    if column != new_column
-    # TODO
+    # column width has changed
+    if column != old_column
+      parent_column = pillar.column - column
+      if attached_position == '좌'
+        parent.update(grid_x:column, column:parent_column)
+      else
+        parent.update(grid_x:0, column:parent_column)
+      end
     end
+    generate_pdf_with_time_stamp
+    parent.generate_pdf_with_time_stamp
   end
 
 
@@ -148,7 +170,7 @@ module WorkingArticleAttachment
       #   else
       #     update(grid_x:0, column:pillar.column)
       #   end
-      when 'split_drop'
+      when 'drop_children'
         # this is when split_drop is removed from
         new_row = pillar.row - grid_y
         update(row:new_row)
@@ -158,6 +180,7 @@ module WorkingArticleAttachment
     end
   end
 
+  
   ########## overlap ################
 
   def overlapable?
@@ -248,10 +271,6 @@ module WorkingArticleAttachment
     page.generate_pdf_with_time_stamp
   end
 
-  def toggle_overlap_side
-
-  end
-
   ########## drop and split ################
   
   def is_drop?
@@ -265,13 +284,10 @@ module WorkingArticleAttachment
   def dropable?
     # return false if article is attached one or is at the bottom of pillar
     # these articles can not add drop article to them
+    return false if pillar.has_drop_article?
     return false if attached_type || pillar_bottom?
     # droping parent article column must be larger than 2
     column > 2 
-  end
-
-  def add_drop
-    pillar.add_drop(drop_starting_index)
   end
 
   def drop_starting_order
@@ -280,6 +296,36 @@ module WorkingArticleAttachment
 
   def add_default_drop
     pillar.add_default_drop(drop_starting_order)
+  end
+
+  def adjust_room_for_drop(drop_side, drop_column)
+    new_column = pillar.column - drop_column
+    if new_column != column
+      # this is when drop_column has changed
+      # need to regenerate pdf with new_column 
+      if drop_side == '좌'
+        update(grid_x:drop_column, column:new_column)
+      else
+        update(grid_x:0, column:new_column)
+      end
+      generate_pdf_with_time_stamp
+    else
+      # this is when drop_column remains same
+      # no need to regenerate pdf with new_column 
+      # just update the grid_x
+      if drop_side == '좌'
+        update(grid_x:drop_column)
+      else
+        update(grid_x:0)
+      end
+    end
+  end
+
+  def change_drop_childen
+    children.each do |child|
+      child.update(grid_x: grid_x, column:column)
+      child.generate_pdf_with_time_stamp
+    end
   end
 
   # create aritcle on the right side which spans from top of current article to the bottom on pillar
@@ -295,13 +341,34 @@ module WorkingArticleAttachment
   end
 
   def remove_drop
-    pillar.remove_drop
+    if attached_type == 'drop'
+      pillar.remove_drop
+    elsif attached_type == 'drop_children'
+      parent.remove_drop_child(self)
+    end
   end
 
   def drop_splitable?
+    return false unless is_drop?
     # article should be a drop type and row > 2
-    is_drop? && row > 2
+    if has_children?
+      children.last.row > 1
+    else
+      is_drop? && row > 2
+    end
   end
+
+  def possible_drop_floors
+    drop_height = pillar.drop_affected_articles(self).length
+    if drop_height > 3
+      (0..2).to_a
+    elsif drop_height > 2
+      (0..1).to_a
+    else
+      [0]
+    end
+  end
+
 
   # adding drop is implemented by pillar.rb
   # def add_right_drop  attached_type: right_drop
@@ -310,27 +377,64 @@ module WorkingArticleAttachment
   # dropped article creats child, attache_type is 'drop_split'
   # drop_split is removed in remove_attached_article
   def split_drop
-    child_row   = row/2
-    changing_row = row - child_row
+    child_row     = row/2
+    changing_row  = row - child_row
+    h                         = {}
+    h[:pillar]  = pillar
+    h[:page_id] = page.id
+    h[:attached_type] = "drop_children"
+    h[:column]  = column
+    h[:pillar_order]          = "#{pillar_order}_1"
+    h[:grid_x]  = grid_x
+    h[:grid_y]  = grid_y + changing_row
+
+    if has_children?
+      # update existing children
+      childre.each do |child|
+        child.update(row:child_row)
+        child.generate_pdf_with_time_stamp
+      end
+      # for new child
+      current_children_count  = children.count
+      current_row_total       = row + children.sum{|child| child.row}
+      child_row               = current_row_total/(current_children_count + 1)
+      changing_row            += 1 if  (current_row_total % (current_children_count + 1)) > 0
+      h[:pillar_order]        = "#{pillar_order}_#{current_children_count + 1}"
+      h[:grid_y]  = changing_row
+    end
     update(row:changing_row)
     generate_pdf_with_time_stamp
-    h           = {}
-    h[:attached_type] = "drop_split"
-    h[:grid_x]  = grid_x
-    h[:grid_y]  = changing_row
-    h[:column]  = column
     h[:row]     = child_row
-    h[:pillar]  = pillar
-    h[:page_id] = page_ref.id
-    h[:pillar_order]    = "#{order}_R_1"
+
     created_drop_split = self.children.create(h)
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp  
   end
 
-  def toggle_drop_side
-    # TODO
-
+  # remove given child and update the rest
+  def remove_drop_child(removing_child)
+    current_children_count  = children.count - 1
+    removing_child.delete_folder
+    removing_child.destroy
+    current_row_total       = row + children.sum{|child| child.row}
+    child_row               = current_row_total/(current_children_count + 1)
+    changing_row            += 1 if  (current_row_total % (current_children_count + 1)) > 0
+    update(row:changing_row)
+    if current_children_count > 0
+      childre.each do |child|
+        child.update(row:child_row)
+        child.generate_pdf_with_time_stamp
+      end
+    end
   end
+
+  # delete all children before deleteing itself
+  def delete_drop_childen
+    children.each do |child|
+      child.delete_folder
+      child.destroy
+    end
+  end
+
 end

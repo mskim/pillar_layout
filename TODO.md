@@ -50,16 +50,40 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_5_27
+  - drop with count
+  - draw lines for attachement
+  - 부고/인사 문페와 본문 입력창만 보여주기
+  - add drop_floor:integer to working_article
+      내림_바닥
+  - add select to _form
+  - def drop_floor_choices
+    ex: [0,1,2]
+
+2020_5_26
+  - change drop position, column
+  - fix remove_drop
+
+  - add 'split_drop'
+  - remove 'split_drop'
+
+
+  - change attached position, column, row for ovrlap
+
+  - fix obituary subheading layout
+
+  - set like default to 0 in page_layout
+  - do spread
+
+
 2020_5_20
   - 면배열표 odd page has no 전면광고 
     - add 15단통 in page_layout page 101
   - delete page with no ad
-  - do spread
   -
 
 2020_5_20
   - add possible_row_chices
-
   - add 높이 select to attachment edit
 
 
