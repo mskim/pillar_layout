@@ -34,11 +34,12 @@
           <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>
-    <% if article.attached_type =~ /drop/ %>
+    <% if article.attached_type == 'drop' %>
         <div class="form-group">
           <%= f.label :첨부기사 %>
           <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
           <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
+          <%= f.label :바닥_여백 %><%= f.select :column, article.possible_drop_floors , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>
     <% if article.attached_type =~ /overlap/ %>
@@ -46,6 +47,7 @@
           <%= f.label :첨부기사 %>
           <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
           <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
+          <%= f.label :높이_열 %><%= f.select :row, article.possible_overlap_rows , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>
     <% if @working_article.page.page_number == 1 %>
@@ -74,6 +76,16 @@
         <%= f.label :기자명 %>
         <%= f.text_field :reporter %>
       </div>
+    <% elsif article.kind == '부고-인사' %>
+      <div class="form-group">
+        <%= f.label :기자명 %>
+        <%= f.text_field :reporter %>
+      </div>
+      <div class="form-group">
+        <%= f.label :subject_head, "문패" %>
+        <%= f.text_field :subject_head, class: 'form-control form-control-sm', autocomplete: 'off' %>
+      </div>
+ 
     <% else %>
       <div class="form-group">
         <%= f.label :subject_head, "문패" %>

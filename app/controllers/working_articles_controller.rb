@@ -91,10 +91,11 @@ class WorkingArticlesController < ApplicationController
         # so we can compare and update layout to changed values
         current_attachment_position     = @working_article.attached_position
         current_attachment_column       = @working_article.column
+        current_attachment_row          = @working_article.row
       end
       if @working_article.update(working_article_params)
         if @working_article.attached_type
-          @working_article.update_attachment_value(current_attachment_position, current_attachment_column)
+          @working_article.update_attachment_value(current_attachment_position, current_attachment_column, old_attachment_row: current_attachment_row)
         end
         @working_article.generate_pdf_with_time_stamp
         @working_article.page.generate_pdf_with_time_stamp
@@ -571,11 +572,10 @@ class WorkingArticlesController < ApplicationController
   def remove_article
     set_working_article
     @page = @working_article.page
-    if @working_article.has_parent?
+    if @working_article.attached_type =~ /drop/
+      @working_article.remove_drop
+    elsif @working_article.has_parent?
       @working_article.parent.remove_attached_article   
-    elsif @working_article.attached_type
-      # side drop
-      @working_article.pillar.remove_drop
     else
       @working_article.pillar.remove_article(@working_article)
     end
@@ -596,12 +596,12 @@ class WorkingArticlesController < ApplicationController
     redirect_to page
   end
 
-  def remove_drop
-    page = @working_article.page 
-    set_working_article
-    @working_article.pillar.remove_drop
-    redirect_to page
-  end
+  # def remove_drop
+  #   page = @working_article.page 
+  #   set_working_article
+  #   @working_article.pillar.remove_drop
+  #   redirect_to page
+  # end
 
   def add_overlap
     set_working_article

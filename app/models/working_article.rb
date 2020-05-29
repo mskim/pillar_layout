@@ -20,6 +20,7 @@
 #  category_name                :string
 #  column                       :integer
 #  date                         :date
+#  drop_floor                   :integer          default(0)
 #  email                        :string
 #  embedded                     :boolean
 #  extended_line_count          :integer
@@ -1576,11 +1577,16 @@ class WorkingArticle < ApplicationRecord
     self.pushed_line_count    = 0
     self.height_in_lines      = row*7
     self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
-    self.title                = "여기는 #{pillar_order} 제목 입니다." unless title
-    self.title                = "여기는 #{pillar_order} 제목." if column <= 2
-    self.subtitle             = '여기는 부제목 입니다.' unless subtitle
-    self.reporter             = '홍길동' unless reporter
-    self.profile              = "#{pillar.page_ref.column}_#{column}x#{row}"
+    if kind == '부고-인사'
+      self.subject_head         = '부고' 
+      self.reporter             = '홍길동' unless reporter
+    else
+      self.title                = "여기는 #{pillar_order} 제목 입니다." unless title
+      self.title                = "여기는 #{pillar_order} 제목." if column <= 2
+      self.subtitle             = '여기는 부제목 입니다.' unless subtitle
+      self.reporter             = '홍길동' unless reporter
+      self.profile              = "#{pillar.page_ref.column}_#{column}x#{row}"
+    end
     if self.top_story?
       self.profile            = "#{self.profile}_top-story"           
     elsif pillar.top_position? && grid_y == 0

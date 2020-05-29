@@ -226,9 +226,35 @@ module WorkingArticleSavePdf
     else
       puts "missing image_path :#{image_path} !!!"
     end
-    if attached_type == 'right_drop'
+    if page.draw_divider && (attached_type =~ /^drop/ || attached_type == 'divide')
+      if attached_position == '좌'
+        starting_x = flipped[0] + width
+        starting_y = flipped[1]
+        ending_x   = starting_x
+        ending_y   = flipped[1] + height
+        page_canvas.line_width(0.3)
+        page_canvas.stroke_color(0, 0, 0, 254).line(starting_x, starting_y, ending_x, ending_y).stroke
+        if !on_left_edge
+          starting_x = flipped[0]
+          ending_x = flipped[0]
+          page_canvas.stroke_color(0, 0, 0, 254).line(starting_x, starting_y, ending_x, ending_y).stroke
+        end
+      else
+        starting_x = flipped[0]
+        starting_y = flipped[1]
+        ending_x   = starting_x
+        ending_y   = flipped[1] + height
+        page_canvas.line_width(0.3)
+        page_canvas.stroke_color(0, 0, 0, 254).line(starting_x, starting_y, ending_x, ending_y).stroke
+        if !on_right_edge
+          starting_x = flipped[0] + width
+          ending_x = flipped[0] + width
+          page_canvas.stroke_color(0, 0, 0, 254).line(starting_x, starting_y, ending_x, ending_y).stroke
+        end
+      end
 
-    elsif attached_type == 'left_drop'
+    elsif page.draw_divider && attached_type == 'overlap' 
+      # 쪽기사
 
     elsif page.draw_divider && !on_right_edge
       starting_x = flipped[0] + width

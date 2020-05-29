@@ -5,20 +5,12 @@
   "bs_custom_file_input.js.map": "/packs/js/bs_custom_file_input-f19f82b1ce660c2e7dea.js.map",
   "entrypoints": {
     "application": {
-      "js": [
-        "/packs/js/application-cc62c7500089f41a4a3f.js"
-      ],
-      "js.map": [
-        "/packs/js/application-cc62c7500089f41a4a3f.js.map"
-      ]
+      "js": ["/packs/js/application-cc62c7500089f41a4a3f.js"],
+      "js.map": ["/packs/js/application-cc62c7500089f41a4a3f.js.map"]
     },
     "bs_custom_file_input": {
-      "js": [
-        "/packs/js/bs_custom_file_input-f19f82b1ce660c2e7dea.js"
-      ],
-      "js.map": [
-        "/packs/js/bs_custom_file_input-f19f82b1ce660c2e7dea.js.map"
-      ]
+      "js": ["/packs/js/bs_custom_file_input-f19f82b1ce660c2e7dea.js"],
+      "js.map": ["/packs/js/bs_custom_file_input-f19f82b1ce660c2e7dea.js.map"]
     }
   }
 }
