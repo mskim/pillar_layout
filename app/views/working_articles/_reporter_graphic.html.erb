@@ -1,11 +1,16 @@
-<div class="col-xs-12 col-sm-12">
+<div class="row row-cols-1 row-cols-md-4">
   <% reporter_graphics.each do |graphic| %>
-    <div class="col-md-2">
-      <img style="object-fit:cover",  src="<%= graphic.thumb_path %>" width="200px" height="200px"></img>
-      <p align="center"><%= graphic.title %></p>
-      <%= link_to '그래픽 선택', select_reporter_graphic_working_article_path(@working_article, reporter_graphic: graphic), class: "btn btn-default btn-sm"  %>
-    </div>
+    <% if graphic.used_in_layout == true %>
+    <% else %>
+      <div class="col mb-2">
+        <div class="card h-100">
+          <img src="<%= graphic.preview_path %>" class="repoter_img_thumb card-img-top w-100" style="height: 160px;">
+          <div class="card-body text-center">
+            <h6 class="card-title"><%= truncate(graphic.title, length: 10) %></h6>
+            <%= link_to '그래픽 선택', select_reporter_graphic_working_article_path(@working_article, reporter_graphic: graphic), class: "btn btn-primary btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   <% end %>
 </div>
-
-

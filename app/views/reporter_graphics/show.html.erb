@@ -1,30 +1,25 @@
-<p id="notice"><%= notice %></p>
-
-<div align="center">
-<div class='row'>
-
-  <div class='col-md-3'>
+<div class="container">
+  <% if @reporter_graphic.finished_job.attached? %>
+    <h3 class="text-center">수정 완료!</h3>
+    <%= image_tag @reporter_graphic.finished_job %>
+  <% else %>
+    <h1 class="text-center">수정중 ....</h1>
+  <% end %>
+  <div class='row'>
     <% if @reporter_graphic.title %>
-      <p>
-        <img style="object-fit:cover",  src="<%= @reporter_graphic.preview_path %>" width="200px" height="200px"></img>
-      </p>
-      <p>
-        <strong>Title:</strong>
-        <%= @reporter_graphic.title %>
-      </p>
-      <p>
-        <strong>Caption:</strong>
-        <%= @reporter_graphic.caption %>
-      </p>
-      <p>
-        <strong>Source:</strong>
-        <%= @reporter_graphic.source %>
-      </p>
-      <p>
-        <strong>Section name:</strong>
-        <%= @reporter_graphic.section_name %>
-      </p>
-      <div class='col-md-4'>
+      <div class='col-md-6'>
+        <div class="card w-100">
+          <img src="<%= @reporter_graphic.preview_path %>" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= @reporter_graphic.title %></h5>
+            <p class="card-text"><%= simple_format(@reporter_graphic.caption) %></p>
+          </div>
+          <div class="card-footer text-muted">
+            출처: <%= @reporter_graphic.source %>
+          </div>
+        </div>
+      </div>
+      <div class='col-md-6'>
         <%= render 'form', reporter_graphic: @reporter_graphic%>
       </div>
     <% else %>
@@ -42,21 +37,5 @@
         <% end %>
       </div>
     <% end %>
-
   </div>
-
-  <% if @reporter_graphic.finished_job.attached? %>
-    <div class='col-md-4'>
-      <h3>수정 완료!</h3>
-      <%= image_tag @reporter_graphic.finished_job %>
-    </div>
-  <% else %>
-    <div class='col-md-4'>
-      <h1>수정중 ....</h1>
-    </div>
-  <% end %>
-</div>
-
-
-<%= link_to 'Back', my_reporter_graphics_path %>
 </div>

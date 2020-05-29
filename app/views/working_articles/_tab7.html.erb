@@ -1,5 +1,5 @@
 <!-- 그래픽 탭 -->
-<div class="row" style="width: 100%;">
+<div class="row justify-content-md-center">
   <div class="col-md-3">
     <div class="card mb-1">
       <div class="border text-center" style="margin: 5px;">
@@ -52,6 +52,8 @@
     </div>
   </div>
   <div class="col-md-5">
-    <%= render 'show_preview', article: @working_article %>
+    <% if @reporter_graphics.length > 0 %>
+      <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
+    <% end %>
   </div>
 </div>

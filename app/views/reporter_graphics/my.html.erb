@@ -1,16 +1,32 @@
-<h3 class="text-center">나의 그래픽</h3>
-<div align="center">
-  <%= paginate @reporter_graphics %>
+<div class="container mb-3">
+  <h3 class="text-center">나의 그래픽</h3>
+  <form class="form-inline d-flex justify-content-center">
+    <%= search_form_for @q do |f| %>
+      <div class="input-group col-6">
+        <%= f.text_field :title_or_caption_cont, placeholder: "사진 제목 혹은 캡션을 입력하세요.", class: "form-control" %>
+        <div class="input-group-append">
+          <%= f.button :submit, class: "btn btn-outline-secondary", id: "button-addon2" do %>
+            <span><i class="fa fa-search" aria-hidden="true"></i> 사진 검색</span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </form>
 </div>
-<div class="view">
-  <% @reporter_graphics.each do |picture| %>
-    <div class="col-md-2">
-      <a href="<%=  reporter_graphic_path(picture) %>"><img style="object-fit:cover",  src="<%= picture.preview_path %>" width="200px" height="200px"></img></a>
-    <p align="center"><%= picture.title %></p>
+<div class="w-100">
+  <div class="card-columns">
+    <% @reporter_graphics.each do |graphic| %>
+      <div class="card">
+        <%= link_to (image_tag graphic.thumb_path, class: "img-crop card-img-top"), reporter_graphic_path(graphic) %>
+        <div class="card-body">
+          <h5 class="mb-0"><%= graphic.title %></h5>
+        </div>
+        <div class="text-center mb-3"> (<%= graphic.source %>)</div>
+      </div>
+    <% end %>
   </div>
-<% end %>
-</div>
-<div align="center">
+  <div class="col-xs-12 col-sm-12" align="center">
+    <%= paginate @reporter_graphics %>
+  </div>
   <%= link_to '신규', new_reporter_graphic_path, user: @user %>
-  <%= paginate @reporter_graphics %>
 </div>

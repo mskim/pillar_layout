@@ -45,16 +45,27 @@ class ReporterGraphic < ApplicationRecord
 
   #TODO
   def source_path
+    # 오리지널 코드
     return unless wire_pictures
     # full_size = wire_pictures.split(" ").first
-    @filename_date = wire_pictures.split(".").first.scan(/\d{3,8}/).first
-    "/wire_source/203_GRAPHIC/#{@filename_date}"
+    #@filename_date = wire_pictures.split(".").first.scan(/\d{3,8}/).first
+    #"/wire_source/203_GRAPHIC/#{@filename_date}"
+
+    # 새로운 코드
+    require 'date'
+    today = Date.today
+    today_string = today.strftime("%Y%m%d")
+    filename_date = wire_pictures.split(".").first.scan(/\d{3,8}/).first
+    year_dir = filename_date.scan(/\d{4}/).first
+    month_dir = filename_date.scan(/\d{4}/).last.scan(/\d{2}/).first
+    day_dir = filename_date.scan(/\d{4}/).last.scan(/\d{2}/).last
+    "/wire_source/203_GRAPHIC/#{year_dir}/#{month_dir}/#{day_dir}"
   end
 
   def full_size_path
     return unless wire_pictures
     full_size = wire_pictures.split(" ").first
-    source_path + "/#{full_size}"
+    source_path + "/full/#{full_size}"
   end
 
   #TODO fix this
@@ -65,13 +76,12 @@ class ReporterGraphic < ApplicationRecord
   def preview_path
     return unless wire_pictures
     preview = wire_pictures.split(" ")[1]
-    source_path + "/#{preview}"
+    source_path + "/pre/#{preview}"
   end
 
   def thumb_path
     return unless wire_pictures
     thumb = wire_pictures.split(" ").last
-    source_path + "/#{thumb}"
+    source_path + "/thumb/#{thumb}"
   end
-  
 end

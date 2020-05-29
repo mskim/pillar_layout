@@ -8,7 +8,7 @@
       <% @yh_graphics.each do |yh_graphic| %>
         <div class="col-md-2">
           <div class="card mb-3 text-center">
-            <%= link_to (image_tag yh_graphic.thumb_path, class: "card-img-top", style: "width: 100%;"), yh_graphic_path(yh_graphic) %>
+            <%= link_to (image_tag yh_graphic.preview_path, class: "card-img-top", style: "width: 100%;"), yh_graphic_path(yh_graphic) %>
             <div class="card-body">
               <h6 class="card-title text-center mb-0"><%= yh_graphic.title %></h6>
             </div>

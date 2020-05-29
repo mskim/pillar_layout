@@ -1,11 +1,8 @@
 <!-- 사진 탭 -->
-<% if @reporter_images.length > 0 %>
-  <%= render 'reporter_image', reporter_images: @reporter_images %>
-<% end %>
-<div class="row" style="width: 100%;">
+<div class="row justify-content-md-center">
   <div class="col-md-3">
     <div class="card mb-1">
-      <div class="border text-center" style="margin: 5px;">
+      <div class="border text-center" style="margin: 5px;" data-action="click->select-story#select">
         <%= raw @working_article.page.to_svg_with_jpg %>
       </div>
     </div>
@@ -52,7 +49,9 @@
     </div>
   </div>
   <div class="col-md-5">
-    <%= render 'show_preview', article: @working_article %>
+    <% if @reporter_images.length > 0 %>
+      <%= render 'reporter_image', reporter_images: @reporter_images %>
+    <% end %>
   </div>
 </div>
 <%= javascript_pack_tag "bs_custom_file_input.js" %>
