@@ -83,7 +83,7 @@ module WorkingArticleAttachment
         changing_column   = column - cut_index
         update(grid_x:cut_index, column:changing_column)
         child_grid_x      =  0   
-        attached_type     = 'left_divide'
+        attached_type     = 'divide'
         attached_position = '좌'
         child_right_edge  = false
         child_left_edge   = true if on_left_edge
@@ -243,7 +243,7 @@ module WorkingArticleAttachment
       child_grid_x  =  grid_x + column - child_column
     end
     child_grid_y    = grid_y + row - child_row
-    h = {page_id:page.id, pillar:pillar,  pillar_order: child_pillar_order, attached_type:'overlap', attached_position: attached_position, grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row, attached_position:child_position }
+    h = {kind:'부고-인사', page_id:page.id, pillar:pillar,  pillar_order: child_pillar_order, attached_type:'overlap', attached_position: attached_position, grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row, attached_position:child_position }
     created_overlap = self.children.create(h)
     update(overlap:created_overlap.rect_with_order)
     generate_pdf_with_time_stamp

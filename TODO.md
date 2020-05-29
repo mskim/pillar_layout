@@ -50,10 +50,20 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
-2020_5_27
-  - drop with count
+2020_5_29
+  - 7단15 홀
+  - 사진 Panel 
+    - put images on the right
+    - no 
+  - 177 18일자 1면 1기사
+
+2020_5_28
   - draw lines for attachement
   - 부고/인사 문페와 본문 입력창만 보여주기
+  - does it grow up?
+
+2020_5_27
+  - drop with count, add drop_floor:integer to working_article 내림_바닥
   - add drop_floor:integer to working_article
       내림_바닥
   - add select to _form
