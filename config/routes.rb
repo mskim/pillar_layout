@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :pillars
     resources :profiles
     resources :reporters
+    resources :opinion_writers
     resources :working_articles
 
     root to: 'users#index'
