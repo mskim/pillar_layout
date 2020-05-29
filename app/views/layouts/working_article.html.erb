@@ -5,24 +5,20 @@
     <title><%= content_for?(:title) ? yield(:title) : "NewsGo" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Style Guide" %>">
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
+    <%#= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
+    <%= javascript_pack_tag 'application' %>
     <%= csrf_meta_tags %>
     <link rel='stylesheet' href='//fonts.googleapis.com/earlyaccess/kopubbatang.css'>
     <link rel='stylesheet' href='//cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css'>
     <style>
       .content {
-       padding: 0 18px;
-       background-color: white;
-       max-height: 0;
-       overflow: hidden;
-       transition: max-height 0.2s ease-out;
-        }
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+      }
     </style>
-    <script>
-      $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-      })
-    </script>
     <script>
       function restoreAccordionPanel(storageKey, accordionId) {
         var activeItem = sessionStorage.getItem(storageKey);
@@ -51,7 +47,6 @@
       }
     </script>
     <!-- 사진/그래픽 올리기 하고 페이지 새로고침 되어도 탭 유지 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
       $(document).ready(function(){
        if(sessionStorage.selected) {
@@ -68,7 +63,7 @@
         });
       });
     </script>
-    <script>
+    <%# <script>
       $(function(){
         var story_subcategory;
         $('#working_article_subcategory_code').parent().show();
@@ -93,7 +88,7 @@
       $(document).ready(function() {
       $("#dttb").dataTable();
       });
-    </script>
+    </script> %>
     <!-- 클릭된 기사 박스 색상변경 하려고 추가했는데, 모든 기사 박스 색이 같이 변경된다. svg rect를 그리는 소스에 추가해서 그런가본데.. 
 클릭시에만 잠깐 변경되는데 다른 기사 박스 선택전까지 계속 상태 유지하는 방법도 찾아야 함. 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -3,7 +3,7 @@
   <% @pages.each do |page| %>
     <div class="col-md-3">
       <div class="card rounded-0">
-        <div class="border text-center m-1">
+        <div class="border text-center m-1" data-action="click->select-story#select">
           <%= raw page.to_svg_with_jpg %>
         </div>
         <div class="card-body text-center pt-1 pb-1">
