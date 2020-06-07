@@ -50,6 +50,32 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_6_4
+  - 5면 기사 나누기로 1단 을 2단으로 변경시 x 위치 에러
+  - 나누기 2단 에서 1단 변경시 변화 없음
+  - 5면 기사 우를 좌로 변경시 변화 없음
+
+2020_6_3
+  - mixed token line
+  - 7단15_홀 9단21_홀 왼쪽으로 붙고 우측여백
+  - 7단15_홀 클릭이 안됨
+  - 왼쪽 시작위치 위의 줄과 
+    광고 표시 없음
+  - 전면광고도 광고 표시 없음
+  - 배열표에는 전면광고인데 광고없음 으로 뜸
+
+2020_6_2
+  - fix mixed token line
+
+2020_6_1
+  - obituary/promotion
+  - ##성명
+    설명을 다음줄에 입력하면 고딕 성명과 같은 줄에 본문으로 출력 되게
+  - 부고 윗줄 간격 1행, 부고 문패와 본문 간격 1 행
+  - def drop_splitable? 
+      return false if drop_floor != 0
+  - def drop_floor_y_in_lines
+
 2020_5_29
   - 7단15 홀
   - 사진 Panel 

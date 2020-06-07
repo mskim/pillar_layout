@@ -115,26 +115,14 @@ module WorkingArticleAttachment
   # change layout if they are different from old values
   def change_divide(old_position, old_column)
     return if attached_position == old_position && column == old_column
-    if attached_position != old_position
-      if attached_position == '좌'
-        # move position from right to left
-        update(grid_x: 0)
-        parent.update(grid_x:column)
-      else
-        # move position from left to right
-        new_grid_x = pillar.column - column
-        update(grid_x: new_grid_x)
-        parent.update(grid_x:0)
-      end
-    end
-    # column width has changed
-    if column != old_column
-      parent_column = pillar.column - column
-      if attached_position == '좌'
-        parent.update(grid_x:column, column:parent_column)
-      else
-        parent.update(grid_x:0, column:parent_column)
-      end
+    parent_column = pillar.column - column
+    if attached_position == '좌'
+      update(grid_x: 0)
+      parent.update(grid_x:column, column:parent_column)
+    else
+      new_grid_x = pillar.column - column
+      update(grid_x: new_grid_x, column:column)
+      parent.update(grid_x:0, column:parent_column)
     end
     generate_pdf_with_time_stamp
     parent.generate_pdf_with_time_stamp

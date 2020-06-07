@@ -5,9 +5,8 @@
       <div class="col mb-2">
         <div class="card h-100">
           <img src="<%= graphic.preview_path %>" class="repoter_img_thumb card-img-top w-100" style="height: 160px;">
-          <div class="card-body text-center">
-            <h6 class="card-title"><%= truncate(graphic.title, length: 10) %></h6>
-            <%= link_to '그래픽 선택', select_reporter_graphic_working_article_path(@working_article, reporter_graphic: graphic), class: "btn btn-primary btn-sm" %>
+          <div class="card-body text-center p-0">
+            <span><%= truncate(graphic.title, length: 10) %></span><span><%= link_to '선택', select_reporter_graphic_working_article_path(@working_article, reporter_graphic: graphic), class: "btn btn-sm btn-primary pt-0 pb-0 pl-1 pr-1" %></span>
           </div>
         </div>
       </div>
