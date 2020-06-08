@@ -514,23 +514,23 @@ EOF
       self.row    = 9
     when '7단15'
       if page_number.odd?
-        self.grid_x = 0
+        self.grid_x = 4
         self.grid_y = 8
         self.column = 3
         self.row    = 7
       else
-        self.grid_x = 4
+        self.grid_x = 0
         self.grid_y = 8
         self.column = 3
         self.row    = 7
       end
     when '7단15_홀'
-      self.grid_x = 0
+      self.grid_x = 4
       self.grid_y = 8
       self.column = 3
       self.row    = 7
     when '7단15_짝'
-      self.grid_x = 4
+      self.grid_x = 0
       self.grid_y = 8
       self.column = 3
       self.row    = 7
@@ -538,6 +538,7 @@ EOF
       puts "+++++++++ unsupported ad_type:#{ad_type}"
       return
     end
+    self.ad_type = new_ad_type
     self.grid_width = publication.grid_width(column)
     self.save
     generate_pdf_with_time_stamp

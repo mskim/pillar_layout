@@ -366,7 +366,7 @@ class Pillar < ApplicationRecord
           working_articles.reload
         end
       end
-    else # removing_articles < 0 add articles
+    elsif removing_articles < 0 # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.each_with_index do |w, i|
         box_rect = new_layout[i].dup

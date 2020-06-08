@@ -1087,20 +1087,7 @@ class WorkingArticle < ApplicationRecord
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += "  news_column_image(#{editorial_image_options})\n" if reporter && reporter != "" # if page_number == 22
       content += "end\n"
-
-
-
-      # h[:article_line_draw_sides] = [0, 1, 0, 0]
-      # content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      # if reporter && reporter != ''
-      #   content += "  news_column_image(#{profile_image_options})\n"
-      # end # if page_number == 22
-      # content += "end\n"
-
-
-
     elsif kind == '기고' || kind == 'opinion'
-
       h[:empty_first_column] = true if row >= 10
       h[:profile_image_position] = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
       h[:article_line_draw_sides]  = [0,1,0,1]
@@ -1117,20 +1104,12 @@ class WorkingArticle < ApplicationRecord
           content += graphic_layout
         end
       content += "end\n"
-
-      # h[:article_line_draw_sides] = [0, 1, 0, 1]
-      # content = "RLayout::NewsArticleBox.new(#{h}) do\n"
-      # content += "  news_image(#{opinion_image_options})\n"
-      # content += "end\n"
     else
       h[:profile_image_position] = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
       h[:article_line_draw_sides]  = [0,1,0,1]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += image_layout unless images.empty?
       content += graphic_layout unless graphics.empty?
-      # if quote && quote != ""
-      #   content += quote_layout
-      # end
       content += "end\n"
     end
     content

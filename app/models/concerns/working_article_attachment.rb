@@ -115,34 +115,17 @@ module WorkingArticleAttachment
   # change layout if they are different from old values
   def change_divide(old_position, old_column)
     return if attached_position == old_position && column == old_column
-    if attached_position != old_position
-      if attached_position == '좌'
-        # move position from right to left
-        update(grid_x: 0)
-        parent.update(grid_x:column)
-      else
-        # move position from left to right
-        new_grid_x = pillar.column - column
-        update(grid_x: new_grid_x)
-        parent.update(grid_x:0)
-      end
-    end
-    # column width has changed
-    if column != old_column
-      parent_column = pillar.column - column
-      if attached_position == '좌'
-        parent.update(grid_x:column, column:parent_column)
-      else
-        parent.update(grid_x:0, column:parent_column)
-      end
+    parent_column = pillar.column - column
+    if attached_position == '좌'
+      update(grid_x: 0)
+      parent.update(grid_x:column, column:parent_column)
+    else
+      new_grid_x = pillar.column - column
+      update(grid_x: new_grid_x, column:column)
+      parent.update(grid_x:0, column:parent_column)
     end
     generate_pdf_with_time_stamp
     parent.generate_pdf_with_time_stamp
-  end
-
-
-  def toggle_divide_side
-
   end
 
   # remove attached article, right_divide, left_divide, overlap
@@ -252,11 +235,10 @@ module WorkingArticleAttachment
 
   def change_overlap(child_position, child_column, child_row)
     # return if changing params are same as current
-    # TODO ???????????
     return if attached_position == child_position && column == child_column && row == child_row
-    if child_position == '좌'
+    if attached_position == '좌'
       child_grid_x  = 0 
-    elsif child_position == '우'
+    elsif attached_position == '우'
       child_grid_x  = parent.column - column
     else
       # anything other than 7,9 make it as 9 bottom_right
@@ -264,7 +246,7 @@ module WorkingArticleAttachment
       child_grid_x  = parent.column - child_column
     end
     child_grid_y       = parent.grid_y +  parent.row - row
-    update(grid_x:child_grid_x , grid_y:child_grid_y, column:child_column, row:child_row, attached_position:child_position)
+    update(grid_x:child_grid_x , grid_y:child_grid_y)
     generate_pdf_with_time_stamp
     parent.update(overlap:rect_with_order)
     parent.generate_pdf_with_time_stamp

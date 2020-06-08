@@ -366,3 +366,21 @@ subtitle: subtitle of Article
 ___
 
 body text goes here.
+
+
+## AdPage
+  - date
+  - page_number
+  - paper_size
+  
+## BoxAd
+  - advertizer
+  - email
+  - size
+  - category
+  - title
+  - subtitle
+  - picture
+  - price
+  - starting:date
+  - ending:date

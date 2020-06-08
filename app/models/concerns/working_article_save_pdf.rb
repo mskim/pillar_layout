@@ -195,7 +195,7 @@ module WorkingArticleSavePdf
     # flipped[1] -= y
     image_path  = path + "/story.pdf"
     if File.exist?(image_path)
-      if !top_position? && (attached_type == 'right_drop' || attached_type == 'left_drop')
+      if !top_position? && (attached_type == 'drop' || attached_type == 'drop')
         # this is for side_drop starting not at the top, but in the middle
         pushed_line_count = pillar.extened_line_sum_for_previous_root_articles(grid_y)
         self.pushed_line_count = pushed_line_count

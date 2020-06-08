@@ -110,6 +110,9 @@ group :development, :test do
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'webdrivers'
+  gem 'pry-rescue'
+  gem 'pry-stack_explorer'
+
 end
 
 # gem 'bullet', group: 'development'
@@ -139,7 +142,7 @@ source 'https://rails-assets.org' do
 end
 gem 'annotate'
 gem 'bundler', '~> 2.1', '>= 2.1.2'
-gem 'rlayout', path: '/Users/naeil/Development/ruby/gems/rlayout'
+gem 'rlayout', path: '/Users/mskim/Development/ruby/gems/rlayout'
 
 gem 'font-awesome-sass'
 gem 'rubyXL'
