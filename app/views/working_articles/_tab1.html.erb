@@ -3,9 +3,7 @@
   <% @pages.each do |page| %>
     <div class="col-md-3">
       <div class="card rounded-0">
-        <div class="border text-center m-1" data-action="click->select-story#select">
-          <%= raw page.to_svg_with_jpg %>
-        </div>
+        <%= render "working_articles/svg_with_jpg_with_page_preview", page: page %>
         <div class="card-body text-center pt-1 pb-1">
           <% if page.color_page %>
             <%= link_to "#{page.page_number}면", page_path(page), class: "btn btn-danger btn-sm" %>

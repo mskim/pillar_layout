@@ -2,9 +2,7 @@
 <div class="row">
   <div class="col-md-3">
     <div class="card mb-1">
-      <div class="border text-center" style="margin: 5px;">
-        <%= raw @working_article.page.to_svg_with_jpg %>
-      </div>
+      <%= render "working_articles/svg_with_jpg_with_working_article_preview" %>
     </div>
     <p class="text-center">
       <% if @working_article.page.color_page %>
