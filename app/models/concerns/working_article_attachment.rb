@@ -128,11 +128,6 @@ module WorkingArticleAttachment
     parent.generate_pdf_with_time_stamp
   end
 
-
-  def toggle_divide_side
-
-  end
-
   # remove attached article, right_divide, left_divide, overlap
   def remove_attached_article
     if has_children?
@@ -240,11 +235,10 @@ module WorkingArticleAttachment
 
   def change_overlap(child_position, child_column, child_row)
     # return if changing params are same as current
-    # TODO ???????????
     return if attached_position == child_position && column == child_column && row == child_row
-    if child_position == '좌'
+    if attached_position == '좌'
       child_grid_x  = 0 
-    elsif child_position == '우'
+    elsif attached_position == '우'
       child_grid_x  = parent.column - column
     else
       # anything other than 7,9 make it as 9 bottom_right
@@ -252,7 +246,7 @@ module WorkingArticleAttachment
       child_grid_x  = parent.column - child_column
     end
     child_grid_y       = parent.grid_y +  parent.row - row
-    update(grid_x:child_grid_x , grid_y:child_grid_y, column:child_column, row:child_row, attached_position:child_position)
+    update(grid_x:child_grid_x , grid_y:child_grid_y)
     generate_pdf_with_time_stamp
     parent.update(overlap:rect_with_order)
     parent.generate_pdf_with_time_stamp

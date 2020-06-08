@@ -1,15 +1,11 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-  static targets = ["editStoryTab"];
+  static targets = [""];
 
   connect() {}
 
   select() {
-    this.editStoryTabTarget.click();
-  }
-
-  event() {
-    console.log("이벤트 발동!");
+    $("#myTab li:nth-child(5) a").tab("show")
   }
 }

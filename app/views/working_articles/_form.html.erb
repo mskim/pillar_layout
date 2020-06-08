@@ -39,7 +39,7 @@
           <%= f.label :첨부기사 %>
           <%= f.label :위치 %><%= f.select :attached_position, ['좌','우'] , style: "width:40px", class: 'form-control' %>
           <%= f.label :너비_단 %><%= f.select :column, article.possible_attachment_columns , style: "width:40px", class: 'form-control' %>
-          <%= f.label :바닥_여백 %><%= f.select :column, article.possible_drop_floors , style: "width:40px", class: 'form-control' %>
+          <%= f.label :바닥_여백 %><%= f.select :drop_floor, article.possible_drop_floors , style: "width:40px", class: 'form-control' %>
         </div>
     <% end %>
     <% if article.attached_type =~ /overlap/ %>

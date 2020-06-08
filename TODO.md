@@ -51,9 +51,18 @@
     - use TablePlus for taking data from 213 to apply to 177
 
 2020_6_4
-  - 5면 기사 나누기로 1단 을 2단으로 변경시 x 위치 에러
-  - 나누기 2단 에서 1단 변경시 변화 없음
-  - 5면 기사 우를 좌로 변경시 변화 없음
+  - divide
+    - change side
+    - change column
+    
+  - drop
+    - change side
+    - change column
+
+  - overlap
+    - change side
+    - change column
+    - change row
 
 2020_6_3
   - mixed token line
