@@ -1,6 +1,4 @@
 <!-- n면 미리보기 탭 -->
 <div class="card border-secondary rounded-0 shadow" style="width: 100%;">
-  <div class="text-center border">
-    <%= raw @working_article.page.to_svg_with_jpg %>
-  </div>
+  <%= render "working_articles/svg_with_jpg_with_working_article_preview" %>
 </div>

@@ -6,6 +6,6 @@ export default class extends Controller {
   connect() {}
 
   select() {
-    $("#myTab li:nth-child(5) a").tab("show")
+    $("#myTab li:nth-child(5) a").tab("show");
   }
 }
