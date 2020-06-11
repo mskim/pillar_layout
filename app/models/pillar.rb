@@ -85,7 +85,10 @@ class Pillar < ApplicationRecord
     working_articles.reload
     working_articles.each_with_index do |w, i|
       box_rect      = new_layout[i].dup
-      box_rect[4]   = w.pillar_order.split("_")[0..-2].join("_")
+      p_order       = box_rect[4]
+      new_order       = "#{order}_#{p_order}"
+      # box_rect[4]   = w.pillar_order.split("_")[0..-2].join("_")
+      box_rect[4]= new_order
       w.change_article(box_rect)
     end
     page_ref.generate_pdf_with_time_stamp

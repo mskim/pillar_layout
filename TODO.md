@@ -50,6 +50,28 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+
+2020_6_9
+  - 제목 메인 이외 제목 2줄 효과 없음
+  - 사진기사 사진설명 않됨
+  - 부제목 엔터키 적용 않됨
+  - 나의 기사, 생성일 추가
+
+  - 광고 없음 면
+  - 기사 추가 할때 column recalcuation bug
+  - 기사 추가 할때 row recalcuation bug
+  - 힐코도
+  - 가족 코스
+  - 토요일 
+
+2020_6_8
+  - fix addable?
+  -  remove_article in pillar
+
+  - overlap left_side margin
+  - crop x direction
+
+_
 2020_6_4
   - divide
     - change side

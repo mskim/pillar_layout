@@ -172,7 +172,8 @@ class PageHeading < ApplicationRecord
     first_page=<<~EOF
     RLayout::Container.new(width: #{page_heading_width}, height: #{publication.front_page_heading_height_in_pt}, layout_direction: 'horinoztal') do
       image(image_path: '#{background_image_full_path}', x:0, y:0, width: #{page_heading_width}, height: 139.0326207874)
-      text('#{page.korean_date_string}', x: 828.00, y: 109.25, fill_color:'clear', width: 200, font: 'KoPubDotumPL', font_size: 9.5, font_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color: 'clear')
+      text('#{page.korean_date_string}', x: 828.00, y: 107.25, fill_color:'clear', width: 200, font: 'KoPubDotumPL', font_size: 9.5, font_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color: 'clear')
+
       image(image_path: '#{heading_ad_full_path}', x:809.137, y:13.043, width: 219.257, height: 71.2)
     end
   EOF

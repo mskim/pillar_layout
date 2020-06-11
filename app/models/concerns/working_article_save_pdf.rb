@@ -254,7 +254,6 @@ module WorkingArticleSavePdf
       end
 
     elsif page.draw_divider && attached_type == 'overlap' 
-      # 쪽기사
 
     elsif page.draw_divider && !on_right_edge
       starting_x = flipped[0] + width

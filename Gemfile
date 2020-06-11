@@ -142,7 +142,7 @@ source 'https://rails-assets.org' do
 end
 gem 'annotate'
 gem 'bundler', '~> 2.1', '>= 2.1.2'
-gem 'rlayout', path: '/Users/naeil/Development/ruby/gems/rlayout'
+gem 'rlayout', path: '/Users/mskim/Development/ruby/gems/rlayout'
 
 gem 'font-awesome-sass'
 gem 'rubyXL'
