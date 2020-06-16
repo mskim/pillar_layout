@@ -76,7 +76,7 @@ class Page < ApplicationRecord
   serialize :layout_with_pillar_path, Array
   attr_reader :time_stamp
   include PageSplitable
-  # include PagePrintable
+  include PagePrintable
   include PageSavePdf
   include PageSaveXml
   include StorageBackupPage
