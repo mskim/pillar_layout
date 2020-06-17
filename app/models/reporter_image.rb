@@ -36,6 +36,7 @@ class ReporterImage < ApplicationRecord
     s = ReporterImage.where(user_id: user.id, wire_pictures: wire.picture).first_or_create!
     s.title           = wire.title
     s.caption         = wire.body
+    # s.caption         = wire.body.gsub("\r\n", " ").gsub("  ", " ")
     s.source          = wire.source
     s.wire_pictures   = wire.picture
     s.kind            = kind
@@ -75,9 +76,14 @@ class ReporterImage < ApplicationRecord
 
   def full_size_path
     return unless wire_pictures
-
     full_size = wire_pictures.split(' ').first
     source_path + "/full/#{full_size}"
+  end
+
+  def filter_cation
+    filtered_caption = caption.gsub("\n\r", " ")
+    filtered_caption = cation.gsub("  ", " ")
+    update(caption: filtered_caption)
   end
 
   def preview_path

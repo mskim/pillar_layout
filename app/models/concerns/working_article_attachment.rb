@@ -8,9 +8,11 @@ module WorkingArticleAttachment
   # overlap   right_overlap, left_overlap
 
   def addable?
+    pillar_bottom? || @working_article.row > 1 
+
     # can add another article in vertical direction
     # can add article if it is at pillar bottom or if it is a drop_article with row > 2 
-    pillar_bottom? || (attached_type =~/drop/ && row > 2)
+    # pillar_bottom? || (attached_type =~/drop/ && row > 2)
   end
 
 

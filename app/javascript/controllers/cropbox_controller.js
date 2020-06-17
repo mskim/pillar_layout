@@ -18,7 +18,6 @@ export default class extends Controller {
   ];
 
   initialize() {
-    Cropper.noConflict();
     this.cropbox();
   }
 

@@ -1532,11 +1532,23 @@ class WorkingArticle < ApplicationRecord
   end
 
   def on_left_edge?
-    pillar.grid_x == 0 && grid_x == 0
+    if attached_type.nil?
+      pillar.grid_x == 0 && grid_x == 0
+    elsif parent.on_left_edge? && attached_position == '좌'
+      true
+    else
+      false
+    end
   end
 
   def on_right_edge?
-    pillar.grid_x + column == pillar.page_ref.column
+    if attached_type.nil?
+      pillar.grid_x + column == pillar.page_ref.column
+    elsif parent.on_right_edge? && attached_position == '우'
+      true
+    else
+      false
+    end
   end
 
   private
