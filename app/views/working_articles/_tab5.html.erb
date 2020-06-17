@@ -6,7 +6,7 @@
     </div>
     <p class="text-center">
       <% if @working_article.page.color_page %>
-        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
+        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm pt-0 pb-0 pl-1 pr-1" %>
       <% else %>
         <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
       <% end %>
@@ -14,15 +14,14 @@
   </div>
   <div class="col-md-9">
     <div class="card">
-      <h5 class="card-header">
+      <h6 class="card-header bg-transparent pt-2 pb-2">
         <% if @working_article.pillar_bottom? && !@working_article.single_child?%>
           기사 편집: 맨 아래 박스 줄인 행수(<%= @working_article.pushed_line_count %>)
         <% else %>
           기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)
         <% end %>
-
-      </h5>
-      <div class="card-body">
+      </h6>
+      <div class="card-body bg-gray">
         <% if @working_article.kind == '사설' || @working_article.kind == 'editorial' %>
           <%= render 'editorial', article:@working_article, page_number:@working_article.page_number%>
         <% elsif @working_article.kind == '기고' || @working_article.kind == 'opinion' %>

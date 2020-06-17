@@ -35,15 +35,19 @@
     </span>
   </span>
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
       <%= f.label '기획팀_기사분류', class: "col-form-label" %>
       <%= f.select :category_code, [['사건/사고', 1601], ['법률',1602], ['교육',1603], ['노동', 1604], ['환경',1605], ['의료(보건복지)', 1606], ['시민사회', 1607], ['포토뉴스', 1608], ['피플', 1609]], { :include_blank => '-- 선택해주세요 --' }, required: true, class: "custom-select" %>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
+      <%= f.label :subcategory_code, '서브 카테고리', class: "col-form-label" %>
+      <%= f.grouped_collection_select :subcategory_code, StoryCategory.order(:code), :story_subcategory, :name, :code, :name, { :include_blank => '-- 선택해주세요 --' }, class: "custom-select" %>
+    </div>
+    <div class="form-group col-md-3">
       <%= f.label '가격', class: "col-form-label" %>
       <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {}, {class: "custom-select"} %>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
       <%= f.label '출고면_선택', class: "col-form-label" %>
       <%= f.select :summitted_section, ['미정', '1면','정치','자치행정','국제통일','금융','산업','정책','기획','오피니언'], { :include_blank => '-- 선택해주세요 --' }, :required => true, class: "custom-select" %>
     </div>

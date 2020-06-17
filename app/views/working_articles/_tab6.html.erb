@@ -6,34 +6,29 @@
     </div>
     <p class="text-center">
       <% if @working_article.page.color_page %>
-        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm" %>
+        <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-danger btn-sm pt-0 pb-0 pl-1 pr-1" %>
       <% else %>
         <%= link_to "#{@working_article.page.page_number}면", page_path(@working_article.page), class: "btn btn-light btn-sm border" %>
       <% end %>
     </p>
   </div>
   <div class="col-md-4">
-    <div class="card mb-3">
-      <h5 class="card-header">
-        사진 편집
-      </h5>
-      <div class="card-body">
-        <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
-          <%= render 'images/form', image: image %>
-        <% end %>
+    <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
+      <div class="content-box">
+        <%= render 'images/form', image: image %>
       </div>
-    </div>
+    <% end %>
     <div class="card">
-      <h5 class="card-header">
+      <h6 class="card-header bg-transparent pt-2 pb-2">
         새로운 사진 추가
-      </h5>
-      <div class="card-body">
+      </h6>
+      <div class="card-body bg-gray">
         <% if @working_article.images.length < 3 %>
-          <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_images'}) do |f| %>
+          <%= form_with( model: @working_article, :html => { :multipart => true }, :url => {action: 'upload_images'}) do |f| %>
             <%= f.fields_for :images, Image.new do |p| %>
-              <div class="custom-file">
+              <div class="custom-file custom-file-sm">
                 <%= f.file_field :storage_image, class: "custom-file-input", id: "customFile" %>
-                <%= f.label :storage_image, class: "custom-file-label", for: "customFile", data: {browse: "첨부파일"} %>
+                <%= f.label :storage_image, "선택한 파일 없음", class: "custom-file-label", for: "customFile", data: { browse: "첨부파일" } %>
               </div>
               <div class="form-group mt-1">
                 <%= f.button "저장", issue: @working_article.issue, class: "btn btn-sm btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>

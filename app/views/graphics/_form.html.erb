@@ -38,8 +38,8 @@
         <%= f.text_field :extra_height_in_lines, style: "width: 26px", class: 'form-control form-control-sm' %> 행 추가
       </div>
     </div>
-    <div class="form-group col-md-6 border shadow-sm">
-      <p class="text-center mb-0">이미지 사이즈:<br><%= graphic.size_string %></p>
+    <div class="form-group col-md-6 border shadow-sm bg-white p-2">
+      <p class="text-center mb-0"><%= graphic.size_string %></p>
       <% if graphic.storage_graphic.attached? %>
         <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
         <%= image_tag graphic.storage_graphic, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
@@ -73,7 +73,7 @@
   <div class="form-group">
     <div class="custom-file">
       <%= f.file_field :storage_graphic, class: "custom-file-input", id: "customFileLangHTML" %>
-      <%= f.label :storage_graphic, class: "custom-file-label", for: "customFileLangHTML", data: {browse: "첨부파일"} %>
+      <%= f.label :storage_graphic, graphic.storage_graphic.blob.filename.present? ? graphic.storage_graphic.blob.filename : "파일 선택", class: "custom-file-label", for: "customFileLangHTML", data: {browse: "첨부파일"} %>
     </div>
   </div>
   <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 
