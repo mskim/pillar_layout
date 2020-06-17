@@ -50,6 +50,9 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_6_18
+  - graphic preview not showing in Chrome
+
 
 2020_6_9
   - 제목 메인 이외 제목 2줄 효과 없음
