@@ -13,25 +13,15 @@
     </p>
   </div>
   <div class="col-md-4">
-    <div class="card mb-3">
-      <h5 class="card-header">
-        그래픽 편집
-      </h5>
-      <div class="card-body">
-        <% if @working_article.kind == '기사' || @working_article.kind == '사진'  %>
-          <% if @reporter_graphics.length > 0 %>
-            <%= render 'reporter_graphic', reporter_graphics: @reporter_graphics %>
-          <% end %>
-          <% @working_article.graphics.each do |graphic| %>
-            <%= render 'graphics/form', graphic: graphic %>
-          <% end %>
-        <% end %>
+    <% @working_article.graphics.sort_by{|x| x.id}.each do |graphic| %>
+      <div class="content-box">
+        <%= render 'graphics/form', graphic: graphic %>
       </div>
-    </div>
+    <% end %>
     <div class="card">
-      <h5 class="card-header">
+      <h6 class="card-header bg-transparent pt-2 pb-2">
         그래픽 추가
-      </h5>
+      </h6>
       <div class="card-body">
         <% if  @working_article.graphics.length <= 2 %>
           <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>

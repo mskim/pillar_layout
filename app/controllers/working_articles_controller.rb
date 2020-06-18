@@ -306,8 +306,15 @@ class WorkingArticlesController < ApplicationController
   def upload_graphics
     respond_to do |format|
       format.html do
-        params[:images]['image'].each do |a|
-          @graphic = @working_article.graphics.create!(storage_graphic: a, working_article_id: @working_article.id)
+        # params[:images]['image'].each do |a|
+        #   @graphic = @working_article.graphics.create!(storage_graphic: a, working_article_id: @working_article.id)
+        # end
+        if params['working_article']['storage_graphic']
+          Array(params['working_article']['storage_graphic']).each do |a|
+            @graphic = @working_article.graphics.create!(storage_graphic: a, working_article_id: @working_article.id)
+          end
+        else
+          @graphic = @working_article.graphics.create!(working_article_id: @working_article.id)
         end
       end
     end

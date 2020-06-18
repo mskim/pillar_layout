@@ -12,27 +12,37 @@
       </ul>
     </div>
   <% end %>
-  <%= f.button "저장", type: :submit, class: "btn-sm btn-primary" %>
+  <%= f.button "저장", type: :submit, class: "btn btn-sm btn-primary" %>
   <%= link_to '삭제', image, method: :delete, data: { confirm: '이미지를 삭제하시겠습니까?' }, class: "btn btn-sm btn-danger" %>
+  <div class="form-row">
+  
+  </div>
   <div class="form-row">
     <div class="form-group col-md-6 mt-1 p-1">
       <div class="form-group">
-        <%= f.label "종류: " %> <%= f.select :image_kind, %w[일반 인물_좌 인물_우
-      그룹], {include_blank: false}, {onChange: 'this.form.submit();'} %>
-        <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
+        <small class="font-weight-bold">
+          <%= f.label "종류: " %>
+          <%= f.select :image_kind, %w[일반 인물_좌 인물_우 그룹], {include_blank: false}, {onChange: 'this.form.submit();'} %>
+          <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
+        </small>
       </div>
       <div class="form-check form-check-inline">
-        <%= f.check_box :not_related, class: "form-check-input" %>
-        <%= f.label "기사와 관련없는 사진", class: "form-check-label" %>
+        <small class="font-weight-bold">
+          <%= f.label "기사와 관련없는 사진", class: "form-check-label" %>
+          <%= f.check_box :not_related, class: "form-check-input" %>
+        </small>
       </div>
       <div class="form-group">
-        <%= f.label "사진 정렬:" %><%= f.select :fit_type, %w[최적 가로 세로 욱여넣기], {include_blank: false} %>
+        <small class="font-weight-bold">
+          <%= f.label "사진 정렬:" %>
+          <%= f.select :fit_type, %w[최적 가로 세로 욱여넣기], { include_blank: false} %>
+        </small>
       </div>
       <div class="form-row">
         <% if @working_article.kind != '사진' %>
           <div class="form-group" style="width: 100px; float: left;">
-            <%= f.label "위치 설정:" %>
-            <div style="font-size: 13px;" class="text-center">
+            <%= f.label "위치" %>
+            <div style="font-size: 2px;" class="text-center">
               <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %>
               <%= f.radio_button :position, 0, title: "제목위" %>
               <%= f.radio_button :position, 10, title: "제목위", disabled: "disabled" %><br />
@@ -73,8 +83,9 @@
       <% end %>
     </div>
     <div class="form-group col-md-6 mt-1 p-1 border shadow-sm">
-      <p class="text-center mb-0">이미지 사이즈:<br>
-      <%= image.size_string %></p>
+      <p class="text-center mb-0">
+        <%= image.size_string %>
+      </p>
       <% if image.storage_image.attached? %>
         <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
         <%= image_tag image.storage_image, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
@@ -104,11 +115,11 @@
   <div class="form-group mt-1">
     <div class="custom-file">
       <%= f.file_field :storage_image, class: "custom-file-input", id: "customFileLangHTML" %>
-      <%= f.label :storage_image, class: "custom-file-label", for: "customFileLangHTML", data: {browse: "사진파일 바꾸기"} %>
+      <%= f.label :storage_image, image.storage_image.blob.filename.present? ? image.storage_image.blob.filename : "파일 선택", class: "custom-file-label", for: "customFileLangHTML", data: { browse: "사진파일 바꾸기" } %>
     </div>
   </div>
   <div class="form-group mt-1">
-    <%= f.button "저장", type: :submit, class: "btn-sm btn-primary" %>
+    <%= f.button "저장", type: :submit, class: "btn btn-sm btn-primary" %>
     <%= link_to '삭제', image, method: :delete, data: { confirm: '이미지를 삭제하시겠습니까?' }, class: "btn btn-sm btn-danger" %>
   </div>
 <% end %>
