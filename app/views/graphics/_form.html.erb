@@ -42,7 +42,7 @@
       <p class="text-center mb-0"><%= graphic.size_string %></p>
       <% if graphic.storage_graphic.attached? %>
         <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
-        <%= image_tag graphic.storage_graphic, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
+        <%= image_tag graphic.storage_graphic.preview(resize: "300x300>"), style: "object-fit: contain; height: 15em !important;", id: "preview" %>
       <% else%>
         <%= image_tag graphic.empty_image_url, :width => "100%", style: "padding-bottom:20px" %>
       <% end %>

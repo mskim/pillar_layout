@@ -344,6 +344,13 @@ class Pillar < ApplicationRecord
     self.box_count    =  new_pillar.box_count
     self.order        =  new_pillar.order
     self.save
+    # update layout_node of new_pillar with self:id
+    # binding.pry
+    # puts layout_node.id
+    # new_layout_node = new_pillar.layout_node
+    # new_layout_node.update(pillar_id:id)
+    # puts layout_node.id
+
     removing_articles = current_box_count - new_box_count
     if removing_articles == 0
       # current and new pillar size are equal
@@ -384,6 +391,7 @@ class Pillar < ApplicationRecord
         h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
         w = WorkingArticle.where(h).first_or_create
       end
+
     end
   end
 

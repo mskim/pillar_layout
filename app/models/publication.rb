@@ -138,14 +138,7 @@ class Publication < ApplicationRecord
   end
 
   def grid_width(page_columns)
-    h = (width - left_margin - right_margin)/7
-    if page_columns == 7
-    elsif page_columns == 6
-      h = (width - left_margin - right_margin)/6
-    elsif page_columns == 5
-      h = (width - left_margin - right_margin)/5
-    end
-    h
+    (width - left_margin - right_margin)/page_columns
   end
 
   def column_width(page_columns)

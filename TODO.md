@@ -50,6 +50,12 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_6_30
+  - 광고없음 페이지에서 5-2 로 변경후 왼쪽 하단 기사 삭제
+    - 기사 삭제시 단수
+  - 12면 쪽기사 에러
+  - 내림 기사 에러
+
 2020_6_18
   - graphic preview not showing in Chrome
 
