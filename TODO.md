@@ -50,6 +50,23 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
+2020_7_6
+  - heading_bg_image
+    - fix publication:references
+    - fix heading_bg_image_uploader
+          - directory
+          - filename
+          - publication/heading_bg_view
+            set_current_heading_bg_image
+
+
+2020_7_2
+  - 
+  -  when page_layout is changed layout_node doen not changing with new pillar, 
+      - it is using old laypuot_node, 
+      so when deleting article pillar, layout is using old info, not current layout_with_pillar_path
+    - to fix create new layout_node for changing pillar
+     
 2020_6_30
   - 광고없음 페이지에서 5-2 로 변경후 왼쪽 하단 기사 삭제
     - 기사 삭제시 단수

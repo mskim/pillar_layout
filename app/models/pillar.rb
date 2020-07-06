@@ -344,13 +344,11 @@ class Pillar < ApplicationRecord
     self.box_count    =  new_pillar.box_count
     self.order        =  new_pillar.order
     self.save
-    # update layout_node of new_pillar with self:id
-    # binding.pry
-    # puts layout_node.id
-    # new_layout_node = new_pillar.layout_node
-    # new_layout_node.update(pillar_id:id)
-    # puts layout_node.id
-
+    # delte curreont layout_node
+    layout_node.destroy
+    new_layout_node = create_new_layout_node
+    new_layout_node.reload
+    new_layout        = new_layout_node.layout_with_pillar_path
     removing_articles = current_box_count - new_box_count
     if removing_articles == 0
       # current and new pillar size are equal
@@ -415,6 +413,16 @@ class Pillar < ApplicationRecord
     end
     LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).first_or_create
     layout_node.set_actions
+  end
+
+  def create_new_layout_node
+    # box_count = 1 if box_count.nil? || box_count < 1
+    if box_count > 1
+      actions = ["h*#{box_count - 1}"]
+    end
+    new_layout_node = LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).create!
+    new_layout_node.set_actions
+    new_layout_node
   end
 
   # this is called from page_layout, when page_layout has changed

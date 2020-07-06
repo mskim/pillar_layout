@@ -71,17 +71,8 @@ class HeadingAdImage < ApplicationRecord
     update_page_heading
   end
 
-  def new_file_name
-    ext
-  end
-
   def date
     created_at.to_date
-    # if page_heading
-    #   page_heading.issue.date.to_s
-    # else
-    #   Date.today.to_s
-    # end
   end
 
   private

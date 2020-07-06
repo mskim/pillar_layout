@@ -828,9 +828,9 @@ class Page < ApplicationRecord
       # elsif item.first[4].class == Hash
       #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4]).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4], direction:'vertical').first_or_create
       elsif item.length == 4
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
+        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1, direction:'vertical').first_or_create
       end
     end
   end
