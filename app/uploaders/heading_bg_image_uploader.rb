@@ -12,9 +12,12 @@ class HeadingBgImageUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    "1/issue/#{model.issue.date}/1/heading/images"
+    "heading_bg_image"
   end
 
+  def filename
+    "#{model.slug}.#{file.extension}" if original_filename.present?
+  end
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url(*args)
   #   # For Rails 3.1+ asset pipeline compatibility:
@@ -43,9 +46,6 @@ class HeadingBgImageUploader < CarrierWave::Uploader::Base
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
- 
-  def filename
-    "heading_ad.#{file.extension}" if original_filename.present?
-  end
+
 
 end

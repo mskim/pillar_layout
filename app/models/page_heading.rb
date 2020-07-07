@@ -16,8 +16,8 @@ class PageHeading < ApplicationRecord
   belongs_to :page
   has_many :heading_ad_images
   after_create :setup
-  has_one :heading_bg_image
-  accepts_nested_attributes_for :heading_bg_image
+  # has_one :heading_bg_image
+  # accepts_nested_attributes_for :heading_bg_image
 
   SECTIONS = [
     '1면',

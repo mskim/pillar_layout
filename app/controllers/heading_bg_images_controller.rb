@@ -1,5 +1,5 @@
 class HeadingBgImagesController < ApplicationController
-  before_action :set_heading_bg_image, only: [:show, :edit, :update, :destroy]
+  before_action :set_heading_bg_image, only: [:show, :edit, :update, :destroy, :set_to_current_publication]
 
   # GET /heading_bg_images
   # GET /heading_bg_images.json
@@ -61,6 +61,11 @@ class HeadingBgImagesController < ApplicationController
     end
   end
 
+  def set_to_current_publication
+    @heading_bg_image.set_to_current_publication
+    redirect_to heading_bg_images_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_heading_bg_image
@@ -69,6 +74,6 @@ class HeadingBgImagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def heading_bg_image_params
-      params.require(:heading_bg_image).permit(:heading_bg_image, :page_heading_id)
+      params.require(:heading_bg_image).permit(:heading_bg_image, :name, :paper_size)
     end
 end

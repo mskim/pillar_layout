@@ -557,9 +557,26 @@ class Issue < ApplicationRecord
 
   def spread_right_page
     return if pages.count == 0
-
     half = pages.count / 2
     pages[half]
+  end
+
+  def change_heading_bg_image(heading_bg_image)
+    source_path = heading_bg_image.heading_bg_image.file.file
+    change_current_issue_first_page(source_path)
+    change_publication_template_first_page(source_path)
+  end
+
+  def change_current_issue_first_page(source_path)
+    current_first_page = pages.first
+    FileUtils.cp(source_path, current_first_page.first_page_bg_image_path)
+    current_first_page.page_heading.generate_pdf
+    current_first_page.generate_pdf_with_time_stamp
+  end
+
+  def change_publication_template_first_page(source_path)
+    current_publication_template_first_page_image_path = 
+    FileUtils.cp(source_path, publication.first_page_bg_image_path)
   end
 
   private

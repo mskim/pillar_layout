@@ -1,5 +1,5 @@
 class PublicationsController < ApplicationController
-  before_action :set_publication, only: [:show, :edit, :update, :destroy, :download_pdf]
+  before_action :set_publication, only: [:show, :edit, :update, :destroy, :download_pdf, :heading_bg_images]
   before_action :authenticate_user!
 
   # GET /publications
@@ -67,6 +67,10 @@ class PublicationsController < ApplicationController
   # download story.pdf
   def download_pdf
     send_file @publication.pdf_path, :type=>'application/pdf', :x_sendfile=>true, :disposition => "attachment"
+  end
+
+  def heading_bg_images
+
   end
 
   private

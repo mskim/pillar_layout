@@ -55,6 +55,8 @@ PAGES_WITH_4_LINE_HEADING = [22,23]
 
 class Publication < ApplicationRecord
   has_many :issues
+  has_many :heading_bg_images
+
   after_create :setup
   before_save :convert_to_pt
 
@@ -80,6 +82,10 @@ class Publication < ApplicationRecord
 
   def images_path
     "#{Rails.root}/public/images"
+  end
+
+  def first_page_bg_image_path
+    "#{Rails.root}/public/#{id}/page_heading/1/images/1_bg.pdf"
   end
 
   def sections

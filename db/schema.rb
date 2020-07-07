@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_014349) do
+ActiveRecord::Schema.define(version: 2020_07_19_021955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -341,11 +341,11 @@ ActiveRecord::Schema.define(version: 2020_05_27_014349) do
   end
 
   create_table "heading_bg_images", force: :cascade do |t|
+    t.string "name"
+    t.string "paper_size"
     t.string "heading_bg_image"
-    t.bigint "page_heading_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["page_heading_id"], name: "index_heading_bg_images_on_page_heading_id"
   end
 
   create_table "holidays", force: :cascade do |t|
@@ -1117,7 +1117,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_014349) do
   add_foreign_key "graphics", "working_articles"
   add_foreign_key "group_images", "working_articles"
   add_foreign_key "heading_ad_images", "page_headings"
-  add_foreign_key "heading_bg_images", "page_headings"
   add_foreign_key "issues", "publications"
   add_foreign_key "member_images", "working_articles"
   add_foreign_key "opinion_writers", "publications"

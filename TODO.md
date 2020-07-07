@@ -50,18 +50,19 @@
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
-2020_7_6
+  - send pdf news to subscribers
+
+2020_7_7
+
   - heading_bg_image
     - fix publication:references
     - fix heading_bg_image_uploader
-          - directory
-          - filename
-          - publication/heading_bg_view
-            set_current_heading_bg_image
-
+      - directory
+      - filename
+      - publication/heading_bg_view
+      - set_to_current_publication
 
 2020_7_2
-  - 
   -  when page_layout is changed layout_node doen not changing with new pillar, 
       - it is using old laypuot_node, 
       so when deleting article pillar, layout is using old info, not current layout_with_pillar_path

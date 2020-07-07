@@ -1,12 +1,19 @@
 <p>
-  <strong>Heading bg image:</strong>
-  <%= @heading_bg_image.heading_bg_image %>
+  <%= image_tag(@heading_bg_image.heading_bg_image.url) %>
 </p>
 
 <p>
-  <strong>Page heading:</strong>
-  <%= @heading_bg_image.page_heading %>
+  <strong>신문사명:</strong>
+  <%= @heading_bg_image.name %>
+  <%= @heading_bg_image.paper_size %>
 </p>
 
-<%= link_to 'Edit', edit_heading_bg_image_path(@heading_bg_image) %> |
-<%= link_to 'Back', heading_bg_images_path %>
+<p>
+  <strong> 판형:</strong>
+  <%= @heading_bg_image.paper_size %>
+</p>
+<p>
+<%= link_to "적용", set_to_current_publication_heading_bg_image_path, method: :get, class: "btn btn-lg btn-danger" %>
+</p>
+<%= link_to '수정', edit_heading_bg_image_path(@heading_bg_image), class: "btn btn-sm btn-warning" %> |
+<%= link_to '뒤로', heading_bg_images_path, class: "btn btn-sm btn-primary" %>

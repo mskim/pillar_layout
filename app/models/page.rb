@@ -113,6 +113,10 @@ class Page < ApplicationRecord
     "/#{publication_id}/issue/#{date}/#{page_number}"
   end
 
+  def first_page_bg_image_path
+    path + "/heading/images/1_bg.pdf"
+  end
+
   def url
     "/#{publication_id}/issue/#{date}/#{page_number}"
   end

@@ -1,0 +1,29 @@
+<h4>면머리 배경</h4>
+
+
+
+<table>
+  <thead>
+    <tr>
+      <th>신문사명</th>
+      <th>이미지</th>
+      
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @publication.heading_bg_images.each do |heading_bg_images| %>
+      <tr>
+        <td><%= bg_image.name %></td>
+
+        <td><%= link_to '수정', edit_heading_bg_image_path(bg_image) %></td>
+        <td><%= link_to '삭제', bg_image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '신규 배경', new_heading_bg_image_path %>

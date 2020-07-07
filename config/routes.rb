@@ -121,7 +121,11 @@ Rails.application.routes.draw do
   resources :article_plans
   resources :reporter_groups
   resources :opinion_writers
-  resources :heading_bg_images
+  resources :heading_bg_images do
+    member do
+      get 'set_to_current_publication'
+    end
+  end
   resources :stroke_styles do
     collection do
       get 'style_view'
