@@ -159,7 +159,7 @@ class PageHeading < ApplicationRecord
   end
 
   def heading_ad_full_path
-    path + "/images/1_bg.pdf"
+    path + "/images/heading_ad.pdf"
   end
 
   def p22_page_image_full_path

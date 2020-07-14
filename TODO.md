@@ -52,8 +52,20 @@
 
   - send pdf news to subscribers
 
-2020_7_7
+2020_7_10
+  - fix drop
+  - add spread page
+  
+2020_7_8
+  - 15면 템플렛 바꾼후 좌측 내림 할 경우 에러
+  - 그룹 이미지
+  - 내림 하단 구현
 
+  - 기사 체우기
+    - 빈줄수에 따라 샘플 단락 추가  
+    - 기사박스 메뉴에 추가(admin user)
+  
+2020_7_7
   - heading_bg_image
     - fix publication:references
     - fix heading_bg_image_uploader

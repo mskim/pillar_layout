@@ -1534,7 +1534,7 @@ class WorkingArticle < ApplicationRecord
   def on_left_edge?
     if attached_type.nil?
       pillar.grid_x == 0 && grid_x == 0
-    elsif parent.on_left_edge? && attached_position == '좌'
+    elsif pillar.on_left_edge? && attached_position == '좌'
       true
     else
       false
@@ -1544,7 +1544,7 @@ class WorkingArticle < ApplicationRecord
   def on_right_edge?
     if attached_type.nil?
       pillar.grid_x + column == pillar.page_ref.column
-    elsif parent.on_right_edge? && attached_position == '우'
+    elsif pillar.on_right_edge? && attached_position == '우'
       true
     else
       false
