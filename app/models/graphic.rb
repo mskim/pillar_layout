@@ -283,11 +283,19 @@ class Graphic < ApplicationRecord
   end
 
   # this is called  after graphic order is changed
-  def change_sybling_orders
-    working_article.graphics.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
-      next if syb == self
-      syb.order = i + 1
-      syb.save
+  def update_sybling_orders(previous_position)
+    if order > previous_position # moving down
+      working_article.graphics.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
+        next if syb == self
+        syb.order = i + 1
+        syb.save
+      end
+    else # moving up
+      working_article.graphics.sort_by(&:updated_at).sort_by(&:order).each_with_index do |syb, i|
+        next if syb == self
+        syb.order = i + 1
+        syb.save
+      end
     end
   end
 

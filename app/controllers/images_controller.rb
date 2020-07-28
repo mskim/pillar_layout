@@ -50,11 +50,11 @@ class ImagesController < ApplicationController
   # PATCH/PUT /images/1.json
   def update
     respond_to do |format|
-      current_order = @image.order
+      previous_order = @image.order
       if @image.update(image_params)
         # if image_params[:crop_x]
-        if current_order != @image.order
-          @image.change_sybling_orders
+        if previous_order != @image.order
+          @image.update_sybling_orders(previous_order)
         end
         if @image.working_article_id
           @image.working_article.generate_pdf_with_time_stamp

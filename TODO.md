@@ -52,10 +52,17 @@
 
   - send pdf news to subscribers
 
+2020_7_28
+  - 185 22 paragraph starting with B doesn't get parsed
+  - overlap left, right edge
+  - overlap left, right edge 자동 행 조절
+  - 이미지 order not working move top to bottom
+  - 177 23면 changing two to one
+  
 2020_7_27
   - fix publication generate sample pdf output
   - add order to image and graphic
-  
+
 2020_7_21
   - 213 22면 2 번기사 기본 세팅 경제시평
   - 177 제목/부제목 줄갈이 않됨
@@ -70,7 +77,6 @@
 
   - 177 기자명 우측 정렬 않됨
   - 177 재목 뒷 부분 짤림 (넘친표시 되어야)
-
 
 2020_7_10
   - fix drop

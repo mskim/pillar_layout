@@ -301,16 +301,20 @@ class Image < ApplicationRecord
   end
 
   # this is called  after image order is changed
-  def change_sybling_orders
-    # binding.pry
-    working_article.images.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
-    # working_article.images.each_with_index do |syb, i|
-      # binding.pry
-      next if syb == self
-      syb.order = i + 1
-      syb.save
+  def update_sybling_orders(previous_order)
+    if order < previous_order # moving down
+      working_article.images.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
+        next if syb == self
+        syb.order = i + 1
+        syb.save
+      end
+    else # moving up
+      working_article.images.sort_by(&:updated_at).sort_by(&:order).each_with_index do |syb, i|
+        next if syb == self
+        syb.order = i + 1
+        syb.save
+      end
     end
-    # working_article.images.reload
   end
 
   private

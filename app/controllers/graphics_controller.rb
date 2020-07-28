@@ -41,10 +41,10 @@ class GraphicsController < ApplicationController
   # PATCH/PUT /graphics/1.json
   def update
     respond_to do |format|
-      current_order = @graphic.order
+      previous_order = @graphic.order
       if @graphic.update(graphic_params)
-        if current_order != @graphic.order
-          @graphic.change_sybling_orders
+        if previous_order != @graphic.order
+          @graphic.update_sybling_orders(previous_order)
         end
         @graphic.working_article.generate_pdf_with_time_stamp
         @graphic.working_article.page.generate_pdf_with_time_stamp
