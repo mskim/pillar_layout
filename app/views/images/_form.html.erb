@@ -26,6 +26,15 @@
           <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
         </small>
       </div>
+      <% if image.possible_order_choices %>
+        <div class="form-group">
+          <small class="font-weight-bold">
+            <%= f.label "순서: " %>
+            <%= f.select :order, image.possible_order_choices, {include_blank: false} %>
+            <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
+          </small>
+        </div>
+      <% end %>
       <div class="form-check form-check-inline">
         <small class="font-weight-bold">
           <%= f.label "기사와 관련없는 사진", class: "form-check-label" %>

@@ -8,7 +8,8 @@ class GraphicUploader < CarrierWave::Uploader::Base
   # storage :fog
 
   def filename
-    "graphic_#{model.page_number}_#{model.article_order}_#{model.graphic_count}.#{file.extension}" if original_filename.present?
+    # "graphic_#{model.page_number}_#{model.article_order}_#{model.graphic_count}.#{file.extension}" if original_filename.present?
+    "graphic_#{model.page_number}_#{model.article_order}_#{model.id}.#{file.extension}" if original_filename.present?
   end
 
   def store_dir

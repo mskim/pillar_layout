@@ -41,7 +41,11 @@ class GraphicsController < ApplicationController
   # PATCH/PUT /graphics/1.json
   def update
     respond_to do |format|
+      current_order = @graphic.order
       if @graphic.update(graphic_params)
+        if current_order != @graphic.order
+          @graphic.change_sybling_orders
+        end
         @graphic.working_article.generate_pdf_with_time_stamp
         @graphic.working_article.page.generate_pdf_with_time_stamp
 
@@ -76,6 +80,6 @@ class GraphicsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def graphic_params
-    params.require(:graphic).permit(:grid_x, :grid_y, :column, :row, :extra_height_in_lines, :graphic, :caption, :source, :position, :page_number, :story_number, :working_article_id, :issue_id, :fit_type, :x_grid, :draw_frame, :title, :description, :image_path, :storage_graphic)
+    params.require(:graphic).permit(:grid_x, :grid_y, :column, :row, :extra_height_in_lines, :graphic, :caption, :source, :position, :page_number, :story_number, :working_article_id, :issue_id, :fit_type, :x_grid, :draw_frame, :title, :description, :image_path, :storage_graphic, :order)
   end
 end

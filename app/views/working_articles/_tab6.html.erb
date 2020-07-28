@@ -13,7 +13,7 @@
     </p>
   </div>
   <div class="col-md-4">
-    <% @working_article.images.sort_by{|x| x.id}.each do |image| %>
+    <% @working_article.images.sort_by{|x| x.order}.each do |image| %>
       <div class="content-box">
         <%= render 'images/form', image: image %>
       </div>

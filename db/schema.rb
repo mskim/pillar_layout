@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_021955) do
+ActiveRecord::Schema.define(version: 2020_07_24_081633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_021955) do
     t.string "title"
     t.text "description"
     t.string "reporter_graphic_path"
+    t.integer "order"
     t.index ["working_article_id"], name: "index_graphics_on_working_article_id"
   end
 
@@ -393,6 +394,7 @@ ActiveRecord::Schema.define(version: 2020_07_19_021955) do
     t.integer "top_line", default: 0
     t.integer "right_line", default: 0
     t.integer "bottom_line", default: 0
+    t.integer "order"
   end
 
   create_table "issues", id: :serial, force: :cascade do |t|

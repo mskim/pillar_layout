@@ -23,6 +23,7 @@
 #  left_line             :integer          default(0)
 #  move_level            :integer
 #  not_related           :boolean
+#  order                 :integer
 #  page_number           :integer
 #  position              :integer
 #  reporter_image_path   :string

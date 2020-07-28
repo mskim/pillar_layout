@@ -13,7 +13,7 @@
     </p>
   </div>
   <div class="col-md-4">
-    <% @working_article.graphics.sort_by{|x| x.id}.each do |graphic| %>
+    <% @working_article.graphics.sort_by{|x| x.order}.each do |graphic| %>
       <div class="content-box">
         <%= render 'graphics/form', graphic: graphic %>
       </div>
@@ -26,14 +26,14 @@
         <% if  @working_article.graphics.length <= 2 %>
           <%= form_with( model: @working_article, :html => { :multipart => true }, :url=>{action: 'upload_graphics'}) do |f| %>
             <%= f.fields_for :images, Image.new do |p| %>
-              <div class="form-group">
-                <label class="btn btn-warning btn-sm">그래픽 파일선택<%= p.file_field :image, style: "display: none;", multiple: true, name: "images[image][]" %></label>
-                <input type="text" placeholder="선택한 파일 없음" class="form-control width2 btn-sm" readonly="readonly">
+              <div class="custom-file custom-file-sm">
+                <%= f.file_field :storage_graphic, class: "custom-file-input", id: "customFile" %>
+                <%= f.label :storage_graphic, "선택한 파일 없음", class: "custom-file-label", for: "customFile", data: { browse: "첨부파일" } %>
+              </div>
+              <div class="form-group mt-1">
+                <%= f.button "저장", issue: @working_article.issue, class: "btn btn-sm btn-primary", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
               </div>
             <% end %>
-            <div class="form-group mt-1">
-              <%= f.button "그래픽 올리기", issue: @working_article.issue, class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-            </div>
           <% end %>
         <% end %>
       </div>

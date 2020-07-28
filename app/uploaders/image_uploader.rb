@@ -15,7 +15,8 @@ class ImageUploader < CarrierWave::Uploader::Base
   # image_count is currnet image count, it becomes last part of next image's file_name
   # page_number_article_number_image_count.extension
   def filename
-    "#{model.page_number}_#{model.article_order}_#{model.image_count}.#{file.extension}" if original_filename.present?
+    # "#{model.page_number}_#{model.article_order}_#{model.image_count}.#{file.extension}" if original_filename.present?
+    "#{model.page_number}_#{model.article_order}_#{model.id}.#{file.extension}" if original_filename.present?
   end
 
   def store_dir

@@ -37,12 +37,19 @@
         <%= f.text_field :row, style: "width: 26px", class: 'form-control form-control-sm' %> 열
         <%= f.text_field :extra_height_in_lines, style: "width: 26px", class: 'form-control form-control-sm' %> 행 추가
       </div>
+      <div class="form-inline mt-1">
+        <% if graphic.possible_order_choices %>
+          <%= f.label "순서: " %>
+          <%= f.select :order, graphic.possible_order_choices, {include_blank: false} %>
+          <!-- %= f.submit "사진정보 저장", class: "btn btn btn-xs" % -->
+        <% end %>
+      </div>
     </div>
     <div class="form-group col-md-6 border shadow-sm bg-white p-2">
       <p class="text-center mb-0"><%= graphic.size_string %></p>
       <% if graphic.storage_graphic.attached? %>
         <!-- %= image_tag image.image.url, style: "padding-bottom:20px" % -->
-        <%= image_tag graphic.storage_graphic.preview(resize: "300x300>"), style: "object-fit: contain; height: 15em !important;", id: "preview" %>
+        <%= image_tag graphic.storage_graphic, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
       <% else%>
         <%= image_tag graphic.empty_image_url, :width => "100%", style: "padding-bottom:20px" %>
       <% end %>

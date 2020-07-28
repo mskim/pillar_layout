@@ -1016,7 +1016,9 @@ class WorkingArticle < ApplicationRecord
 
   def image_layout
     content = ''
-    images.each do |image|
+    # images.each do |image|
+    # sort image by order
+    images.sort_by(&:order).each do |image|
       content += "  news_image(#{image.image_layout_hash})\n"
     end
     content
@@ -1024,7 +1026,9 @@ class WorkingArticle < ApplicationRecord
 
   def graphic_layout
     content = ''
-    graphics.each do |graphic|
+    # graphics.each do |graphic|
+    # sort graphics by order
+    graphics.sort_by(&:order).each do |graphic|
       content += "  news_image(#{graphic.graphic_layout_hash})\n"
     end
     content

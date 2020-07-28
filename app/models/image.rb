@@ -25,6 +25,7 @@
 #  left_line             :integer          default(0)
 #  move_level            :integer
 #  not_related           :boolean
+#  order                 :integer
 #  page_number           :integer
 #  position              :integer
 #  reporter_image_path   :string
@@ -290,6 +291,28 @@ class Image < ApplicationRecord
     self.row                    = 2 unless row
   end
 
+  def possible_order_choices
+    if working_article.images.length < 2
+      nil
+    else
+      (1..working_article.images.length).to_a
+      # working_article.images.map{|i| i.order}.sort
+    end
+  end
+
+  # this is called  after image order is changed
+  def change_sybling_orders
+    # binding.pry
+    working_article.images.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
+    # working_article.images.each_with_index do |syb, i|
+      # binding.pry
+      next if syb == self
+      syb.order = i + 1
+      syb.save
+    end
+    # working_article.images.reload
+  end
+
   private
 
   def set_default
@@ -305,7 +328,7 @@ class Image < ApplicationRecord
       self.page_number      = wa.page.page_number
       self.story_number     = wa.order
       self.used_in_layout   = true
-
+      self.order            = working_article.images.length + 1
     elsif image
       parsed_name_array = parse_file_name
       if parsed_name_array.length >= 2

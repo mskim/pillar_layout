@@ -15,6 +15,7 @@
 #  grid_y                :integer
 #  height_in_lines       :integer
 #  move_level            :integer
+#  order                 :integer
 #  page_number           :integer
 #  position              :string
 #  reporter_graphic_path :string

@@ -17,6 +17,7 @@
 #  grid_y                :integer
 #  height_in_lines       :integer
 #  move_level            :integer
+#  order                 :integer
 #  page_number           :integer
 #  position              :string
 #  reporter_graphic_path :string
@@ -46,7 +47,7 @@
 class Graphic < ApplicationRecord
   belongs_to :issue, optional: true
   belongs_to :working_article, optional: true
-  mount_uploader :graphic, GraphicUploader
+  # mount_uploader :graphic, GraphicUploader
   before_create  :set_default
   before_save    :save_default_value
   # after_save     :pdf_to_jpg
@@ -272,6 +273,24 @@ class Graphic < ApplicationRecord
     self.row                    = 2 unless row
   end
 
+  def possible_order_choices
+    if working_article.graphics.length < 2
+      nil
+    else
+      (1..working_article.graphics.length).to_a
+      # working_article.graphics.map{|i| i.order}.sort
+    end
+  end
+
+  # this is called  after graphic order is changed
+  def change_sybling_orders
+    working_article.graphics.sort_by(&:updated_at).reverse.sort_by(&:order).each_with_index do |syb, i|
+      next if syb == self
+      syb.order = i + 1
+      syb.save
+    end
+  end
+
   private
 
   def set_default
@@ -285,6 +304,7 @@ class Graphic < ApplicationRecord
       self.issue_id         = wa.page.issue.id
       self.page_number      = wa.page.page_number
       self.story_number     = wa.order
+      self.order            = working_article.graphics.length + 1
 
     elsif graphic
       parsed_name_array = parse_file_name

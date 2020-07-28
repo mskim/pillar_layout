@@ -925,11 +925,13 @@ class Page < ApplicationRecord
       choices = PageLayout.where(ad_type: ad_type, page_type: 1).all
     else
       choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all
-      choices += if page_number.odd?
-                   PageLayout.where(ad_type: ad_type, page_type: 101).all
-                 else
-                   PageLayout.where(ad_type: ad_type, page_type: 100).all
-                 end
+    end
+    if choices.length == 0
+      if page_number.odd?
+        choices += PageLayout.where(ad_type: ad_type, page_type: 101).all
+      else
+        choices += PageLayout.where(ad_type: ad_type, page_type: 100).all
+      end
     end
     # also select page specified template
     # choices += PageLayout.where(ad_type: ad_type, page_type: page_number).all
