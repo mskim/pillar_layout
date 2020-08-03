@@ -436,7 +436,11 @@ class WorkingArticle < ApplicationRecord
     save_hash[:story_md]          = story_md
     layout_string = layout_rb
     if options[:adjustable_height]
+      puts "******* before"
+      puts layout_string
       layout_string.sub!(':adjustable_height=>false,', ':adjustable_height=>true,')
+      puts "******* after"
+      puts layout_string
     end
     save_hash[:layout_rb]         = layout_string
     save_hash[:time_stamp]        = options[:time_stamp]
@@ -445,10 +449,16 @@ class WorkingArticle < ApplicationRecord
     # from this we should get adjusted_line_count, overflow_text, overflow_line_count
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_extended_line_count       = new_box_marker.adjusted_line_count
+    
     if options[:adjustable_height] && new_extended_line_count != 0
       self.extended_line_count    = new_extended_line_count
       self.height_in_lines        = calculate_height_in_lines
       self.save
+      # updated overlap parent's overlap rectangle
+      if attached_type == 'overlap'
+        # ??????
+        parent.update(overlap:overlap_rect)
+      end
     end
   end
 
@@ -1009,6 +1019,7 @@ class WorkingArticle < ApplicationRecord
       overlap_rect[0] -= grid_x
       overlap_rect[1] -= grid_y
       h[:overlap]     = overlap_rect
+      puts "******** h[:overlap]:#{h[:overlap]}"
     end
     h[:embedded]      = embedded  if embedded
     h
@@ -1540,6 +1551,12 @@ class WorkingArticle < ApplicationRecord
       pillar.grid_x == 0 && grid_x == 0
     elsif pillar.on_left_edge? && attached_position == '좌'
       true
+    elsif attached_type= 'overlap'
+      if attached_position == '우'
+        true
+      else
+        false
+      end
     else
       false
     end
@@ -1550,6 +1567,13 @@ class WorkingArticle < ApplicationRecord
       pillar.grid_x + column == pillar.page_ref.column
     elsif pillar.on_right_edge? && attached_position == '우'
       true
+    elsif attached_type= 'overlap'
+      if attached_position == '우'
+        false
+      else
+        false
+      end    
+
     else
       false
     end

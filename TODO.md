@@ -52,10 +52,13 @@
 
   - send pdf news to subscribers
 
+2020_7_30
+  - do not allow attached_article to "자동 행조절", except "overlap"
+  - overlap 자동 행 조절
+
 2020_7_28
   - 185 22 paragraph starting with B doesn't get parsed
   - overlap left, right edge
-  - overlap left, right edge 자동 행 조절
   - 이미지 order not working move top to bottom
   - 177 23면 changing two to one
   
@@ -1546,7 +1549,7 @@ Did you mean?  token_string):
   - add status to page
   - add send story, and wire_image from wire_service to newsGo 
   - add recieive story to newsGo 
-  - add testing to StyleGuide
+  - add testing to Jubo
   
 2019-2-2
   - combo_ad_box

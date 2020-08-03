@@ -204,6 +204,12 @@ module WorkingArticleSavePdf
         h -= pushed_line_count* body_line_height
         flipped[1] += pushed_line_count*body_line_height
         page_canvas.image(image_path, at: flipped, width: width, height: h)
+      
+      elsif attached_type == 'overlap'
+        h = row * grid_height
+        h += extended_line_count*body_line_height
+        flipped[1] += extended_line_count*body_line_height
+        page_canvas.image(image_path, at: flipped, width: width, height: h)
       elsif pillar_bottom? && !top_position?
         pushed_line_count = pillar.extened_line_sum
         self.pushed_line_count = pushed_line_count
@@ -216,6 +222,8 @@ module WorkingArticleSavePdf
         page_canvas.image(image_path, at: flipped, width: width, height: h)
       else
         if parent
+          # handle overlap
+          # todo ???? we alerad have overlap abobe !!!! merge this!!!!!
           sum = pillar.extened_line_sum_for_previous_root_articles(grid_y)
           flipped[1] -= pillar.extened_line_sum_for_previous_root_articles(grid_y)*body_line_height if sum
         else

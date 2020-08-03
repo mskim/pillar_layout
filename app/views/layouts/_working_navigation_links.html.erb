@@ -154,6 +154,18 @@
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <% if @working_article.drop_splitable?%>
           <%= link_to '내림기사 나누기', split_drop_working_article_path(@working_article), class: "dropdown-item" %>
+        <% elsif @working_article.attached_type == 'overlap'%>
+          <%= link_to '1행 추가', extend_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '2행 추가', extend_two_working_article_path, class: "dropdown-item" %>
+          <%= link_to '3행 추가', extend_three_working_article_path, class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '0행 복구', extend_zero_working_article_path, class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '1행 줄이기', reduce_one_working_article_path, class: "dropdown-item" %>
+          <%= link_to '2행 줄이기', reduce_two_working_article_path, class: "dropdown-item" %>
+          <%= link_to '3행 줄이기', reduce_three_working_article_path, class: "dropdown-item" %>
+          <div class="dropdown-divider"></div>
+          <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
         <% end %>
         <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
       </div>
@@ -181,8 +193,7 @@
         <% end %>
       </div>
     </li>
-
-  <% elsif @working_article.pillar%>
+  <% else%>
     <li class="dropdown nav-item">
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -196,8 +207,10 @@
       <%= link_to '2행 줄이기', reduce_two_working_article_path, class: "dropdown-item" %>
       <%= link_to '3행 줄이기', reduce_three_working_article_path, class: "dropdown-item" %>
       <div class="dropdown-divider"></div>
-      <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
-      <div class="dropdown-divider"></div>
+      <% if @working_article.auto_adjustble? %>
+        <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
+        <div class="dropdown-divider"></div>
+      <% end %>
       <%= link_to '글줄기 모두 0 행 복구', revert_all_extended_lines_working_article_path, class: "dropdown-item" %>
 
       <div class="dropdown-divider"></div>

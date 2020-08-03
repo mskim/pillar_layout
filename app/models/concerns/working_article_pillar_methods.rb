@@ -41,6 +41,13 @@ module WorkingArticlePillarMethods
     pillar_order.count("_") >= 2
   end
 
+  # only allow auto_adjustable to non-attached and overlap  
+  # do not allow it to drop or divide
+  def auto_adjustble?
+    return true if attached_type.nil? || attached_type == 'overlap'
+    false
+  end
+
   def v_splitable?
     # it should not have horzontal 
     # node_level shoud be 1
