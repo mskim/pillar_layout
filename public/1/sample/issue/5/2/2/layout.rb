@@ -1,2 +1,0 @@
-RLayout::NewsArticleBox.new({:adjustable_height=>nil, :subtitle_type=>"1단", :page_number=>5, :column=>4, :row=>3, :height_in_lines=>21, :grid_width=>146.99662542182, :grid_height=>97.32283464566807, :gutter=>12.7559055118108, :on_left_edge=>nil, :on_right_edge=>nil, :is_front_page=>nil, :top_story=>false, :top_position=>false, :page_heading_margin_in_lines=>3, :bottom_article=>false, :article_bottom_spaces_in_lines=>2, :article_line_thickness=>0.3, :article_line_draw_sides=>[0, 0, 0, 1], :draw_divider=>false}) do
-end
