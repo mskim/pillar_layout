@@ -52,6 +52,14 @@
 
   - send pdf news to subscribers
 
+2020_8_3
+  - add acts_as_tenant gem
+  - add publication_id to user
+    current_publication = current_user.publication
+    issue.rb
+      acts_as_tenant(:publication)
+  - user csv file with filename as publication name
+
 2020_7_30
   - do not allow attached_article to "자동 행조절", except "overlap"
   - overlap 자동 행 조절

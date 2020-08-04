@@ -454,9 +454,7 @@ class WorkingArticle < ApplicationRecord
       self.extended_line_count    = new_extended_line_count
       self.height_in_lines        = calculate_height_in_lines
       self.save
-      # updated overlap parent's overlap rectangle
       if attached_type == 'overlap'
-        # ??????
         parent.update(overlap:overlap_rect)
       end
     end
@@ -620,8 +618,11 @@ class WorkingArticle < ApplicationRecord
     end
     self.extended_line_count += line_count
     self.save
+    if attached_type == 'overlap'
+      parent.update(overlap: overlap_rect)
+    end
     generate_pdf_with_time_stamp
-    if has_children?
+    if has_divide? || has_drop?
       children.first.update(extended_line_count: extended_line_count)
       children.first.generate_pdf_with_time_stamp
     end
@@ -1014,15 +1015,29 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
-    if has_children? && children.first.attached_type =~/overlap/
+    if has_overlap?
       overlap_rect = children.first.overlap_rect
       overlap_rect[0] -= grid_x
       overlap_rect[1] -= grid_y
       h[:overlap]     = overlap_rect
       puts "******** h[:overlap]:#{h[:overlap]}"
+    elsif attached_type == 'overlap'
+      h[:extended_line_count]           = extended_line_count
     end
     h[:embedded]      = embedded  if embedded
     h
+  end
+
+  def has_overlap?
+    has_children? && children.map{|c| c.attached_type}.include?('overlap')
+  end
+
+  def has_divide?
+    has_children? && children.map{|c| c.attached_type}.include?('divide')
+  end
+
+  def has_drop?
+    has_children? && children.map{|c| c.attached_type}.include?('drop')
   end
 
   def image_layout

@@ -72,9 +72,9 @@ SECTIONS = [
 issue = Issue.where(id: 1, date: Date.new(2017,5,30), number: '00001', publication_id: 1).first_or_create
 issue.make_default_issue_plan if issue
 
-User.create!(name: "김민수", email: "mskimsid@gmail.com", password: 'itis1234', password_confirmation: "itis1234", role: 3)
-User.create!(name: "김지윤", email: "hgkim@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 3)
-User.create!(name: "편집1", email: "editor1@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 1)
-User.create!(name: "편집2", email: "editor2@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 1)
-User.create!(name: "기자1", email: "reporter1@naeil.com", password: 'itis1234', password_confirmation: "itis1234",)
-User.create!(name: "기자2", email: "reporter2@naeil.com", password: 'itis1234', password_confirmation: "itis1234",)
+User.create!(name: "김민수", email: "mskimsid@gmail.com", password: 'itis1234', password_confirmation: "itis1234", role: 3, publication_id: 1)
+User.create!(name: "김지윤", email: "hgkim@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 3, publication_id: 1)
+User.create!(name: "편집1", email: "editor1@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 1, publication_id: 1)
+User.create!(name: "편집2", email: "editor2@naeil.com", password: 'itis1234', password_confirmation: "itis1234", role: 1, publication_id: 1)
+User.create!(name: "기자1", email: "reporter1@naeil.com", password: 'itis1234', password_confirmation: "itis1234", publication_id: 1)
+User.create!(name: "기자2", email: "reporter2@naeil.com", password: 'itis1234', password_confirmation: "itis1234", , publication_id: 1)
