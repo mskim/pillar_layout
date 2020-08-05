@@ -61,9 +61,11 @@ class Pillar < ApplicationRecord
     layout_node.update_layout_with_pillar_path
     new_layout = layout_node.layout_with_pillar_path.dup
     working_articles.each_with_index do |w, i|
-      box_rect      = new_layout[i].dup
-      box_rect[4]   = w.pillar_order
-      w.change_article(box_rect)
+      if new_layout[i]
+        box_rect      = new_layout[i]
+        box_rect[4]   = w.pillar_order
+        w.change_article(box_rect)
+      end
     end
     working_articles_count = working_articles.length
     box_rect = new_layout.last
@@ -84,12 +86,13 @@ class Pillar < ApplicationRecord
     new_layout = layout_node.layout_with_pillar_path.dup
     working_articles.reload
     working_articles.each_with_index do |w, i|
-      box_rect      = new_layout[i].dup
-      p_order       = box_rect[4]
-      new_order       = "#{order}_#{p_order}"
-      # box_rect[4]   = w.pillar_order.split("_")[0..-2].join("_")
-      box_rect[4]= new_order
-      w.change_article(box_rect)
+      if new_layout[i]
+        box_rect      = new_layout[i]
+        p_order       = box_rect[4]
+        new_order       = "#{order}_#{p_order}"
+        box_rect[4]= new_order
+        w.change_article(box_rect)
+      end
     end
     page_ref.generate_pdf_with_time_stamp
   end
@@ -353,10 +356,12 @@ class Pillar < ApplicationRecord
     if removing_articles == 0
       # current and new pillar size are equal
       working_articles.each_with_index do |w, i|
-        box_rect     = new_layout[i]
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
+        if new_layout[i]
+          box_rect     = new_layout[i]
+          pillar_order = "#{order}_#{i+1}"
+          box_rect[4]  = pillar_order
+          w.change_article(box_rect)
+        end
       end
     elsif removing_articles > 0 # current box is greater than new_layout
       ordered_working_articles  = working_articles
@@ -377,10 +382,12 @@ class Pillar < ApplicationRecord
     elsif removing_articles < 0 # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.each_with_index do |w, i|
-        box_rect = new_layout[i].dup
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
+        if new_layout[i]
+          box_rect = new_layout[i]
+          pillar_order = "#{order}_#{i+1}"
+          box_rect[4]  = pillar_order
+          w.change_article(box_rect)
+        end
       end
       working_articles_count = working_articles.length
       # add working_articles to pillar

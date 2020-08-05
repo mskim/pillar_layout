@@ -116,6 +116,7 @@
 # overlapping area only one is allow
 # we might have overlap or none or  overlap from page
 
+
 class WorkingArticle < ApplicationRecord
   # before & after
   before_create :init_article
@@ -417,11 +418,7 @@ class WorkingArticle < ApplicationRecord
     pdf_starting = Time.now
     delete_old_files
     stamp_time
-    if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
-    else
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
-    end
+    save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
     pdf_working_article_ending = Time.now
     page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
@@ -680,14 +677,17 @@ class WorkingArticle < ApplicationRecord
 
   def show_quote_box(quote_box_type)
     self.quote_box_show = true
-    self.quote_box_type = quote_box_type
     case quote_box_type
     when '일반' || 'reqular'
       self.quote_box_size = 4
+      self.quote_position = 5
+      self.quote_position = 4 if kind = '기고'
     when '기고2행' || 'opinion2'
       self.quote_box_size = 2
+      self.quote_position = 7
     when '기고3행' || 'opinion3'
       self.quote_box_size = 3
+      self.quote_position = 7
     end
     self.save
   end
@@ -1564,8 +1564,12 @@ class WorkingArticle < ApplicationRecord
   def on_left_edge?
     if attached_type.nil?
       pillar.grid_x == 0 && grid_x == 0
-    elsif pillar.on_left_edge? && attached_position == '좌'
-      true
+    elsif attached_type= 'divide' || attached_type= 'drop'
+      if pillar.on_left_edge? && attached_position == '좌'
+        true
+      else
+        false
+      end
     elsif attached_type= 'overlap'
       if attached_position == '우'
         true
@@ -1580,15 +1584,18 @@ class WorkingArticle < ApplicationRecord
   def on_right_edge?
     if attached_type.nil?
       pillar.grid_x + column == pillar.page_ref.column
-    elsif pillar.on_right_edge? && attached_position == '우'
-      true
+    elsif attached_type= 'divide' || attached_type= 'drop'
+      if pillar.on_right_edge? && attached_position == '우'
+        true
+      else
+        false
+      end
     elsif attached_type= 'overlap'
       if attached_position == '우'
         false
       else
         false
       end    
-
     else
       false
     end

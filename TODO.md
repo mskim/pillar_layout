@@ -52,6 +52,16 @@
 
   - send pdf news to subscribers
 
+2020_8_6
+  - fix 23 friday opinion
+    - fix quote box drawing
+
+2020_8_4
+  - chrome not clicking on 22
+
+  - obituary: make bold line and line as same height
+  - 177 1면 1_2 나누기 edge, 2_1 box should shift down by 1 line(fix top_margin, bottom_margin) 
+
 2020_8_3
   - add acts_as_tenant gem
   - add publication_id to user
