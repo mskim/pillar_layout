@@ -58,7 +58,8 @@
   - slim the size make it readt for heroku
     - move gem to lib
     - move fonts to public/fonts
-
+    - remove scaffold section, article, ad_template, ad_box_template
+    
 2020_8_7
   - width_of_string using ruby pdf module 
     - do english hyphenation

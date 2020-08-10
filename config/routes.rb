@@ -179,7 +179,6 @@ Rails.application.routes.draw do
       get 'today'
     end
   end
-  resources :ad_box_templates
   resources :page_plans do
     member do
       get 'select_template'

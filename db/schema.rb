@@ -62,18 +62,6 @@ ActiveRecord::Schema.define(version: 2020_08_07_211745) do
     t.index ["publication_id"], name: "index_ad_bookings_on_publication_id"
   end
 
-  create_table "ad_box_templates", id: :serial, force: :cascade do |t|
-    t.integer "grid_x"
-    t.integer "grid_y"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "ad_type"
-    t.integer "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "ad_boxes", id: :serial, force: :cascade do |t|
     t.integer "grid_x"
     t.integer "grid_y"
@@ -185,47 +173,6 @@ ActiveRecord::Schema.define(version: 2020_08_07_211745) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["page_plan_id"], name: "index_article_plans_on_page_plan_id"
-  end
-
-  create_table "articles", id: :serial, force: :cascade do |t|
-    t.integer "grid_x"
-    t.integer "grid_y"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "kind"
-    t.integer "profile"
-    t.string "title_head"
-    t.text "title"
-    t.text "subtitle"
-    t.text "subtitle_head"
-    t.text "body"
-    t.string "reporter"
-    t.string "email"
-    t.string "personal_image"
-    t.string "image"
-    t.text "quote"
-    t.string "subject_head"
-    t.boolean "on_left_edge"
-    t.boolean "on_right_edge"
-    t.boolean "is_front_page"
-    t.boolean "top_story"
-    t.boolean "top_position"
-    t.integer "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "extended_line_count"
-    t.integer "pushed_line_count"
-    t.string "publication_name"
-    t.string "path"
-    t.integer "page_heading_margin_in_lines"
-    t.float "grid_width"
-    t.float "grid_height"
-    t.float "gutter"
-    t.text "overlap"
-    t.boolean "embedded"
-    t.integer "y_in_lines"
-    t.integer "height_in_lines"
   end
 
   create_table "body_lines", force: :cascade do |t|
@@ -720,37 +667,6 @@ ActiveRecord::Schema.define(version: 2020_08_07_211745) do
     t.integer "publication_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "sections", id: :serial, force: :cascade do |t|
-    t.string "profile"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "ad_type"
-    t.boolean "is_front_page"
-    t.integer "story_count"
-    t.integer "page_number"
-    t.string "section_name"
-    t.boolean "color_page", default: false
-    t.integer "publication_id", default: 1
-    t.text "layout"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "draw_divider"
-    t.string "path"
-    t.float "grid_width"
-    t.float "grid_height"
-    t.float "lines_per_grid"
-    t.float "width"
-    t.float "height"
-    t.float "left_margin"
-    t.float "top_margin"
-    t.float "right_margin"
-    t.float "bottom_margin"
-    t.float "gutter"
-    t.integer "page_heading_margin_in_lines"
-    t.float "article_line_thickness"
   end
 
   create_table "spread_ad_boxes", force: :cascade do |t|
