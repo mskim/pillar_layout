@@ -54,6 +54,10 @@
   - do english hyphenation
   - implement proof reading 
 
+2020_8_10
+  - slim the size make it readt for heroku
+    - move gem to lib
+    - move fonts to public/fonts
 
 2020_8_7
   - width_of_string using ruby pdf module 
