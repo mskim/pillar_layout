@@ -24,6 +24,7 @@
 
 # /public/1/section/*
 /public/1/issue/*
+/public/uploads/*
 coverage
 /public/1/.DS_Store
 
@@ -37,12 +38,6 @@ coverage
 /public/packs
 /public/packs-test
 node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
-/public/packs
-/public/packs-test
-/node_modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity

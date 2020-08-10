@@ -1,6 +1,38 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :annotation_comments do
+    member do
+      get :toggle_selected
+    end
+  end
+  resources :annotations do
+    member do
+      get :add_comment
+      get :selecte_all
+      get :de_selecte_all
+      get :goto_previous
+      get :goto_next
+      get :move_left
+      get :move_left_small_step
+      get :move_right
+      get :move_right_small_step
+      get :move_up
+      get :move_up_small_step
+      get :move_down
+      get :move_down_small_step
+
+      get :grow_left
+      get :grow_left_small_step
+      get :grow_right
+      get :grow_right_small_step
+      get :grow_up
+      get :grow_up_small_step
+      get :grow_down
+      get :grow_down_small_step
+
+    end    
+  end
   resources :spread_ad_boxes
   resources :member_images
   resources :group_images do
@@ -251,6 +283,8 @@ Rails.application.routes.draw do
       get 'copy_to_current_issue'
       get 'add_default_drop'
       get 'split_drop'
+
+      get 'new_annotation'
     end
   end
 

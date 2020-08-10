@@ -625,6 +625,12 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
+  def new_annotation
+    set_working_article
+    @working_article.new_annotation
+    redirect_to annotations_new_path(working_article_id: @working_article.id)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

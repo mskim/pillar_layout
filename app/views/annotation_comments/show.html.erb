@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Annotation:</strong>
+  <%= @annotation_comment.annotation_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @annotation_comment.user %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @annotation_comment.comment %>
+</p>
+
+<p>
+  <strong>Shape:</strong>
+  <%= @annotation_comment.shape %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @annotation_comment.color %>
+</p>
+
+<p>
+  <strong>X:</strong>
+  <%= @annotation_comment.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @annotation_comment.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @annotation_comment.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @annotation_comment.height %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_comment_path(@annotation_comment) %> |
+<%= link_to 'Back', annotation_comments_path %>

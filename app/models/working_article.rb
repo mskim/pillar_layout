@@ -135,7 +135,7 @@ class WorkingArticle < ApplicationRecord
   has_many :graphics, dependent: :delete_all
   has_many :proofs
   has_many :member_images
-
+  has_many :annotations
   # has_many :story_category
   # has_many :story_subcategory
 
@@ -152,6 +152,7 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleSavePdf
   include Pdf2jpg
   include WorkingArticleAttachment
+  include WorkingArticleAnnotate
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId

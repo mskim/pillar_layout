@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_081633) do
+ActiveRecord::Schema.define(version: 2020_08_07_211745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,30 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.integer "publication_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "annotation_comments", force: :cascade do |t|
+    t.bigint "annotation_id", null: false
+    t.bigint "user_id"
+    t.text "comment"
+    t.string "shape"
+    t.string "color"
+    t.integer "x"
+    t.integer "y"
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["annotation_id"], name: "index_annotation_comments_on_annotation_id"
+    t.index ["user_id"], name: "index_annotation_comments_on_user_id"
+  end
+
+  create_table "annotations", force: :cascade do |t|
+    t.bigint "working_article_id", null: false
+    t.integer "version"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["working_article_id"], name: "index_annotations_on_working_article_id"
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -1111,6 +1135,8 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ad_bookings", "publications"
   add_foreign_key "ad_plans", "ad_bookings"
+  add_foreign_key "annotation_comments", "annotations"
+  add_foreign_key "annotations", "working_articles"
   add_foreign_key "announcements", "publications"
   add_foreign_key "article_plans", "page_plans"
   add_foreign_key "body_lines", "working_articles"

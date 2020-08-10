@@ -51,6 +51,14 @@
     - use TablePlus for taking data from 213 to apply to 177
 
   - send pdf news to subscribers
+  - do english hyphenation
+  - implement proof reading 
+
+
+2020_8_7
+  - width_of_string using ruby pdf module 
+    - do english hyphenation
+    - create char_width_array only when hyphenating token
 
 2020_8_6
   - fix 23 friday opinion

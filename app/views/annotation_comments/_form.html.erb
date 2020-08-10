@@ -1,0 +1,21 @@
+
+<%= simple_form_for(@annotation_comment) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :annotation %>
+    <%= f.input :user %>
+    <%= f.input :comment %>
+    <%= f.input :shape %>
+    <%= f.input :color %>
+    <%= f.input :x %>
+    <%= f.input :y %>
+    <%= f.input :width %>
+    <%= f.input :height %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

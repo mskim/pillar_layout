@@ -384,3 +384,15 @@ body text goes here.
   - price
   - starting:date
   - ending:date
+
+annotation
+    workiong_article:references
+    version:integer
+
+annotation_comment
+    annotation:references
+    user:references
+    x,y,width,height, integer
+    comment:text
+    color
+    shape: #rect, check, circle, delete_mark, underline

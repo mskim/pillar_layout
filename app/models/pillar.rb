@@ -393,8 +393,10 @@ class Pillar < ApplicationRecord
       # add working_articles to pillar
       (-removing_articles).times do |i|
         box_rect = new_layout[working_articles_count + i]
-        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
-        w = WorkingArticle.where(h).first_or_create
+        if box_rect
+          h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+          w = WorkingArticle.where(h).first_or_create
+        end
       end
 
     end
