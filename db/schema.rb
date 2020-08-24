@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_07_211745) do
+ActiveRecord::Schema.define(version: 2020_08_11_012756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 2020_08_07_211745) do
     t.integer "height"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "selected"
     t.index ["annotation_id"], name: "index_annotation_comments_on_annotation_id"
     t.index ["user_id"], name: "index_annotation_comments_on_user_id"
   end

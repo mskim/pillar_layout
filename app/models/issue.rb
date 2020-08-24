@@ -579,6 +579,45 @@ class Issue < ApplicationRecord
     FileUtils.cp(source_path, publication.first_page_bg_image_path)
   end
 
+  #########################################
+  ############# save html ##################
+  #########################################
+
+  def html_path
+    path + "/html"
+  end
+
+  def html_front_page_path
+    html_path + "/index.html"
+  end
+
+  def front_page_content
+    "Front Page Content"
+  end
+
+  def save_front_page
+    FileUtils.mkdir_p(html_path) unless File.exist?(html_path)
+    File.open(html_front_page_path, 'w'){|f| f.write front_page_content}
+  end
+
+  def save_page_html
+    pages.each_with_index do |p|
+      p.save_html
+    end
+  end
+
+  def save_page_html_images
+    pages.each_with_index do |p|
+      p.save_html_image
+    end
+  end
+
+  def save_html
+    save_front_page
+    save_page_html_images
+    save_page_html
+  end
+
   private
 
   def read_issue_plan

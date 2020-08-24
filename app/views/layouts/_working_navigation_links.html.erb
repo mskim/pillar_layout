@@ -147,6 +147,7 @@
     </div>
   </li>
   <% end %>
+
   <% if @working_article.single_child?%>
   <% elsif @working_article.attached_type %>
     <li class="dropdown nav-item">
@@ -168,6 +169,8 @@
           <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
         <% end %>
         <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+        <div class="dropdown-divider"></div>
+        <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
       </div>
       </div>
     </li>
@@ -191,6 +194,9 @@
           <div class="dropdown-divider"></div>
           <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
         <% end %>
+        <div class="dropdown-divider"></div>
+        <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
+
       </div>
     </li>
   <% else%>
@@ -235,9 +241,13 @@
         <div class="dropdown-divider"></div>
         <%= link_to '아래 박스와 기사 교환', swap_working_article_path, class: "dropdown-item" %>
       <% end %>
+      <div class="dropdown-divider"></div>
+      <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
+
       </div>
     </li>
   <% end %>
+
   <% if user_signed_in? %>
     <li class="nav-item">
       <%= link_to "<#{current_user.name}> " '로그아웃', destroy_user_session_path, method: :delete, class: "nav-link" %>

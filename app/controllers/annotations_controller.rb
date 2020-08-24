@@ -63,7 +63,7 @@ class AnnotationsController < ApplicationController
 
   def add_comment
     @annotation.add_comment
-    redirect_to @annotation
+    redirect_to @annotation.working_article
   end
 
   private

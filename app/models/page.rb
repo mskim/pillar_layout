@@ -158,7 +158,7 @@ class Page < ApplicationRecord
   end
 
   def jpg_path
-    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/section.jpg"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/#{latest_jpg_basename}"
   end
 
   def to_hash
@@ -601,8 +601,8 @@ class Page < ApplicationRecord
     section_jpg = path + "section.jpg"
     stamped_pdf = path + "/section_#{@time_stamp}.pdf"
     stamped_jpg = path + "/section_#{@time_stamp}.jpg"
-    FileUtils_cp(section_pdf, stamped_pdf)
-    FileUtils_cp(section_jpg, stamped_jpg)
+    FileUtils.cp(section_pdf, stamped_pdf)
+    FileUtils.cp(section_jpg, stamped_jpg)
   end
 
   def generate_pdf_with_time_stamp
@@ -694,15 +694,6 @@ class Page < ApplicationRecord
     EOF
   end
 
-  def to_svg_test
-    svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-        #{page_svg_with_jpg}
-      </svg>
-    EOF
-  end
-
   def page_svg_with_jpg
     # "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
     "<image xlink:href='#{jpg_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
@@ -712,9 +703,6 @@ class Page < ApplicationRecord
     box_element_svg = page_svg_with_jpg
     box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
     box_element_svg += page_heading.box_svg if page_number == 1
-    # working_articles.each do |article|
-    #   box_element_svg += article.box_svg
-    # end
     pillars.each do |pillar|
       box_element_svg += pillar.box_svg_with_jpg
     end
@@ -724,6 +712,30 @@ class Page < ApplicationRecord
     box_element_svg += '</g>'
     box_element_svg
   end
+
+  def to_svg_html_with_jpg
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{box_svg_html_with_jpg}
+      </svg>
+    EOF
+  end
+
+  def box_svg_html_with_jpg
+    box_element_svg = page_svg_with_jpg
+    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
+    box_element_svg += page_heading.box_svg if page_number == 1
+    pillars.each do |pillar|
+      box_element_svg += pillar.box_svg_html_with_jpg
+    end
+    # ad_boxes.each do |ad_box|
+    #   box_element_svg += ad_box.box_svg
+    # end
+    box_element_svg += '</g>'
+    box_element_svg
+  end
+
 
   def svg_path
     path + '/page.svg'
@@ -1017,6 +1029,24 @@ class Page < ApplicationRecord
       positions += p.working_articles.map(&:pillar_order)
     end
     positions
+  end
+
+  def html_page_image_path
+    issue.html_path + "/images/page_#{page_number}.jpg"
+  end
+
+  def save_html_image
+    # save page jpg image to html foler with page_1.jpg, page_2.jpg, page_3.jpg ....
+    FileUtils.cp(jpg_path, html_page_image_path)
+    working_articles.each do |w|
+      w.save_html_image
+    end
+  end
+
+  def save_html
+    working_articles.each do |w|
+      w.save_html
+    end
   end
 
   private

@@ -54,12 +54,75 @@
   - do english hyphenation
   - implement proof reading 
 
+2020_8_24
+  - fix page_heading generate_pdf
+
+2020_8_20
+
+  - fillter "·"  >> filler 
+  ▸▸다음 면에 계속
+  for 다음기사로 연결
+문제 확인 shinmoon 에는 "·", "▸"  glype 가 존제 하는데
+고딕 서체에는 없어서 에러가 발생
+fix font add "·" at \u00b7
+for '▸' symbol use # 25b6 , instead of "25b8"?
+
+
+puts "·".ord # 183
+puts '▸'.ord # 9656 
+puts "▸".ord.to_s(16) # "25b8"? 25b6 ,
+Most Korean fonts seem to have copied from wrong example font
+they have all put is in the wrong place 25b6 instead of at 25b8
+
+puts "·".ord.to_s(16) # \u00b7
+
+2020_8_14
+  - add time of operation in Publication
+    amd reject users from loging in at certain time.
+    - days of the month
+    - days of the week
+    - time of the week
+
+  - we can set it to use it for machine sharing 
+    for example two weekly publications can share the machine
+    if they can work on different days of the week.
+        One woking on         Mon - Wed
+        and the other on      Thu - Sat
+    or one can work 9-1PM, and other one 1-5
+
+
+2020_8_13
+  - add def toggle_selected!
+  - #### arrow font 
+  - divide draw lines room at the top
+  *   * 내용이 2줄 일 경우 고딕 본문 섞임 
+
+2020_8_12
+  - fill up working_article with sample text
+  - draw with different pillar colored
+      - pillar_color_array = [] 
+      - draw x mark on ad_box page_layout svg view
+
+  - generate html page
+    - site_of_the_day
+    - to_html for working_article
+
+  - newsgo.co.kr
+  - newsgo.cloud
+
+  - improve show_html.html.erb for working_article
+
+2020_8_11
+
+  - 23면 금요진단 말고 23 면 3번기사
+    기고, 
+
 2020_8_10
   - slim the size make it readt for heroku
     - move gem to lib
     - move fonts to public/fonts
     - remove scaffold section, article, ad_template, ad_box_template
-    
+
 2020_8_7
   - width_of_string using ruby pdf module 
     - do english hyphenation

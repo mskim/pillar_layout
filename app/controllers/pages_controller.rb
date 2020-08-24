@@ -154,6 +154,10 @@ class PagesController < ApplicationController
     redirect_to @page, notice: "현 페이지에서 세로선을 성공적으로 지웠습니다."
   end
 
+  def show_html
+    set_page
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page

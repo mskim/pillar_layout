@@ -628,7 +628,19 @@ class WorkingArticlesController < ApplicationController
   def new_annotation
     set_working_article
     @working_article.new_annotation
-    redirect_to annotations_new_path(working_article_id: @working_article.id)
+    redirect_to @working_article
+  end
+
+  # fill up working_article with sampel text
+  def fillup_text
+    set_working_article
+    @working_article.fillup_text
+    redirect_to @working_article
+  end
+
+  def show_html
+    set_working_article
+    @html = @working_article.to_html
   end
 
   private

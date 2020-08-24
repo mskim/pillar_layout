@@ -231,12 +231,14 @@ class PageLayout < ApplicationRecord
   end
 
   def pillars_svg
+    pillar_colors_array = [ 'yellow','red', 'blue',  'green',   'purple']
     s = ''
-    pillars.each do |pillar|
+    pillars.each_with_index do |pillar, i|
+      fill_color = pillar_colors_array[i]
       pillar_x_offset = pillar.grid_x
       pillar_y_offset = pillar.grid_y
       pillar.layout_with_pillar_path.each do |r|
-        s += "<rect fill='yellow' stroke='black' stroke-width='1'  x='#{(r[0] +  pillar_x_offset)* svg_grid_width}' y='#{(r[1] + pillar_y_offset)* svg_grid_height}' width='#{r[2] * svg_grid_width}' height='#{r[3] * svg_grid_height}' />\n"
+        s += "<rect fill='#{fill_color}' stroke='black' stroke-width='2' opacity='0.3' x='#{(r[0] +  pillar_x_offset)* svg_grid_width}' y='#{(r[1] + pillar_y_offset)* svg_grid_height}' width='#{r[2] * svg_grid_width}' height='#{r[3] * svg_grid_height}' />\n"
       end
     end
     s

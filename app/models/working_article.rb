@@ -153,6 +153,7 @@ class WorkingArticle < ApplicationRecord
   include Pdf2jpg
   include WorkingArticleAttachment
   include WorkingArticleAnnotate
+  include WorkingArticleSaveHtml
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
@@ -1601,6 +1602,26 @@ class WorkingArticle < ApplicationRecord
       false
     end
   end
+
+
+  def fillup_text
+    para_text =<<~EOF
+    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
+    
+    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
+
+    EOF
+    sampel_text = para_text * grid_area
+    update(body: sampel_text)
+    generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
+  end
+
+  def new_annotation
+    Annotation.new(working_article_id: id)
+  end
+
+
 
   private
 

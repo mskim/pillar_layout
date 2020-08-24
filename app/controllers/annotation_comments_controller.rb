@@ -63,7 +63,7 @@ class AnnotationCommentsController < ApplicationController
 
   def toggle_selected
     @annotation_comment.toggle_selected
-    redirect_to @link.page
+    redirect_to @annotation_comment.annotation.working_article
   end
 
   private

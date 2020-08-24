@@ -282,8 +282,9 @@ Rails.application.routes.draw do
       get 'copy_to_current_issue'
       get 'add_default_drop'
       get 'split_drop'
-
+      get 'fillup_text'
       get 'new_annotation'
+      get 'show_html'
     end
   end
 
@@ -326,7 +327,8 @@ Rails.application.routes.draw do
       get 'seventh_group_stories'
       get 'eighth_group_stories'
       get 'nineth_group_stories'
-
+      get 'show_html'
+      get 'save_html'
       get 'save_story_xml'
       get 'download_story_xml'
       get 'save_preview_xml'
@@ -360,6 +362,7 @@ Rails.application.routes.draw do
       patch 'change_page_layout'
       get 'set_divider_to_draw'
       get 'set_divider_not_to_draw'
+      get 'show_html'
 
     end
   end

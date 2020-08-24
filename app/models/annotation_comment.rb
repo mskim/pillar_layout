@@ -6,6 +6,7 @@
 #  color         :string
 #  comment       :text
 #  height        :integer
+#  selected      :boolean
 #  shape         :string
 #  width         :integer
 #  x             :integer
@@ -26,12 +27,12 @@
 #
 class AnnotationComment < ApplicationRecord
   belongs_to :annotation
-  include movement
+  include Movement
 
   before_create :init
 
   def to_svg
-    s = "<a xlink:href='/annotation_comments/#{id}/toggle_selected'><rect fill='#{color}' stroke='black' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+    s = "<a xlink:href='/annotation_comments/#{id}/toggle_selected'><rect fill='#{color}' stroke='red' stroke-width='2' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
     if selected
       sel_with = 4
       h_width = sel_with/2
@@ -49,7 +50,12 @@ class AnnotationComment < ApplicationRecord
   private
 
   def init
-    self.user = current_user
+    # self.user = current_user
+    self.user_id = User.first.id
     self.color = 'red'
+    self.x = 100
+    self.y = 100
+    self.width = 50
+    self.height = 20
   end
 end

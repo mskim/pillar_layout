@@ -18,7 +18,7 @@
 #
 class Annotation < ApplicationRecord
   belongs_to :working_article
-  has_many :annotaion_comments
+  has_many :annotation_comments
 
   before_create :init
   after_create :copy_proof
@@ -26,6 +26,15 @@ class Annotation < ApplicationRecord
   def path
     working_article.path + "/annotation/version_#{version}"
   end
+
+  def width
+    working_article.width
+  end
+
+  def height
+    working_article.height
+  end
+
 
   def to_svg
     svg = <<~EOF
@@ -37,21 +46,24 @@ class Annotation < ApplicationRecord
   end
 
   def article_svg_with_jpg
-    s = "<image xlink:href='#{jpg_url}' x='0' y='0' width='#{width}' height='#{height}' />\n"
-    s += "<a xlink:href='/annotations/#{id}/de_selecte_all'><rect fill='white' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{0}' y='#{0}' width='#{width}' height='#{height}' /></a>\n"
+    s = "<image xlink:href='#{working_article.jpg_image_path}' x='0' y='0' width='#{width}' height='#{height}' />\n"
+    # s += "<a xlink:href='/annotations/#{id}/de_selecte_all'><rect fill='white' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{0}' y='#{0}' width='#{width}' height='#{height}' /></a>\n"
+    s += "<rect fill='white' stroke='black' stroke-width='1' fill-opacity='0.0' x='#{0}' y='#{0}' width='#{width}' height='#{height}' />\n"
   end
 
   def box_svg_with_jpg
     box_element_svg = article_svg_with_jpg
+    box_element_svg += "<g transform='translate(#{0},#{0})' >\n"
+
     annotation_comments.each do |comment|
       box_element_svg += comment.to_svg
     end
+    box_element_svg += '</g>'
     box_element_svg
   end
 
-
   def add_comment
-
+    AnnotationComment.create!(annotation: self)
   end
 
   private

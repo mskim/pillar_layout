@@ -285,6 +285,7 @@ class Pillar < ApplicationRecord
   end
 
   def to_svg_with_jpg
+
     svg = <<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
         <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
@@ -295,11 +296,18 @@ class Pillar < ApplicationRecord
   end
 
   def box_svg_with_jpg
-    # +++++ using pdf image for now
-    # box_element_svg = pillar_svg_with_pdf
     box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
     working_articles.each do |article|
       box_element_svg += article.box_svg
+    end
+    box_element_svg += '</g>'
+    box_element_svg
+  end
+
+  def box_svg_html_with_jpg
+    box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
+    working_articles.each do |article|
+      box_element_svg += article.box_svg_html
     end
     box_element_svg += '</g>'
     box_element_svg

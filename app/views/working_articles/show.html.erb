@@ -24,6 +24,9 @@
     <li class="nav-item">
       <a class="nav-link" id="story-group-image-tab" data-toggle="tab" href="#tab8" role="tab" aria-controls="story-group-image" aria-selected="false"><span><%= icon('fas', 'object-group') %></span> 그룹 이미지</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="story-proofing-tab" data-toggle="tab" href="#tab9" role="tab" aria-controls="story-group-image" aria-selected="false"><span><%= icon('fas', 'object-group') %></span> 교정</a>
+    </li>
   </ul>
   <div class="tab-content p-4 mb-5" id="myTabContent">
     <!-- 모든 "카테고리"면 -->
@@ -57,6 +60,10 @@
     <!-- 그룹 이미지 -->
     <div class="tab-pane fade" id="tab8" role="tabpanel" aria-labelledby="story-group-image-tab">
       <%= render 'working_articles/tab8' %>
+    </div>
+    <!-- 교정 -->
+    <div class="tab-pane fade" id="tab9" role="tabpanel" aria-labelledby="story-proofing-tab">
+      <%= render 'working_articles/tab9' %>
     </div>
   </div>
 </div>
