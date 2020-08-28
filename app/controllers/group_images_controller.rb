@@ -28,9 +28,10 @@ class GroupImagesController < ApplicationController
   # POST /group_images.json
   def create
     @group_image = GroupImage.new(group_image_params)
-
     respond_to do |format|
       if @group_image.save
+        # member image  생성
+        @group_image.create_member_images
         format.html { redirect_to @group_image.working_article, notice: 'Group image was successfully created.' }
         format.json { render :show, status: :created, location: @group_image }
       else
@@ -77,6 +78,6 @@ class GroupImagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_image_params
-    params.require(:group_image).permit(:title, :caption, :source, :direction, :position, :working_article_id)
+    params.require(:group_image).permit(:title, :caption, :source, :direction, :position, :working_article_id, group_images: [])
   end
 end

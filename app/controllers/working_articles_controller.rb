@@ -20,15 +20,15 @@ class WorkingArticlesController < ApplicationController
   # GET /working_articles/1
   # GET /working_articles/1.json
   def show
+    
     # 멤버 이미지 등록
-    @member_image = MemberImage.new
     # @member_image.working_article_id = @working_article.id
     # 나의 기사의 정보들은 working_articles/show에서 n_n번 기사배정에 가져옵니다.
     @stories = current_user.stories.order(:updated_at).reverse
     # Group_Image new
-    @group_image = GroupImage.new
+    @group_image = @working_article.group_image
+
     # Group_Image all
-    @group_images = GroupImage.all
     @pages = @working_article.issue.pages.order(:id, 'desc')
     section_name = @working_article.page.section_name
     @pages = @working_article.issue.pages.select { |p| p.section_name == section_name }

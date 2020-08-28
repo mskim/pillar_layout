@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: table_styles
+#
+#  id             :bigint           not null, primary key
+#  category_level :integer
+#  column         :integer
+#  heading_level  :integer
+#  layout         :text
+#  name           :string
+#  row            :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
+one:
+  name: MyString
+  column: 1
+  row: 1
+  heading_level: 1
+  category_level: 1
+  layout: MyText
+
+two:
+  name: MyString
+  column: 1
+  row: 1
+  heading_level: 1
+  category_level: 1
+  layout: MyText

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @table_style.name %>
+</p>
+
+<p>
+  <strong>Column:</strong>
+  <%= @table_style.column %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @table_style.row %>
+</p>
+
+<p>
+  <strong>Heading level:</strong>
+  <%= @table_style.heading_level %>
+</p>
+
+<p>
+  <strong>Category level:</strong>
+  <%= @table_style.category_level %>
+</p>
+
+<p>
+  <strong>Layout:</strong>
+  <%= @table_style.layout %>
+</p>
+
+<%= link_to 'Edit', edit_table_style_path(@table_style) %> |
+<%= link_to 'Back', table_styles_path %>

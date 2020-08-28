@@ -4,36 +4,26 @@
 #
 # Table name: member_images
 #
-#  id                 :bigint           not null, primary key
-#  caption            :string
-#  member_img         :string
-#  order              :integer
-#  source             :string
-#  title              :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  working_article_id :bigint           not null
-#
-# Indexes
-#
-#  index_member_images_on_working_article_id  (working_article_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (working_article_id => working_articles.id)
+#  id             :bigint           not null, primary key
+#  caption        :string
+#  member_img     :string
+#  order          :integer
+#  source         :string
+#  title          :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  group_image_id :integer
 #
 
 class MemberImage < ApplicationRecord
-  before_create :set_new_order
+  # before_create :set_new_order
 
   # CarrierWave
-  mount_uploader :member_img, MemberImgUploader
+  # mount_uploader :member_img, MemberImgUploader
+  belongs_to :group_image
 
-  # belongs_to
-  belongs_to :working_article
-
-  # has_one_attached
-  has_one_attached :image_attach
+  # has_one_attached :image_attach
+  # TODO chnage to this has_one_attached :storage_member_image
 
   # 사진순서 중복제거 검증
   # validates_uniqueness_of :order
@@ -55,10 +45,25 @@ class MemberImage < ApplicationRecord
       end
     end
   end
+
+  def layout_rb
+    "  news_image(#{info_hash})\n"
+  end
+
+  def info_hash
+    h = {}
+    h[:image_path]  = member_img
+    h[:order]       = order
+    h[:title]       = title   if title
+    h[:caption]     = caption if caption
+    h[:source]      = source  if source
+    h
+  end
+
   private
 
   def set_new_order
-    member_images = working_article.member_images
+    member_images = group_image.member_images
     current_order = member_images.count
     self.order = current_order + 1
   end

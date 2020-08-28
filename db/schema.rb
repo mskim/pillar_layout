@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_11_012756) do
+ActiveRecord::Schema.define(version: 2020_08_27_083753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,9 @@ ActiveRecord::Schema.define(version: 2020_08_11_012756) do
     t.bigint "working_article_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "column"
+    t.integer "row"
+    t.integer "extended_line_count"
     t.index ["working_article_id"], name: "index_group_images_on_working_article_id"
   end
 
@@ -411,9 +414,8 @@ ActiveRecord::Schema.define(version: 2020_08_11_012756) do
     t.integer "order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "working_article_id", null: false
     t.string "member_img"
-    t.index ["working_article_id"], name: "index_member_images_on_working_article_id"
+    t.integer "group_image_id"
   end
 
   create_table "opinion_writers", force: :cascade do |t|
@@ -763,6 +765,31 @@ ActiveRecord::Schema.define(version: 2020_08_11_012756) do
     t.index ["publication_id"], name: "index_stroke_styles_on_publication_id"
   end
 
+  create_table "table_styles", force: :cascade do |t|
+    t.string "name"
+    t.integer "column"
+    t.integer "row"
+    t.integer "heading_level"
+    t.integer "category_level"
+    t.text "layout"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tables", force: :cascade do |t|
+    t.integer "column"
+    t.integer "row"
+    t.integer "extended_line_count"
+    t.text "body"
+    t.string "title"
+    t.string "source"
+    t.bigint "working_article_id", null: false
+    t.integer "table_style_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["working_article_id"], name: "index_tables_on_working_article_id"
+  end
+
   create_table "text_styles", id: :serial, force: :cascade do |t|
     t.string "korean_name"
     t.string "english"
@@ -1063,7 +1090,6 @@ ActiveRecord::Schema.define(version: 2020_08_11_012756) do
   add_foreign_key "group_images", "working_articles"
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "issues", "publications"
-  add_foreign_key "member_images", "working_articles"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
   add_foreign_key "profiles", "publications"
@@ -1076,6 +1102,7 @@ ActiveRecord::Schema.define(version: 2020_08_11_012756) do
   add_foreign_key "stories", "working_articles"
   add_foreign_key "story_subcategories", "story_categories"
   add_foreign_key "stroke_styles", "publications"
+  add_foreign_key "tables", "working_articles"
   add_foreign_key "text_styles", "publications"
   add_foreign_key "wire_stories", "issues"
   add_foreign_key "working_articles", "pillars"

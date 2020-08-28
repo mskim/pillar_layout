@@ -274,7 +274,6 @@ date
   page_range
 
 ## Reporters
-
   name
   email
   reporter_group:references
@@ -290,25 +289,6 @@ date
   day
   name
 
-
-  
-## page_library
-  slug
-  tag
-  ad_type
-  page_column
-  story_count
-  config:text
-
-# email based layout?
-  references:issue
-  template_id:integer
-
-## combo_ad_box
-  - base_ad
-  - column
-  - row
-  - layout: text
 
 ## editable_ad
   advertiser
@@ -328,21 +308,22 @@ date
   price:float
   date:date
 
-## table_maker
-  has_head:boolean
-  has_source:boolean
-  category_level:integer
-  cycle_color:boolean
-
-  width:
-  height:
+## table
   column:
   row:
-  style:integer
+  extended_line_count:
+  body:text
+  title:string
+  source:string
+  working_article:references
+  table_style_id:integer
+  
+
 
 ## table_style
   - name
-  - has_heading:boolean
+  - heading_level:integer
+  - category_level:integer
   - has_source:boolean
   - heading:text
       - sides
@@ -385,14 +366,15 @@ body text goes here.
   - starting:date
   - ending:date
 
-annotation
+## annotation
     workiong_article:references
     version:integer
 
-annotation_comment
+## annotation_comment
     annotation:references
     user:references
     x,y,width,height, integer
     comment:text
     color
     shape: #rect, check, circle, delete_mark, underline
+

@@ -128,13 +128,12 @@ class WorkingArticle < ApplicationRecord
   belongs_to :article, optional: true
 
   has_one :story
-  # has_one :group_image
   has_ancestry
   # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
   has_many :proofs
-  has_many :member_images
+  has_one :group_image
   has_many :annotations
   # has_many :story_category
   # has_many :story_subcategory
@@ -1062,6 +1061,10 @@ class WorkingArticle < ApplicationRecord
     content
   end
 
+  def group_image_layout
+    "  news_image(#{group_image.group_image_layout_hash})\n"
+  end
+
   def quote_layout
     quote_hash = {}
     # quote_hash[:quote]            = quote
@@ -1114,7 +1117,6 @@ class WorkingArticle < ApplicationRecord
       end
       content += "end\n"
     elsif kind == '사설' || kind == 'editorial'
-
       h[:article_line_draw_sides]  = [0,1,0,0]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += "  news_column_image(#{editorial_image_options})\n" if reporter && reporter != "" # if page_number == 22
@@ -1142,6 +1144,7 @@ class WorkingArticle < ApplicationRecord
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += image_layout unless images.empty?
       content += graphic_layout unless graphics.empty?
+      content += group_image_layout unless group_image.empty?
       content += "end\n"
     end
     content

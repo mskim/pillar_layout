@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :table_styles
+  resources :tables
   resources :annotation_comments do
     member do
       get :toggle_selected

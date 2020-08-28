@@ -54,8 +54,36 @@
   - do english hyphenation
   - implement proof reading 
 
+2020_8_27
+  -  change group_image UI
+  - working_article 
+      has_one group_image
+  - store group_image once we layout member image
+      in working_article/images/group_image.pdf
+      do not layout group images every time we layout
+  - upload multiple images at once
+    left side and right side
+    left side: group attribures
+      columnm, row, extende_line_count, position
+      title, caption, source
+      upload new mutiple images 
+      allow addtional images after initial upload
+    right side member: image panel
+      list of images, similar ui to current images
+      change image order similar to current images
+      only allow changing image no new image 
+      title, caption, source for each member image
+
+
+
+
 2020_8_24
   - fix page_heading generate_pdf
+  add '▸' small trianle at 25b8 in Kor...PM  
+
+  177 3050
+    manual make it clickable
+    next pre button on edit/show
 
 2020_8_20
 
@@ -75,6 +103,10 @@ Most Korean fonts seem to have copied from wrong example font
 they have all put is in the wrong place 25b6 instead of at 25b8
 
 puts "·".ord.to_s(16) # \u00b7
+
+2020_8_25
+  - working_article tabs: 
+    -font size and space make it uniform
 
 2020_8_14
   - add time of operation in Publication

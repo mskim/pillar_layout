@@ -1,0 +1,22 @@
+<h1>Tables</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-tables" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="column">Column</th>
+      <th data-data="row">Row</th>
+      <th data-data="extended_line_count">Extended line count</th>
+      <th data-data="body">Body</th>
+      <th data-data="title">Title</th>
+      <th data-data="source">Source</th>
+      <th data-data="working_article">Working article</th>
+      <th data-data="table_style_id">Table style</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Table', new_table_path %>
