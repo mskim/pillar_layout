@@ -136,7 +136,7 @@ class Image < ApplicationRecord
     h[:position]          = position.to_i
     h[:extra_height_in_lines] = extra_height_in_lines || 0
     h[:is_float] = true
-    h[:caption_title] = RubyPants.new(caption_title).to_html if caption_title
+    h[:caption_title]     = RubyPants.new(caption_title).to_html if caption_title
     h[:caption]           = RubyPants.new(caption).to_html if caption
     h[:source]            = source if source
     case fit_type

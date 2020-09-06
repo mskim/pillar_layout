@@ -47,7 +47,7 @@ class MemberImage < ApplicationRecord
   end
 
   def layout_rb
-    "  news_image(#{info_hash})\n"
+    "  image(image_path:'#{member_img}', layout_expand:[:width, :height])\n"
   end
 
   def info_hash

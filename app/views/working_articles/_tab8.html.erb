@@ -17,17 +17,17 @@
       <div class="card-header text-white bg-secondary text-center font-weight-bold">
         그룹 이미지
       </div>
+
       <div class="card-body">
         <% if @group_image %>
           <%= render 'group_images/form', group_image: @group_image, working_article: @working_article %>
         <% else %>
           <%= render 'group_images/new', working_article: @working_article %>
-
         <% end %>
-
-
       </div>
     </div>
+    <%= image_tag @group_image.pdf_url if @group_image && @group_image.ready?%>
+
   </div>
   <div class="col-md-5">
     <% if @group_image %>

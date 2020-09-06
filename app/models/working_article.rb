@@ -1144,7 +1144,7 @@ class WorkingArticle < ApplicationRecord
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += image_layout unless images.empty?
       content += graphic_layout unless graphics.empty?
-      content += group_image_layout unless group_image.empty?
+      content += group_image_layout if group_image && group_image.ready?
       content += "end\n"
     end
     content
@@ -1623,8 +1623,6 @@ class WorkingArticle < ApplicationRecord
   def new_annotation
     Annotation.new(working_article_id: id)
   end
-
-
 
   private
 

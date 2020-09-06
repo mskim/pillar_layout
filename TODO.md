@@ -54,6 +54,16 @@
   - do english hyphenation
   - implement proof reading 
 
+2020_9_6
+  - rename annotation to proof
+  - rename annotation_commnet to marker?
+  - add avatar to user
+  
+2020_9_3
+  - create static site
+  - use middleman or frontman
+https://blog.joshsoftware.com/2020/08/31/integrate-static-site-in-rails-application-using-middleman/
+
 2020_8_27
   -  change group_image UI
   - working_article 
