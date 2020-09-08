@@ -75,7 +75,6 @@ class Publication < ApplicationRecord
     '오피니언',
   ]
 
-
   def path
     "#{Rails.root}/public/#{id}"
   end

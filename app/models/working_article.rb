@@ -434,14 +434,13 @@ class WorkingArticle < ApplicationRecord
     save_hash[:story_md]          = story_md
     layout_string = layout_rb
     if options[:adjustable_height]
-      puts "******* before"
       puts layout_string
       layout_string.sub!(':adjustable_height=>false,', ':adjustable_height=>true,')
-      puts "******* after"
       puts layout_string
     end
     save_hash[:layout_rb]         = layout_string
     save_hash[:time_stamp]        = options[:time_stamp]
+
     new_extended_line_count       = 0
     #TODO RLayout::NewsBoxMaker.new(save_hash) should return article_info hash
     # from this we should get adjusted_line_count, overflow_text, overflow_line_count
