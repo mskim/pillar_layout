@@ -1,6 +1,22 @@
 namespace :style do
   require 'csv'
   
+  desc 'save page config_files'
+  task :save_config =>:environment do
+    Page.all.each do |p|
+      p.save_config_file
+    end
+  end
+
+  desc 'generate_pdf_with_time_stamp working_article '
+  task :save_article =>:environment do
+    WorkingArticle.all.each do |w|
+      w.save_article
+    end
+  end
+
+
+
   desc 'copy article pdf to sample folder'
   task :article_copy_to_sample =>:environment do
     WorkingArticle.all.each do |w|

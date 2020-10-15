@@ -1,4 +1,3 @@
-# TODO
 
 - make demo video
 - make user manual
@@ -52,7 +51,113 @@
 
   - send pdf news to subscribers
   - do english hyphenation
-  - implement proof reading 
+  - implement proof reading
+
+2020_10_13
+  - download zipped issue with remote origin
+    - update config_file
+    - or push to github
+  - rakefile 
+    section.pdf => story.pdf
+
+2020_10_10
+  - NewsPage
+    - fix page drawing twice
+    - read heigth from article_info 
+      - save :attached_type in layout_rb attached_type shuld be added to article_info 
+    - fix attachments drawing
+      - get attachemt's parent x,y
+
+      - fix overlap x,y
+
+    - pillar 기사 모두 자동행조절 추가
+        - update pillar bottom height after 자동행조절, 모두자동행조절
+
+    - draw vertical line with pillar info, rather than working_article into
+    - sort working_article by pillar_order
+
+
+2020_10_5
+  - 쪽기사 full_width
+  - 책소개 type 19면
+  - 외통 월요일 8면
+  - libary page
+  - 단 5 page
+
+2020_10_5
+  - save in article_info
+    - height
+    - attachment 
+        type 
+        side
+  - chnage folder_name
+    - overlap, divide, drop
+
+2020_9_29
+  - fix adjustable_height
+     Some lines not displaying, 
+     fix line status of not clearing from previous attempt
+  - fix generate pillar with ariticle pdf height
+     instead of extended_line_count. 
+     eliminate mismatch due to db update
+    fix pillar_config.yml add attached info
+      - overlap: {side:'r', parent:'2', column: 2, row:2, extened_line:0}
+      - divide: {side:'r', parent:'1', column: 2}
+      - drop: {side:'r', parent:'2', column: 2,  bottom:'3'}
+
+
+2020_9_24
+  - 177 1면 자동행조절후 찌그러짐 중간 부분 없어짐 수정
+  - 그림 욱여 넣기
+  - 1-1 에서 쪽기사 메뉴 없음
+  - 1-1 에서 나누기 메뉴 없음
+  - 홀수 페이지 에서  메뉴 없음
+
+  - heading_ad index limit to 10
+   
+2020_9_17
+  issue plan with variable pages
+
+  page edition is where pages can be
+    - add edition field in page
+    - add edition view page in issue views
+    - edition, A, B, C
+    - for printing to difference printer with diffent AD
+    - used for AD include copy of page
+    - show edition view if there is any page editions 
+
+  pillar_library is where pillar can be
+    name
+    paper_size, page_type, page_column, column, row, 
+    profile is updateed at before save
+    has_many :article_libraries
+
+    page_type: first, odd, even, editorial
+
+    strarting_column?
+
+    - create pillar_library model
+    - saved from current pillar
+
+  article_library is where pillar can be 
+    - create article_library model
+    - saved with current_pillar
+    - copied to current pillar
+    order, column, row, extended_line_count
+
+    belongs_to :pillar_library
+
+    has_many :images      # original should be copied to library
+    has_many :graphics    # original should be copied to library
+    has_one :group_image  # original should be copied to library
+    title
+    ...
+    ...
+
+
+2020_9_15
+  - page paste board 4 page
+  - 7-A, 7-B
 
 2020_9_6
   - rename annotation to proof

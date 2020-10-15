@@ -1,10 +1,14 @@
 ---
 :column: 4
 :row: 5
-:is_front_page: 
+:is_front_page:
 :top_story: true
 :top_position: true
 :extended_line_count: 0
 :pushed_line_count: 0
 :quote_box_size: 0
+:image_width: 685.9842519684945
+:image_height: 431.00112485938666
+:has_attachment: false
+:attached_type:
 :empty_lines: 88

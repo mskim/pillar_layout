@@ -1,5 +1,5 @@
 ---
-title: 여기는 2_1제목.
+title: 여기는 1_1제목.
 subtitle: 여기는 부제목 입니다.
 email: 
 

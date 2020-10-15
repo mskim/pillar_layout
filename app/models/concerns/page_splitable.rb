@@ -58,7 +58,7 @@ module PageSplitable
   end
 
   def update_config_yml
-    source        = config_path
+    source        = config_yml_path
     config_hash   = YAML::load_file(source)
     config_hash['story_frames'] = eval(layout)
     File.open(source, 'w'){|f| f.write(config_hash.to_yaml)}

@@ -18,7 +18,8 @@ module PageSavePdf
       extended_line_sum = 0
       p.working_articles.each do |w|
         w.draw_article_in_page(canvas, extended_line_sum)
-        extended_line_sum += w.extended_line_count if w.extended_line_count
+        # do not add attached_type's extended_line_count to extended_line_sum
+        extended_line_sum += w.extended_line_count if w.attached_type == nil
       end
     end
     ad_boxes.each do |ad|

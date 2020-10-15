@@ -469,18 +469,6 @@ class WorkingArticlesController < ApplicationController
     redirect_to working_article_path(@working_article), notice: '2단(다음면으로...) 안내문이 생성 되었습니다.'
   end
 
-  def obituary_one
-    set_working_article
-    @working_article.obituary_one
-    redirect_to working_article_path(@working_article), notice: '부고/인사 생성 되었습니다.'
-  end
-
-  def remove_obituary
-    set_working_article
-    @working_article.remove_obituary
-    redirect_to working_article_path(@working_article), notice: '부고/인사 삭제 되었습니다.'
-  end
-
   def split_article(options)
     @working_article.split(options)
   end

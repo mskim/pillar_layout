@@ -372,6 +372,7 @@ class WorkingArticle < ApplicationRecord
   def save_article
     make_article_path
     save_layout
+    # puts "id:#{id}"
     save_story unless kind == '사진'
   end
 
@@ -398,6 +399,22 @@ class WorkingArticle < ApplicationRecord
     system("rm -rf #{path}")
   end
 
+  
+  def delete_attached_floats
+  # has_many :images, dependent: :delete_all
+  # has_many :graphics, dependent: :delete_all
+  # has_many :group_images, dependent: :delete_all
+  # has_many :story_category
+  # has_many :story_subcategory
+  # has_one :story
+    images.all.each {|i| i.destroy}
+    graphics.all.each {|i| i.destroy}
+    group_image.destroy if group_image
+    story.destroy if story
+      
+  end
+
+
   def stamped_pdf_file
     path + "/story#{@time_stamp}.pdf"
   end
@@ -415,15 +432,20 @@ class WorkingArticle < ApplicationRecord
   end
 
   def generate_pdf_with_time_stamp(options = {})
+    unless File.exist?(path)
+      # prevent generating article pdf before page and article folder is created
+      puts "article folder is not created !!!"
+      return 
+    end
     puts "generate_pdf... #{path}"
     pdf_starting = Time.now
     delete_old_files
     stamp_time
     save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
     pdf_working_article_ending = Time.now
-    page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
+    # page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
-    puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
+    # puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end 
   alias gen_pdf generate_pdf_with_time_stamp
 
@@ -447,7 +469,7 @@ class WorkingArticle < ApplicationRecord
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_extended_line_count       = new_box_marker.adjusted_line_count
     
-    if options[:adjustable_height] && new_extended_line_count != 0
+    if options[:adjustable_height]
       self.extended_line_count    = new_extended_line_count
       self.height_in_lines        = calculate_height_in_lines
       self.save
@@ -563,12 +585,14 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.each_with_index do |w, _i|
-      if pillar.bottom_article_of_sibllings?(w)
-        w.update_pushed_line
-      else
-        w.generate_pdf_with_time_stamp(adjustable_height: true)
-      end
+    pillar.working_articles.sort_by{|w| w.pillar_order}.each do |w|
+      next if w.pillar_bottom?
+      w.auto_adjust_height if w.attached_type == nil
+      # if pillar.bottom_article_of_sibllings?(w)
+      #   w.update_pushed_line
+      # else
+      #   w.generate_pdf_with_time_stamp(adjustable_height: true)
+      # end
     end
     page.generate_pdf_with_time_stamp
   end
@@ -599,7 +623,17 @@ class WorkingArticle < ApplicationRecord
     puts "height_in_lines:#{height_in_lines}"
   end
 
+  def pushed_line_sum_for_bottom_article
+    extended_line_sum = 0
+    pillar.working_articles.each do |w|
+      next if w.attached_type
+      extended_line_sum += w.extended_line_count
+    end
+    extended_line_sum
+  end
+
   def update_pushed_line
+    update(pushed_line_count: pushed_line_sum_for_bottom_article)
     generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
   end
@@ -681,7 +715,7 @@ class WorkingArticle < ApplicationRecord
     when '일반' || 'reqular'
       self.quote_box_size = 4
       self.quote_position = 5
-      self.quote_position = 4 if kind = '기고'
+      self.quote_position = 4 if kind == '기고'
     when '기고2행' || 'opinion2'
       self.quote_box_size = 2
       self.quote_position = 7
@@ -949,6 +983,8 @@ class WorkingArticle < ApplicationRecord
   def layout_options
     h = {}
     h[:kind]                          = kind if kind
+    h[:has_attachment]                = has_children?
+    h[:attached_type]                 = attached_type if attached_type
     h[:adjustable_height]             = adjustable_height?
     h[:subtitle_type] = subtitle_type || '1단' unless kind == '사진'
     if heading_columns && heading_columns != column && heading_columns != ''
@@ -1147,6 +1183,17 @@ class WorkingArticle < ApplicationRecord
       content += "end\n"
     end
     content
+  end
+
+  def pdf_path_from_page
+    pdf_path.sub(page.path, "")
+  end
+
+  def layout_map
+    h = {}
+    h[:pdf_rect] = [x,y,width,height]
+    h[:pdf_path] = pdf_path_from_page 
+    h
   end
 
   def opinion_profile_pdf_path
@@ -1574,7 +1621,7 @@ class WorkingArticle < ApplicationRecord
       else
         false
       end
-    elsif attached_type= 'overlap'
+    elsif attached_type == 'overlap'
       if attached_position == '우'
         true
       else
@@ -1594,7 +1641,7 @@ class WorkingArticle < ApplicationRecord
       else
         false
       end
-    elsif attached_type= 'overlap'
+    elsif attached_type == 'overlap'
       if attached_position == '우'
         false
       else

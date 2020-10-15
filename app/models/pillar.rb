@@ -608,6 +608,14 @@ class Pillar < ApplicationRecord
     end
   end
 
+  def delete_working_articles
+    working_articles.all.each do |w|
+        w.delete_folder
+        w.delete_attached_floats
+        w.destroy
+    end
+  end
+
   # remove drop and its children
   def remove_drop
     return unless has_drop_article?
@@ -624,5 +632,19 @@ class Pillar < ApplicationRecord
     end
     page_ref.generate_pdf_with_time_stamp
   end
+  
+  def article_map
+    working_articles.sort_by{|w| w.pillar_order}.map do |w|
+      w.layout_map
+    end
+  end
 
+  def layout_map
+    h = {}
+    h[:order] = order
+    h[:pillar_rect] = [x,y,width,height]
+    h[:pillar_grid_rect] = [grid_x, grid_y, column, row]
+    h[:article_map] = article_map
+    h
+  end
 end

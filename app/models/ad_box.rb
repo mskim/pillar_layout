@@ -131,6 +131,10 @@ class AdBox < ApplicationRecord
     end
   end
 
+  def ad_box_rect
+    [x,y,width,height]
+  end
+
   def top_position?
     grid_y == 0 || (grid_y == 1 && page_number == 1)
   end
@@ -470,7 +474,7 @@ EOF
   def publication
     page.publication
   end
-  
+
   def change_ad_box_layout(new_ad_type, column)
     info = {}
     case new_ad_type

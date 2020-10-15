@@ -12,6 +12,7 @@
 #  date                         :date
 #  display_name                 :string
 #  draw_divider                 :boolean
+#  edition                      :string           default("A")
 #  grid_height                  :float
 #  grid_width                   :float
 #  gutter                       :float

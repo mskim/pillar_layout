@@ -57,7 +57,7 @@ class Issue < ApplicationRecord
   mount_uploader :excel_file, ExcelFileUploader
 
   include IssueStoryMakeable
-  include IssueGitWorkflow
+  include IssueGithubWorkflow
   include IssueSaveXml
 
   # def save_to_web_article
@@ -225,9 +225,10 @@ class Issue < ApplicationRecord
           advertiser              = ad_info_array[1]
           page_hash[:ad_type]     = ad_type
           page_hash[:advertiser]  = advertiser
-        elsif page_array[3].nil? || '광고없음'
-          page_hash[:ad_type]      = '광고없음'
+        elsif page_array[3].nil? || page_array[3] == '광고없음'
+          page_hash[:ad_type] = '광고없음'
         end
+
         if page_array[4] == '컬러' || page_array[4] == '칼러' || page_array[4] == '칼라'
           page_hash[:color_page]   = true 
         else
@@ -616,6 +617,10 @@ class Issue < ApplicationRecord
     save_front_page
     save_page_html_images
     save_page_html
+  end
+
+  def has_edition?
+    pages.select{|p| p.edition == 'B' || p.edition == 'C'}.length > 0
   end
 
   private

@@ -1,36 +1,149 @@
 ---
-section_name: 기획
-page_heading_margin_in_lines: 3
-ad_type: 광고없음
-is_front_page: false
-page_columns: 6
-grid_size:
-- 171.49606299212348
-- 97.32283464566807
-lines_per_grid: 7.0
-width: 1114.01574803148
-height: 1544.88188976376
-left_margin: 42.5196850393695
-top_margin: 42.5196850393695
-right_margin: 42.5196850393695
-bottom_margin: 42.5196850393695
-gutter: 12.7559055118108
-story_frames:
-- - 0
+:section_name: 기획
+:section_path: "/Users/mskim/Development/pillar_layout/public/1/issue/2017-05-30/21"
+:page_heading_margin_in_lines: 3
+:heading_space: 41.70978627671484
+:ad_type: 광고없음
+:ad_box_rect:
+:is_front_page: false
+:page_columns: 6
+:grid_size:
+- 171.49606299212363
+- 97.32283464566795
+:lines_per_grid: 7.0
+:width: 1114.0157480314808
+:height: 1544.8818897637584
+:left_margin: 42.5196850393695
+:top_margin: 42.5196850393695
+:right_margin: 42.5196850393695
+:bottom_margin: 42.5196850393695
+:gutter: 12.755905511810848
+:article_line_thickness: 0.3
+:draw_divider:
+:pillar_map:
+- :order: 1
+  :pillar_rect:
+  - 42.5196850393695
+  - 42.5196850393695
+  - 342.99212598424725
+  - 1418.1327334083046
+  :pillar_grid_rect:
+  - 0
   - 0
   - 2
   - 15
-  - 5
-- - 2
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 342.99212598424725
+    - 250.258717660289
+    :pdf_path: "/1/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 291.96850393700385
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/1/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 583.9370078740077
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/1/3/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 875.9055118110116
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/1/4/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 1167.8740157480154
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/1/5/story.pdf"
+- :order: 2
+  :pillar_rect:
+  - 385.51181102361676
+  - 42.5196850393695
+  - 342.99212598424725
+  - 1418.1327334083046
+  :pillar_grid_rect:
+  - 2
   - 0
   - 2
   - 15
-  - 5
-- - 4
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 342.99212598424725
+    - 250.258717660289
+    :pdf_path: "/2/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 291.96850393700385
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 583.9370078740077
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/3/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 875.9055118110116
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/4/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 1167.8740157480154
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/5/story.pdf"
+- :order: 3
+  :pillar_rect:
+  - 728.503937007864
+  - 42.5196850393695
+  - 342.99212598424725
+  - 1418.1327334083046
+  :pillar_grid_rect:
+  - 4
   - 0
   - 2
   - 15
-  - 5
-- 광고없음
-article_line_thickness: 0.3
-draw_divider: true
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 342.99212598424725
+    - 250.258717660289
+    :pdf_path: "/3/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 291.96850393700385
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/3/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 583.9370078740077
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/3/3/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 875.9055118110116
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/3/4/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 1167.8740157480154
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/3/5/story.pdf"
