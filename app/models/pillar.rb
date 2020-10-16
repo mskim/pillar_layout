@@ -39,10 +39,6 @@ class Pillar < ApplicationRecord
     (row - working_articles.length)*7
   end
 
-  def bottom_article
-    working_articles.last
-  end
-
   def available_bottom_space
     if working_articles.length > 1
       room = (working_articles.last.row - 1)*7
@@ -106,11 +102,12 @@ class Pillar < ApplicationRecord
     working_articles.select{|a| a.pillar_order > article.pillar_order}
   end
 
-  # retrun bottom siblling of given article
-  def bottom_article_of_sibllings(article)
-    article_siblings = pillar_siblings_of(article)
-    article_siblings.last
+  def bottom_article
+    w = working_articles.last
+    return w.parent if w.parent
+    w
   end
+
 
   def max_grid_x
     grid_x + column
@@ -118,11 +115,6 @@ class Pillar < ApplicationRecord
 
   def max_grid_y
     grid_y + row
-  end
-
-  # check if given article is  bottom of sibllings
-  def bottom_article_of_sibllings?(article)
-    article == bottom_article_of_sibllings(article)
   end
 
   def extened_line_sum

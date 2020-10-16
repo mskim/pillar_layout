@@ -527,7 +527,7 @@ class WorkingArticle < ApplicationRecord
   # expandable? for pillar
   def expandable?(line_count)
     expandable = false
-    bottom_syb = bottom_article_of_sibllings(self)
+    bottom_syb = pillar.bottom_article
     bottom_syb.pushable?(line_count)
   end
 
@@ -575,7 +575,7 @@ class WorkingArticle < ApplicationRecord
       children.first.generate_pdf_with_time_stamp
     end
     
-    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article = pillar.bottom_article
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
 
@@ -588,11 +588,7 @@ class WorkingArticle < ApplicationRecord
     pillar.working_articles.sort_by{|w| w.pillar_order}.each do |w|
       next if w.pillar_bottom?
       w.auto_adjust_height if w.attached_type == nil
-      # if pillar.bottom_article_of_sibllings?(w)
-      #   w.update_pushed_line
-      # else
-      #   w.generate_pdf_with_time_stamp(adjustable_height: true)
-      # end
+
     end
     page.generate_pdf_with_time_stamp
   end
@@ -600,8 +596,7 @@ class WorkingArticle < ApplicationRecord
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
     return if line_count == extended_line_count
-    bottom_article = pillar.bottom_article_of_sibllings(self)
-    puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
+    bottom_article = pillar.bottom_article
     unless bottom_article.pushable?(line_count)
       puts 'bottom sibling not pushable!!!'
       return
@@ -640,9 +635,8 @@ class WorkingArticle < ApplicationRecord
 
   # adds extended_line_count with new line_count
   def extend_line(line_count, _options = {})
-    # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
-    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article = pillar.bottom_article
     unless bottom_article.pushable?(line_count)
       puts 'bottom sibling not pushable!!!'
       return
@@ -675,12 +669,6 @@ class WorkingArticle < ApplicationRecord
 
   def page_bottomn_article?
     page.bottom_article?(self)
-  end
-
-  def bottom_article_of_sibllings(_article)
-    w = pillar.bottom_article_of_sibllings(self)
-    puts "w.id:#{w.id}"
-    w
   end
 
   def empty_lines_count
@@ -973,12 +961,6 @@ class WorkingArticle < ApplicationRecord
     return true if top_story
     false
   end
-
-  # def get_page_heading_margin_in_lines
-  #   return 0 unless top_position?
-  #   page.page_heading_margin_in_lines
-  #   n
-  # end
 
   def layout_options
     h = {}

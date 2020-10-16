@@ -53,6 +53,9 @@
   - do english hyphenation
   - implement proof reading
 
+2020_10_16
+  - 자동행조절시 adjust bottom working_article extended_line_count
+  
 2020_10_13
   - download zipped issue with remote origin
     - update config_file

@@ -469,18 +469,6 @@ class WorkingArticlesController < ApplicationController
     redirect_to working_article_path(@working_article), notice: '2단(다음면으로...) 안내문이 생성 되었습니다.'
   end
 
-  def split_article(options)
-    @working_article.split(options)
-  end
-
-  def split_article_vertically(_options)
-    split_article(direction: 'v')
-  end
-
-  def split_article_horinotally(_options)
-    split_article(direction: 'h')
-  end
-
   def select_reporter_graphic
     set_working_article
     reporter_graphic = ReporterGraphic.find(params[:reporter_graphic])
