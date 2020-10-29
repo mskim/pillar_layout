@@ -37,11 +37,7 @@ coverage
 
 /public/packs
 /public/packs-test
-<<<<<<< HEAD
 /node_modules
-=======
-node_modules
->>>>>>> upstream/master
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
