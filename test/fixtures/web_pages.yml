@@ -1,0 +1,44 @@
+# == Schema Information
+#
+# Table name: web_pages
+#
+#  id            :bigint           not null, primary key
+#  current_tool  :string
+#  height        :decimal(, )
+#  page_number   :integer
+#  text_content  :text
+#  text_position :integer
+#  toc           :boolean
+#  width         :decimal(, )
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  issue_id      :bigint           not null
+#
+# Indexes
+#
+#  index_web_pages_on_issue_id  (issue_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (issue_id => issues.id)
+#
+
+one:
+  current_tool: MyString
+  width: 9.99
+  height: 9.99
+  page_number: 1
+  toc: false
+  text_content: MyText
+  text_position: 1
+  issue: one
+
+two:
+  current_tool: MyString
+  width: 9.99
+  height: 9.99
+  page_number: 1
+  toc: false
+  text_content: MyText
+  text_position: 1
+  issue: two

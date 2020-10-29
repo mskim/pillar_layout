@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/mskim/Development/ruby/gems/rlayout
+  remote: /Users/naeil/Development/ruby/gems/rlayout
   specs:
     rlayout (0.0.3)
 
@@ -95,7 +95,7 @@ GEM
     bindex (0.8.1)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.4.8)
+    bootsnap (1.4.9)
       msgpack (~> 1.0)
     bootstrap (4.5.2)
       autoprefixer-rails (>= 9.1.0)
@@ -151,7 +151,7 @@ GEM
     faker (2.14.0)
       i18n (>= 1.6, < 2)
     ffi (1.13.1)
-    font-awesome-sass (5.13.0)
+    font-awesome-sass (5.15.1)
       sassc (>= 1.11)
     formatador (0.2.5)
     friendly_id (5.4.0)
@@ -262,7 +262,8 @@ GEM
       binding_of_caller (~> 0.7)
       pry (~> 0.13)
     public_suffix (4.0.6)
-    puma (3.12.6)
+    puma (5.0.4)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-proxy (0.6.5)
       rack
@@ -414,7 +415,6 @@ DEPENDENCIES
   bootstrap4-kaminari-views
   bootstrap_form
   browser
-  bundler (~> 2.1, >= 2.1.2)
   byebug
   carrierwave
   coffee-rails
@@ -443,7 +443,7 @@ DEPENDENCIES
   pry-byebug
   pry-rescue
   pry-stack_explorer
-  puma (~> 3.11)
+  puma
   rails (~> 6.0, >= 6.0.1)
   rails-assets-chosen!
   rails-assets-chosen-bootstrap!

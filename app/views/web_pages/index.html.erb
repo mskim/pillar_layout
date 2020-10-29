@@ -1,0 +1,22 @@
+<h1>Web Pages</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-web_pages" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="current_tool">Current tool</th>
+      <th data-data="width">Width</th>
+      <th data-data="height">Height</th>
+      <th data-data="page_number">Page number</th>
+      <th data-data="toc">Toc</th>
+      <th data-data="text_content">Text content</th>
+      <th data-data="text_position">Text position</th>
+      <th data-data="issue">Issue</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Web Page', new_web_page_path %>

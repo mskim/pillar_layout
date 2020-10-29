@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_16_235008) do
+ActiveRecord::Schema.define(version: 2020_10_29_015828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -608,6 +608,20 @@ ActiveRecord::Schema.define(version: 2020_09_16_235008) do
     t.boolean "variable_page_count"
   end
 
+  create_table "qrcodes", force: :cascade do |t|
+    t.decimal "x"
+    t.decimal "y"
+    t.decimal "width"
+    t.decimal "height"
+    t.string "qr_text"
+    t.string "qrcode_file"
+    t.string "qrcode_type"
+    t.bigint "web_page_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["web_page_id"], name: "index_qrcodes_on_web_page_id"
+  end
+
   create_table "reporter_graphics", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -837,6 +851,33 @@ ActiveRecord::Schema.define(version: 2020_09_16_235008) do
     t.string "group"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.decimal "x"
+    t.decimal "y"
+    t.decimal "width"
+    t.decimal "height"
+    t.string "player_type"
+    t.string "source_video_url"
+    t.bigint "web_page_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["web_page_id"], name: "index_videos_on_web_page_id"
+  end
+
+  create_table "web_pages", force: :cascade do |t|
+    t.string "current_tool"
+    t.decimal "width"
+    t.decimal "height"
+    t.integer "page_number"
+    t.boolean "toc"
+    t.text "text_content"
+    t.integer "text_position"
+    t.bigint "issue_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["issue_id"], name: "index_web_pages_on_issue_id"
   end
 
   create_table "wire_stories", force: :cascade do |t|
@@ -1095,6 +1136,7 @@ ActiveRecord::Schema.define(version: 2020_09_16_235008) do
   add_foreign_key "page_plans", "issues"
   add_foreign_key "profiles", "publications"
   add_foreign_key "proofs", "working_articles"
+  add_foreign_key "qrcodes", "web_pages"
   add_foreign_key "reporter_graphics", "users"
   add_foreign_key "reporter_images", "users"
   add_foreign_key "spread_ad_boxes", "spreads"
@@ -1105,6 +1147,8 @@ ActiveRecord::Schema.define(version: 2020_09_16_235008) do
   add_foreign_key "stroke_styles", "publications"
   add_foreign_key "tables", "working_articles"
   add_foreign_key "text_styles", "publications"
+  add_foreign_key "videos", "web_pages"
+  add_foreign_key "web_pages", "issues"
   add_foreign_key "wire_stories", "issues"
   add_foreign_key "working_articles", "pillars"
 end

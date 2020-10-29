@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @video.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @video.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @video.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @video.height %>
+</p>
+
+<p>
+  <strong>Player type:</strong>
+  <%= @video.player_type %>
+</p>
+
+<p>
+  <strong>Source video url:</strong>
+  <%= @video.source_video_url %>
+</p>
+
+<p>
+  <strong>Web page:</strong>
+  <%= @video.web_page_id %>
+</p>
+
+<%= link_to 'Edit', edit_video_path(@video) %> |
+<%= link_to 'Back', videos_path %>

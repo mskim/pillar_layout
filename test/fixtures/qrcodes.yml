@@ -1,0 +1,44 @@
+# == Schema Information
+#
+# Table name: qrcodes
+#
+#  id          :bigint           not null, primary key
+#  height      :decimal(, )
+#  qr_text     :string
+#  qrcode_file :string
+#  qrcode_type :string
+#  width       :decimal(, )
+#  x           :decimal(, )
+#  y           :decimal(, )
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  web_page_id :bigint           not null
+#
+# Indexes
+#
+#  index_qrcodes_on_web_page_id  (web_page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (web_page_id => web_pages.id)
+#
+
+one:
+  x: 9.99
+  'y': 9.99
+  width: 9.99
+  height: 9.99
+  qr_text: MyString
+  qrcode_file: MyString
+  qrcode_type: MyString
+  web_page: one
+
+two:
+  x: 9.99
+  'y': 9.99
+  width: 9.99
+  height: 9.99
+  qr_text: MyString
+  qrcode_file: MyString
+  qrcode_type: MyString
+  web_page: two

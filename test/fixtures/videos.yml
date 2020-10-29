@@ -1,0 +1,41 @@
+# == Schema Information
+#
+# Table name: videos
+#
+#  id               :bigint           not null, primary key
+#  height           :decimal(, )
+#  player_type      :string
+#  source_video_url :string
+#  width            :decimal(, )
+#  x                :decimal(, )
+#  y                :decimal(, )
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  web_page_id      :bigint           not null
+#
+# Indexes
+#
+#  index_videos_on_web_page_id  (web_page_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (web_page_id => web_pages.id)
+#
+
+one:
+  x: 9.99
+  'y': 9.99
+  width: 9.99
+  height: 9.99
+  player_type: MyString
+  source_video_url: MyString
+  web_page: one
+
+two:
+  x: 9.99
+  'y': 9.99
+  width: 9.99
+  height: 9.99
+  player_type: MyString
+  source_video_url: MyString
+  web_page: two
