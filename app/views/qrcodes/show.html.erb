@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @qrcode.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @qrcode.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @qrcode.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @qrcode.height %>
+</p>
+
+<p>
+  <strong>Qr text:</strong>
+  <%= @qrcode.qr_text %>
+</p>
+
+<p>
+  <strong>Qrcode file:</strong>
+  <%= @qrcode.qrcode_file %>
+</p>
+
+<p>
+  <strong>Qrcode type:</strong>
+  <%= @qrcode.qrcode_type %>
+</p>
+
+<p>
+  <strong>Web page:</strong>
+  <%= @qrcode.web_page_id %>
+</p>
+
+<%= link_to 'Edit', edit_qrcode_path(@qrcode) %> |
+<%= link_to 'Back', qrcodes_path %>

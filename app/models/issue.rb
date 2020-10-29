@@ -77,6 +77,10 @@ class Issue < ApplicationRecord
     publication_path + "/issue/#{date}"
   end
 
+  def page_with_page_number(page_number)
+    pages.select{|p| p.page_number == page_number}.first
+  end
+
   def relative_path
     "#{publication_id}/issue/#{date}"
   end

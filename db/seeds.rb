@@ -160,25 +160,25 @@ csv.each do |row|
   User.create!(h) unless User.where(email: h[:email]).first
 end
 
-opinion_writer_csv_path = "#{Rails.root}/public/1/opinion/data.csv"
-csv_text = File.read(opinion_writer_csv_path)
-csv = CSV.parse(csv_text, :headers => true)
-csv.each do |row|
-  h = row.to_hash
-  h = Hash[h.map{ |key, value| [key.to_sym, value] }]
-  h[:publication_id] = 1
-  OpinionWriter.where(h).first_or_create
-end
+# opinion_writer_csv_path = "#{Rails.root}/public/1/opinion/data.csv"
+# csv_text = File.read(opinion_writer_csv_path)
+# csv = CSV.parse(csv_text, :headers => true)
+# csv.each do |row|
+#   h = row.to_hash
+#   h = Hash[h.map{ |key, value| [key.to_sym, value] }]
+#   h[:publication_id] = 1
+#   OpinionWriter.where(h).first_or_create
+# end
 
-profile_csv_path = "#{Rails.root}/public/1/profile/data.csv"
-csv_text = File.read(profile_csv_path)
-csv = CSV.parse(csv_text, :headers => true)
-csv.each do |row|
-  h = row.to_hash
-  h = Hash[h.map{ |key, value| [key.to_sym, value] }]
-  h[:publication_id] = 1
-  Profile.where(h).first_or_create
-end
+# profile_csv_path = "#{Rails.root}/public/1/profile/data.csv"
+# csv_text = File.read(profile_csv_path)
+# csv = CSV.parse(csv_text, :headers => true)
+# csv.each do |row|
+#   h = row.to_hash
+#   h = Hash[h.map{ |key, value| [key.to_sym, value] }]
+#   h[:publication_id] = 1
+#   Profile.where(h).first_or_create
+# end
 
 
 SECTIONS = [
@@ -275,15 +275,15 @@ User.all.each do |user|
   end
 end
 
-combo_ad_csv_path = "#{Rails.root}/public/1/combo_ad/combo_ad.csv"
-csv_text          = File.read(combo_ad_csv_path)
-csv               = CSV.parse(csv_text)
-keys              = csv.shift
-keys.map!{|e| e.to_sym}
-csv.each do |row|
-  row_h = Hash[keys.zip row]
-  ca    = ComboAd.where(row_h).first_or_create!
-end
+# combo_ad_csv_path = "#{Rails.root}/public/1/combo_ad/combo_ad.csv"
+# csv_text          = File.read(combo_ad_csv_path)
+# csv               = CSV.parse(csv_text)
+# keys              = csv.shift
+# keys.map!{|e| e.to_sym}
+# csv.each do |row|
+#   row_h = Hash[keys.zip row]
+#   ca    = ComboAd.where(row_h).first_or_create!
+# end
 
 # load sample YTN articles and images
 # YNewsML.load_ytn_sample

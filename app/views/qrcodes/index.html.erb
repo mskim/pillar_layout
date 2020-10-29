@@ -1,0 +1,22 @@
+<h1>Qrcodes</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-qrcodes" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="x">X</th>
+      <th data-data="y">Y</th>
+      <th data-data="width">Width</th>
+      <th data-data="height">Height</th>
+      <th data-data="qr_text">Qr text</th>
+      <th data-data="qrcode_file">Qrcode file</th>
+      <th data-data="qrcode_type">Qrcode type</th>
+      <th data-data="web_page">Web page</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Qrcode', new_qrcode_path %>
