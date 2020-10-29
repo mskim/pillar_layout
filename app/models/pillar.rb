@@ -650,6 +650,6 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp(adjustable_height: true)
     end
     bottom_article.update_pushed_line
-    page.generate_pdf_with_time_stamp unless options[:generate_page]
+    page_ref.generate_pdf_with_time_stamp unless options[:generate_page]
   end
 end

@@ -1062,7 +1062,7 @@ class Page < ApplicationRecord
     pillars.each do |p|
       p.auto_adjust_height_all(generate_page:false)
     end
-    page.generate_pdf_with_time_stamp
+    generate_pdf_with_time_stamp
   end
 
   private
