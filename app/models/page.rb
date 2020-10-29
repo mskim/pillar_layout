@@ -1058,6 +1058,13 @@ class Page < ApplicationRecord
     end
   end
 
+  def auto_adjust_all_pillars
+    pillars.each do |p|
+      p.auto_adjust_height_all(generate_page:false)
+    end
+    page.generate_pdf_with_time_stamp
+  end
+
   private
 
   def init_page

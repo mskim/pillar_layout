@@ -19,3 +19,7 @@
 <% else %>
   <%= link_to "세로선 생성", set_divider_to_draw_page_path, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-success" %>
 <% end %>
+<br/>
+<br/>
+
+<%= link_to "기사 자동 행 조절", auto_adjust_all_pillars_page_path, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-danger" %>

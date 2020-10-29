@@ -376,5 +376,15 @@ body text goes here.
     x,y,width,height, integer
     comment:text
     color
-    shape: #rect, check, circle, delete_mark, underline
+    shape: #rect, check, circle, delete_mark, underline, 
+
+## static_video
+
+## static_qrcode
+
+## static_toc
+title
+toc_text:text
+position:interger # 1..9
+
 

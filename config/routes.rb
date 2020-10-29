@@ -339,8 +339,10 @@ Rails.application.routes.draw do
       get 'save_mobile_preview_xml'
       get 'send_mobile_preview_xml'
       get 'merge_container_xml'
-      get 'generate_web_articles'
-      get 'todays_web_articles'
+      get 'build_static_site'
+      get 'edit_static_pages'
+      get 'preview_static'
+      get 'download_static'
     end
 
     collection do
@@ -365,7 +367,7 @@ Rails.application.routes.draw do
       get 'set_divider_to_draw'
       get 'set_divider_not_to_draw'
       get 'show_html'
-
+      get 'auto_adjust_all_pillars'
     end
   end
 

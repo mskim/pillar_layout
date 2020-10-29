@@ -53,8 +53,16 @@
   - do english hyphenation
   - implement proof reading
 
+2020_10_29
+  - auto_adjust_height
+  - auto_adjust_height_all
+  - auto_adjust_height_for_all_pillars in Page
+
+  - working_article set minimun height to one row
+
 2020_10_17
   - add article wwap
+
 2020_10_16
   - 자동행조절시 adjust bottom working_article extended_line_count
 
