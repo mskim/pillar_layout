@@ -16,33 +16,6 @@ class PagesController < ApplicationController
   def show
     @working_articles = @page.pillars.map{|p| p.working_articles}.flatten
     @ad_boxes         = @page.ad_boxes
-    @page_templates   = Section.where(ad_type:@page.ad_type, page_number: @page.page_number).order(:column, :story_count).reverse_order
-    unless @page_templates.count > 0
-      if @page.page_number != 1
-        if @page.page_number == 22 || @page.page_number == 23
-          # do not add any
-        elsif @page.page_number.even?
-          section_template = Section.where("section_name like ?", "%#{@page.section_name}%").select{|s| s.ad_type == @page.ad_type && @page.page_number.even?}
-          # section_template  = Section.where(ad_type:@page.ad_type, section_name: @page.section_name, page_number: 100)
-          if section_template.length > 0
-            @page_templates   += section_template
-          else
-            @page_templates   += Section.where(ad_type:@page.ad_type, page_number: 100) 
-          end
-        else
-          @page_templates   = Section.where(ad_type:@page.ad_type).order(:column, :story_count).reverse_order
-          unless @page_templates.count > 0
-            section_template = Section.where("section_name like ?", "%#{@page.section_name}%").select{|s| s.ad_type == @page.ad_type && @page.page_number.odd?}
-            # section_template  = Section.where(ad_type:@page.ad_type, section_name: @page.section_name, page_number: 101)
-            if section_template.length > 0
-              @page_templates   += section_template
-            else
-              @page_templates   += Section.where(ad_type:@page.ad_type, page_number: 100) 
-            end
-          end
-        end
-      end
-    end
   end
 
   # GET /pages/new
@@ -179,6 +152,10 @@ class PagesController < ApplicationController
     set_page
     @page.set_divider_not_to_draw
     redirect_to @page, notice: "현 페이지에서 세로선을 성공적으로 지웠습니다."
+  end
+
+  def show_html
+    set_page
   end
 
   private

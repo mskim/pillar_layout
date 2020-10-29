@@ -25,6 +25,7 @@ class MemberImagesController < ApplicationController
   # POST /member_images.json
   def create
     @member_image = MemberImage.new(member_image_params)
+    @member_image.working_article_id = WorkingArticle.find(params[:working_article_id])
 
     respond_to do |format|
       if @member_image.save

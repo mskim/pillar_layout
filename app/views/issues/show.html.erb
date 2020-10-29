@@ -19,6 +19,8 @@
 <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
 <nav class="navbar navbar-light bg-light fixed-bottom border-top">
   <div class="btn-group" role="group" aria-label="전송">
+    <%= link_to "웹페이지 보기", show_html_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
+    <%= link_to "웹페이지 생성", save_html_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "데스크탑용 기사 xml 생성", save_story_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "데스크탑용 지면보기 xml 생성", save_preview_xml_issue_path, method: :get, class: "btn btn-secondary btn-sm" %>
     <%= link_to "데스크탑용 xml 전송", send_xml_to_ebiz_issue_path, method: :get, data: { confirm: '정말 보내시겠습니까?'}, class: "btn btn-secondary btn-sm" %>

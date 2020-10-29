@@ -39,10 +39,6 @@ class Pillar < ApplicationRecord
     (row - working_articles.length)*7
   end
 
-  def bottom_article
-    working_articles.last
-  end
-
   def available_bottom_space
     if working_articles.length > 1
       room = (working_articles.last.row - 1)*7
@@ -61,9 +57,11 @@ class Pillar < ApplicationRecord
     layout_node.update_layout_with_pillar_path
     new_layout = layout_node.layout_with_pillar_path.dup
     working_articles.each_with_index do |w, i|
-      box_rect      = new_layout[i].dup
-      box_rect[4]   = w.pillar_order
-      w.change_article(box_rect)
+      if new_layout[i]
+        box_rect      = new_layout[i]
+        box_rect[4]   = w.pillar_order
+        w.change_article(box_rect)
+      end
     end
     working_articles_count = working_articles.length
     box_rect = new_layout.last
@@ -84,12 +82,13 @@ class Pillar < ApplicationRecord
     new_layout = layout_node.layout_with_pillar_path.dup
     working_articles.reload
     working_articles.each_with_index do |w, i|
-      box_rect      = new_layout[i].dup
-      p_order       = box_rect[4]
-      new_order       = "#{order}_#{p_order}"
-      # box_rect[4]   = w.pillar_order.split("_")[0..-2].join("_")
-      box_rect[4]= new_order
-      w.change_article(box_rect)
+      if new_layout[i]
+        box_rect      = new_layout[i]
+        p_order       = box_rect[4]
+        new_order       = "#{order}_#{p_order}"
+        box_rect[4]= new_order
+        w.change_article(box_rect)
+      end
     end
     page_ref.generate_pdf_with_time_stamp
   end
@@ -103,11 +102,12 @@ class Pillar < ApplicationRecord
     working_articles.select{|a| a.pillar_order > article.pillar_order}
   end
 
-  # retrun bottom siblling of given article
-  def bottom_article_of_sibllings(article)
-    article_siblings = pillar_siblings_of(article)
-    article_siblings.last
+  def bottom_article
+    w = working_articles.last
+    return w.parent if w.parent
+    w
   end
+
 
   def max_grid_x
     grid_x + column
@@ -115,11 +115,6 @@ class Pillar < ApplicationRecord
 
   def max_grid_y
     grid_y + row
-  end
-
-  # check if given article is  bottom of sibllings
-  def bottom_article_of_sibllings?(article)
-    article == bottom_article_of_sibllings(article)
   end
 
   def extened_line_sum
@@ -282,6 +277,7 @@ class Pillar < ApplicationRecord
   end
 
   def to_svg_with_jpg
+
     svg = <<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
         <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
@@ -292,11 +288,18 @@ class Pillar < ApplicationRecord
   end
 
   def box_svg_with_jpg
-    # +++++ using pdf image for now
-    # box_element_svg = pillar_svg_with_pdf
     box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
     working_articles.each do |article|
       box_element_svg += article.box_svg
+    end
+    box_element_svg += '</g>'
+    box_element_svg
+  end
+
+  def box_svg_html_with_jpg
+    box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
+    working_articles.each do |article|
+      box_element_svg += article.box_svg_html
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -353,10 +356,12 @@ class Pillar < ApplicationRecord
     if removing_articles == 0
       # current and new pillar size are equal
       working_articles.each_with_index do |w, i|
-        box_rect     = new_layout[i]
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
+        if new_layout[i]
+          box_rect     = new_layout[i]
+          pillar_order = "#{order}_#{i+1}"
+          box_rect[4]  = pillar_order
+          w.change_article(box_rect)
+        end
       end
     elsif removing_articles > 0 # current box is greater than new_layout
       ordered_working_articles  = working_articles
@@ -377,17 +382,21 @@ class Pillar < ApplicationRecord
     elsif removing_articles < 0 # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
       working_articles.each_with_index do |w, i|
-        box_rect = new_layout[i].dup
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
-        w.change_article(box_rect)
+        if new_layout[i]
+          box_rect = new_layout[i]
+          pillar_order = "#{order}_#{i+1}"
+          box_rect[4]  = pillar_order
+          w.change_article(box_rect)
+        end
       end
       working_articles_count = working_articles.length
       # add working_articles to pillar
       (-removing_articles).times do |i|
         box_rect = new_layout[working_articles_count + i]
-        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
-        w = WorkingArticle.where(h).first_or_create
+        if box_rect
+          h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+          w = WorkingArticle.where(h).first_or_create
+        end
       end
 
     end
@@ -591,6 +600,14 @@ class Pillar < ApplicationRecord
     end
   end
 
+  def delete_working_articles
+    working_articles.all.each do |w|
+        w.delete_folder
+        w.delete_attached_floats
+        w.destroy
+    end
+  end
+
   # remove drop and its children
   def remove_drop
     return unless has_drop_article?
@@ -607,5 +624,19 @@ class Pillar < ApplicationRecord
     end
     page_ref.generate_pdf_with_time_stamp
   end
+  
+  def article_map
+    working_articles.sort_by{|w| w.pillar_order}.map do |w|
+      w.layout_map
+    end
+  end
 
+  def layout_map
+    h = {}
+    h[:order] = order
+    h[:pillar_rect] = [x,y,width,height]
+    h[:pillar_grid_rect] = [grid_x, grid_y, column, row]
+    h[:article_map] = article_map
+    h
+  end
 end

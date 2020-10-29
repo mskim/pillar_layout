@@ -1,6 +1,40 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :table_styles
+  resources :tables
+  resources :annotation_comments do
+    member do
+      get :toggle_selected
+    end
+  end
+  resources :annotations do
+    member do
+      get :add_comment
+      get :selecte_all
+      get :de_selecte_all
+      get :goto_previous
+      get :goto_next
+      get :move_left
+      get :move_left_small_step
+      get :move_right
+      get :move_right_small_step
+      get :move_up
+      get :move_up_small_step
+      get :move_down
+      get :move_down_small_step
+
+      get :grow_left
+      get :grow_left_small_step
+      get :grow_right
+      get :grow_right_small_step
+      get :grow_up
+      get :grow_up_small_step
+      get :grow_down
+      get :grow_down_small_step
+
+    end    
+  end
   resources :spread_ad_boxes
   resources :member_images
   resources :group_images do
@@ -147,7 +181,6 @@ Rails.application.routes.draw do
       get 'today'
     end
   end
-  resources :ad_box_templates
   resources :page_plans do
     member do
       get 'select_template'
@@ -251,6 +284,9 @@ Rails.application.routes.draw do
       get 'copy_to_current_issue'
       get 'add_default_drop'
       get 'split_drop'
+      get 'fillup_text'
+      get 'new_annotation'
+      get 'show_html'
     end
   end
 
@@ -293,7 +329,8 @@ Rails.application.routes.draw do
       get 'seventh_group_stories'
       get 'eighth_group_stories'
       get 'nineth_group_stories'
-
+      get 'show_html'
+      get 'save_html'
       get 'save_story_xml'
       get 'download_story_xml'
       get 'save_preview_xml'
@@ -327,6 +364,7 @@ Rails.application.routes.draw do
       patch 'change_page_layout'
       get 'set_divider_to_draw'
       get 'set_divider_not_to_draw'
+      get 'show_html'
 
     end
   end

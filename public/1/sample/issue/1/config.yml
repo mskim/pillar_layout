@@ -1,0 +1,81 @@
+---
+:section_name: 1면
+:section_path: "/Users/mskim/Development/pillar_layout/public/1/issue/2017-05-30/1"
+:page_heading_margin_in_lines: 3
+:heading_space: 41.70978627671484
+:ad_type: 5단통
+:ad_box_rect:
+- 0.0
+- 973.2283464566796
+- 1028.9763779527418
+- 486.6141732283398
+:is_front_page: true
+:page_columns: 7
+:grid_size:
+- 146.99662542182026
+- 97.32283464566795
+:lines_per_grid: 7.0
+:width: 1114.0157480314808
+:height: 1544.8818897637584
+:left_margin: 42.5196850393695
+:top_margin: 42.5196850393695
+:right_margin: 42.5196850393695
+:bottom_margin: 42.5196850393695
+:gutter: 12.755905511810848
+:article_line_thickness: 0.3
+:draw_divider:
+:pillar_map:
+- :order: 1
+  :pillar_rect:
+  - 42.5196850393695
+  - 139.84251968503744
+  - 734.9831271091012
+  - 834.1957255342968
+  :pillar_grid_rect:
+  - 0
+  - 1
+  - 5
+  - 9
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 734.9831271091012
+    - 444.90438695162493
+    :pdf_path: "/1/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 486.6141732283398
+    - 734.9831271091012
+    - 389.2913385826718
+    :pdf_path: "/1/2/story.pdf"
+- :order: 2
+  :pillar_rect:
+  - 777.5028121484708
+  - 139.84251968503744
+  - 293.9932508436405
+  - 834.1957255342968
+  :pillar_grid_rect:
+  - 5
+  - 1
+  - 2
+  - 9
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 293.9932508436405
+    - 250.258717660289
+    :pdf_path: "/2/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 291.96850393700385
+    - 293.9932508436405
+    - 291.96850393700385
+    :pdf_path: "/2/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 583.9370078740077
+    - 293.9932508436405
+    - 291.96850393700385
+    :pdf_path: "/2/3/story.pdf"

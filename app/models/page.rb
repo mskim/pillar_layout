@@ -14,6 +14,7 @@
 #  date                         :date
 #  display_name                 :string
 #  draw_divider                 :boolean
+#  edition                      :string           default("A")
 #  grid_height                  :float
 #  grid_width                   :float
 #  gutter                       :float
@@ -66,7 +67,6 @@ class Page < ApplicationRecord
   # has_many
   has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
   has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
-
   has_many :ad_boxes
 
   # scope
@@ -75,9 +75,7 @@ class Page < ApplicationRecord
   serialize :layout, Array
   serialize :layout_with_pillar_path, Array
   attr_reader :time_stamp
-  include PageSplitable
   include PagePrintable
-  include PageSavePdf
   include PageSaveXml
   include StorageBackupPage
   include Pdf2jpg
@@ -158,7 +156,7 @@ class Page < ApplicationRecord
   end
 
   def jpg_path
-    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/section.jpg"
+    "#{Rails.root}/public/#{publication_id}/issue/#{date}/#{page_number}/#{latest_jpg_basename}"
   end
 
   def to_hash
@@ -377,63 +375,66 @@ class Page < ApplicationRecord
     # code
   end
 
-  def config_path
-    path + '/config.yml'
+  def pillar_map
+    pillars.map do |p|
+      p.layout_map
+    end
+  end
+
+  def ad_box_rect
+    return nil if ad_boxes.length == 0
+    ad_boxes.first.ad_box_rect
   end
 
   def config_hash
     h = {}
-    h['section_name']                   = section_name
-    h['page_heading_margin_in_lines']   = page_heading_margin_in_lines
-    h['ad_type']                        = ad_type || 'no_ad'
-    h['is_front_page']                  = is_front_page?
-    # h['profile']                        = profile
-    # h['section_id']                     = id
-    h['page_columns']                   = column
-    h['grid_size']                      = [grid_width, grid_height]
-    h['lines_per_grid']                 = lines_per_grid
-    h['width']                          = width
-    h['height']                         = height
-    h['left_margin']                    = left_margin
-    h['top_margin']                     = top_margin
-    h['right_margin']                   = right_margin
-    h['bottom_margin']                  = bottom_margin
-    h['gutter']                         = gutter
-    h['story_frames']                   = layout
-    h['article_line_thickness']         = article_line_thickness
-    h['draw_divider'] = true if page_number != 22 || page_number != 23
+    h[:section_name]                   = section_name
+    h[:section_path]                   = path
+    h[:page_heading_margin_in_lines]   = page_heading_margin_in_lines
+    h[:heading_space]                  = heading_space
+    h[:ad_type]                        = ad_type || 'no_ad'
+    h[:ad_box_rect]                    = ad_box_rect
+    h[:is_front_page]                  = is_front_page?
+    h[:page_columns]                   = column
+    h[:grid_size]                      = [grid_width, grid_height]
+    h[:lines_per_grid]                 = lines_per_grid
+    h[:width]                          = width
+    h[:height]                         = height
+    h[:left_margin]                    = left_margin
+    h[:top_margin]                     = top_margin
+    h[:right_margin]                   = right_margin
+    h[:bottom_margin]                  = bottom_margin
+    h[:gutter]                         = gutter
+    h[:article_line_thickness]         = article_line_thickness
+    h[:draw_divider]                   = draw_divider
+    # h[:draw_divider]                   = true if page_number != 22 || page_number != 23
+    h[:ad_box_rect]                    = ad_box_rect
+    h[:pillar_map]                     = pillar_map
     h
-  end
-
-  def update_working_article_layout
-    layout = []
-    working_articles.each do |wa|
-      layout << wa.layout_info
-    end
-    self.layout = layout.to_s
-    save
-  end
-
-  def set_divider_to_draw
-    update(draw_divider: true)
-    generate_pdf_with_time_stamp
-  end
-
-  def set_divider_not_to_draw
-    update(draw_divider: false)
-    generate_pdf_with_time_stamp
-  end
-
-  def update_config_file
-    h = config_hash
-    h['layout'] = update_working_article_layout
-    yaml = h.to_yaml
-    File.open(config_yml_path, 'w') { |f| f.write yaml }
   end
 
   def config_yml_path
     path + '/config.yml'
   end
+
+  def save_config_file
+    h = config_hash
+    yaml = h.to_yaml
+    File.open(config_yml_path, 'w') { |f| f.write yaml }
+  end
+
+  def set_divider_to_draw
+    update(draw_divider: true)
+    save_config_file
+    generate_pdf_with_time_stamp
+  end
+
+  def set_divider_not_to_draw
+    update(draw_divider: false)
+    save_config_file
+    generate_pdf_with_time_stamp
+  end
+
 
   def set_draw_divider(_status)
     new_config_yaml = con
@@ -601,25 +602,29 @@ class Page < ApplicationRecord
     section_jpg = path + "section.jpg"
     stamped_pdf = path + "/section_#{@time_stamp}.pdf"
     stamped_jpg = path + "/section_#{@time_stamp}.jpg"
-    FileUtils_cp(section_pdf, stamped_pdf)
-    FileUtils_cp(section_jpg, stamped_jpg)
+    FileUtils.cp(section_pdf, stamped_pdf)
+    FileUtils.cp(section_jpg, stamped_jpg)
   end
 
   def generate_pdf_with_time_stamp
     delete_old_files
     stamp_time
-    if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_page_pdf(time_stamp: @time_stamp, jpg: true)
-    else # 'rubymotion'
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
-    end
+    # if NEWS_LAYOUT_ENGINE == 'ruby'
+    #   # save_page_pdf(time_stamp: @time_stamp, jpg: true)
+      
+    # else # 'rubymotion'
+    #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
+    # end
+    # save_page_pdf(time_stamp: @time_stamp, jpg: true)
+    # save_page_pdf_new(time_stamp: @time_stamp, jpg: true)
+    RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
   end
 
-  def generate_pdf
-    puts 'generate_pdf for page'
-    # PageWorker.perform_async(path, nil)
-    save_pdf
-  end
+  # def generate_pdf
+  #   puts 'generate_pdf for page'
+  #   # PageWorker.perform_async(path, nil)
+  #   save_pdf
+  # end
 
   def regenerate_pdf
     generate_heading_pdf
@@ -694,15 +699,6 @@ class Page < ApplicationRecord
     EOF
   end
 
-  def to_svg_test
-    svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
-        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
-        #{page_svg_with_jpg}
-      </svg>
-    EOF
-  end
-
   def page_svg_with_jpg
     # "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
     "<image xlink:href='#{jpg_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
@@ -712,9 +708,6 @@ class Page < ApplicationRecord
     box_element_svg = page_svg_with_jpg
     box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
     box_element_svg += page_heading.box_svg if page_number == 1
-    # working_articles.each do |article|
-    #   box_element_svg += article.box_svg
-    # end
     pillars.each do |pillar|
       box_element_svg += pillar.box_svg_with_jpg
     end
@@ -724,6 +717,30 @@ class Page < ApplicationRecord
     box_element_svg += '</g>'
     box_element_svg
   end
+
+  def to_svg_html_with_jpg
+    svg = <<~EOF
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
+        <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
+        #{box_svg_html_with_jpg}
+      </svg>
+    EOF
+  end
+
+  def box_svg_html_with_jpg
+    box_element_svg = page_svg_with_jpg
+    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
+    box_element_svg += page_heading.box_svg if page_number == 1
+    pillars.each do |pillar|
+      box_element_svg += pillar.box_svg_html_with_jpg
+    end
+    # ad_boxes.each do |ad_box|
+    #   box_element_svg += ad_box.box_svg
+    # end
+    box_element_svg += '</g>'
+    box_element_svg
+  end
+
 
   def svg_path
     path + '/page.svg'
@@ -818,7 +835,8 @@ class Page < ApplicationRecord
     create_heading
     create_pillars
     copy_ready_made_from_sample
-    generate_pdf unless File.exist?(pdf_path)
+    save_config_file
+    generate_pdf_with_time_stamp unless File.exist?(pdf_path)
   end
 
   def create_pillars
@@ -882,6 +900,8 @@ class Page < ApplicationRecord
       delete_count.times do
         p = pillars.last
         p.delete_folder
+        # delete all working_articles in pillar
+        p.delete_working_articles
         p.destroy
         pillars.reload
       end
@@ -915,6 +935,7 @@ class Page < ApplicationRecord
       # create new ad_box,
       create_ad_box
     end
+    save_config_file
     generate_pdf_with_time_stamp
   end
 
@@ -1017,6 +1038,24 @@ class Page < ApplicationRecord
       positions += p.working_articles.map(&:pillar_order)
     end
     positions
+  end
+
+  def html_page_image_path
+    issue.html_path + "/images/page_#{page_number}.jpg"
+  end
+
+  def save_html_image
+    # save page jpg image to html foler with page_1.jpg, page_2.jpg, page_3.jpg ....
+    FileUtils.cp(jpg_path, html_page_image_path)
+    working_articles.each do |w|
+      w.save_html_image
+    end
+  end
+
+  def save_html
+    working_articles.each do |w|
+      w.save_html
+    end
   end
 
   private

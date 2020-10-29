@@ -316,6 +316,16 @@ class IssuesController < ApplicationController
     session[:current_story_group] = 'nineth_group'
   end
 
+  def show_html
+    set_issue
+  end
+
+  def save_html
+    set_issue
+    @issue.save_html
+    redirect_to issue_path(@issue), notice: 'html 파일이 생성 되었습니다.'
+  end
+
   def save_story_xml
     set_issue
     if File.exist?(@issue.xml_zip_path)

@@ -1,0 +1,81 @@
+---
+:section_name: 정책
+:section_path: "/Users/mskim/Development/pillar_layout/public/1/issue/2017-05-30/17"
+:page_heading_margin_in_lines: 3
+:heading_space: 41.70978627671484
+:ad_type: 5단통
+:ad_box_rect:
+- 0.0
+- 973.2283464566796
+- 1028.9763779527418
+- 486.6141732283398
+:is_front_page: false
+:page_columns: 6
+:grid_size:
+- 171.49606299212363
+- 97.32283464566795
+:lines_per_grid: 7.0
+:width: 1114.0157480314808
+:height: 1544.8818897637584
+:left_margin: 42.5196850393695
+:top_margin: 42.5196850393695
+:right_margin: 42.5196850393695
+:bottom_margin: 42.5196850393695
+:gutter: 12.755905511810848
+:article_line_thickness: 0.3
+:draw_divider:
+:pillar_map:
+- :order: 1
+  :pillar_rect:
+  - 42.5196850393695
+  - 42.5196850393695
+  - 514.4881889763709
+  - 931.5185601799648
+  :pillar_grid_rect:
+  - 0
+  - 0
+  - 3
+  - 10
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 514.4881889763709
+    - 444.90438695162493
+    :pdf_path: "/1/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 486.6141732283398
+    - 514.4881889763709
+    - 486.6141732283398
+    :pdf_path: "/1/2/story.pdf"
+- :order: 2
+  :pillar_rect:
+  - 557.0078740157404
+  - 42.5196850393695
+  - 514.4881889763709
+  - 931.5185601799648
+  :pillar_grid_rect:
+  - 3
+  - 0
+  - 3
+  - 10
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 41.70978627671484
+    - 514.4881889763709
+    - 347.58155230595696
+    :pdf_path: "/2/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 389.2913385826718
+    - 514.4881889763709
+    - 291.96850393700385
+    :pdf_path: "/2/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 681.2598425196757
+    - 514.4881889763709
+    - 291.96850393700385
+    :pdf_path: "/2/3/story.pdf"

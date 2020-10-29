@@ -57,13 +57,13 @@
       sub_opt[:update_config_file]  = false
       syb.autofit_by_relayout(sub_opt)
     end
-    page.update_config_file
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 
   def move_to(y_amount, options={})
     self.y_in_lines += y_amount 
-    page.update_config_file if options[:update_config_file]
+    page.save_config_file if options[:update_config_file]
   end
 
   def move_sibllings_to(position, options={})
@@ -74,12 +74,12 @@
       position += sibling.height_in_lines
     end
     layout_last_sibliing(sibs)
-    page.update_config_file if options[:update_config_file]
+    page.save_config_file if options[:update_config_file]
   end
 
   def move_by(y_amount)
     self.y_in_lines += y_amount 
-    page.update_config_file if options[:update_config_file]
+    page.save_config_file if options[:update_config_file]
   end
 
   def move_sibllings_by(y_amount, options={})
@@ -88,7 +88,7 @@
       sibling.move_by(y_amount, update_config_file: false)
     end
     layout_last_sibliing(sibs)
-    page.update_config_file if options[:update_config_file]
+    page.save_config_file if options[:update_config_file]
   end
 
   def layout_last_sibliing(sibs)
@@ -133,7 +133,7 @@
       sub_opt[:update_config_file]  = false
       syb.autofit_by_height(sub_opt)
     end
-    page.update_config_file
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 

@@ -208,13 +208,18 @@ module WorkingArticleAttachment
     create_overlap(position, overlap_column, overlap_row)
   end
 
+  def add_overlap_one_by_two
+    position = 9
+    overlap_column    = 1
+    overlap_row       = 2
+    position          = '우'
+    create_overlap(position, overlap_column, overlap_row)
+  end
+
   def add_overlap
-    add_overlap_one_by_one
-    # position = 9
-    # overlap_column    = column/2
-    # overlap_row       = row/2
-    # position          = '우'
-    # create_overlap(position, overlap_column, overlap_row)
+    # add_overlap_one_by_one
+    add_overlap_one_by_two
+    
   end
 
   def create_overlap(child_position, child_column, child_row)

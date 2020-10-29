@@ -24,6 +24,7 @@
 
 # /public/1/section/*
 /public/1/issue/*
+/public/uploads/*
 coverage
 /public/1/.DS_Store
 
@@ -36,7 +37,11 @@ coverage
 
 /public/packs
 /public/packs-test
+<<<<<<< HEAD
 /node_modules
+=======
+node_modules
+>>>>>>> upstream/master
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity

@@ -1,4 +1,3 @@
-# TODO
 
 - make demo video
 - make user manual
@@ -51,11 +50,268 @@
     - use TablePlus for taking data from 213 to apply to 177
 
   - send pdf news to subscribers
+  - do english hyphenation
+  - implement proof reading
 
+2020_10_17
+  - add article wwap
+2020_10_16
+  - 자동행조절시 adjust bottom working_article extended_line_count
+
+2020_10_13
+  - download zipped issue with remote origin
+    - update config_file
+    - or push to github
+  - rakefile 
+    section.pdf => story.pdf
+
+2020_10_10
+  - NewsPage
+    - fix page drawing twice
+    - read heigth from article_info 
+      - save :attached_type in layout_rb attached_type shuld be added to article_info 
+    - fix attachments drawing
+      - get attachemt's parent x,y
+
+      - fix overlap x,y
+
+    - pillar 기사 모두 자동행조절 추가
+        - update pillar bottom height after 자동행조절, 모두자동행조절
+
+    - draw vertical line with pillar info, rather than working_article into
+    - sort working_article by pillar_order
+
+
+2020_10_5
+  - 쪽기사 full_width
+  - 책소개 type 19면
+  - 외통 월요일 8면
+  - libary page
+  - 단 5 page
+
+2020_10_5
+  - save in article_info
+    - height
+    - attachment 
+        type 
+        side
+  - chnage folder_name
+    - overlap, divide, drop
+
+2020_9_29
+  - fix adjustable_height
+     Some lines not displaying, 
+     fix line status of not clearing from previous attempt
+  - fix generate pillar with ariticle pdf height
+     instead of extended_line_count. 
+     eliminate mismatch due to db update
+    fix pillar_config.yml add attached info
+      - overlap: {side:'r', parent:'2', column: 2, row:2, extened_line:0}
+      - divide: {side:'r', parent:'1', column: 2}
+      - drop: {side:'r', parent:'2', column: 2,  bottom:'3'}
+
+
+2020_9_24
+  - 177 1면 자동행조절후 찌그러짐 중간 부분 없어짐 수정
+  - 그림 욱여 넣기
+  - 1-1 에서 쪽기사 메뉴 없음
+  - 1-1 에서 나누기 메뉴 없음
+  - 홀수 페이지 에서  메뉴 없음
+
+  - heading_ad index limit to 10
+   
+2020_9_17
+  issue plan with variable pages
+
+  page edition is where pages can be
+    - add edition field in page
+    - add edition view page in issue views
+    - edition, A, B, C
+    - for printing to difference printer with diffent AD
+    - used for AD include copy of page
+    - show edition view if there is any page editions 
+
+  pillar_library is where pillar can be
+    name
+    paper_size, page_type, page_column, column, row, 
+    profile is updateed at before save
+    has_many :article_libraries
+
+    page_type: first, odd, even, editorial
+
+    strarting_column?
+
+    - create pillar_library model
+    - saved from current pillar
+
+  article_library is where pillar can be 
+    - create article_library model
+    - saved with current_pillar
+    - copied to current pillar
+    order, column, row, extended_line_count
+
+    belongs_to :pillar_library
+
+    has_many :images      # original should be copied to library
+    has_many :graphics    # original should be copied to library
+    has_one :group_image  # original should be copied to library
+    title
+    ...
+    ...
+
+
+2020_9_15
+  - page paste board 4 page
+  - 7-A, 7-B
+
+2020_9_6
+  - rename annotation to proof
+  - rename annotation_commnet to marker?
+  - add avatar to user
+  
+2020_9_3
+  - create static site
+  - use middleman or frontman
+https://blog.joshsoftware.com/2020/08/31/integrate-static-site-in-rails-application-using-middleman/
+
+2020_8_27
+  -  change group_image UI
+  - working_article 
+      has_one group_image
+  - store group_image once we layout member image
+      in working_article/images/group_image.pdf
+      do not layout group images every time we layout
+  - upload multiple images at once
+    left side and right side
+    left side: group attribures
+      columnm, row, extende_line_count, position
+      title, caption, source
+      upload new mutiple images 
+      allow addtional images after initial upload
+    right side member: image panel
+      list of images, similar ui to current images
+      change image order similar to current images
+      only allow changing image no new image 
+      title, caption, source for each member image
+
+
+
+
+2020_8_24
+  - fix page_heading generate_pdf
+  add '▸' small trianle at 25b8 in Kor...PM  
+
+  177 3050
+    manual make it clickable
+    next pre button on edit/show
+
+2020_8_20
+
+  - fillter "·"  >> filler 
+  ▸▸다음 면에 계속
+  for 다음기사로 연결
+문제 확인 shinmoon 에는 "·", "▸"  glype 가 존제 하는데
+고딕 서체에는 없어서 에러가 발생
+fix font add "·" at \u00b7
+for '▸' symbol use # 25b6 , instead of "25b8"?
+
+
+puts "·".ord # 183
+puts '▸'.ord # 9656 
+puts "▸".ord.to_s(16) # "25b8"? 25b6 ,
+Most Korean fonts seem to have copied from wrong example font
+they have all put is in the wrong place 25b6 instead of at 25b8
+
+puts "·".ord.to_s(16) # \u00b7
+
+2020_8_25
+  - working_article tabs: 
+    -font size and space make it uniform
+
+2020_8_14
+  - add time of operation in Publication
+    amd reject users from loging in at certain time.
+    - days of the month
+    - days of the week
+    - time of the week
+
+  - we can set it to use it for machine sharing 
+    for example two weekly publications can share the machine
+    if they can work on different days of the week.
+        One woking on         Mon - Wed
+        and the other on      Thu - Sat
+    or one can work 9-1PM, and other one 1-5
+
+
+2020_8_13
+  - add def toggle_selected!
+  - #### arrow font 
+  - divide draw lines room at the top
+  *   * 내용이 2줄 일 경우 고딕 본문 섞임 
+
+2020_8_12
+  - fill up working_article with sample text
+  - draw with different pillar colored
+      - pillar_color_array = [] 
+      - draw x mark on ad_box page_layout svg view
+
+  - generate html page
+    - site_of_the_day
+    - to_html for working_article
+
+  - newsgo.co.kr
+  - newsgo.cloud
+
+  - improve show_html.html.erb for working_article
+
+2020_8_11
+
+  - 23면 금요진단 말고 23 면 3번기사
+    기고, 
+
+2020_8_10
+  - slim the size make it readt for heroku
+    - move gem to lib
+    - move fonts to public/fonts
+    - remove scaffold section, article, ad_template, ad_box_template
+
+2020_8_7
+  - width_of_string using ruby pdf module 
+    - do english hyphenation
+    - create char_width_array only when hyphenating token
+
+2020_8_6
+  - fix 23 friday opinion
+    - fix quote box drawing
+
+2020_8_4
+  - chrome not clicking on 22
+
+  - obituary: make bold line and line as same height
+  - 177 1면 1_2 나누기 edge, 2_1 box should shift down by 1 line(fix top_margin, bottom_margin) 
+
+2020_8_3
+  - add acts_as_tenant gem
+  - add publication_id to user
+    current_publication = current_user.publication
+    issue.rb
+      acts_as_tenant(:publication)
+  - user csv file with filename as publication name
+
+2020_7_30
+  - do not allow attached_article to "자동 행조절", except "overlap"
+  - overlap 자동 행 조절
+
+2020_7_28
+  - 185 22 paragraph starting with B doesn't get parsed
+  - overlap left, right edge
+  - 이미지 order not working move top to bottom
+  - 177 23면 changing two to one
+  
 2020_7_27
   - fix publication generate sample pdf output
   - add order to image and graphic
-  
+
 2020_7_21
   - 213 22면 2 번기사 기본 세팅 경제시평
   - 177 제목/부제목 줄갈이 않됨
@@ -70,7 +326,6 @@
 
   - 177 기자명 우측 정렬 않됨
   - 177 재목 뒷 부분 짤림 (넘친표시 되어야)
-
 
 2020_7_10
   - fix drop
@@ -1540,7 +1795,7 @@ Did you mean?  token_string):
   - add status to page
   - add send story, and wire_image from wire_service to newsGo 
   - add recieive story to newsGo 
-  - add testing to StyleGuide
+  - add testing to Jubo
   
 2019-2-2
   - combo_ad_box

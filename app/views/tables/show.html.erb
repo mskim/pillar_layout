@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Column:</strong>
+  <%= @table.column %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @table.row %>
+</p>
+
+<p>
+  <strong>Extended line count:</strong>
+  <%= @table.extended_line_count %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @table.body %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @table.title %>
+</p>
+
+<p>
+  <strong>Source:</strong>
+  <%= @table.source %>
+</p>
+
+<p>
+  <strong>Working article:</strong>
+  <%= @table.working_article_id %>
+</p>
+
+<p>
+  <strong>Table style:</strong>
+  <%= @table.table_style_id %>
+</p>
+
+<%= link_to 'Edit', edit_table_path(@table) %> |
+<%= link_to 'Back', tables_path %>

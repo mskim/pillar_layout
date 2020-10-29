@@ -116,6 +116,7 @@
 # overlapping area only one is allow
 # we might have overlap or none or  overlap from page
 
+
 class WorkingArticle < ApplicationRecord
   # before & after
   before_create :init_article
@@ -127,14 +128,13 @@ class WorkingArticle < ApplicationRecord
   belongs_to :article, optional: true
 
   has_one :story
-  # has_one :group_image
   has_ancestry
   # has_many
   has_many :images, dependent: :delete_all
   has_many :graphics, dependent: :delete_all
   has_many :proofs
-  has_many :member_images
-
+  has_one :group_image
+  has_many :annotations
   # has_many :story_category
   # has_many :story_subcategory
 
@@ -151,6 +151,8 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleSavePdf
   include Pdf2jpg
   include WorkingArticleAttachment
+  include WorkingArticleAnnotate
+  include WorkingArticleSaveHtml
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
@@ -370,6 +372,7 @@ class WorkingArticle < ApplicationRecord
   def save_article
     make_article_path
     save_layout
+    # puts "id:#{id}"
     save_story unless kind == '사진'
   end
 
@@ -396,6 +399,22 @@ class WorkingArticle < ApplicationRecord
     system("rm -rf #{path}")
   end
 
+  
+  def delete_attached_floats
+  # has_many :images, dependent: :delete_all
+  # has_many :graphics, dependent: :delete_all
+  # has_many :group_images, dependent: :delete_all
+  # has_many :story_category
+  # has_many :story_subcategory
+  # has_one :story
+    images.all.each {|i| i.destroy}
+    graphics.all.each {|i| i.destroy}
+    group_image.destroy if group_image
+    story.destroy if story
+      
+  end
+
+
   def stamped_pdf_file
     path + "/story#{@time_stamp}.pdf"
   end
@@ -413,19 +432,20 @@ class WorkingArticle < ApplicationRecord
   end
 
   def generate_pdf_with_time_stamp(options = {})
+    unless File.exist?(path)
+      # prevent generating article pdf before page and article folder is created
+      puts "article folder is not created !!!"
+      return 
+    end
     puts "generate_pdf... #{path}"
     pdf_starting = Time.now
     delete_old_files
     stamp_time
-    if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
-    else
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{time_stamp}"
-    end
+    save_article_pdf(time_stamp: @time_stamp, adjustable_height: options[:adjustable_height])
     pdf_working_article_ending = Time.now
-    page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
+    # page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
-    puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
+    # puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end 
   alias gen_pdf generate_pdf_with_time_stamp
 
@@ -436,19 +456,26 @@ class WorkingArticle < ApplicationRecord
     save_hash[:story_md]          = story_md
     layout_string = layout_rb
     if options[:adjustable_height]
+      puts layout_string
       layout_string.sub!(':adjustable_height=>false,', ':adjustable_height=>true,')
+      puts layout_string
     end
     save_hash[:layout_rb]         = layout_string
     save_hash[:time_stamp]        = options[:time_stamp]
+
     new_extended_line_count       = 0
     #TODO RLayout::NewsBoxMaker.new(save_hash) should return article_info hash
     # from this we should get adjusted_line_count, overflow_text, overflow_line_count
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_extended_line_count       = new_box_marker.adjusted_line_count
-    if options[:adjustable_height] && new_extended_line_count != 0
+    
+    if options[:adjustable_height]
       self.extended_line_count    = new_extended_line_count
       self.height_in_lines        = calculate_height_in_lines
       self.save
+      if attached_type == 'overlap'
+        parent.update(overlap:overlap_rect)
+      end
     end
   end
 
@@ -500,7 +527,7 @@ class WorkingArticle < ApplicationRecord
   # expandable? for pillar
   def expandable?(line_count)
     expandable = false
-    bottom_syb = bottom_article_of_sibllings(self)
+    bottom_syb = pillar.bottom_article
     bottom_syb.pushable?(line_count)
   end
 
@@ -548,7 +575,7 @@ class WorkingArticle < ApplicationRecord
       children.first.generate_pdf_with_time_stamp
     end
     
-    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article = pillar.bottom_article
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
 
@@ -558,12 +585,10 @@ class WorkingArticle < ApplicationRecord
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
-    pillar.working_articles.each_with_index do |w, _i|
-      if pillar.bottom_article_of_sibllings?(w)
-        w.update_pushed_line
-      else
-        w.generate_pdf_with_time_stamp(adjustable_height: true)
-      end
+    pillar.working_articles.sort_by{|w| w.pillar_order}.each do |w|
+      next if w.pillar_bottom?
+      w.auto_adjust_height if w.attached_type == nil
+
     end
     page.generate_pdf_with_time_stamp
   end
@@ -571,8 +596,7 @@ class WorkingArticle < ApplicationRecord
   # sets extended_line_count as line_count
   def set_extend_line(line_count)
     return if line_count == extended_line_count
-    bottom_article = pillar.bottom_article_of_sibllings(self)
-    puts "++++++++ bottom_article.pillar_order:#{bottom_article.pillar_order}"
+    bottom_article = pillar.bottom_article
     unless bottom_article.pushable?(line_count)
       puts 'bottom sibling not pushable!!!'
       return
@@ -594,24 +618,36 @@ class WorkingArticle < ApplicationRecord
     puts "height_in_lines:#{height_in_lines}"
   end
 
+  def pushed_line_sum_for_bottom_article
+    extended_line_sum = 0
+    pillar.working_articles.each do |w|
+      next if w.attached_type
+      extended_line_sum += w.extended_line_count
+    end
+    extended_line_sum
+  end
+
   def update_pushed_line
+    update(pushed_line_count: pushed_line_sum_for_bottom_article)
     generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
   end
 
   # adds extended_line_count with new line_count
   def extend_line(line_count, _options = {})
-    # return unless sibs.first.pushable?(line_count)
     return if line_count == 0
-    bottom_article = bottom_article_of_sibllings(self)
+    bottom_article = pillar.bottom_article
     unless bottom_article.pushable?(line_count)
       puts 'bottom sibling not pushable!!!'
       return
     end
     self.extended_line_count += line_count
     self.save
+    if attached_type == 'overlap'
+      parent.update(overlap: overlap_rect)
+    end
     generate_pdf_with_time_stamp
-    if has_children?
+    if has_divide? || has_drop?
       children.first.update(extended_line_count: extended_line_count)
       children.first.generate_pdf_with_time_stamp
     end
@@ -633,12 +669,6 @@ class WorkingArticle < ApplicationRecord
 
   def page_bottomn_article?
     page.bottom_article?(self)
-  end
-
-  def bottom_article_of_sibllings(_article)
-    w = pillar.bottom_article_of_sibllings(self)
-    puts "w.id:#{w.id}"
-    w
   end
 
   def empty_lines_count
@@ -669,14 +699,17 @@ class WorkingArticle < ApplicationRecord
 
   def show_quote_box(quote_box_type)
     self.quote_box_show = true
-    self.quote_box_type = quote_box_type
     case quote_box_type
     when '일반' || 'reqular'
       self.quote_box_size = 4
+      self.quote_position = 5
+      self.quote_position = 4 if kind == '기고'
     when '기고2행' || 'opinion2'
       self.quote_box_size = 2
+      self.quote_position = 7
     when '기고3행' || 'opinion3'
       self.quote_box_size = 3
+      self.quote_position = 7
     end
     self.save
   end
@@ -929,15 +962,11 @@ class WorkingArticle < ApplicationRecord
     false
   end
 
-  # def get_page_heading_margin_in_lines
-  #   return 0 unless top_position?
-  #   page.page_heading_margin_in_lines
-  #   n
-  # end
-
   def layout_options
     h = {}
     h[:kind]                          = kind if kind
+    h[:has_attachment]                = has_children?
+    h[:attached_type]                 = attached_type if attached_type
     h[:adjustable_height]             = adjustable_height?
     h[:subtitle_type] = subtitle_type || '1단' unless kind == '사진'
     if heading_columns && heading_columns != column && heading_columns != ''
@@ -1004,14 +1033,29 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_thickness]        = 0.3 # publication.article_line_thickness
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
-    if has_children? && children.first.attached_type =~/overlap/
+    if has_overlap?
       overlap_rect = children.first.overlap_rect
       overlap_rect[0] -= grid_x
       overlap_rect[1] -= grid_y
       h[:overlap]     = overlap_rect
+      puts "******** h[:overlap]:#{h[:overlap]}"
+    elsif attached_type == 'overlap'
+      h[:extended_line_count]           = extended_line_count
     end
     h[:embedded]      = embedded  if embedded
     h
+  end
+
+  def has_overlap?
+    has_children? && children.map{|c| c.attached_type}.include?('overlap')
+  end
+
+  def has_divide?
+    has_children? && children.map{|c| c.attached_type}.include?('divide')
+  end
+
+  def has_drop?
+    has_children? && children.map{|c| c.attached_type}.include?('drop')
   end
 
   def image_layout
@@ -1032,6 +1076,10 @@ class WorkingArticle < ApplicationRecord
       content += "  news_image(#{graphic.graphic_layout_hash})\n"
     end
     content
+  end
+
+  def group_image_layout
+    "  news_image(#{group_image.group_image_layout_hash})\n"
   end
 
   def quote_layout
@@ -1086,7 +1134,6 @@ class WorkingArticle < ApplicationRecord
       end
       content += "end\n"
     elsif kind == '사설' || kind == 'editorial'
-
       h[:article_line_draw_sides]  = [0,1,0,0]
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += "  news_column_image(#{editorial_image_options})\n" if reporter && reporter != "" # if page_number == 22
@@ -1114,9 +1161,21 @@ class WorkingArticle < ApplicationRecord
       content = "RLayout::NewsArticleBox.new(#{h}) do\n"
       content += image_layout unless images.empty?
       content += graphic_layout unless graphics.empty?
+      content += group_image_layout if group_image && group_image.ready?
       content += "end\n"
     end
     content
+  end
+
+  def pdf_path_from_page
+    pdf_path.sub(page.path, "")
+  end
+
+  def layout_map
+    h = {}
+    h[:pdf_rect] = [x,y,width,height]
+    h[:pdf_path] = pdf_path_from_page 
+    h
   end
 
   def opinion_profile_pdf_path
@@ -1538,8 +1597,18 @@ class WorkingArticle < ApplicationRecord
   def on_left_edge?
     if attached_type.nil?
       pillar.grid_x == 0 && grid_x == 0
-    elsif pillar.on_left_edge? && attached_position == '좌'
-      true
+    elsif attached_type= 'divide' || attached_type= 'drop'
+      if pillar.on_left_edge? && attached_position == '좌'
+        true
+      else
+        false
+      end
+    elsif attached_type == 'overlap'
+      if attached_position == '우'
+        true
+      else
+        false
+      end
     else
       false
     end
@@ -1548,11 +1617,39 @@ class WorkingArticle < ApplicationRecord
   def on_right_edge?
     if attached_type.nil?
       pillar.grid_x + column == pillar.page_ref.column
-    elsif pillar.on_right_edge? && attached_position == '우'
-      true
+    elsif attached_type= 'divide' || attached_type= 'drop'
+      if pillar.on_right_edge? && attached_position == '우'
+        true
+      else
+        false
+      end
+    elsif attached_type == 'overlap'
+      if attached_position == '우'
+        false
+      else
+        false
+      end    
     else
       false
     end
+  end
+
+
+  def fillup_text
+    para_text =<<~EOF
+    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
+    
+    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
+
+    EOF
+    sampel_text = para_text * grid_area
+    update(body: sampel_text)
+    generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
+  end
+
+  def new_annotation
+    Annotation.new(working_article_id: id)
   end
 
   private

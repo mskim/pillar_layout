@@ -166,6 +166,10 @@ class PageHeading < ApplicationRecord
     path + "/images/22_bg.pdf"
   end
 
+  def p23_page_image_full_path
+    path + "/images/23_bg.pdf"
+  end
+
   def front_page_content
     page_heading_width  = publication.page_heading_width
     heading_ad_image_path = path + "/1/heading/images/#{issue.date.to_s}"
@@ -173,7 +177,6 @@ class PageHeading < ApplicationRecord
     RLayout::Container.new(width: #{page_heading_width}, height: #{publication.front_page_heading_height_in_pt}, layout_direction: 'horinoztal') do
       image(image_path: '#{background_image_full_path}', x:0, y:0, width: #{page_heading_width}, height: 139.0326207874)
       text('#{page.korean_date_string}', x: 828.00, y: 107.25, fill_color:'clear', width: 200, font: 'KoPubDotumPL', font_size: 9.5, font_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color: 'clear')
-
       image(image_path: '#{heading_ad_full_path}', x:809.137, y:13.043, width: 219.257, height: 71.2)
     end
   EOF
@@ -256,7 +259,7 @@ class PageHeading < ApplicationRecord
     section_name_with_space        = put_space_between_chars(section_name)
     template=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
-      image(local_image: '23_bg.pdf', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
+      image(image_path: '#{p23_page_image_full_path}', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
       text('<%= date %>', x: 50.5693, y: 8.88,  width: 200, height: 12, font: 'KoPubDotumPL', text_color: "CMYK=0,0,0,100", tracking: -0.7, font_size: 10.5, text_alignment: 'left')
       text('23', x: 988.81, y: -4.97, tracking: -0.2, text_alignment: 'center', fill_color: 'clear', font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 40, height: 44)
     end
@@ -289,18 +292,21 @@ class PageHeading < ApplicationRecord
   end
 
   def generate_pdf
-    if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_page_heading_pdf
-    else
-      save_layout
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
-    end
+    # if NEWS_LAYOUT_ENGINE == 'ruby'
+      # save_page_heading_pdf
+    # else
+    #   save_layout
+    #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
+    # end
+    page_heading_object = eval(layout_content)
+    page_heading_object.save_pdf_with_ruby(pdf_path)
   end
 
-  def save_page_heading_pdf
-    save_hash                     = {}
-    save_hash[:article_path]      = path
-    save_hash[:layout_rb]         = layout_content
-    RLayout::NewsBoxMaker.new(save_hash)
-  end
+  # def save_page_heading_pdf
+  #   save_hash                     = {}
+  #   save_hash[:article_path]      = path
+  #   save_hash[:layout_rb]         = layout_content
+  #   # use Container instead NewsBoxMaker
+  #   RLayout::NewsBoxMaker.new(save_hash)
+  # end
 end

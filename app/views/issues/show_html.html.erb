@@ -1,0 +1,17 @@
+<div align='center'>
+  <h2>인터넷 신문: <%= @issue.date %></h2>
+</div>
+<div class="container-fluid" style="margin-bottom: 5rem;">
+  <div class="row justify-content-center">
+    <% @issue.pages.each do |page| %>
+      <div class="col-xs-6 col-md-2">
+        <div class="card mb-2 shadow">
+          <%= link_to (image_tag page.jpg_image_path, style: "width: 100%;", class: "border border-secondary"), show_html_page_path(page) %>
+          <!-- %= raw page.to_svg_with_jpg % -->
+        </div>
+        <h4 class="text-center mt-1"><%= link_to "#{page.page_number}면", show_html_page_path(page), class: "btn btn-light btn-sm border border-secondary" %></h4>
+      </div>
+      <!-- true -->
+    <% end %>
+  </div>
+</div>

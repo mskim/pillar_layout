@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_081633) do
+ActiveRecord::Schema.define(version: 2020_09_16_235008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,18 +60,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["publication_id"], name: "index_ad_bookings_on_publication_id"
-  end
-
-  create_table "ad_box_templates", id: :serial, force: :cascade do |t|
-    t.integer "grid_x"
-    t.integer "grid_y"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "ad_type"
-    t.integer "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "ad_boxes", id: :serial, force: :cascade do |t|
@@ -135,6 +123,31 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "annotation_comments", force: :cascade do |t|
+    t.bigint "annotation_id", null: false
+    t.bigint "user_id"
+    t.text "comment"
+    t.string "shape"
+    t.string "color"
+    t.integer "x"
+    t.integer "y"
+    t.integer "width"
+    t.integer "height"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "selected"
+    t.index ["annotation_id"], name: "index_annotation_comments_on_annotation_id"
+    t.index ["user_id"], name: "index_annotation_comments_on_user_id"
+  end
+
+  create_table "annotations", force: :cascade do |t|
+    t.bigint "working_article_id", null: false
+    t.integer "version"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["working_article_id"], name: "index_annotations_on_working_article_id"
+  end
+
   create_table "announcements", force: :cascade do |t|
     t.string "name"
     t.string "kind"
@@ -161,47 +174,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["page_plan_id"], name: "index_article_plans_on_page_plan_id"
-  end
-
-  create_table "articles", id: :serial, force: :cascade do |t|
-    t.integer "grid_x"
-    t.integer "grid_y"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "kind"
-    t.integer "profile"
-    t.string "title_head"
-    t.text "title"
-    t.text "subtitle"
-    t.text "subtitle_head"
-    t.text "body"
-    t.string "reporter"
-    t.string "email"
-    t.string "personal_image"
-    t.string "image"
-    t.text "quote"
-    t.string "subject_head"
-    t.boolean "on_left_edge"
-    t.boolean "on_right_edge"
-    t.boolean "is_front_page"
-    t.boolean "top_story"
-    t.boolean "top_position"
-    t.integer "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "extended_line_count"
-    t.integer "pushed_line_count"
-    t.string "publication_name"
-    t.string "path"
-    t.integer "page_heading_margin_in_lines"
-    t.float "grid_width"
-    t.float "grid_height"
-    t.float "gutter"
-    t.text "overlap"
-    t.boolean "embedded"
-    t.integer "y_in_lines"
-    t.integer "height_in_lines"
   end
 
   create_table "body_lines", force: :cascade do |t|
@@ -320,6 +292,9 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.bigint "working_article_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "column"
+    t.integer "row"
+    t.integer "extended_line_count"
     t.index ["working_article_id"], name: "index_group_images_on_working_article_id"
   end
 
@@ -439,9 +414,8 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.integer "order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "working_article_id", null: false
     t.string "member_img"
-    t.index ["working_article_id"], name: "index_member_images_on_working_article_id"
+    t.integer "group_image_id"
   end
 
   create_table "opinion_writers", force: :cascade do |t|
@@ -545,6 +519,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.string "tag"
     t.string "display_name"
     t.boolean "draw_divider"
+    t.string "edition", default: "A"
     t.index ["issue_id"], name: "index_pages_on_issue_id"
     t.index ["page_plan_id"], name: "index_pages_on_page_plan_id"
     t.index ["slug"], name: "index_pages_on_slug", unique: true
@@ -698,37 +673,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sections", id: :serial, force: :cascade do |t|
-    t.string "profile"
-    t.integer "column"
-    t.integer "row"
-    t.integer "order"
-    t.string "ad_type"
-    t.boolean "is_front_page"
-    t.integer "story_count"
-    t.integer "page_number"
-    t.string "section_name"
-    t.boolean "color_page", default: false
-    t.integer "publication_id", default: 1
-    t.text "layout"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "draw_divider"
-    t.string "path"
-    t.float "grid_width"
-    t.float "grid_height"
-    t.float "lines_per_grid"
-    t.float "width"
-    t.float "height"
-    t.float "left_margin"
-    t.float "top_margin"
-    t.float "right_margin"
-    t.float "bottom_margin"
-    t.float "gutter"
-    t.integer "page_heading_margin_in_lines"
-    t.float "article_line_thickness"
-  end
-
   create_table "spread_ad_boxes", force: :cascade do |t|
     t.string "ad_type"
     t.string "advertiser"
@@ -820,6 +764,31 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["publication_id"], name: "index_stroke_styles_on_publication_id"
+  end
+
+  create_table "table_styles", force: :cascade do |t|
+    t.string "name"
+    t.integer "column"
+    t.integer "row"
+    t.integer "heading_level"
+    t.integer "category_level"
+    t.text "layout"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tables", force: :cascade do |t|
+    t.integer "column"
+    t.integer "row"
+    t.integer "extended_line_count"
+    t.text "body"
+    t.string "title"
+    t.string "source"
+    t.bigint "working_article_id", null: false
+    t.integer "table_style_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["working_article_id"], name: "index_tables_on_working_article_id"
   end
 
   create_table "text_styles", id: :serial, force: :cascade do |t|
@@ -1111,6 +1080,8 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ad_bookings", "publications"
   add_foreign_key "ad_plans", "ad_bookings"
+  add_foreign_key "annotation_comments", "annotations"
+  add_foreign_key "annotations", "working_articles"
   add_foreign_key "announcements", "publications"
   add_foreign_key "article_plans", "page_plans"
   add_foreign_key "body_lines", "working_articles"
@@ -1120,7 +1091,6 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
   add_foreign_key "group_images", "working_articles"
   add_foreign_key "heading_ad_images", "page_headings"
   add_foreign_key "issues", "publications"
-  add_foreign_key "member_images", "working_articles"
   add_foreign_key "opinion_writers", "publications"
   add_foreign_key "page_plans", "issues"
   add_foreign_key "profiles", "publications"
@@ -1133,6 +1103,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_081633) do
   add_foreign_key "stories", "working_articles"
   add_foreign_key "story_subcategories", "story_categories"
   add_foreign_key "stroke_styles", "publications"
+  add_foreign_key "tables", "working_articles"
   add_foreign_key "text_styles", "publications"
   add_foreign_key "wire_stories", "issues"
   add_foreign_key "working_articles", "pillars"

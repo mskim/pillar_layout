@@ -57,7 +57,7 @@ class Issue < ApplicationRecord
   mount_uploader :excel_file, ExcelFileUploader
 
   include IssueStoryMakeable
-  include IssueGitWorkflow
+  include IssueGithubWorkflow
   include IssueSaveXml
 
   # def save_to_web_article
@@ -225,9 +225,10 @@ class Issue < ApplicationRecord
           advertiser              = ad_info_array[1]
           page_hash[:ad_type]     = ad_type
           page_hash[:advertiser]  = advertiser
-        elsif page_array[3].nil? || '광고없음'
-          page_hash[:ad_type]      = '광고없음'
+        elsif page_array[3].nil? || page_array[3] == '광고없음'
+          page_hash[:ad_type] = '광고없음'
         end
+
         if page_array[4] == '컬러' || page_array[4] == '칼러' || page_array[4] == '칼라'
           page_hash[:color_page]   = true 
         else
@@ -577,6 +578,49 @@ class Issue < ApplicationRecord
   def change_publication_template_first_page(source_path)
     current_publication_template_first_page_image_path = 
     FileUtils.cp(source_path, publication.first_page_bg_image_path)
+  end
+
+  #########################################
+  ############# save html ##################
+  #########################################
+
+  def html_path
+    path + "/html"
+  end
+
+  def html_front_page_path
+    html_path + "/index.html"
+  end
+
+  def front_page_content
+    "Front Page Content"
+  end
+
+  def save_front_page
+    FileUtils.mkdir_p(html_path) unless File.exist?(html_path)
+    File.open(html_front_page_path, 'w'){|f| f.write front_page_content}
+  end
+
+  def save_page_html
+    pages.each_with_index do |p|
+      p.save_html
+    end
+  end
+
+  def save_page_html_images
+    pages.each_with_index do |p|
+      p.save_html_image
+    end
+  end
+
+  def save_html
+    save_front_page
+    save_page_html_images
+    save_page_html
+  end
+
+  def has_edition?
+    pages.select{|p| p.edition == 'B' || p.edition == 'C'}.length > 0
   end
 
   private

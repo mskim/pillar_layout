@@ -12,7 +12,7 @@
 #  publication_id :integer
 #
 
-# SectionHeading is the templates for PageHeading without associated page instance
+# SectionHeading is the templates for PageHeading without associated page info
 
 
 class SectionHeading < ApplicationRecord

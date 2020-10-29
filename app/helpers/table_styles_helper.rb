@@ -1,0 +1,2 @@
+module TableStylesHelper
+end

@@ -1,3 +1,5 @@
+
+<div align='center'>
   <!-- p id="notice"><%= notice %></p-->
   <div class="col-xs-6 col-md-4">
     <div class="col-xs-6 col-md-5">
@@ -9,13 +11,13 @@
   </div>
 
 </div>
-  <div class="col-xs-6 col-md-4">
-    <div class="col-xs-6 col-md-5">
-      <%= render 'form', ad: @ad %>
-    </div>
+<div class="col-xs-6 col-md-4">
+  <div class="col-xs-6 col-md-5">
+    <%= render 'form', ad: @ad %>
   </div>
-
-
+</div>
 
 <%= link_to 'Edit', edit_ad_path(@ad) %> |
 <%= link_to 'Back', ads_path %>
+
+</div>

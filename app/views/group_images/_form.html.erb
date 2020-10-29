@@ -1,15 +1,39 @@
-<%= simple_form_for(@group_image) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-  <div class="form-inputs">
-    <%= f.input :title, label: "제목" %>
-    <%= f.input :caption, label: "설명" %>
-    <%= f.input :source, label: "출처" %>
-    <%= f.input :direction, label: "주축방향 설정", collection: ["가로", "세로"], wrapper: :vertical_collection_inline, as: :radio_buttons %>
-    <%= f.input :position, label: "위치설정" %>
-    <%= f.association :working_article, as: :hidden, input_html: { value: f.object.working_article_id} %>
-  </div>
-  <div class="form-group mt-3">
-    <%= f.button :submit, action_name == "new" ? "등록" : "업데이트", class: "btn btn-info btn-block btn-lg" %>
-  </div>
-<% end %>
+
+
+  <%= simple_form_for(@group_image) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <div class="form-inputs">
+      <%= f.input :direction, label: "주축방향 설정", collection: ["가로", "세로"], wrapper: :vertical_collection_inline, as: :radio_buttons %>
+      <div class="form-inline mt-1">
+        <%= f.label "크기 설정:" %>
+        <%= f.text_field :column, class: "form-control form-control-sm", style: "width: 26px;" %> 단 x
+        <%= f.text_field :row, class: "form-control form-control-sm", style: "width: 26px;" %>열
+        <%= f.text_field :extended_line_count, class: "form-control form-control-sm", style: "width: 26px;" %>행 추가
+      </div>
+      <div class="form-group" style="width: 100px; float: left;">
+        <%= f.label "위치" %>
+        <div style="font-size: 2px;" class="text-center">
+          <%= f.radio_button :position, 1, title: "좌상단" %>
+          <%= f.radio_button :position, 2, title: "중상단" %>
+          <%= f.radio_button :position, 3, title: "우상단" %><br />
+          <%= f.radio_button :position, 4, title: "좌" %>
+          <%= f.radio_button :position, 5, title: "중앙" %>
+          <%= f.radio_button :position, 6, title: "우" %><br />
+          <%= f.radio_button :position, 7, title: "좌하단"%>
+          <%= f.radio_button :position, 8, title: "중하단" %>
+          <%= f.radio_button :position, 9, title: "우하단" %><br />
+        </div>
+      </div>
+      <div class="custom-file">
+        <%= f.file_field :group_images, as: :file, multiple: true, label: "이미지 첨부파일", label_html: { class: "custom-file-label" }, wrapper: false, input_html: { class: "custom-file-input" } %>
+      </div>
+      <%= f.association :working_article, as: :hidden, input_html: {value: working_article.id} %>
+      <%= f.input :title, label: false, placeholder: "그룹사진 제목을 입력해주세요", input_html: {class: "form-control form-control-sm"} %>
+      <%= f.input :caption, label: false, placeholder: "그룹사진 설명을 입력해주세요", input_html: {class: "form-control form-control-sm"} %>
+      <%= f.input :source, label: false, placeholder: "출처를 입력해주세요", input_html: {class: "form-control form-control-sm"} %>
+    </div>
+    <div class="form-group mt-3">
+      <%= f.button :submit, action_name == "new" ? "등록" : "업데이트", class: "btn btn-info btn-block btn-lg" %>
+    </div>
+  <% end %>

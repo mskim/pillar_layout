@@ -1,0 +1,12 @@
+<div class="w-100 p-3">
+  <div class="row" style="width: 100%;">
+    <div class="col-md-12 mr-3">
+      <div class="border shadow">
+        <div style="width: 100%;">
+          <%= raw @page.to_svg_html_with_jpg %>
+        </div>
+      </div>
+      <%= render 'change_page_info', page: @page %>
+    </div>
+  </div>
+</div>

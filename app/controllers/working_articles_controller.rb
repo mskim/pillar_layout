@@ -20,15 +20,15 @@ class WorkingArticlesController < ApplicationController
   # GET /working_articles/1
   # GET /working_articles/1.json
   def show
+    
     # 멤버 이미지 등록
-    @member_image = MemberImage.new
     # @member_image.working_article_id = @working_article.id
     # 나의 기사의 정보들은 working_articles/show에서 n_n번 기사배정에 가져옵니다.
     @stories = current_user.stories.order(:updated_at).reverse
     # Group_Image new
-    @group_image = GroupImage.new
+    @group_image = @working_article.group_image
+
     # Group_Image all
-    @group_images = GroupImage.all
     @pages = @working_article.issue.pages.order(:id, 'desc')
     section_name = @working_article.page.section_name
     @pages = @working_article.issue.pages.select { |p| p.section_name == section_name }
@@ -469,30 +469,6 @@ class WorkingArticlesController < ApplicationController
     redirect_to working_article_path(@working_article), notice: '2단(다음면으로...) 안내문이 생성 되었습니다.'
   end
 
-  def obituary_one
-    set_working_article
-    @working_article.obituary_one
-    redirect_to working_article_path(@working_article), notice: '부고/인사 생성 되었습니다.'
-  end
-
-  def remove_obituary
-    set_working_article
-    @working_article.remove_obituary
-    redirect_to working_article_path(@working_article), notice: '부고/인사 삭제 되었습니다.'
-  end
-
-  def split_article(options)
-    @working_article.split(options)
-  end
-
-  def split_article_vertically(_options)
-    split_article(direction: 'v')
-  end
-
-  def split_article_horinotally(_options)
-    split_article(direction: 'h')
-  end
-
   def select_reporter_graphic
     set_working_article
     reporter_graphic = ReporterGraphic.find(params[:reporter_graphic])
@@ -623,6 +599,24 @@ class WorkingArticlesController < ApplicationController
     image.clear_crop_rect
     @working_article.generate_pdf_with_time_stamp if image_has_crop_rect
     redirect_to @working_article
+  end
+
+  def new_annotation
+    set_working_article
+    @working_article.new_annotation
+    redirect_to @working_article
+  end
+
+  # fill up working_article with sampel text
+  def fillup_text
+    set_working_article
+    @working_article.fillup_text
+    redirect_to @working_article
+  end
+
+  def show_html
+    set_working_article
+    @html = @working_article.to_html
   end
 
   private

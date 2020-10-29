@@ -44,12 +44,22 @@
       <%= f.select :profile_image_position, ['상단 왼쪽', '하단 오른쪽'], {} %>
     </div>
 
-    <% if  article.show_quote_box?%>
-      <div class="form-group">
-        <%= f.label '발문'%>
-        <%= f.text_area :quote, rows: "3", class: 'form-control', autocomplete: 'off' %>
-      </div>
-    <% end %>
+    <% if article.show_quote_box?%>
+        <div class="form-group">
+          <%= f.label :발문 %>
+          <div class="field">
+            <%= f.label :위치 %><%= f.select :quote_position, [1,2,3,4,5,6,7,8,9], style: "width:40px", class: 'form-control' %>
+            <%= f.label :가로시작_단 %><%= f.text_field :quote_x_grid, value: article.quote_x_grid, style: "width:35px"%>
+            <%= f.label :너비_단 %><%= f.select :quote_box_column, [1, 2, 3], style: "width:35px", class: 'form-control' %>
+          </div>
+          <div class="field">
+            <%= f.label :상하여백 %><%= f.select :quote_v_extra_space, [1, 2], style: "width:40px", class: 'form-control' %>
+            <%= f.label :정렬 %><%= f.select :quote_alignment, ['좌측', '중간','우측'], style: "width:35px", class: 'form-control' %>
+            <%= f.label :테두리 %><%= f.select :quote_line_type, ['상하', '테두리', '없음'] %>
+          </div>
+          <%= f.text_area :quote, rows: "3", class: 'form-control' %>
+        </div>
+      <% end %>
 
     <div class="form-group">
       <%= f.text_field :image, type: "hidden" %>

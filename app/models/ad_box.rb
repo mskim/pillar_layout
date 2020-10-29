@@ -131,6 +131,10 @@ class AdBox < ApplicationRecord
     end
   end
 
+  def ad_box_rect
+    [x,y,width,height]
+  end
+
   def top_position?
     grid_y == 0 || (grid_y == 1 && page_number == 1)
   end
@@ -250,7 +254,11 @@ class AdBox < ApplicationRecord
   end
 
   def box_svg
-    "<a xlink:href='/ad_boxes/#{id}'><rect stroke='red' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' /></a>\n"
+    # s =  "<line stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' />"
+    # s =  "<line stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' />"
+    
+    s = "<a xlink:href='/ad_boxes/#{id}'><rect stroke='gray' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' /></a>\n"
+
   end
 
   def section_name_code
@@ -466,7 +474,7 @@ EOF
   def publication
     page.publication
   end
-  
+
   def change_ad_box_layout(new_ad_type, column)
     info = {}
     case new_ad_type

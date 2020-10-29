@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Working article:</strong>
+  <%= @annotation.working_article_id %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @annotation.version %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_path(@annotation) %> |
+<%= link_to 'Back', annotations_path %>
