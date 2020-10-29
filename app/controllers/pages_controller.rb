@@ -158,6 +158,12 @@ class PagesController < ApplicationController
     set_page
   end
 
+  def auto_adjust_all_pillars
+    set_page
+    @page.auto_adjust_all_pillars
+    redirect_to @page, notice: "현 페이지에서 세로선을 성공적으로 생성했습니다."
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page

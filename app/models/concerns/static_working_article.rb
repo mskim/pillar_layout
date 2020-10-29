@@ -1,17 +1,59 @@
- module WorkingArticleSaveHtml
+ module StaticWorkingArticle
   extend ActiveSupport::Concern
 
-  def issue_html_path
-    issue.html_path
+  def static_html_path
+    page.static_articles_path + "/#{pillar_order}.html"
   end
 
-  def html_path
-    issue_html_path + "/#{page.page_number}/#{pillar_order}.html"
+  def static_html_path
+    page.static_articles_path + "/#{pillar_order}.html"
   end
 
-  def html_image_path
-    issue_html_path + "/images/#{page.page_number}/#{pillar_order}.jpg"
+  def static_image_path
+    page.static_articles_path + "/images/#{pillar_order}.jpg"
   end
+
+  def static_image_url
+    page.static_articles_url + "/images/#{pillar_order}.jpg"
+  end
+
+  def static_article_links
+
+  end
+
+  def to_svg_static
+
+  end
+
+  def static_templage_path
+
+  end
+
+  def images_links
+    ""
+  end
+
+  def graphics_links
+    ""
+  end
+
+  def article_static_content
+    @pictures_links = pictures_links
+    @graphics_links = graphics_links
+    template = File.open(static_templage_path, 'r'){|f| f.read}
+    erb = ERB.new(template)
+    erb.result(binding)
+  end
+
+  def create_static_working_article
+    copy_working_article_image_to_static
+    File.open(static_html_path, 'w'){|f| f.write article_static_content}
+  end
+
+  def copy_working_article_image_to_static
+    system("cp #{jpg_image_path} #{static_image_path}/")
+  end
+
 
   def html_header
     layout =<<~EOF
@@ -31,7 +73,6 @@
     content += "<h2>#{title}</h3>\n"
     content += "<h4>#{subtitle}</h4>\n"
     content += "<h5>#{reporter}</h5>\n"
-
     content += "<p>#{body}</p>\n"
     content
   end

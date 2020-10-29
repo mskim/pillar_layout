@@ -103,7 +103,8 @@ class Pillar < ApplicationRecord
   end
 
   def bottom_article
-    w = working_articles.last
+    w = working_articles.sort_by{|w| w.pillar_order}.last
+    # w = working_articles.last
     return w.parent if w.parent
     w
   end
@@ -638,5 +639,17 @@ class Pillar < ApplicationRecord
     h[:pillar_grid_rect] = [grid_x, grid_y, column, row]
     h[:article_map] = article_map
     h
+  end
+
+  # auto adjust height of all ariticles in pillar and relayout bottom article
+  # set height_in_lines, extended_line_count
+  # set pushed_line_count for bottom article
+  def auto_adjust_height_all(options={})
+    working_articles.sort_by{|w| w.pillar_order}.each do |w|
+      next if w == bottom_article
+      w.generate_pdf_with_time_stamp(adjustable_height: true)
+    end
+    bottom_article.update_pushed_line
+    page.generate_pdf_with_time_stamp unless options[:generate_page]
   end
 end

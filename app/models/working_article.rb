@@ -152,7 +152,7 @@ class WorkingArticle < ApplicationRecord
   include Pdf2jpg
   include WorkingArticleAttachment
   include WorkingArticleAnnotate
-  include WorkingArticleSaveHtml
+  include StaticWorkingArticle
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
@@ -253,6 +253,10 @@ class WorkingArticle < ApplicationRecord
     else
       page.path + "/#{pillar_order}"
     end
+  end
+
+  def article_into_path
+    path + "/article_info.yml"
   end
 
   def proof_path
@@ -574,22 +578,22 @@ class WorkingArticle < ApplicationRecord
       children.first.update(extended_line_count: extended_line_count)
       children.first.generate_pdf_with_time_stamp
     end
-    
+    # pillar.update_article_height
     bottom_article = pillar.bottom_article
     bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
-
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
   def auto_adjust_height_all
+    bottom_article = pillar.bottom_article
     pillar.working_articles.sort_by{|w| w.pillar_order}.each do |w|
-      next if w.pillar_bottom?
-      w.auto_adjust_height if w.attached_type == nil
-
+      next if w == bottom_article
+      w.generate_pdf_with_time_stamp(adjustable_height: true)
     end
+    bottom_article.update_pushed_line
     page.generate_pdf_with_time_stamp
   end
 
@@ -618,19 +622,25 @@ class WorkingArticle < ApplicationRecord
     puts "height_in_lines:#{height_in_lines}"
   end
 
-  def pushed_line_sum_for_bottom_article
-    extended_line_sum = 0
-    pillar.working_articles.each do |w|
-      next if w.attached_type
-      extended_line_sum += w.extended_line_count
-    end
-    extended_line_sum
-  end
-
+  # called to update heigth of bottom pillar article
   def update_pushed_line
-    update(pushed_line_count: pushed_line_sum_for_bottom_article)
+    extended_sum = 0
+    pillar_articles_by_order = pillar.working_articles.sort_by{|w| w.pillar_order}
+    bottom_article = pillar_articles_by_order.last
+    pillar_articles_by_order.each do |w|
+      extended_sum += w.update_extended_line_count_from_layout_result
+      next if w == bottom_article
+    end
+    update(pushed_line_count: extended_sum)
     generate_pdf_with_time_stamp
     page.generate_pdf_with_time_stamp
+  end
+
+  def update_extended_line_count_from_layout_result
+    article_info = YAML::load_file(article_into_path)
+    layout_result = article_info[:extended_line_count]
+    update(extended_line_count: layout_result) if layout_result != self.extended_line_count
+    layout_result
   end
 
   # adds extended_line_count with new line_count
@@ -674,7 +684,6 @@ class WorkingArticle < ApplicationRecord
   def empty_lines_count
     h = article_info
     return nil unless h
-
     h[:empty_lines]
   end
 
