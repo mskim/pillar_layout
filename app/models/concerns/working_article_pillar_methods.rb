@@ -147,7 +147,6 @@ module WorkingArticlePillarMethods
   end
 
   def box_svg(y_position)
-    binding.pry if pillar_order == '1_1' && page.page_number == 1
     if pillar_order.split("_").length <= 2
       text_font_size = 100
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
