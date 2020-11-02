@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @annotation_check.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @annotation_check.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @annotation_check.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @annotation_check.height %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @annotation_check.color %>
+</p>
+
+<p>
+  <strong>Annotation:</strong>
+  <%= @annotation_check.annotation_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @annotation_check.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_check_path(@annotation_check) %> |
+<%= link_to 'Back', annotation_checks_path %>

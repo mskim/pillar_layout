@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :annotation_circles
+  resources :annotation_underlines
+  resources :annotation_checks
   resources :qrcodes
   resources :videos
   resources :web_pages

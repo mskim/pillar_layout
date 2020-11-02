@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @annotation_underline.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @annotation_underline.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @annotation_underline.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @annotation_underline.height %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @annotation_underline.color %>
+</p>
+
+<p>
+  <strong>Annotation:</strong>
+  <%= @annotation_underline.annotation_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @annotation_underline.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_underline_path(@annotation_underline) %> |
+<%= link_to 'Back', annotation_underlines_path %>
