@@ -109,7 +109,6 @@ class Pillar < ApplicationRecord
     w
   end
 
-
   def max_grid_x
     grid_x + column
   end
@@ -278,7 +277,6 @@ class Pillar < ApplicationRecord
   end
 
   def to_svg_with_jpg
-
     svg = <<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
         <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
@@ -287,11 +285,18 @@ class Pillar < ApplicationRecord
       </svg>
     EOF
   end
+  
+  def page_heading_height
+    page_ref.heading_space
+  end
 
   def box_svg_with_jpg
     box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
+    y_pos = 0
+    y_pos = page_heading_height if top_position?
     working_articles.each do |article|
-      box_element_svg += article.box_svg
+      box_element_svg += article.box_svg(y_pos)
+      y_pos += article.height
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -400,14 +405,6 @@ class Pillar < ApplicationRecord
         end
       end
 
-    end
-  end
-
-  def height_in_lines
-    if page_ref
-      page_ref.height_in_lines
-    else
-      7
     end
   end
 
@@ -641,6 +638,19 @@ class Pillar < ApplicationRecord
     h
   end
 
+  def revert_all_extended_lines(options={})
+    working_articles.each do |w|
+      next unless w.extended_line_count != 0
+      w.extended_line_count = 0
+      w.save
+      w.generate_pdf_with_time_stamp
+    end
+    unless options[:generate_page]
+    else
+      page_ref.generate_pdf_with_time_stamp
+    end
+  end
+
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
   # set pushed_line_count for bottom article
@@ -651,5 +661,31 @@ class Pillar < ApplicationRecord
     end
     bottom_article.update_pushed_line
     page_ref.generate_pdf_with_time_stamp unless options[:generate_page]
+  end
+
+  def height_in_lines
+    row*7
+  end
+
+  # we want to allow at least minimim of row height for each article
+  # SO, depending on order we should caluclate max lines for the gievin article.
+  def max_height_in_lines(article)
+    article_count = root_articles.length
+    y_position = 0
+    y_position = page_ref.heading_space if top_position?
+    sorted_root_working_articles.each_with_index do |w, i|
+      if article == w
+        return height_in_lines - 7*(article_count - (i + 1))
+      end
+      y_position += w.height_in_lines
+    end
+  end
+
+  def root_articles
+    working_articles.select{|w| w.parent == nil}
+  end
+
+  def sorted_root_working_articles
+    root_articles.sort_by{|w| w.pillar_order}
   end
 end

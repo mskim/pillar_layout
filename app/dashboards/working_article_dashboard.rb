@@ -39,7 +39,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     top_position: Field::Boolean,
     inactive: Field::Boolean,
     extended_line_count: Field::Number,
-    pushed_line_count: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     quote_box_size: Field::Number,
@@ -129,7 +128,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     top_position
     inactive
     extended_line_count
-    pushed_line_count
     created_at
     updated_at
     quote_box_size
@@ -162,7 +160,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     quote_box_type
     quote_box_show
     y_in_lines
-    height_in_lines
     by_line
     price
     left_line
@@ -205,7 +202,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     top_position
     inactive
     extended_line_count
-    pushed_line_count
     quote_box_size
     category_code
     slug

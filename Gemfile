@@ -142,7 +142,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-chosen-bootstrap'
 end
 gem 'annotate'
-gem 'rlayout', path: '/Users/naeil/Development/ruby/gems/rlayout'
+gem 'rlayout', path: "/Users/#{ENV['USER']}/Development/ruby/gems/rlayout"
 
 gem 'font-awesome-sass'
 gem 'rubyXL'

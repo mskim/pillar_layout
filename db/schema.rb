@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_29_015828) do
+ActiveRecord::Schema.define(version: 2020_10_31_075938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -922,7 +922,6 @@ ActiveRecord::Schema.define(version: 2020_10_29_015828) do
     t.boolean "top_position"
     t.boolean "inactive"
     t.integer "extended_line_count"
-    t.integer "pushed_line_count"
     t.integer "article_id"
     t.integer "page_id"
     t.datetime "created_at", null: false
@@ -957,7 +956,6 @@ ActiveRecord::Schema.define(version: 2020_10_29_015828) do
     t.integer "quote_box_type"
     t.boolean "quote_box_show"
     t.integer "y_in_lines"
-    t.integer "height_in_lines"
     t.string "by_line"
     t.float "price"
     t.integer "left_line", default: 0

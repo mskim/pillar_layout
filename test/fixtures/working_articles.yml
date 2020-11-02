@@ -33,7 +33,6 @@
 #  gutter                       :float
 #  has_profile_image            :boolean
 #  heading_columns              :integer
-#  height_in_lines              :integer
 #  image                        :string
 #  inactive                     :boolean
 #  is_front_page                :boolean
@@ -52,7 +51,6 @@
 #  profile                      :string
 #  profile_image_position       :string
 #  publication_name             :string
-#  pushed_line_count            :integer
 #  quote                        :text
 #  quote_alignment              :string
 #  quote_box_column             :integer

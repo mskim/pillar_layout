@@ -729,7 +729,7 @@ class Page < ApplicationRecord
 
   def box_svg_html_with_jpg
     box_element_svg = page_svg_with_jpg
-    box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
+    # box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
     box_element_svg += page_heading.box_svg if page_number == 1
     pillars.each do |pillar|
       box_element_svg += pillar.box_svg_html_with_jpg
@@ -1061,6 +1061,13 @@ class Page < ApplicationRecord
   def auto_adjust_all_pillars
     pillars.each do |p|
       p.auto_adjust_height_all(generate_page:false)
+    end
+    generate_pdf_with_time_stamp
+  end
+
+  def revert_expanded_lines_all_pillars
+    pillars.each do |p|
+      p.revert_all_extended_lines(generate_page:false)
     end
     generate_pdf_with_time_stamp
   end

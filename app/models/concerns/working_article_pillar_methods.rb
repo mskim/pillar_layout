@@ -138,27 +138,6 @@ module WorkingArticlePillarMethods
     generate_pdf_with_time_stamp(no_page_pdf: true)
   end
 
-  # def generate_pdf_with_time_stamp
-  #   save_article
-  #   delete_old_files
-  #   stamp_time
-  #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
-  # end
-
-  # def generate_pdf
-  #   save_story
-  #   save_layout
-  #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
-  # end
-  
-  # def page_heading_margin_in_lines
-  #   3
-  # end
-
-  # def body_line_height
-  #   13.5
-  # end
-  
   def svg_unit_width
     page.svg_unit_width
   end
@@ -167,28 +146,23 @@ module WorkingArticlePillarMethods
     page.svg_unit_height
   end
 
-  def box_svg
+  def box_svg(y_position)
+    binding.pry if pillar_order == '1_1' && page.page_number == 1
     if pillar_order.split("_").length <= 2
-      svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 - 50}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2 - 50}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
+      text_font_size = 100
+      svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
     else
-      svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 - 50}' stroke-width='0' ><tspan font-size='50' x='#{x + width/2 - 25}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
+      text_font_size = 50
+      svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2 }' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
     end
-    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+    # TODO this is a hack to make it work need to find out why i need this
+    # link box does not seen to get effected by the g transform ??
+    page_margin = 42
+    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x - page_margin}' y='#{y_position - page_margin}' width='#{width}' height='#{height}' /></a>\n"
   end
 
-  def story_svg
-    if pillar_order.split("_").length <= 2
-      svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 - 50}' stroke-width='0' ><tspan font-size='100' x='#{x + width/2 - 50}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
-    else
-      svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 - 50}' stroke-width='0' ><tspan font-size='50' x='#{x + width/2 - 25}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
-    end
-    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+  def max_height_in_lines
+    pillar.max_height_in_lines(self)
   end
-
-  # def story_svg
-  #   svg = "<text fill-opacity='0.5' fill='#777' y='#{y + height/2 + 50}' stroke-width='0' ><tspan font-size='150' x='#{x + width/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='30' x='#{x + width/2}' text-anchor='middle' dy='40'> </tspan></text>"
-  #   svg += "<a xlink:href='/working_articles/#{id}/change_story'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-  # end
-
 end
 

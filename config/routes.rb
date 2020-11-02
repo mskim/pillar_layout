@@ -371,6 +371,7 @@ Rails.application.routes.draw do
       get 'set_divider_not_to_draw'
       get 'show_html'
       get 'auto_adjust_all_pillars'
+      get 'revert_all_extended_lines'
     end
   end
 

@@ -22,4 +22,5 @@
 <br/>
 <br/>
 
-<%= link_to "기사 자동 행 조절", auto_adjust_all_pillars_page_path, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-danger" %>
+<%= button_to "전체 자동 행 조절", auto_adjust_all_pillars_page_path, method: :get, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-danger" %>
+<%= button_to "전체 0 행 복구", revert_all_extended_lines_page_path, method: :get, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-success" %>

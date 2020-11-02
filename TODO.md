@@ -53,6 +53,23 @@
   - do english hyphenation
   - implement proof reading
 
+2020_10_31
+  - remove height_in_lines from working_articles table
+  - remove pushed_line_count from working_articles table
+  - set svg text in the middle by dividing by the height, not row
+
+  - WorkingArticle chnage menu order 
+    0 행 복구
+    모두 0행 복구
+    --------
+    자동 행조절
+    모두 자동 행조절
+    --------
+
+  - Page 전체 0행 복구 
+
+  - fix g transform for article_area shifting twice
+
 2020_10_29
   - auto_adjust_height
   - auto_adjust_height_all
