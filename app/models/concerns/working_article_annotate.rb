@@ -3,6 +3,6 @@ module WorkingArticleAnnotate
 
   # create new annotation verion
   def new_annotation
-    Annotation.create(working_article_id: id)
+    Annotation.create(working_article: self)
   end
 end

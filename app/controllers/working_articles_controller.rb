@@ -603,7 +603,7 @@ class WorkingArticlesController < ApplicationController
 
   def new_annotation
     set_working_article
-    @working_article.new_annotation
+    @annotation = @working_article.new_annotation
     redirect_to @working_article
   end
 

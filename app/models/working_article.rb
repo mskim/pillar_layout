@@ -1622,10 +1622,6 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
-  def new_annotation
-    Annotation.new(working_article_id: id)
-  end
-
   private
 
   def init_article
