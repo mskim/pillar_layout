@@ -17,12 +17,14 @@
 #  fk_rails_...  (working_article_id => working_articles.id)
 #
 class Annotation < ApplicationRecord
-  belongs_to :working_article
-  has_many :annotation_comments
-
   before_create :init
   after_create :copy_proof
-  
+
+  belongs_to :working_article
+  has_many :annotation_comments
+  has_many :annotation_circles
+  has_many :annotation_checks
+
   def path
     working_article.path + "/annotation/version_#{version}"
   end
@@ -38,7 +40,7 @@ class Annotation < ApplicationRecord
 
   def to_svg
     svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{width} #{height}' >
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{width} #{height}' data-controller='draggable' data-target='draggable.background' >
         <rect fill='white' x='0' y='0' width='#{working_article.width}' height='#{working_article.height}' />
         #{box_svg_with_jpg}
       </svg>
@@ -58,12 +60,26 @@ class Annotation < ApplicationRecord
     annotation_comments.each do |comment|
       box_element_svg += comment.to_svg
     end
+    annotation_circles.each do |circle|
+      box_element_svg += circle.to_svg
+    end
+    annotation_checks.each do |check|
+      box_element_svg += check.to_svg
+    end
     box_element_svg += '</g>'
     box_element_svg
   end
 
   def add_comment
     AnnotationComment.create!(annotation: self)
+  end
+
+  def add_circle
+    AnnotationCircle.create!(annotation: self)
+  end
+
+  def add_check
+    AnnotationCheck.create!(annotation: self)
   end
 
   private

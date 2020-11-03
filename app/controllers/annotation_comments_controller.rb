@@ -1,5 +1,5 @@
 class AnnotationCommentsController < ApplicationController
-  before_action :set_annotation_comment, only: [:show, :edit, :update, :destroy, :toggle_selected]
+  before_action :set_annotation_comment, only: [:show, :edit, :update, :destroy, :toggle_selected, :move_draggable]
 
   # GET /annotation_comments
   # GET /annotation_comments.json
@@ -25,6 +25,7 @@ class AnnotationCommentsController < ApplicationController
   # POST /annotation_comments.json
   def create
     @annotation_comment = AnnotationComment.new(annotation_comment_params)
+    @annotation_comment.user_id = current_user.id
 
     respond_to do |format|
       if @annotation_comment.save
@@ -64,6 +65,10 @@ class AnnotationCommentsController < ApplicationController
   def toggle_selected
     @annotation_comment.toggle_selected
     redirect_to @annotation_comment.annotation.working_article
+  end
+
+  def move_draggable
+    @annotation_comment.update(params.require(:annotation_comment).permit(:x, :y))
   end
 
   private

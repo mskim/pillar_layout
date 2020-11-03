@@ -26,13 +26,16 @@
 #  fk_rails_...  (annotation_id => annotations.id)
 #
 class AnnotationComment < ApplicationRecord
-  belongs_to :annotation
-  include Movement
-
   before_create :init
 
+  include Movement
+  include Rails.application.routes.url_helpers
+  
+  belongs_to :annotation
+  
   def to_svg
-    s = "<a xlink:href='/annotation_comments/#{id}/toggle_selected'><rect fill='#{color}' stroke='red' stroke-width='2' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+    # s = "<a xlink:href='/annotation_comments/#{id}/toggle_selected'><rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
+    s = "<rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' class='draggable' data-comment-id='#{id}' data-move-draggable-url='#{move_draggable_annotation_comment_path(self)}' />\n"
     if selected
       sel_with = 4
       h_width = sel_with/2
@@ -45,7 +48,6 @@ class AnnotationComment < ApplicationRecord
     end
     s
   end
-
 
   private
 

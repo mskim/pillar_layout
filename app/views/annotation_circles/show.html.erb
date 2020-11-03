@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @annotation_circle.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @annotation_circle.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @annotation_circle.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @annotation_circle.height %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @annotation_circle.color %>
+</p>
+
+<p>
+  <strong>Annotation:</strong>
+  <%= @annotation_circle.annotation_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @annotation_circle.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_circle_path(@annotation_circle) %> |
+<%= link_to 'Back', annotation_circles_path %>

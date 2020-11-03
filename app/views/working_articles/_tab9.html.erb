@@ -4,13 +4,13 @@
     <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-clipboard"></i> 주석
     <% end %>
-    <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
+    <%= link_to add_circle_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-circle"></i> 원형
     <% end %>
     <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-eraser"></i> 삭제
     <% end %>
-    <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
+    <%= link_to add_check_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-check"></i> 띄어쓰기
     <% end %>
     <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
@@ -19,8 +19,6 @@
   <% else %>
     <%= link_to '새교열 시작', new_annotation_working_article_url(@working_article), class: "btn btn-success btn-lg" %>
   <% end %>
-
-
 </div>
 <% @working_article.annotations.reverse.each do |annotation| %>
   <%= raw annotation.to_svg %>
