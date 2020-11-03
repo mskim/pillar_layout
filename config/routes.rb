@@ -1,9 +1,21 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :annotation_circles
-  resources :annotation_underlines
-  resources :annotation_checks
+  resources :annotation_circles do
+    member do
+      patch :move_draggable
+    end
+  end
+  resources :annotation_underlines do
+    member do
+      patch :move_draggable
+    end
+  end
+  resources :annotation_checks do
+    member do
+      patch :move_draggable
+    end
+  end
   resources :qrcodes
   resources :videos
   resources :web_pages
@@ -12,11 +24,14 @@ Rails.application.routes.draw do
   resources :annotation_comments do
     member do
       get :toggle_selected
+      patch :move_draggable
     end
   end
   resources :annotations do
     member do
       get :add_comment
+      get :add_circle
+      get :add_check
       get :selecte_all
       get :de_selecte_all
       get :goto_previous
@@ -38,7 +53,6 @@ Rails.application.routes.draw do
       get :grow_up_small_step
       get :grow_down
       get :grow_down_small_step
-
     end    
   end
   resources :spread_ad_boxes

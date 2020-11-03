@@ -1,5 +1,5 @@
 class AnnotationCirclesController < ApplicationController
-  before_action :set_annotation_circle, only: [:show, :edit, :update, :destroy]
+  before_action :set_annotation_circle, only: [:show, :edit, :update, :destroy, :move_draggable]
 
   # GET /annotation_circles
   # GET /annotation_circles.json
@@ -59,6 +59,10 @@ class AnnotationCirclesController < ApplicationController
       format.html { redirect_to annotation_circles_url, notice: 'Annotation circle was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def move_draggable
+    @annotation_circle.update(params.require(:annotation_circle).permit(:x, :y))
   end
 
   private

@@ -1,5 +1,5 @@
 class AnnotationChecksController < ApplicationController
-  before_action :set_annotation_check, only: [:show, :edit, :update, :destroy]
+  before_action :set_annotation_check, only: [:show, :edit, :update, :destroy, :move_draggable]
 
   # GET /annotation_checks
   # GET /annotation_checks.json
@@ -59,6 +59,10 @@ class AnnotationChecksController < ApplicationController
       format.html { redirect_to annotation_checks_url, notice: 'Annotation check was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def move_draggable
+    @annotation_check.update(params.require(:annotation_check).permit(:x, :y))
   end
 
   private
