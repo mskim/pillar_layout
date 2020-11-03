@@ -316,14 +316,17 @@ class IssuesController < ApplicationController
     session[:current_story_group] = 'nineth_group'
   end
 
-  def show_html
+  def download_website
     set_issue
+    @issue.build_website unless File.exist?(@issue.static_zip_path)
+    send_file(@issue.static_zip_path, type: 'application/zip', x_sendfile: true, disposition: 'attachment')
   end
 
-  def save_html
+  def build_website
     set_issue
-    @issue.save_html
-    redirect_to issue_path(@issue), notice: 'html 파일이 생성 되었습니다.'
+    @issue.build_website
+    redirect_to @issue
+    # redirect_to issue_path(@issue, notice: 'html 파일이 생성 되었습니다.')
   end
 
   def save_story_xml
@@ -399,9 +402,9 @@ class IssuesController < ApplicationController
     redirect_to issue_path(@issue), notice: '모바일용 지면보기 xml 파일이 합성 되었습니다.'
   end
 
-  def build_static_site
+  def build_website
     set_issue
-    @issue.build_static_site
+    @issue.build_website
  
   end
 
