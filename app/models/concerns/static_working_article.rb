@@ -18,7 +18,8 @@
   end
 
   def static_article_links
-
+    # TODO link to article  ???
+    "<a xlink:href='#{page.rjusted_page_number}/#{pillar_order}.html'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
   def to_svg_static
@@ -26,6 +27,7 @@
   end
 
   def static_templage_path
+    "#{Rails.root}/app/views/working_articles/static_article.html.erb"
 
   end
 
@@ -38,7 +40,7 @@
   end
 
   def article_static_content
-    @pictures_links = pictures_links
+    @pictures_links = images_links
     @graphics_links = graphics_links
     template = File.open(static_templage_path, 'r'){|f| f.read}
     erb = ERB.new(template)

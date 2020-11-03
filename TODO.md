@@ -66,6 +66,10 @@
     모두 자동 행조절
     --------
 
+2020_11_3
+  - fix fullpage_ad top_position
+
+2020_11_2
   - Page 전체 0행 복구 
 
   - fix g transform for article_area shifting twice

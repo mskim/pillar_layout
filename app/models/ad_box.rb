@@ -117,7 +117,7 @@ class AdBox < ApplicationRecord
 
   def y
     if top_position?
-      grid_height*grid_y - page_heading_margin_in_lines*page.body_line_height
+      grid_height*grid_y + page_heading_margin_in_lines*page.body_line_height
     else
       grid_height*grid_y
     end
@@ -256,9 +256,7 @@ class AdBox < ApplicationRecord
   def box_svg
     # s =  "<line stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' />"
     # s =  "<line stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' />"
-    
     s = "<a xlink:href='/ad_boxes/#{id}'><rect stroke='gray' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{grid_width*column}' height='#{ad_height}' /></a>\n"
-
   end
 
   def section_name_code
