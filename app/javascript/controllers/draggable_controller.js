@@ -2,14 +2,16 @@ import { Controller } from "stimulus";
 import Rails from "@rails/ujs";
 
 export default class extends Controller {
-  static targets = ["background", "comment"];
+  static targets = ["background", "comment", "commentIcon"];
 
   initialize() {
     this.makeDraggable();
+    console.log(this.commentPencilTargets);
   }
 
   makeDraggable() {
     let svg = this.backgroundTarget;
+    let comment_icons = this.commentIconTargets;
 
     svg.addEventListener("mousedown", startDrag);
     svg.addEventListener("mousemove", drag);
@@ -62,9 +64,12 @@ export default class extends Controller {
       if (selectedElement) {
         evt.preventDefault();
         var coord = getMousePosition(evt);
+
         if (selectedElement.hasAttribute("data-comment-id")) {
+          // 선택된 요소를 드래그해서 위치변환
           selectedElement.setAttributeNS(null, "x", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "y", coord.y - offset.y);
+          // 선택된 요소를 이동시키면 그 안에 아이콘도 같이 따라오는 기능
         } else if (selectedElement.hasAttribute("data-circle-id")) {
           selectedElement.setAttributeNS(null, "cx", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "cy", coord.y - offset.y);
@@ -79,6 +84,33 @@ export default class extends Controller {
               ")"
           );
         }
+
+        comment_icons.forEach((icon) => {
+          if (
+            icon.hasAttribute("data-comment-id") &&
+            icon.getAttribute("data-comment-id") ==
+              selectedElement.getAttribute("data-comment-id")
+          ) {
+            let selectedElementX = parseFloat(
+              selectedElement.getAttribute("x")
+            );
+            let selectedElementY = parseFloat(
+              selectedElement.getAttribute("y")
+            );
+            let selectedElementW = parseFloat(
+              selectedElement.getAttribute("width")
+            );
+            let selectedElementH = parseFloat(
+              selectedElement.getAttribute("height")
+            );
+            let iconX = selectedElementX + selectedElementW / 2 - 5;
+            let iconY = selectedElementY + selectedElementH / 2 - 5;
+            icon.setAttribute(
+              "transform",
+              "translate(" + iconX + ", " + iconY + ")"
+            );
+          }
+        });
       }
     }
 

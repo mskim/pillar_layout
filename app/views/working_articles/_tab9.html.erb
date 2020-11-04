@@ -23,3 +23,29 @@
 <% @working_article.annotations.reverse.each do |annotation| %>
   <%= raw annotation.to_svg %>
 <% end %>
+<!-- commentModal -->
+<% @working_article.annotations.each do |annotation| %>
+  <% annotation.annotation_comments.each do |annotation_comment| %>
+    <div class="modal fade" id="comment<%= annotation_comment.id %>Modal" tabindex="-1" aria-labelledby="comment<%= annotation_comment.id %>ModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">주석 - #<%= annotation_comment.id %></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <%= form_with(model: annotation_comment) do |f| %>
+            <div class="modal-body">
+                <%= f.text_area :comment, class: "form-control" %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+              <%= f.submit '저장', class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

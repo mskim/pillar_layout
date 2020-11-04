@@ -52,6 +52,7 @@ class User < ApplicationRecord
   has_many :stories
   has_many :reporter_images
   has_many :reporter_graphics
+  has_many :annotation_comments
   # has_many :graphic_requests
 
   def self.current
