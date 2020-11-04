@@ -14,7 +14,7 @@ class AnnotationCommentsController < ApplicationController
 
   # GET /annotation_comments/new
   def new
-    @annotation_comment = AnnotationComment.new
+    @annotation_comment = current_user.annotation_comments.new
   end
 
   # GET /annotation_comments/1/edit
@@ -24,12 +24,11 @@ class AnnotationCommentsController < ApplicationController
   # POST /annotation_comments
   # POST /annotation_comments.json
   def create
-    @annotation_comment = AnnotationComment.new(annotation_comment_params)
-    @annotation_comment.user_id = current_user.id
+    @annotation_comment = current_user.annotation_comments.new(annotation_comment_params)
 
     respond_to do |format|
       if @annotation_comment.save
-        format.html { redirect_to @annotation_comment, notice: 'Annotation comment was successfully created.' }
+        format.html { redirect_to @annotation_comment.annotation.working_article, notice: 'Annotation comment was successfully created.' }
         format.json { render :show, status: :created, location: @annotation_comment }
       else
         format.html { render :new }
@@ -43,7 +42,7 @@ class AnnotationCommentsController < ApplicationController
   def update
     respond_to do |format|
       if @annotation_comment.update(annotation_comment_params)
-        format.html { redirect_to @annotation_comment, notice: 'Annotation comment was successfully updated.' }
+        format.html { redirect_to @annotation_comment.annotation.working_article, notice: 'Annotation comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @annotation_comment }
       else
         format.html { render :edit }
