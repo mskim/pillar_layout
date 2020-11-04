@@ -66,6 +66,9 @@
     모두 자동 행조절
     --------
 
+2020_11_5
+  - fix when adding lines, pushed is no longer used
+
 2020_11_3
   - fix fullpage_ad top_position
 

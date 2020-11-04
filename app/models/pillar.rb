@@ -653,7 +653,6 @@ class Pillar < ApplicationRecord
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
-  # set pushed_line_count for bottom article
   def auto_adjust_height_all(options={})
     working_articles.sort_by{|w| w.pillar_order}.each do |w|
       next if w == bottom_article

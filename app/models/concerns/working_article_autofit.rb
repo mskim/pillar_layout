@@ -42,7 +42,7 @@
     maker = RLayout::NewsBoxMaker.new(options)
     new_height_in_lines = read_news_box_height
     puts "new_height_in_lines:#{new_height_in_lines}"
-    y_in_lines = row*7 + pushed_line_count
+    y_in_lines = row*7 #+ pushed_line_count
     puts "y_in_lines:#{y_in_lines}"
     new_position = y_in_lines + new_height_in_lines
     move_sibllings_to(new_position)

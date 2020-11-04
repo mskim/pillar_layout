@@ -131,7 +131,6 @@ module WorkingArticlePillarMethods
     self.on_left_edge       = true if pillar.on_left_edge? && grid_x == 0
     self.on_right_edge      = true if pillar.on_right_edge? && pillar.grid_x + column  == pillar.page_ref.column
     self.extended_line_count = 0
-    self.pushed_line_count  = 0
 
     self.save
     create_article_folder
