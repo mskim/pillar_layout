@@ -145,8 +145,6 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleAutofit
   include WorkingArticleLayout
   include WorkingArticlePillarMethods
-  include PageSavePdf
-  include WorkingArticleSavePdf
   include Pdf2jpg
   include WorkingArticleAttachment
   include WorkingArticleAnnotate
@@ -966,7 +964,6 @@ class WorkingArticle < ApplicationRecord
     if parent
       h[:extended_line_count]           = parent.extended_line_count
     end
-    # h[:pushed_line_count]            = self.pushed_line_count   if pushed_line_count
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter
@@ -1468,9 +1465,7 @@ class WorkingArticle < ApplicationRecord
     if extended_line_count && extended_line_count != 0
       h[:extended]  = extended_line_count
     end
-    if pushed_line_count && pushed_line_count != 0
-      h[:pushed]    = pushed_line_count
-    end
+
     unless images.empty?
       h[:images] = []
       images.each do |image|
@@ -1636,7 +1631,6 @@ class WorkingArticle < ApplicationRecord
       self.top_story = true
     end
     self.extended_line_count  = 0
-    self.pushed_line_count    = 0
     self.height_in_lines      = row*7
     self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
     if kind == '부고-인사'

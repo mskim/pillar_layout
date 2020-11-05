@@ -610,22 +610,8 @@ class Page < ApplicationRecord
   def generate_pdf_with_time_stamp
     delete_old_files
     stamp_time
-    # if NEWS_LAYOUT_ENGINE == 'ruby'
-    #   # save_page_pdf(time_stamp: @time_stamp, jpg: true)
-      
-    # else # 'rubymotion'
-    #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman section . -time_stamp=#{@time_stamp}"
-    # end
-    # save_page_pdf(time_stamp: @time_stamp, jpg: true)
-    # save_page_pdf_new(time_stamp: @time_stamp, jpg: true)
     RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
   end
-
-  # def generate_pdf
-  #   puts 'generate_pdf for page'
-  #   # PageWorker.perform_async(path, nil)
-  #   save_pdf
-  # end
 
   def regenerate_pdf
     generate_heading_pdf

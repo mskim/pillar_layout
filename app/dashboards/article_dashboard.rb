@@ -37,7 +37,6 @@ class ArticleDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     extended_line_count: Field::Number,
-    pushed_line_count: Field::Number,
     publication_name: Field::String,
     path: Field::String,
     page_heading_margin_in_lines: Field::Number,
@@ -94,7 +93,6 @@ class ArticleDashboard < Administrate::BaseDashboard
   created_at
   updated_at
   extended_line_count
-  pushed_line_count
   publication_name
   path
   page_heading_margin_in_lines
@@ -137,7 +135,6 @@ class ArticleDashboard < Administrate::BaseDashboard
   top_story
   top_position
   extended_line_count
-  pushed_line_count
   publication_name
   path
   page_heading_margin_in_lines
