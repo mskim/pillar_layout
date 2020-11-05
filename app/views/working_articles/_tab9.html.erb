@@ -21,7 +21,9 @@
   <% end %>
 </div>
 <% @working_article.annotations.reverse.each do |annotation| %>
-  <%= raw annotation.to_svg %>
+  <div data-controller='draggable' data-draggable-current-user-id='<%= current_user.id %>'>
+    <%= raw annotation.to_svg %>
+  </div>
 <% end %>
 <!-- commentModal -->
 <% @working_article.annotations.each do |annotation| %>
