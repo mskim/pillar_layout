@@ -1,4 +1,17 @@
 {
+<<<<<<< HEAD
+  "application.js": "/packs/js/application-af2dae3e5545ccdeea70.js",
+  "application.js.map": "/packs/js/application-af2dae3e5545ccdeea70.js.map",
+  "bs_custom_file_input.js": "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js",
+  "bs_custom_file_input.js.map": "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-af2dae3e5545ccdeea70.js"
+      ],
+      "js.map": [
+        "/packs/js/application-af2dae3e5545ccdeea70.js.map"
+=======
   "application.js": "/packs/js/application-69affb5a97e40509e937.js",
   "application.js.map": "/packs/js/application-69affb5a97e40509e937.js.map",
   "bs_custom_file_input.js": "/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js",
@@ -10,14 +23,15 @@
       ],
       "js.map": [
         "/packs/js/application-69affb5a97e40509e937.js.map"
+>>>>>>> upstream/master
       ]
     },
     "bs_custom_file_input": {
       "js": [
-        "/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js"
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js"
       ],
       "js.map": [
-        "/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js.map"
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map"
       ]
     }
   }
