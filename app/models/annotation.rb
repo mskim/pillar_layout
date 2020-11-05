@@ -40,7 +40,7 @@ class Annotation < ApplicationRecord
 
   def to_svg
     svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{width} #{height}' data-controller='draggable' data-target='draggable.background' >
+      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{width} #{height}' data-target='draggable.background' >
         <rect fill='white' x='0' y='0' width='#{working_article.width}' height='#{working_article.height}' />
         #{box_svg_with_jpg}
       </svg>
@@ -70,8 +70,8 @@ class Annotation < ApplicationRecord
     box_element_svg
   end
 
-  def add_comment
-    AnnotationComment.create!(annotation: self)
+  def add_comment(user_id)
+    AnnotationComment.create!(annotation: self, user_id: user_id)
   end
 
   def add_circle

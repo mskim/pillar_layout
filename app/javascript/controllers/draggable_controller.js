@@ -6,12 +6,12 @@ export default class extends Controller {
 
   initialize() {
     this.makeDraggable();
-    console.log(this.commentPencilTargets);
   }
 
   makeDraggable() {
     let svg = this.backgroundTarget;
     let comment_icons = this.commentIconTargets;
+    let current_user_id = this.current_user_id;
 
     svg.addEventListener("mousedown", startDrag);
     svg.addEventListener("mousemove", drag);
@@ -65,11 +65,13 @@ export default class extends Controller {
         evt.preventDefault();
         var coord = getMousePosition(evt);
 
-        if (selectedElement.hasAttribute("data-comment-id")) {
+        if (
+          selectedElement.hasAttribute("data-comment-id") &&
+          selectedElement.getAttribute("data-user-id") == current_user_id
+        ) {
           // 선택된 요소를 드래그해서 위치변환
           selectedElement.setAttributeNS(null, "x", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "y", coord.y - offset.y);
-          // 선택된 요소를 이동시키면 그 안에 아이콘도 같이 따라오는 기능
         } else if (selectedElement.hasAttribute("data-circle-id")) {
           selectedElement.setAttributeNS(null, "cx", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "cy", coord.y - offset.y);
@@ -158,5 +160,9 @@ export default class extends Controller {
         selectedElement = null;
       }
     }
+  }
+
+  get current_user_id() {
+    return parseInt(this.data.get("current-user-id"));
   }
 }
