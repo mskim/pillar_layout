@@ -35,13 +35,20 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <%= form_with(model: annotation_comment) do |f| %>
+          <% if annotation_comment.user_id == current_user.id %>
+            <%= form_with(model: annotation_comment) do |f| %>
+              <div class="modal-body">
+                  <%= f.text_area :comment, class: "form-control" %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <%= f.submit '저장', class: "btn btn-primary" %>
+                <%= link_to '삭제', annotation_comment_path(annotation_comment), method: :delete, class: 'btn btn-danger' %>
+              </div>
+            <% end %>
+          <% else %>
             <div class="modal-body">
-                <%= f.text_area :comment, class: "form-control" %>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-              <%= f.submit '저장', class: "btn btn-primary" %>
+              <%= annotation_comment.comment %>
             </div>
           <% end %>
         </div>

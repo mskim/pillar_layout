@@ -62,7 +62,7 @@ class AnnotationsController < ApplicationController
   end
 
   def add_comment
-    @annotation.add_comment
+    @annotation.add_comment(current_user.id)
     redirect_to @annotation.working_article
   end
 

@@ -57,8 +57,8 @@ class AnnotationComment < ApplicationRecord
   private
 
   def init
-    # self.user = current_user
-    self.user_id = User.first.id
+    self.user_id = user_id
+    # self.user_id = User.first.id
     self.color = 'red'
     self.x = 100
     self.y = 100

@@ -70,8 +70,8 @@ class Annotation < ApplicationRecord
     box_element_svg
   end
 
-  def add_comment
-    AnnotationComment.create!(annotation: self)
+  def add_comment(user_id)
+    AnnotationComment.create!(annotation: self, user_id: user_id)
   end
 
   def add_circle
