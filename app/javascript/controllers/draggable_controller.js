@@ -31,9 +31,6 @@ export default class extends Controller {
     function startDrag(evt) {
       if (evt.target.classList.contains("draggable")) {
         selectedElement = evt.target;
-        console.log(
-          selectedElement.getAttribute("data-user-id") == current_user_id
-        );
         offset = getMousePosition(evt);
 
         var transforms = selectedElement.transform.baseVal;
