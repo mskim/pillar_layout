@@ -74,12 +74,12 @@ class Annotation < ApplicationRecord
     AnnotationComment.create!(annotation: self, user_id: user_id)
   end
 
-  def add_circle
-    AnnotationCircle.create!(annotation: self)
+  def add_circle(user_id)
+    AnnotationCircle.create!(annotation: self, user_id: user_id)
   end
 
-  def add_check
-    AnnotationCheck.create!(annotation: self)
+  def add_check(user_id)
+    AnnotationCheck.create!(annotation: self, user_id: user_id)
   end
 
   private

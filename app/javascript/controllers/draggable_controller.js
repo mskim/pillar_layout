@@ -72,10 +72,16 @@ export default class extends Controller {
           // 선택된 요소를 드래그해서 위치변환
           selectedElement.setAttributeNS(null, "x", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "y", coord.y - offset.y);
-        } else if (selectedElement.hasAttribute("data-circle-id")) {
+        } else if (
+          selectedElement.hasAttribute("data-circle-id") &&
+          selectedElement.getAttribute("data-user-id") == current_user_id
+        ) {
           selectedElement.setAttributeNS(null, "cx", coord.x - offset.x);
           selectedElement.setAttributeNS(null, "cy", coord.y - offset.y);
-        } else if (selectedElement.hasAttribute("data-check-id")) {
+        } else if (
+          selectedElement.hasAttribute("data-check-id") &&
+          selectedElement.getAttribute("data-user-id") == current_user_id
+        ) {
           transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
           selectedElement.setAttribute(
             "transform",
