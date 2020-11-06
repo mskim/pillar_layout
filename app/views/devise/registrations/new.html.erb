@@ -8,6 +8,10 @@
                 required: true,
                 autofocus: true ,
                 input_html: { autocomplete: "name" }%>
+    <%= f.input :avatar,
+                as: :file,
+                required: false,
+                input_html: { autocomplete: "new-password" } %>
     <%= f.input :email,
                 required: true,
                 autofocus: true ,

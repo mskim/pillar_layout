@@ -67,12 +67,12 @@ class AnnotationsController < ApplicationController
   end
 
   def add_circle
-    @annotation.add_circle
+    @annotation.add_circle(current_user.id)
     redirect_to @annotation.working_article
   end
 
   def add_check
-    @annotation.add_check
+    @annotation.add_check(current_user.id)
     redirect_to @annotation.working_article
   end
 

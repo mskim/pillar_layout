@@ -30,19 +30,26 @@ class AnnotationCircle < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to :annotation
-  # belongs_to :user 
+  belongs_to :user 
 
   def to_svg
     # s = "<rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' class='draggable' data-comment-id='#{id}' data-target='draggable.circle' data-move-draggable-url='#{move_draggable_annotation_comment_path(self)}' />\n"
-    s = "<circle cx='#{x}' cy='#{y}' r='20' stroke='#{color}' stroke-width='4' fill='white' fill-opacity='0' class='draggable' data-circle-id='#{id}' data-move-draggable-url='#{move_draggable_annotation_circle_path(self)}' />"
+    s = '<g class="annotation-group">'
+    s += "<circle cx='#{x}' cy='#{y}' r='20' stroke='#{color}' stroke-width='4' fill='white' fill-opacity='0' class='draggable' data-circle-id='#{id}' data-user-id='#{user_id}' data-move-draggable-url='#{move_draggable_annotation_circle_path(self)}' />"
+    s += "<defs>
+      <clipPath id='avatarCircle#{id}'>
+        <circle cx='#{x + 25}' cy='#{y - 25}' r='10' fill='#FFFFFF' />
+      </clipPath>
+    </defs>"
+    s += "<image xlink:href='#{Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)  if user.avatar.attached?}' x='#{x + 15}' y='#{y - 35}' width='20' height='20' clip-path='url(#avatarCircle#{id})' class='avatar' />\n"
+    s += '</g>'
     s
   end
 
   private
 
   def init
-    # self.user = current_user
-    self.user_id = User.first.id
+    self.user_id = user_id
     self.color = 'red'
     self.x = 100
     self.y = 100

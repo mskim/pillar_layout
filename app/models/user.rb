@@ -55,6 +55,8 @@ class User < ApplicationRecord
   has_many :annotation_comments
   # has_many :graphic_requests
 
+  has_one_attached :avatar
+
   def self.current
     Thread.current[:user]
   end

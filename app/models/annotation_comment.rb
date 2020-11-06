@@ -36,11 +36,19 @@ class AnnotationComment < ApplicationRecord
   
   def to_svg
     # s = "<a xlink:href='/annotation_comments/#{id}/toggle_selected'><rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
-    s = "<rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' class='draggable' data-comment-id='#{id}' data-user-id='#{user_id}' data-move-draggable-url='#{move_draggable_annotation_comment_path(self)}' />\n"
+    s = '<g class="annotation-group">'
+    s += "<rect fill='#{color}' stroke='red' stroke-width='1' fill-opacity='0.3' x='#{x}' y='#{y}' width='#{width}' height='#{height}' class='draggable' data-comment-id='#{id}' data-user-id='#{user_id}' data-move-draggable-url='#{move_draggable_annotation_comment_path(self)}' />\n"
     s += "<path d='M9.7,2.8L8.8,3.7c-0.1,0.1-0.2,0.1-0.3,0L6.3,1.6c-0.1-0.1-0.1-0.2,0-0.3l0.9-0.9c0.4-0.4,1-0.4,1.3,0l1.2,1.2
     C10.1,1.9,10.1,2.5,9.7,2.8z M5.6,2L0.4,7.1L0,9.5C0,9.8,0.2,10.1,0.6,10.1l2.4-0.4l5.1-5.1c0.1-0.1,0.1-0.2,0-0.3L5.9,2
     C5.8,1.9,5.7,1.9,5.6,2L5.6,2z M2.4,6.7c-0.1-0.1-0.1-0.3,0-0.4l3-3c0.1-0.1,0.3-0.1,0.4,0c0.1,0.1,0.1,0.3,0,0.4l-3,3
     C2.7,6.8,2.5,6.8,2.4,6.7L2.4,6.7z M1.7,8.3h0.9v0.7L1.4,9.3L0.8,8.7L1,7.4h0.7V8.3z' stroke='white' stroke-width='0.3' transform='translate(#{x + (width / 2) - 5}, #{y + (height / 2) -5})' class='cursor-modal' data-toggle='modal' data-comment-id='#{id}' data-target='#comment#{id}Modal, draggable.commentIcon'/>"
+    s += "<defs>
+        <clipPath id='avatarComment#{id}'>
+          <circle cx='#{x + 55}' cy='#{y - 5}' r='10' fill='#FFFFFF' />
+        </clipPath>
+    </defs>"
+    s += "<image xlink:href='#{Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)  if user.avatar.attached?}' x='#{x + 45}' y='#{y - 15}' width='20' height='20' clip-path='url(#avatarComment#{id})' class='avatar' />\n"
+    s += '</g>'
     if selected
       sel_with = 4
       h_width = sel_with/2
@@ -58,7 +66,6 @@ class AnnotationComment < ApplicationRecord
 
   def init
     self.user_id = user_id
-    # self.user_id = User.first.id
     self.color = 'red'
     self.x = 100
     self.y = 100
