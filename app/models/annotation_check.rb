@@ -26,23 +26,31 @@
 class AnnotationCheck < ApplicationRecord
   before_create :init
 
+  include Movement
   include Rails.application.routes.url_helpers
 
   belongs_to :annotation
-  # belongs_to :user
+  belongs_to :user
 
   def to_svg
     # class='draggable' transform='translate(#{x}, #{y})' data-check-id='#{id}' data-move-draggable-url='#{move_draggable_annotation_check_path(self)}'
-    s = "<path d='M6.8,17.2l-6.5-6.5c-0.4-0.4-0.4-1,0-1.4l1.4-1.4c0.4-0.4,1-0.4,1.4,0l4.4,4.4l9.4-9.4c0.4-0.4,1-0.4,1.4,0l1.4,1.4
-    c0.4,0.4,0.4,1,0,1.4L8.2,17.2C7.8,17.6,7.2,17.6,6.8,17.2L6.8,17.2z' fill='red' class='draggable' transform='translate(#{x}, #{y})' data-check-id='#{id}' data-move-draggable-url='#{move_draggable_annotation_check_path(self)}'/>"
+    s = "<g class='annotation-group'>"
+    s += "<path d='M6.8,17.2l-6.5-6.5c-0.4-0.4-0.4-1,0-1.4l1.4-1.4c0.4-0.4,1-0.4,1.4,0l4.4,4.4l9.4-9.4c0.4-0.4,1-0.4,1.4,0l1.4,1.4
+    c0.4,0.4,0.4,1,0,1.4L8.2,17.2C7.8,17.6,7.2,17.6,6.8,17.2L6.8,17.2z' fill='red' class='draggable' transform='translate(#{x}, #{y})' data-check-id='#{id}' data-user-id='#{user_id}' data-move-draggable-url='#{move_draggable_annotation_check_path(self)}'/>"
+    s += "<defs>
+      <clipPath id='avatarCheck#{id}'>
+        <circle cx='#{x + 25}' cy='#{y - 10}' r='10' fill='#FFFFFF' />
+      </clipPath>
+    </defs>"
+    s += "<image xlink:href='#{Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true) if user.avatar.attached?}' x='#{x + 15}' y='#{y - 20}' width='20' height='20' clip-path='url(#avatarCheck#{id})' class='avatar' />\n"
+    s += '</g>'
     s
   end
 
   private
 
   def init
-    # self.user = current_user
-    self.user_id = User.first.id
+    self.user_id = user_id
     self.color = 'red'
     self.x = 100
     self.y = 100

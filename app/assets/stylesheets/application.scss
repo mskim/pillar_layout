@@ -569,3 +569,15 @@ a {
 .cursor-modal {
   cursor: pointer;
 }
+
+.annotation-group {
+  .avatar {
+    display: none;
+  }
+
+  &:hover {
+    .avatar {
+      display: block;
+    }
+  }
+}
