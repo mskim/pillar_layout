@@ -95,15 +95,15 @@
     @prev_article_html  = prev_article_html
     @page_html          = page_html
     @next_article_html  = next_article_html
-    @pictures_links = images_links
-    @graphics_links = graphics_links
-    @title          = title
-    @subtitle       = subtitle || ""
-    @reporter       = @reporter || ""
-    @quote          = quote || ""
-    @body_content   = body_content
-    template        = File.open(static_templage_path, 'r'){|f| f.read}
-    erb             = ERB.new(template)
+    @images_links       = images_links
+    @graphics_links     = graphics_links
+    @title              = title
+    @subtitle           = subtitle || ""
+    @reporter           = @reporter || ""
+    @quote              = quote || ""
+    @body_content       = body_content
+    template            = File.open(static_templage_path, 'r'){|f| f.read}
+    erb                 = ERB.new(template)
     erb.result(binding)
   end
 

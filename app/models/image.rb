@@ -317,6 +317,22 @@ class Image < ApplicationRecord
     end
   end
 
+  def static_image_path
+    working_article.static_path + "#{working_article.pillar_order}-#{order}"
+  end
+
+  def static_image_url
+    "./images/#{working_article.pillar_order}-#{order}"
+  end
+
+  def copy_image_to_static
+    system("cp #{image_path} #{static_image_path}")
+  end
+
+  def to_html
+    "<image src='#{static_image_url}' />"
+  end
+
   private
 
   def set_default

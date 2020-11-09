@@ -54,8 +54,14 @@
   - implement proof reading
 
 2020_11_7
-
   - static_article
+    - next, page, prev
+    - image, graphic
+      - copy images to static
+      - add image html 
+      - copy graphic to static
+      - add graphic html 
+
     - show scrap
     - show wide_column_view
     - show html_view
