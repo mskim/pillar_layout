@@ -1,5 +1,5 @@
 class AnnotationCirclesController < ApplicationController
-  before_action :set_annotation_circle, only: [:show, :edit, :update, :destroy, :move_draggable]
+  before_action :set_annotation_circle, only: [:show, :edit, :update, :destroy, :move_draggable, :delete_it]
 
   # GET /annotation_circles
   # GET /annotation_circles.json
@@ -63,6 +63,11 @@ class AnnotationCirclesController < ApplicationController
 
   def move_draggable
     @annotation_circle.update(params.require(:annotation_circle).permit(:x, :y))
+  end
+
+  def delete_it
+    @annotation_circle.destroy
+    redirect_to @annotation_circle.annotation.working_article
   end
 
   private

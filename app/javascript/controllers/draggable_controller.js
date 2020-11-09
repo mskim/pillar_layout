@@ -2,7 +2,7 @@ import { Controller } from "stimulus";
 import Rails from "@rails/ujs";
 
 export default class extends Controller {
-  static targets = ["background", "comment", "commentIcon"];
+  static targets = ["background", "comment", "commentIcon", "closeIcon"];
 
   initialize() {
     this.makeDraggable();
@@ -11,6 +11,7 @@ export default class extends Controller {
   makeDraggable() {
     let svg = this.backgroundTarget;
     let comment_icons = this.commentIconTargets;
+    let close_icons = this.closeIconTargets;
     let current_user_id = this.current_user_id;
 
     svg.addEventListener("mousedown", startDrag);
@@ -19,6 +20,12 @@ export default class extends Controller {
     svg.addEventListener("mouseleave", endDrag);
 
     var selectedElement, offset, transform;
+
+    close_icons.forEach((icon) => {
+      if (icon.getAttribute("data-user-id") != current_user_id) {
+        icon.classList.add("none-display");
+      }
+    });
 
     function getMousePosition(evt) {
       var CTM = svg.getScreenCTM();
@@ -64,6 +71,14 @@ export default class extends Controller {
       if (selectedElement) {
         evt.preventDefault();
         var coord = getMousePosition(evt);
+        let selectedElementX = parseFloat(selectedElement.getAttribute("x"));
+        let selectedElementY = parseFloat(selectedElement.getAttribute("y"));
+        let selectedElementW = parseFloat(
+          selectedElement.getAttribute("width")
+        );
+        let selectedElementH = parseFloat(
+          selectedElement.getAttribute("height")
+        );
 
         if (
           selectedElement.hasAttribute("data-comment-id") &&
@@ -93,29 +108,59 @@ export default class extends Controller {
           );
         }
 
+        // 연필 아이콘
         comment_icons.forEach((icon) => {
           if (
             icon.hasAttribute("data-comment-id") &&
             icon.getAttribute("data-comment-id") ==
               selectedElement.getAttribute("data-comment-id")
           ) {
-            let selectedElementX = parseFloat(
-              selectedElement.getAttribute("x")
-            );
-            let selectedElementY = parseFloat(
-              selectedElement.getAttribute("y")
-            );
-            let selectedElementW = parseFloat(
-              selectedElement.getAttribute("width")
-            );
-            let selectedElementH = parseFloat(
-              selectedElement.getAttribute("height")
-            );
             let iconX = selectedElementX + selectedElementW / 2 - 5;
             let iconY = selectedElementY + selectedElementH / 2 - 5;
             icon.setAttribute(
               "transform",
               "translate(" + iconX + ", " + iconY + ")"
+            );
+          }
+        });
+
+        // 닫기 아이콘
+        close_icons.forEach((icon) => {
+          if (icon.getAttribute("data-user-id") != current_user_id) {
+            return icon.classList.add("none-display");
+          }
+          if (
+            icon.hasAttribute("data-comment-id") &&
+            icon.getAttribute("data-comment-id") ==
+              selectedElement.getAttribute("data-comment-id")
+          ) {
+            let iconX = selectedElementX - 4;
+            let iconY = selectedElementY - 4;
+            icon.setAttribute(
+              "transform",
+              "translate(" + iconX + ", " + iconY + ")"
+            );
+          } else if (
+            icon.hasAttribute("data-check-id") &&
+            icon.getAttribute("data-check-id") ==
+              selectedElement.getAttribute("data-check-id")
+          ) {
+            transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
+            selectedElement.setAttribute(
+              "transform",
+              "translate(" +
+                (coord.x - offset.x) +
+                ", " +
+                (coord.y - offset.y) +
+                ")"
+            );
+            icon.setAttribute(
+              "transform",
+              "translate(" +
+                (coord.x - offset.x - 4) +
+                ", " +
+                (coord.y - offset.y - 4) +
+                ")"
             );
           }
         });
@@ -150,7 +195,6 @@ export default class extends Controller {
             .split(", ");
           let new_x = parseFloat(new_value[0]);
           let new_y = parseFloat(new_value[1]);
-          console.log(new_x, new_y);
           var formdata = new FormData();
 
           formdata.append("annotation_check[x]", new_x);
