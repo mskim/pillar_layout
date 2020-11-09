@@ -33,10 +33,6 @@ module StaticPage
     "#{Rails.root}/app/views/pages/static_page.html.erb"
   end
 
-  def copy_images_to_static
-    system("cp #{jpg_path} #{static_jpg_path}")
-  end
-
   def index_page_link
     rjust = rjusted_page_number
     "<a href= '#{rjust}.html'><img src='images/#{rjust}.jpg' class='border w-100'></a>"
@@ -46,9 +42,9 @@ module StaticPage
     @prev_page_html = prev_page_html
     @index_html     = index_page_html
     @next_page_html = next_page_html
-    @articles = working_articles.map{|w| w.static_article_links}
-    template = File.open(static_page_template_path, 'r'){|f| f.read}
-    erb = ERB.new(template)
+    @articles       = working_articles.map{|w| w.static_article_links}
+    template        = File.open(static_page_template_path, 'r'){|f| f.read}
+    erb             = ERB.new(template)
     erb.result(binding)
   end
 
@@ -102,6 +98,30 @@ module StaticPage
         ad.order = working_articles.length + 1
         ad.save_html
       end
+    end
+  end
+
+
+  # sorted all level article, including divide, drop, and overlaps
+  def sorted_all_working_articles
+    working_articles.sort_by{|w| w.pillar_order}
+  end
+
+  def prev_article(article)
+    sorted = sorted_all_working_articles
+    return article if sorted.first == article
+    prev = sorted.first
+    sorted.each do |sorted_article|
+      return prev if sorted_article == article
+      prev = sorted_article
+    end
+  end
+
+  def next_article(article)
+    sorted = sorted_all_working_articles
+    return article if sorted.last == article
+    sorted.each_with_index do |sorted_article, i|
+      return sorted[i + 1] if sorted_article == article
     end
   end
 

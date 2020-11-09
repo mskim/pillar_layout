@@ -53,6 +53,15 @@
   - do english hyphenation
   - implement proof reading
 
+2020_11_7
+
+  - static_article
+    - show scrap
+    - show wide_column_view
+    - show html_view
+  - box_ad
+
+  
 2020_10_31
   - remove height_in_lines from working_articles table
   - remove pushed_line_count from working_articles table

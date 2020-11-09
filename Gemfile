@@ -147,3 +147,4 @@ gem 'rlayout', path: "/Users/#{ENV['USER']}/Development/ruby/gems/rlayout"
 gem 'font-awesome-sass'
 gem 'rubyXL'
 gem 'acts_as_tenant'
+gem 'kramdown'
