@@ -9,10 +9,6 @@ module StaticIssue
     static_path + "/index.html"
   end
 
-  def static_images_path
-    static_path + "/images"
-  end
-
   def static_zip_path
     static_path + "/website_#{date.to_s}.zip"
   end
@@ -25,6 +21,10 @@ module StaticIssue
     create_static_pages
     system("rm -rf #{static_zip_path}") if File.exist?(static_zip_path)
     zip_static_issue
+  end
+
+  def static_images_path
+    static_path + "/images"
   end
 
   def copy_images_to_static

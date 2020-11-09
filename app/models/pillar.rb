@@ -684,7 +684,30 @@ class Pillar < ApplicationRecord
     working_articles.select{|w| w.parent == nil}
   end
 
+  # only the sorted top level roots
   def sorted_root_working_articles
     root_articles.sort_by{|w| w.pillar_order}
+  end
+
+  # sorted all level article, including divide, drop, and overlaps
+  def sorted_all_working_articles
+    working_articles.sort_by{|w| w.pillar_order}
+  end
+
+  def prev_article(article)
+    sorted = sorted_all_working_articles
+    return article if sorted.first == article
+    prev = sorted.first
+    sorted.each do |sorted_article|
+      return prev if sorted_article == article
+    end
+  end
+
+  def next_article(article)
+    sorted = sorted_all_working_articles
+    return article if sorted.last == article
+    sorted.each_with_index do |sorted_article, i|
+      return sorted[i + 1] if sorted_article == article
+    end
   end
 end

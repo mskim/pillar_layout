@@ -691,6 +691,11 @@ class Page < ApplicationRecord
     "<image xlink:href='#{jpg_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
   end
 
+  def jpg_static_image_path
+    "./images/#{rjusted_page_number}.jpg"
+  end
+
+
   def box_svg_with_jpg
     box_element_svg = page_svg_with_jpg
     box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
@@ -714,8 +719,13 @@ class Page < ApplicationRecord
     EOF
   end
 
+  def page_svg_with_jpg_static
+    # "<image xlink:href='#{pdf_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+    "<image xlink:href='#{jpg_static_image_path}' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />\n"
+  end
+
   def box_svg_html_with_jpg
-    box_element_svg = page_svg_with_jpg
+    box_element_svg = page_svg_with_jpg_static
     # box_element_svg += "<g transform='translate(#{doc_left_margin},#{doc_top_margin})' >\n"
     box_element_svg += page_heading.box_svg if page_number == 1
     pillars.each do |pillar|
