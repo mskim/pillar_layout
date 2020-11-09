@@ -1,5 +1,5 @@
 class AnnotationCommentsController < ApplicationController
-  before_action :set_annotation_comment, only: [:show, :edit, :update, :destroy, :toggle_selected, :move_draggable]
+  before_action :set_annotation_comment, only: [:show, :edit, :update, :destroy, :toggle_selected, :move_draggable, :delete_it]
 
   # GET /annotation_comments
   # GET /annotation_comments.json
@@ -68,6 +68,11 @@ class AnnotationCommentsController < ApplicationController
 
   def move_draggable
     @annotation_comment.update(params.require(:annotation_comment).permit(:x, :y))
+  end
+
+  def delete_it
+    @annotation_comment.destroy
+    redirect_to @annotation_comment.annotation.working_article
   end
 
   private

@@ -1,5 +1,5 @@
 class AnnotationChecksController < ApplicationController
-  before_action :set_annotation_check, only: [:show, :edit, :update, :destroy, :move_draggable]
+  before_action :set_annotation_check, only: [:show, :edit, :update, :destroy, :move_draggable, :delete_it]
 
   # GET /annotation_checks
   # GET /annotation_checks.json
@@ -63,6 +63,11 @@ class AnnotationChecksController < ApplicationController
 
   def move_draggable
     @annotation_check.update(params.require(:annotation_check).permit(:x, :y))
+  end
+
+  def delete_it
+    @annotation_check.destroy
+    redirect_to @annotation_check.annotation.working_article
   end
 
   private

@@ -4,16 +4,19 @@ Rails.application.routes.draw do
   resources :annotation_circles do
     member do
       patch :move_draggable
+      get :delete_it
     end
   end
   resources :annotation_underlines do
     member do
       patch :move_draggable
+      get :delete_it
     end
   end
   resources :annotation_checks do
     member do
       patch :move_draggable
+      get :delete_it
     end
   end
   resources :qrcodes
@@ -25,6 +28,7 @@ Rails.application.routes.draw do
     member do
       get :toggle_selected
       patch :move_draggable
+      get :delete_it
     end
   end
   resources :annotations do

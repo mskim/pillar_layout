@@ -572,12 +572,19 @@ a {
 
 .annotation-group {
   .avatar {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
   }
 
   &:hover {
     .avatar {
-      display: block;
+      visibility: visible;
+      opacity: 1;
     }
   }
+}
+
+.none-display {
+  display: none;
 }
