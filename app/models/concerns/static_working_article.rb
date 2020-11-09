@@ -12,10 +12,6 @@
 
   end
   
-  def static_html_path
-    page.static_articles_path + "/#{pillar_order}.html"
-  end
-
   def static_jpg_path
     page.static_articles_path + "/images/#{pillar_order}.jpg"
   end
@@ -33,26 +29,24 @@
     "<a xlink:href='#{page.rjusted_page_number}/#{pillar_order}.html'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x}' y='#{y}' width='#{width}' height='#{height}' /></a>\n"
   end
 
-  def to_svg_static
-
-  end
-
   def static_templage_path
     "#{Rails.root}/app/views/working_articles/static_article.html.erb"
   end
 
-  def static_article_image_path
-
-  end
-
   def images_links
-    # TODO:
-    ""
+    s = ""
+    images.each do |i| 
+      s += i.to_html
+    end
+    s
   end
 
   def graphics_links
-    # TODO:
-    ""
+    s = ""
+    graphics.each do |i| 
+      s += i.to_html
+    end
+    s
   end
 
   def body_content
@@ -90,20 +84,26 @@
     "#{next_article.pillar_order}.html"
   end
 
+  def korean_date
+    date = page.issue.date
+    "#{date.year}년 #{date.month}월 #{date.day}일"
+  end
+
   def article_static_content
     @page_number        = page.page_number
     @prev_article_html  = prev_article_html
     @page_html          = page_html
     @next_article_html  = next_article_html
-    @pictures_links = images_links
-    @graphics_links = graphics_links
-    @title          = title
-    @subtitle       = subtitle || ""
-    @reporter       = @reporter || ""
-    @quote          = quote || ""
-    @body_content   = body_content
-    template        = File.open(static_templage_path, 'r'){|f| f.read}
-    erb             = ERB.new(template)
+    @title              = title
+    @subtitle           = subtitle || ""
+    @korean_date        = korean_date
+    @reporter           = @reporter || ""
+    @quote              = quote || ""
+    @images_links       = images_links
+    @graphics_links     = graphics_links
+    @body_content       = body_content
+    template            = File.open(static_templage_path, 'r'){|f| f.read}
+    erb                 = ERB.new(template)
     erb.result(binding)
   end
 
@@ -119,6 +119,14 @@
     system("cp #{jpg_path} #{static_jpg_path}")
     # copy_working_article_jpg_to_static
     system("cp #{pdf_path} #{static_pdf_path}")
+    # copy images to static
+    images.each do |image|
+      image.copy_image_to_static
+    end
+    # copy graphics to static
+    graphics.each do |graphic|
+      graphic.copy_graphic_to_static
+    end
   end
 
   def box_svg_html

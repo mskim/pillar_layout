@@ -197,10 +197,6 @@ class Image < ApplicationRecord
       place_image
       # clear image from current_article, if it exits
     end
-    # if working_article
-    #   working_article.generate_pdf
-    #   working_article.update_page_pdf
-    # end
   end
 
   def self.current_images
@@ -314,6 +310,33 @@ class Image < ApplicationRecord
         syb.order = i + 1
         syb.save
       end
+    end
+  end
+
+  def static_image_path
+    # TODO
+    # working_article.static_images_folder + "/#{working_article.pillar_order}-#{order}"
+    working_article.static_images_folder + "/#{@image_basename}"
+  end
+
+  def static_image_url
+    # TODO: put correct image file extension
+    # "./images/#{working_article.pillar_order}-#{order}.jpg"
+    "./images/#{@image_basename}"
+  end
+
+  def copy_image_to_static
+    @image_basename = File.basename(image_path)
+    system("cp #{image_path} #{static_image_path}")
+  end
+
+  def to_html
+    if caption || caption_title
+      s = "<image src='#{static_image_url}' class='w-100'></image>"
+      s+= "<strong>#{caption_title} </string>  #{caption} \n" 
+      s+= "<br/>\n"
+    else
+      s ="<image src='#{static_image_url}' class='w-100 mb-5'></image>\n"
     end
   end
 
