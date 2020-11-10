@@ -1,5 +1,5 @@
 class AnnotationsController < ApplicationController
-  before_action :set_annotation, only: [:show, :edit, :update, :destroy, :add_comment, :add_circle, :add_check]
+  before_action :set_annotation, only: [:show, :edit, :update, :destroy, :add_comment, :add_circle, :add_check, :add_underline, :add_remove_marker]
 
   # GET /annotations
   # GET /annotations.json
@@ -73,6 +73,16 @@ class AnnotationsController < ApplicationController
 
   def add_check
     @annotation.add_check(current_user.id)
+    redirect_to @annotation.working_article
+  end
+
+  def add_underline
+    @annotation.add_underline(current_user.id)
+    redirect_to @annotation.working_article
+  end
+
+  def add_remove_marker
+    @annotation.add_remove_marker(current_user.id)
     redirect_to @annotation.working_article
   end
 

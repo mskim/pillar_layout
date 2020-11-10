@@ -1,16 +1,24 @@
 {
-  "application.js": "/packs/js/application-e861b3533771e313ef05.js",
-  "application.js.map": "/packs/js/application-e861b3533771e313ef05.js.map",
-  "bs_custom_file_input.js": "/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js",
-  "bs_custom_file_input.js.map": "/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js.map",
+  "application.js": "/packs/js/application-5e93a4b062ceada125e6.js",
+  "application.js.map": "/packs/js/application-5e93a4b062ceada125e6.js.map",
+  "bs_custom_file_input.js": "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js",
+  "bs_custom_file_input.js.map": "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map",
   "entrypoints": {
     "application": {
-      "js": ["/packs/js/application-e861b3533771e313ef05.js"],
-      "js.map": ["/packs/js/application-e861b3533771e313ef05.js.map"]
+      "js": [
+        "/packs/js/application-5e93a4b062ceada125e6.js"
+      ],
+      "js.map": [
+        "/packs/js/application-5e93a4b062ceada125e6.js.map"
+      ]
     },
     "bs_custom_file_input": {
-      "js": ["/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js"],
-      "js.map": ["/packs/js/bs_custom_file_input-f1ae0bf49c923e392e79.js.map"]
+      "js": [
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js"
+      ],
+      "js.map": [
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map"
+      ]
     }
   }
 }

@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :annotation_removes do
+    member do
+      patch :move_draggable
+      get :delete_it
+    end
+  end
   resources :annotation_circles do
     member do
       patch :move_draggable
@@ -36,6 +42,8 @@ Rails.application.routes.draw do
       get :add_comment
       get :add_circle
       get :add_check
+      get :add_remove_marker
+      get :add_underline
       get :selecte_all
       get :de_selecte_all
       get :goto_previous

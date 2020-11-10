@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_02_012518) do
+ActiveRecord::Schema.define(version: 2020_11_09_053813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,20 @@ ActiveRecord::Schema.define(version: 2020_11_02_012518) do
     t.boolean "selected"
     t.index ["annotation_id"], name: "index_annotation_comments_on_annotation_id"
     t.index ["user_id"], name: "index_annotation_comments_on_user_id"
+  end
+
+  create_table "annotation_removes", force: :cascade do |t|
+    t.decimal "x"
+    t.decimal "y"
+    t.decimal "width"
+    t.decimal "height"
+    t.string "color"
+    t.bigint "annotation_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["annotation_id"], name: "index_annotation_removes_on_annotation_id"
+    t.index ["user_id"], name: "index_annotation_removes_on_user_id"
   end
 
   create_table "annotation_underlines", force: :cascade do |t|
@@ -1166,6 +1180,8 @@ ActiveRecord::Schema.define(version: 2020_11_02_012518) do
   add_foreign_key "annotation_circles", "annotations"
   add_foreign_key "annotation_circles", "users"
   add_foreign_key "annotation_comments", "annotations"
+  add_foreign_key "annotation_removes", "annotations"
+  add_foreign_key "annotation_removes", "users"
   add_foreign_key "annotation_underlines", "annotations"
   add_foreign_key "annotation_underlines", "users"
   add_foreign_key "annotations", "working_articles"

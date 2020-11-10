@@ -13,8 +13,11 @@
     <%= link_to add_check_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-check"></i> 띄어쓰기
     <% end %>
-    <%= link_to add_comment_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
+    <%= link_to add_underline_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
       <i class="fas fa-underline"></i> 밑줄
+    <% end %>
+    <%= link_to add_remove_marker_annotation_url(@working_article.annotations.last), class: "btn btn-warning btn-lg" do %>
+      <i class="fas fa-remove-format"></i> 빼기
     <% end %>
   <% else %>
     <%= link_to '새교열 시작', new_annotation_working_article_url(@working_article), class: "btn btn-success btn-lg" %>

@@ -1,5 +1,5 @@
 class AnnotationUnderlinesController < ApplicationController
-  before_action :set_annotation_underline, only: [:show, :edit, :update, :destroy]
+  before_action :set_annotation_underline, only: [:show, :edit, :update, :destroy, :move_draggable, :delete_it]
 
   # GET /annotation_underlines
   # GET /annotation_underlines.json
@@ -59,6 +59,15 @@ class AnnotationUnderlinesController < ApplicationController
       format.html { redirect_to annotation_underlines_url, notice: 'Annotation underline was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def move_draggable
+    @annotation_underline.update(params.require(:annotation_underline).permit(:x, :y))
+  end
+
+  def delete_it
+    @annotation_underline.destroy
+    redirect_to @annotation_underline.annotation.working_article
   end
 
   private

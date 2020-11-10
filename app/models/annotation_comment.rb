@@ -50,10 +50,10 @@ class AnnotationComment < ApplicationRecord
     C2.7,6.8,2.5,6.8,2.4,6.7L2.4,6.7z M1.7,8.3h0.9v0.7L1.4,9.3L0.8,8.7L1,7.4h0.7V8.3z' stroke='white' stroke-width='0.3' transform='translate(#{x + (width / 2) - 5}, #{y + (height / 2) -5})' class='cursor-modal' data-toggle='modal' data-comment-id='#{id}' data-target='#comment#{id}Modal, draggable.commentIcon'/>"
     s += "<defs>
         <clipPath id='avatarComment#{id}'>
-          <circle cx='#{x + 55}' cy='#{y - 5}' r='10' fill='#FFFFFF' />
+          <circle cx='#{x + 55}' cy='#{y - 5}' r='10' fill='#FFFFFF' data-target='draggable.mask' data-comment-id='#{id}' />
         </clipPath>
     </defs>"
-    s += "<image xlink:href='#{Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)  if user.avatar.attached?}' x='#{x + 45}' y='#{y - 15}' width='20' height='20' clip-path='url(#avatarComment#{id})' class='avatar' />\n"
+    s += "<image xlink:href='#{Rails.application.routes.url_helpers.rails_blob_path(user.avatar, only_path: true)  if user.avatar.attached?}' x='#{x + 45}' y='#{y - 15}' width='20' height='20' clip-path='url(#avatarComment#{id})' class='avatar' data-target='draggable.avatar' data-comment-id='#{id}' />\n"
     s += '</g>'
     if selected
       sel_with = 4
