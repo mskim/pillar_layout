@@ -24,8 +24,14 @@
         <br>
         <h3><%= @subtitle %></h4>
         <hr>
-        <h4><%= @reporter %></h4>
+        <div class="d-flex justify-content-between">
+          <div><span><%= @korean_date %></span></div>
+          <div><h5><%= @reporter %></h5></div>
+        </div>
         <hr>
+          <%= @images_links %>
+        <br>
+        <%= @graphics_links %>
         <%= @body_content %>
       </div>
     </div>

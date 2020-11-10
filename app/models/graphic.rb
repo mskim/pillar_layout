@@ -299,6 +299,27 @@ class Graphic < ApplicationRecord
     end
   end
 
+  def static_image_path
+    # working_article.static_html_path + "#{working_article.pillar_order}-#{order}"
+    working_article.static_images_folder + "/#{@image_basename}"
+  end
+
+  def static_image_url
+    # TODO: put correct image file extension
+    # "./images/#{working_article.pillar_order}-graphic-#{order}"
+    "./images/#{@image_basename}"
+  end
+
+  def copy_graphic_to_static
+    @image_basename = File.basename(image_path)
+    system("cp #{image_path} #{static_image_path}")
+  end
+
+  def to_html
+   s ="<image src='#{static_image_url}' class='w-100 mb-5'></image>\n"
+  #  s+= "<strong>#{caption_title}</string>#{caption}" if caption || caption_title
+  end
+
   private
 
   def set_default
