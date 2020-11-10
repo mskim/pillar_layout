@@ -53,6 +53,10 @@ class User < ApplicationRecord
   has_many :reporter_images
   has_many :reporter_graphics
   has_many :annotation_comments
+  has_many :annotation_circles
+  has_many :annotation_checks
+  has_many :annotation_underlines
+  has_many :annotation_removes
   # has_many :graphic_requests
 
   has_one_attached :avatar

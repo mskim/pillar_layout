@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @annotation_remove.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @annotation_remove.y %>
+</p>
+
+<p>
+  <strong>Width:</strong>
+  <%= @annotation_remove.width %>
+</p>
+
+<p>
+  <strong>Height:</strong>
+  <%= @annotation_remove.height %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @annotation_remove.color %>
+</p>
+
+<p>
+  <strong>Annotation:</strong>
+  <%= @annotation_remove.annotation_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @annotation_remove.user_id %>
+</p>
+
+<%= link_to 'Edit', edit_annotation_remove_path(@annotation_remove) %> |
+<%= link_to 'Back', annotation_removes_path %>

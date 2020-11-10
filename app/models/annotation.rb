@@ -24,6 +24,8 @@ class Annotation < ApplicationRecord
   has_many :annotation_comments
   has_many :annotation_circles
   has_many :annotation_checks
+  has_many :annotation_underlines
+  has_many :annotation_removes
 
   def path
     working_article.path + "/annotation/version_#{version}"
@@ -66,6 +68,12 @@ class Annotation < ApplicationRecord
     annotation_checks.each do |check|
       box_element_svg += check.to_svg
     end
+    annotation_underlines.each do |underline|
+      box_element_svg += underline.to_svg
+    end
+    annotation_removes.each do |remove|
+      box_element_svg += remove.to_svg
+    end
     box_element_svg += '</g>'
     box_element_svg
   end
@@ -80,6 +88,14 @@ class Annotation < ApplicationRecord
 
   def add_check(user_id)
     AnnotationCheck.create!(annotation: self, user_id: user_id)
+  end
+
+  def add_remove_marker(user_id)
+    AnnotationRemove.create!(annotation: self, user_id: user_id)
+  end
+
+  def add_underline(user_id)
+    AnnotationUnderline.create!(annotation: self, user_id: user_id)
   end
 
   private
