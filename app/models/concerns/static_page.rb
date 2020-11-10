@@ -125,4 +125,37 @@ module StaticPage
     end
   end
 
+  def first_article
+    sorted_all_working_articles.first
+  end
+
+  def last_article
+    sorted_all_working_articles.last
+  end
+
+  def next_page
+    issue.pages[page_number]
+    if page_number == issue.pages.length
+      issue.pages.last
+    else
+      issue.pages[page_number]
+    end
+  end
+
+  def prev_page
+    if page_number == 1
+      issue.pages[0]
+    else
+      issue.pages[page_number - 2]
+    end
+  end
+
+  def first_page?
+    page_number == 1
+  end
+
+  def last_page?
+    page_number == issue.pages.length
+  end
+
 end
