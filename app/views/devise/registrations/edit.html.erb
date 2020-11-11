@@ -1,39 +1,36 @@
-<h2><%= t(".title", resource: resource.model_name.human) %></h2>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-5">
+      <h2 class='text-center'>프로필 수정</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= f.error_notification %>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
-    <% end %>
 
-    <%= f.input :avatar,
-                as: :file,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password,
-                hint: t(".leave_blank_if_you_don_t_want_to_change_it"),
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: false,
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :current_password,
-                hint: t(".we_need_your_current_password_to_confirm_your_changes"),
-                required: true,
-                input_html: { autocomplete: "current-password" } %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
+          <% end %>
+        <div class="fields">
+          <%= f.input :avatar,
+                      as: :file,
+                      required: false,
+                      label: "아바타 첨부",
+                      label_html: { class: "label" },
+                      input_html: { autocomplete: "new-password", class: "form-control" } %>
+        </div>
+        <div class="fields">
+          <%= f.input :current_password,
+                      hint: "변경 내용을 확인하려면 현재 암호가 필요합니다.",
+                      required: true,
+                      label: "현재 비밀번호",
+                      input_html: { autocomplete: "current-password", class: "form-control" } %>
+        </div>
+
+        <div class="form-group">
+          <%= f.button :submit, "프로필 수정완료", class: 'btn btn-success btn-block mt-3' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, t(".update") %>
-  </div>
-<% end %>
-
-<h3><%= t(".cancel_my_account") %></h3>
-
-<p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
-
-<%= link_to t("devise.shared.links.back"), :back %>
+</div>
