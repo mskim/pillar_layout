@@ -72,7 +72,23 @@
   end
 
   def prev_article_html
-    "#{prev_article.pillar_order}.html"
+    if prev_article == self
+      if page.page_number == 1
+        # at first article of first page
+        "#{pillar_order}.html"
+      else
+        prev_p = page.prev_page
+        if prev_p
+          p_order = prev_p.first_article.pillar_order
+          rjust = (prev_p.page_number + 1).to_s.rjust(4,'0')
+          "../#{rjust}/#{p_order}.html"
+        else
+          "#{pillar_order}.html"
+        end
+      end
+    else
+      "#{prev_article.pillar_order}.html"
+    end
   end
 
   def page_html
@@ -81,7 +97,24 @@
   end
 
   def next_article_html
-    "#{next_article.pillar_order}.html"
+    if next_article == self
+      if page.last_page?
+        # at last article of last page
+        "#{pillar_order}.html"
+      else
+        # at last article of mid page
+        next_p = page.next_page
+        if next_p && next_p.page_has_articles?
+          p_order = next_p.first_article.pillar_order
+          rjust = (next_p.page_number + 1).to_s.rjust(4,'0')
+          "../#{rjust}/#{p_order}.html"
+        else
+          "#{pillar_order}.html"
+        end
+      end
+    else
+      "#{next_article.pillar_order}.html"
+    end
   end
 
   def korean_date
