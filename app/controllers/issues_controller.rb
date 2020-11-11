@@ -405,7 +405,7 @@ class IssuesController < ApplicationController
   def build_website
     set_issue
     @issue.build_website
- 
+    redirect_to(@issue)
   end
 
   def edit_static_pages
@@ -415,15 +415,6 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.json { render json: @stories }
     end
-  end
-
-  def preview_static
-
-  end
-
-  def download_static
-    set_issue
-
   end
 
   private

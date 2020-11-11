@@ -77,10 +77,14 @@
         # at first article of first page
         "#{pillar_order}.html"
       else
-        # at first article of mid page
-        p_order = page.prev_page.last_article.pillar_order
-        rjust = (page.page_number - 1).to_s.rjust(4,'0')
-        "../#{rjust}/#{p_order}.html"
+        prev_p = page.prev_page
+        if prev_p
+          p_order = prev_p.first_article.pillar_order
+          rjust = (prev_p.page_number + 1).to_s.rjust(4,'0')
+          "../#{rjust}/#{p_order}.html"
+        else
+          "#{pillar_order}.html"
+        end
       end
     else
       "#{prev_article.pillar_order}.html"
@@ -99,9 +103,14 @@
         "#{pillar_order}.html"
       else
         # at last article of mid page
-        p_order = page.next_page.first_article.pillar_order
-        rjust = (page.page_number + 1).to_s.rjust(4,'0')
-        "../#{rjust}/#{p_order}.html"
+        next_p = page.next_page
+        if next_p && next_p.page_has_articles?
+          p_order = next_p.first_article.pillar_order
+          rjust = (next_p.page_number + 1).to_s.rjust(4,'0')
+          "../#{rjust}/#{p_order}.html"
+        else
+          "#{pillar_order}.html"
+        end
       end
     else
       "#{next_article.pillar_order}.html"
