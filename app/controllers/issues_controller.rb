@@ -42,6 +42,7 @@ class IssuesController < ApplicationController
   # POST /issues
   # POST /issues.jsonfredirect_to
   def create
+    binding.pry
     @issue = Issue.new(issue_params)
     respond_to do |format|
       if @issue.save

@@ -1631,7 +1631,6 @@ class WorkingArticle < ApplicationRecord
       self.top_story = true
     end
     self.extended_line_count  = 0
-    self.height_in_lines      = row*7
     self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
     if kind == '부고-인사'
       self.subject_head         = '부고' 
