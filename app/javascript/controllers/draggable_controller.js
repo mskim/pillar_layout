@@ -398,7 +398,6 @@ export default class extends Controller {
 
           let new_x = parseFloat(new_value[0]);
           let new_y = parseFloat(new_value[1]);
-          console.log(new_value);
           var formdata = new FormData();
 
           formdata.append("annotation_underline[x]", new_x);

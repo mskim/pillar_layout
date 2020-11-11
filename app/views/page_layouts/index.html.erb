@@ -1,57 +1,55 @@
+<div class="text-center">
+  <h4>페이지 레이아웃</h4>
+  <div class="row justify-content-center">
+    <%= search_form_for(@q, html: { class: "form-inline "}) do |s| %>
+      <%= s.label '광고', class: "mr-1" %>
+      <%= s.select :ad_type_eq, Ad.all.uniq { |p| p.name }.collect{|p| p.name}, { include_blank: '전체' }, { class: 'form-control mr-2' } %>
 
-<div align="center">
-<!-- p id="notice"><%= notice %></p-->
+      <%= s.label '페이지', class: "mr-1" %>
+      <%= s.select :page_type_eq, [1, 10, 22, 23, 100, 101, 0], { include_blank: '전체' }, { class: "form-control mr-2" } %>
 
-<h4>페이지 레이아웃</h4>
-<%= search_form_for @q do |s| %>
-<%= s.label '광고' %>
-<%= s.select :ad_type_eq, Ad.all.uniq { |p| p.name }.collect{|p| p.name}, {include_blank: '전체'} %>
+      <%= s.label '단', class: "mr-1" %>
+      <%= s.select :column_eq, [6, 7],  { include_blank: '전체' }, { class: "form-control mr-2" } %>
 
-<%= s.label '페이지' %>
-<%= s.select :page_type_eq, [1, 10, 22, 23, 100, 101, 0],  {include_blank: '전체'} %>
+      <%= s.label :id_eq, 'ID', class: 'mr-1' %>
+      <%= s.text_field :id_eq, style: "width: 50px", class: "form-control mr-2" %>
 
-<%= s.label '단' %>
-<%= s.select :column_eq, [6, 7],  {include_blank: '전체'} %>
-
-<%= s.label 'ID' %>
-<%= s.text_field :id_eq, style: "width:40px" %>
-
-<%= s.submit "검색", class: "btn btn-sm btn-normal"%>
-<% end %>
-<br>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>그림</th>
-      <th>광고종류</th>
-      <th>페이지</th>
-      <th>컬럼수</th>
-      <th>레이아웃</th>
-      <th>ID</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @page_layouts.each do |page_layout| %>
-      <tr>
-        <td><%= raw page_layout.to_svg %></td>
-        <td><%= page_layout.ad_type %></td>
-        <td><%= page_layout.page_type %></td>
-        <td><%= page_layout.column %></td>
-        <td><%= page_layout.layout %></td>
-        <td><%= page_layout.id %></td>
-        <td><%= link_to "보기", page_layout_path(page_layout), class: "btn btn-md btn-success" %></td>
-        <td><%= link_to "복제", duplicate_page_layout_path(page_layout), method: :get, class: "btn btn-md btn-primary" %></td>
-        <td><%= link_to '수정', edit_page_layout_path(page_layout), class: "btn btn-md btn-warning" %></td>
-        <td><%= link_to '삭제', page_layout, method: :delete, class: "btn btn-md btn-danger", data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <%= s.submit "검색", class: "btn btn-primary btn-sm"%>
     <% end %>
-  </tbody>
-</table>
-<%= paginate @page_layouts %>
-<%= button_to '신규 추가', new_page_layout_path, method: :get, class: "btn btn-sm btn-success" %>
-<%= button_to "다운로드 CSV", page_layouts_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" , align: "center"%>
+  </div>
+  <br>
 
+  <table class="table table-striped table-bordered table-sm mt-3">
+    <thead>
+      <tr>
+        <th>그림</th>
+        <th>광고종류</th>
+        <th>페이지</th>
+        <th>컬럼수</th>
+        <th>레이아웃</th>
+        <th>ID</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @page_layouts.each do |page_layout| %>
+        <tr>
+          <td><%= raw page_layout.to_svg %></td>
+          <td class="align-middle"><%= page_layout.ad_type %></td>
+          <td class="align-middle"><%= page_layout.page_type %></td>
+          <td class="align-middle"><%= page_layout.column %></td>
+          <td class="align-middle"><%= page_layout.layout %></td>
+          <td class="align-middle"><%= page_layout.id %></td>
+          <td class="align-middle"><%= link_to "보기", page_layout_path(page_layout), class: "btn btn-md btn-success" %></td>
+          <td class="align-middle"><%= link_to "복제", duplicate_page_layout_path(page_layout), method: :get, class: "btn btn-md btn-primary" %></td>
+          <td class="align-middle"><%= link_to '수정', edit_page_layout_path(page_layout), class: "btn btn-md btn-warning" %></td>
+          <td class="align-middle"><%= link_to '삭제', page_layout, method: :delete, class: "btn btn-md btn-danger", data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @page_layouts %>
+  <%= button_to '신규 추가', new_page_layout_path, method: :get, class: "btn btn-sm btn-success" %>
+  <%= button_to "다운로드 CSV", page_layouts_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" , align: "center"%>
 </div>
