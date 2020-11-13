@@ -1,6 +1,9 @@
-<h3>광고 수정</h3>
-
-<%= render 'form', ad: @ad %>
-
-<%= link_to "보기", @ad, method: :get, class: "btn btn-sm btn-success" %>
-<%= link_to "이전으로", ads_path, method: :get, class: "btn btn-sm btn-primary" %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h1 class="text-center">광고 수정</h1>
+      <%= render 'form', ad: @ad %>
+      <%= link_to "보기", @ad, method: :get, class: "btn btn-sm btn-success" %>
+    </div>
+  </div>
+</div>
