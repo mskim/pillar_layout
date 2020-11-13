@@ -232,7 +232,6 @@ class WorkingArticleDashboard < Administrate::BaseDashboard
     quote_box_type
     quote_box_show
     y_in_lines
-    height_in_lines
     by_line
     price
     left_line
