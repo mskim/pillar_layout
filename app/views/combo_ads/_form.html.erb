@@ -2,14 +2,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :base_ad %>
-    <%= f.input :column %>
-    <%= f.input :row %>
-    <%= f.input :layout %>
-    <%= f.input :profile %>
+    <%= f.input :base_ad, label: "기본 광고" %>
+    <%= f.input :column, label: "열(Column)" %>
+    <%= f.input :row, label: "행(Row)" %>
+    <%= f.input :layout, label: "레이아웃" %>
+    <%= f.input :profile, label: "프로필" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group mt-3">
+    <%= f.submit "저장", class: "btn btn-primary btn-block"%>
   </div>
 <% end %>
