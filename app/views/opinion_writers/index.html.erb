@@ -11,47 +11,40 @@
   </div>
 <p></p>
 <div class="container-fluid">
-
-<div class="row">
-<% @opinion_writers.each do |writer| %>
-  <div class="col-md-2">
-    <% if browser.safari? %>
-    <div class="card" style="width: 18rem;">
-      <%= link_to opinion_writer_path(writer) do %>
-        <img src="<%= writer.pdf_image_path %>" width="100%" class="mb-0">
-      <% end %>
-      <div class="card-body">
-        <%= link_to opinion_writer_path(writer) do %>
-          <h5 class="card-title mt-0"><%= writer.name %></h5>
-        <% end %>
-        <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
-      </div>
-    </div>
-    <% else %>
-      <div class="card" style="width: 18rem;">
-        <%= link_to opinion_writer_path(writer) do %>
-          <img src="<%= writer.jpg_image_path %>" width="100%" class="mb-0">
-        <% end %>
-        <div class="card-body">
+  <div class="row">
+    <% @opinion_writers.each do |writer| %>
+      <div class="col-md-2">
+        <% if browser.safari? %>
+        <div class="card" style="width: 18rem;">
           <%= link_to opinion_writer_path(writer) do %>
-            <h5 class="card-title mt-0"><%= writer.name %></h5>
+            <img src="<%= writer.pdf_image_path %>" width="100%" class="mb-0">
           <% end %>
-          <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+          <div class="card-body">
+            <%= link_to opinion_writer_path(writer) do %>
+              <h5 class="card-title mt-0"><%= writer.name %></h5>
+            <% end %>
+            <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+          </div>
         </div>
+        <% else %>
+          <div class="card" style="width: 18rem;">
+            <%= link_to opinion_writer_path(writer) do %>
+              <img src="<%= writer.jpg_image_path %>" width="100%" class="mb-0">
+            <% end %>
+            <div class="card-body">
+              <%= link_to opinion_writer_path(writer) do %>
+                <h5 class="card-title mt-0"><%= writer.name %></h5>
+              <% end %>
+              <p class="card-text"><%= link_to '삭제', writer, method: :delete, data: { confirm: 'Are you sure?' } %></p>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>
-  <!-- true -->
-<% end %>
 </div>
-</div>
-<!-- <br> <div align="center"> <%= link_to '새로운 저자등록', new_opinion_writer_path , method: :get, class: "btn btn-md btn-success" %> <%= link_to "다운로드 CSV", opinion_writers_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" ,
-align: "center"%> </div> -->
 
-<!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-<nav class="navbar navbar-default navbar-fixed-bottom">
-  <div class="btn-group" role="group" aria-label="기능">
-    <%= link_to '새로운 저자등록', new_opinion_writer_path , method: :get, class: "btn btn-default btn-sm" %>
-    <%= link_to "다운로드 CSV", opinion_writers_path(format: "csv"), method: :get, class: "btn btn-default btn-sm" %>
-  </div>
+<nav class="navbar navbar-expand-lg justify-content-center">
+  <%= link_to "새로운 저자등록", new_profile_path, method: :get, class: "btn btn-success btn-sm mr-2" %>
+  <%= link_to '다운로드 CSV', profiles_path(format: "csv"), method: :get, class: "btn btn-warning btn-sm" %>
 </nav>

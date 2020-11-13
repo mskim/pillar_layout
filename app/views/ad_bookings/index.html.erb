@@ -1,21 +1,26 @@
-<div align="center">
+<div class="container">
+  <h3 class="text-center">광고 예약</h3>
+  <div class="text-right">
+    <%= link_to '새로운 광고 예약 추가', new_ad_booking_path, class: "btn btn-primary" %>
+  </div>
 
-<h3>광고 예약</h3>
-
-<table class="responsive nowrap table table-hover" id="dttb-ad_bookings" data-sort="true" data-source="<%= url_for(format: :json)%>">
-  <thead>
-    <tr>
-      <th data-data="publication_id">Publication</th>
-      <th data-data="date">Date</th>
-      <th data-data="ad_list">Ad list</th>
-      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
-    </tr>
-  </thead>
-
-</table>
-
-<br>
-
-<%= link_to 'New Ad Booking', new_ad_booking_path %>
-
+  <table class="responsive nowrap table table-bordered table-hover table-sm text-center mt-3" id="dttb-ad_bookings" data-sort="true" data-source="<%= url_for(format: :json)%>">
+    <thead>
+      <tr>
+        <th data-data="publication_id">출판사</th>
+        <th data-data="date">날짜</th>
+        <th data-data="ad_list">광고 목록</th>
+        <!-- <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <% @ad_bookings.each do |ad_booking| %>
+        <tr>
+          <td><%= ad_booking.publication.name %></td>
+          <td><%= ad_booking.date %></td>
+          <td><%= truncate(ad_booking.ad_list, length: 100) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

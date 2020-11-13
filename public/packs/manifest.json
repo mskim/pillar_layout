@@ -5,12 +5,20 @@
   "bs_custom_file_input.js.map": "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map",
   "entrypoints": {
     "application": {
-      "js": ["/packs/js/application-b41660dff09c194761af.js"],
-      "js.map": ["/packs/js/application-b41660dff09c194761af.js.map"]
+      "js": [
+        "/packs/js/application-b41660dff09c194761af.js"
+      ],
+      "js.map": [
+        "/packs/js/application-b41660dff09c194761af.js.map"
+      ]
     },
     "bs_custom_file_input": {
-      "js": ["/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js"],
-      "js.map": ["/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map"]
+      "js": [
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js"
+      ],
+      "js.map": [
+        "/packs/js/bs_custom_file_input-699a4d2adb7a8d370755.js.map"
+      ]
     }
   }
 }
