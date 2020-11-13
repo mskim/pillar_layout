@@ -11,94 +11,127 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label '단락 스타일' %>
-    <%= f.text_field :korean_name %>
+  <div class="form-group row">
+    <%= f.label '단락 스타일: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :korean_name, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '단락 스타일 영문명' %>
-    <%= f.text_field :english %>
+  <div class="form-group row">
+    <%= f.label '단락 스타일 영문명: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :english, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '서체 이름' %>
-    <%= f.text_field :font_family %>
+  <div class="form-group row">
+    <%= f.label '서체 이름: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :font_family, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '서체 포스트스크립 이름' %>
-    <%= f.text_field :font %>
+  <div class="form-group row">
+    <%= f.label '서체 포스트스크립 이름: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :font, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '크기' %>
-    <%= f.text_field :font_size %>
+  <div class="form-group row">
+    <%= f.label '서체 크기: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :font_size, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '컬러' %>
-    <%= f.text_field :text_color %>
+  <div class="form-group row">
+    <%= f.label '컬러', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :text_color, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '정렬' %>
-    <%= f.text_field :alignment %>
+  <div class="form-group row">
+    <%= f.label '정렬: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :alignment, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '자간' %>
-    <%= f.text_field :tracking %>
+  <div class="form-group row">
+    <%= f.label '자간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :tracking, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '어간' %>
-    <%= f.text_field :space_width %>
+  <div class="form-group row">
+    <%= f.label '어간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :space_width, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '장평' %>
-    <%= f.text_field :scale %>
+  <div class="form-group row">
+    <%= f.label '장평: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :scale, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '행간' %>
-    <%= f.text_field :text_line_spacing %>
+  <div class="form-group row">
+    <%= f.label '행간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :text_line_spacing, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '글위 행간' %>
-    <%= f.number_field :space_before_in_lines %>
+  <div class="form-group row">
+    <%= f.label '글위 행간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.number_field :space_before_in_lines, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
 
-  <div class="field">
-    <%= f.label '글이래 행간' %>
-    <%= f.number_field :space_after_in_lines %>
+  <div class="form-group row">
+    <%= f.label '글이래 행간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.number_field :space_after_in_lines, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '글높이 행간' %>
-    <%= f.number_field :text_height_in_lines %>
+  <div class="form-group row">
+    <%= f.label '글높이 행간: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.number_field :text_height_in_lines, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '박스 디자인' %>
-    <%= f.text_area :box_attributes, cols: "100", rows: "3", font_size: "16px"%>
+  <div class="form-group row">
+    <%= f.label '박스 디자인: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_area :box_attributes, cols: "100", rows: "3", font_size: "16px", class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '유동적 단락 스타일' %>
-    <%= f.text_area :graphic_attributes, cols: "100", rows: "3", font_size: "16px"%>
+  <div class="form-group row">
+    <%= f.label '유동적 단락 스타일: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_area :graphic_attributes, cols: "100", rows: "3", font_size: "16px", class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '입력시 단락표시 방법' %>
-    <%= f.text_field :markup %>
+  <div class="form-group row">
+    <%= f.label '입력시 단락표시 방법: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :markup, class: "form-control form-control-sm" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <button type="submit" class="btn btn-sm btn-success">저장</button>
+  <div class="form-group">
+    <%= f.submit "저장", class: "btn btn-success btn-sm" %>
   </div>
-
 <% end %>
