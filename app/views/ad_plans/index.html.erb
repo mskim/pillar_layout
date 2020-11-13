@@ -1,8 +1,10 @@
-<div align="center">
+<div>
+  <h3 class="text-center">광고 계획</h3>
+  <div class="text-right">
+  <%= link_to '새로운 광고 계획', new_ad_plan_path, class: "btn btn-warning btn-sm" %>
+  </div>
 
-<h3 align='center'>광고 계획</h3>
-
-<table class="responsive nowrap table table-hover" id="dttb-ad_plans" data-sort="true" data-source="<%= url_for(format: :json)%>">
+<table class="responsive nowrap table table-bordered table-hover table-sm mt-3" id="dttb-ad_plans" data-sort="true" data-source="<%= url_for(format: :json)%>">
   <thead>
     <tr>
       <th data-data="date">날짜</th>
@@ -11,13 +13,24 @@
       <th data-data="advertiser">광고주</th>
       <th data-data="color_page">칼러</th>
       <th data-data="comment">비고</th>
-      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+      <!-- <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th> -->
     </tr>
   </thead>
+  <tbody>
+    <% @ad_plans.each do |ad_plan| %>
+      <tr>
+        <td><%= ad_plan.date %></td>
+        <td><%= ad_plan.page_number %></td>
+        <td><%= ad_plan.ad_type %></td>
+        <td><%= ad_plan.advertiser %></td>
+        <td><%= ad_plan.color_page %></td>
+        <td><%= ad_plan.comment %></td>
+      </tr>
+    <% end %>
+  </tbody>
 
 </table>
 
 <br>
 
-<%= link_to '신규', new_ad_plan_path, class: "btn btn-warning btn-sm" %>
 </div>
