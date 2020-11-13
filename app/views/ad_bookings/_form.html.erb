@@ -2,12 +2,12 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :publication, value: 1%>
-    <%= f.input :date %>
+    <%= f.association :publication, value: 1 %>
+    <%= f.input :date, label: "날짜" %>
     <%= f.input :ad_list,  :input_html => { 'rows' => 25, 'cols' => 50 }%>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group mt-2">
+    <%= f.button :submit, "광고예약 생성", class: "btn btn-block btn-primary" %>
   </div>
 <% end %>

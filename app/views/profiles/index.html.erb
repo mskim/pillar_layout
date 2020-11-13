@@ -1,10 +1,13 @@
-<h3>기고 저자</h3>
-<%= search_form_for @q do |f| %>
-<%= f.label '이름에 포함된 글자로' %>
-<%= f.search_field :name_cont %>
-<%= f.submit "검색", class: "btn btn-sm btn-normal"%>
-<% end %>
-<p></p>
+<div class="row justify-content-center">
+  <div class="col-6">
+  <h3 class="text-center">기고 저자</h3>
+  <%= search_form_for(@q, html: { class: "form-inline" }) do |f| %>
+    <%= f.label '이름에 포함된 글자로', class: 'mr-1' %>
+    <%= f.search_field :name_cont, placeholder: '찾으실 기고 저자 이름을 입력해주세요', class: "form-control w-75 mr-2" %>
+    <%= f.submit "검색", class: "btn btn-primary"%>
+  <% end %>
+  </div>
+</div>
 <div class="container-fluid">
   <div class="row">
     <% @profiles.each do |writer| %>
@@ -40,11 +43,8 @@
   </div>
 </div>
 
-<!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-<nav class="navbar navbar-default navbar-fixed-bottom">
-<div class="btn-group" role="group" aria-label="기능">
-  <%= link_to "새로운 저자등록", new_profile_path, method: :get, class: "btn btn-default btn-sm" %>
-  <%= link_to '다운로드 CSV', profiles_path(format: "csv"), method: :get, class: "btn btn-default btn-sm" %>
-</div>
+<nav class="navbar navbar-expand-lg justify-content-center">
+  <%= link_to "새로운 저자등록", new_profile_path, method: :get, class: "btn btn-success btn-sm mr-2" %>
+  <%= link_to '다운로드 CSV', profiles_path(format: "csv"), method: :get, class: "btn btn-warning btn-sm" %>
 </nav>
 

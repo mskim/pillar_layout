@@ -113,7 +113,6 @@ group :development, :test do
   gem 'webdrivers'
   gem 'pry-rescue'
   gem 'pry-stack_explorer'
-
 end
 
 # gem 'bullet', group: 'development'
