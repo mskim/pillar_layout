@@ -217,6 +217,10 @@ Rails.application.routes.draw do
     member do
       get 'select_template'
       get 'update_page'
+      patch :update_color
+      patch :update_section_name
+      patch :update_ad_type
+      patch :update_advertiser
     end
   end
 

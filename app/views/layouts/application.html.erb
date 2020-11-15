@@ -29,14 +29,10 @@
     <meta name="theme-color" content="#ffffff">
   </head>
   <body>
-    <!-- p class="notice"><%= notice %></p -->
-    <!-- p class="alert"><%= alert %></p -->
     <header id="header">
       <%= render 'layouts/navigation' %>
     </header>
-    <main class="container" >
-      <%= render 'layouts/messages' %>
-    </main>
+    <%= render 'layouts/messages' %>
     <%= yield %>
     <footer id="footer">
     </footer>

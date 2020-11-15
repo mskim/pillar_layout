@@ -15,8 +15,7 @@
 // const imagePath = (name) => images(name, true)
 
 require("@rails/ujs").start();
-// require("turbolinks").start();
-require("jquery");
+require("turbolinks").start();
 require("@rails/activestorage").start();
 require("channels");
 require("@rails/actiontext");
@@ -25,7 +24,3 @@ global.$ = jQuery;
 
 import "controllers";
 import "bootstrap";
-
-document.addEventListener("turbolinks:load", () => {
-  $('[data-toggle="tooltip"]').tooltip();
-});

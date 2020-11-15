@@ -1,74 +1,64 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Doc width:</strong>
-  <%= @page_layout.doc_width %>
-</p>
-
-<p>
-  <strong>Doc height:</strong>
-  <%= @page_layout.doc_height %>
-</p>
-
-<p>
-  <strong>Ad type:</strong>
-  <%= @page_layout.ad_type %>
-</p>
-
-<p>
-  <strong>Page type:</strong>
-  <%= @page_layout.page_type %>
-</p>
-
-<p>
-  <strong>Column:</strong>
-  <%= @page_layout.column %>
-</p>
-
-<p>
-  <strong>Row:</strong>
-  <%= @page_layout.row %>
-</p>
-
-<p>
-  <strong>Pillar count:</strong>
-  <%= @page_layout.pillar_count %>
-</p>
-
-<p>
-  <strong>Grid width:</strong>
-  <%= @page_layout.grid_width %>
-</p>
-
-<p>
-  <strong>Grid height:</strong>
-  <%= @page_layout.grid_height %>
-</p>
-
-<p>
-  <strong>Gutter:</strong>
-  <%= @page_layout.gutter %>
-</p>
-
-<p>
-  <strong>Margin:</strong>
-  <%= @page_layout.margin %>
-</p>
-
-<p>
-  <strong>Layout:</strong>
-  <%= @page_layout.layout %>
-</p>
-
-<p>
-  <strong>Layout with pillar path:</strong>
-  <%= @page_layout.layout_with_pillar_path %>
-</p>
-
-<p>
-  <strong>Like:</strong>
-  <%= @page_layout.like %>
-</p>
-
-<%= link_to 'Edit', edit_page_layout_path(@page_layout) %> |
-<%= link_to 'Back', page_layouts_path %>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="card">
+        <div class="row no-gutters">
+          <div class="col-4 p-3">
+            <%= raw @page_layout.to_svg %>
+          </div>
+          <div class="col-8">
+            <div class="card-body">
+              <p>
+                <span><strong>문서 가로:</strong> <%= @page_layout.doc_width %></span>
+              </p>
+              <p>
+                <span><strong>문서 세로:</strong> <%= @page_layout.doc_height %></span>
+              </p>
+              <p>
+                <span><strong>광고 타입:</strong> <%= @page_layout.ad_type %></span>
+              </p>
+              <p>
+                <span><strong>페이지 타입:</strong> <%= @page_layout.page_type %></span>
+              </p>
+              <p>
+                <span><strong>단의 수:</strong> <%= @page_layout.column %></span>
+              </p>
+              <p>
+                <span><strong>행의 수:</strong> <%= @page_layout.row %></span>
+              </p>
+              <p>
+                <span><strong>필러(기둥)의 수:</strong> <%= @page_layout.pillar_count %></span>
+              </p>
+              <p>
+                <span><strong>그리드 가로:</strong> <%= @page_layout.grid_width %></span>
+              </p>
+              <p>
+                <span><strong>그리드 세로:</strong> <%= @page_layout.grid_height %></span>
+              </p>
+              <p>
+                <span><strong>여백(Gutter):</strong> <%= @page_layout.gutter %></span><br>
+                *여백(Gutter): 좌우 양 페이지 사이의 여백
+              </p>
+              <p>
+                <span><strong>여백(Margin):</strong> <%= @page_layout.margin %></span><br>
+                *여백(Margin): 페이지의 여백
+              </p>
+              <p>
+                <span><strong>레이아웃:</strong> <%= @page_layout.layout %></span>
+              </p>
+              <p>
+                <span><strong>필러(기둥) 경로가 있는 레이아웃:</strong> <%= @page_layout.layout_with_pillar_path %></span>
+              </p>
+              <p>
+                <span><strong>Like:</strong> <%= @page_layout.like %></span>
+              </p>
+              <p>
+                <%= link_to "편집", edit_page_layout_path(@page_layout), class: "btn btn-primary btn-block" %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -12,55 +12,57 @@
     </div>
   <% end %>
   
-  <div class="field">
-    <%= f.label :날짜 %>
-    <%= f.date_select :date %>
-  </div>
-  <div class="field">
-    <%= f.label :진행상황 %>
-    <%= f.text_field :status %>
-  </div>
-
-  <div class="field">
-    <%= f.label 'designer' %>
-    <%= f.select :designer, ['양유미', '한승효','안상현','이지혜','반수희','지선미'], {include_blank: true}%>
-  </div>
-
-  <div class="field">
-    <%= f.label '요청 설명'%>
-    <%= f.text_area :request, cols: 40, rows: 5 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :데이터 %>
-    <%= f.text_area :data, cols: 40, rows: 20 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :'페이지 단'%>
-    <%= f.select :page_column, [5, 6, 7] %>
-  </div>
-  <div class="field">
-    <%= f.label :단 %>
-    <%= f.select :column, [1,2,3,4,5,6,7] %>
-  </div>
-    <div class="field">
-    <%= f.label :열 %>
-    <%= f.select :row, [1, 2, 3, 4, 5, 6, 7] %>
-  </div>
-
-  <div class="actions">
-    <%= f.button "저장", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-  </div>
-  
-
-    <!-- 편집화면 하단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-      <div class="btn-group btn-right" role="group" aria-label="기능">
-      <%= link_to "이전으로", my_stories_path, method: :get, class: "btn btn-default btn-sm" %>
-      <%= f.button "저장", accesskey: "s", class: "btn btn-primary btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
-
+  <div class="form-row mt-2">
+    <%= f.label :date, "날짜", class: "col-2" %>
+    <div class="col-10">
+      <%= f.date_select :date %>
     </div>
-    </nav>
+  </div>
+  <div class="form-row mt-2">
+    <%= f.label :status, "진행상황", class: "col-2" %>
+    <div class="col-10">
+      <%= f.text_field :status, class: "form-control form-control-sm" %>
+    </div>
+  </div>
+
+  <div class="form-row align-items-center mt-2">
+    <%= f.label :designer, '디자이너', class: "col-2" %>
+    <div class="col-10">
+      <%= f.select :designer, ['양유미', '한승효','안상현','이지혜','반수희','지선미'], { include_blank: true }, { class: "form-control form-control-sm" } %>
+    </div>
+  </div>
+
+  <div class="form-row align-items-center mt-2">
+    <%= f.label :request, '요청 설명', class: "col-2" %>
+    <div class="col-10">
+      <%= f.text_area :request, rows: 5, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-row align-items-center mt-2">
+    <%= f.label :data, "데이터", class: "col-2" %>
+    <div class="col-10">
+      <%= f.text_area :data, rows: 10, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-row align-items-center mt-3">
+    <div class="col-4">
+      <%= f.label :page_column, '페이지 단' %>
+      <%= f.select :page_column, [5, 6, 7], {}, { class: "form-control" } %>
+    </div>
+    <div class="col-4">
+      <%= f.label :column, "단" %>
+      <%= f.select :column, [1, 2, 3, 4, 5, 6, 7], {}, { class: "form-control" } %>
+    </div>
+    <div class="col-4">
+      <%= f.label :row, "열" %>
+      <%= f.select :row, [1, 2, 3, 4, 5, 6, 7], {}, { class: "form-control" } %>
+    </div>
+  </div>
+
+  <div class="form-group mt-2">
+    <%= f.button "저장", class: "btn btn-primary btn-block btn-sm", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."} %>
+  </div>
 <% end %>
 

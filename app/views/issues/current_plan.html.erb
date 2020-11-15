@@ -1,116 +1,90 @@
-<div class="container-fluid">
-  <div class="row">
-    <h3 class="text-center">
-      <% if @issue.pages.first == nil || @issue.pages.first == "" %>
-        <!-- %= link_to "#{@issue.date.to_s} (#{@issue.number})", issues_path % -->
-        <%= ko_date %>
-        : 면배열표</h3>
+<div data-controller='current-plan'>
+  <h3 class="text-center">
+    <% if @issue.pages.first == nil || @issue.pages.first == "" %>
+      <%= ko_date %>: 면배열표
     <% else %>
-      <%= ko_date %>
-      : 면배열표
+      <%= ko_date %>: 면배열표
     <% end %>
   </h3>
-</div>
-</div>
-<div class="row mb-5">
-  <div class="col-xs-12 col-sm-6">
-    <table class="table table-striped tables">
-      <thead>
-        <tr>
-          <th style="text-align:center; width:10%;">페이지</th>
-          <th style="text-align:center; width:10%;">컬러</th>
-          <th style="text-align:center; width:10%;">면 이름</th>
-          <th style="text-align:center; width:10%;">광고</th>
-          <th style="text-align:center; width:20%;">광고주</th>
-          <!-- th style="text-align:center;">마감시간</th-->
-          <th style="text-align:center; width:10%;">저장</th>
-        </tr>
-      </thead>
-    </table>
-    <% @front_page_plans.each do |page_plan| %>
-      <%= form_for(page_plan, data: { target: "current-plan.form"}) do |f| %>
-        <table class="table table-striped tables">
-          <% if page_plan.color_page %>
-            <tr style="background-color:pink;">
-            <% else %>
-              <tr style="background-color:white;">
-              <% end %>
-              <td style="text-align:center; width:10%; font-size: 18px;"><%= link_to page_plan.page_number, page_path(page_plan.page) %></td>
-              <td style="text-align:center; width:10%;"><%= f.check_box :color_page %></td>
-              <!-- td style="text-align:center; width:10%;"><%= f.select :section_name, %w[1면 정치 자치행정 국제통일 금융 산업 정책 기획 오피니언 전면광고], {include_blank: false} %></td -->
-              <td style="text-align:center; width:10%;"><%= f.text_field :section_name  %></td>
-              <td style="text-align:center; width:10%;"><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], {include_blank: false} %></td>
-              <td style="text-align:center; width:20%;"><%= f.text_field :advertiser %>
-                <% if current_user && current_user.role == 'reporter' || current_user.role == 'team_leader' %>
-                <% else %>
-                  <td style="text-align:center; width:10%;" align="right"><%= f.submit '저장', class: 'btn btn-sm btn-primary' %></td>
-                <% end %>
-              </tr>
-            </tbody>
-          </table>
-        <% end %>
-      <% end %>
-    </div>
+  <p class="text-center">
+    <%= link_to "모두 저장", '', class: "btn btn-primary", data: { action: 'current-plan#all_save', disable_with: "<i class='fa fa-spinner fa-spin'></i> 저장 중..."} %>
+  </p>
+  <div class="row">
     <div class="col-sm-6">
-      <table class="table table-striped tables">
+      <table class="table text-center">
         <thead>
           <tr>
-            <th style="text-align:center; width:10%;">페이지</th>
-            <th style="text-align:center; width:10%;">컬러</th>
-            <th style="text-align:center; width:10%;">면 이름</th>
-            <th style="text-align:center; width:10%;">광고</th>
-            <th style="text-align:center; width:20%;">광고주</th>
-            <!-- th style="text-align:center;">마감시간</th-->
-            <th style="text-align:center; width:10%;">저장</th>
+            <th>페이지</th>
+            <th>컬러</th>
+            <th style="width: 20%;">면 이름</th>
+            <th>광고</th>
+            <th style="width: 20%;">광고주</th>
+            <th>저장</th>
           </tr>
         </thead>
-      </table>
-      <% @back_page_plans.each do |page_plan| %>
-        <%= form_for(page_plan, html: { name: "formPlan" }) do |f| %>
-          <table class="table table-striped tables">
-            <tbody>
+        <tbody>
+          <% @front_page_plans.each do |page_plan| %>
+            <%= form_for(page_plan, data: { target: "current-plan.form"}) do |f| %>
               <% if page_plan.color_page %>
-                <tr style="background-color:pink;">
+                <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
+              <% else %>
+                <tr class="bg-white" data-page-plan-id='<%= page_plan.id %>'>
+              <% end %>
+                <td class="page_number"><%= link_to page_plan.page_number, page_path(page_plan.page) %></td>
+                <td class="align-middle"><%= f.check_box :color_page, data: { action: 'change->current-plan#changeBG' } %></td>
+                <td><%= f.text_field :section_name, class: "form-control form-control-sm", data: { target: 'current-plan.section_name' } %></td>
+                <td><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], { include_blank: false }, { class: "form-control form-control-sm", data: { target: 'current-plan.ad_type' } } %></td>
+                <td><%= f.text_field :advertiser, class: "form-control form-control-sm", data: { target: 'current-plan.advertiser' } %>
+                <% if current_user && current_user.role == 'reporter' || current_user.role == 'team_leader' %>
                 <% else %>
-                  <tr style="background-color:white;">
-                  <% end %>
-                  <td style="text-align:center; width:10%; font-size: 18px;"><%= link_to page_plan.page_number, page_path(page_plan.page) %></td>
-                  <td style="text-align:center; width:10%;"><%= f.check_box :color_page %></td>
-                  <!-- td style="text-align:center; width:10%;"><%= f.select :section_name, %w[1면 정치 자치행정 국제통일 금융 산업 정책 기획 오피니언 전면광고], {include_blank: false} %></td -->
-                  <td style="text-align:center; width:10%;"><%= f.text_field :section_name  %></td>
-                  <td style="text-align:center; width:10%;"><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], {include_blank: false} %></td>
-                  <td style="text-align:center; width:20%;"><%= f.text_field :advertiser %>
-                    <!-- td style="text-align:center; width:20%;"><%= f.select :advertiser, %w[사계절 부영 이마트 삼성 농협은행
-                            일동제약 삼성 CJ KT LG하우시스 SK이노베이션 SK하이닉스 SK텔레콤 YTN 연합뉴스 내일교육 석간내일신문 내일이비즈 굿네이버스 녹십자
-                            기아차 현대차 국민지주 하나은행 다상대상 근로복지공단 산업안전보건공단 산업인력공단 한국관광공사 한수원 한마당서림 공고 청산공고 분실공고 서부발전
-                            도서관협회 유한양행 애경], {include_blank: true} %></td -->
-                    <!-- td style="text-align:center;"><%= f.text_field :deadline ,class:'page-plan-form' %></td-->
-                    <% if page_plan.page %>
-                      <td style="text-align:center; width:10%;" align="right"><%= f.submit '저장', class: 'btn btn-sm btn-primary' %></td>
-                    <% else %>
-                      <td style="text-align:center; width:10%;" align="right"><%= f.submit '저장', class: 'btn btn-sm btn-primary' %></td>
-                    <% end %>
-                  </tr>
-                </tbody>
-              </table>
+                  <td class="align-middle"><%= f.submit '저장', class: 'btn btn-sm btn-primary' %></td>
+                <% end %>
+              </tr>
             <% end %>
           <% end %>
-        </div>
-        <br>
-        <!-- 폼 외부에서 저장 버튼 가능하게... 현재 마지막 폼만 작동.. each do 가 아닌 1~24페이지를 다 만들어 놓으면 될까? -->
-        <!-- input type="button" value="Submit" id="myButton" />
-
-<script type="text/javascript">
-    $(document).ready(function() {
-       $("#myButton").click(function() {
-        $("form[name=formPlan]").submit();
-       });
-    });
-</script -->
-        <% if @front_page_plans.first.page %>
-        <% else %>
-          <div class="text-center">
-            <%= link_to "페이지 생성", update_plan_issue_path(Issue.last.id), method: :get, class: "btn-group btn btn-sm btn-info" %>
-          </div>
-        <% end %>
-      </div>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6">
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th>페이지</th>
+            <th>컬러</th>
+            <th style="width: 20%;">면 이름</th>
+            <th>광고</th>
+            <th style="width: 20%;">광고주</th>
+            <th>저장</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @back_page_plans.each do |page_plan| %>
+            <%= form_for(page_plan, data: { target: "current-plan.form"}) do |f| %>
+              <% if page_plan.color_page %>
+                <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
+              <% else %>
+                <tr class="bg-white" data-page-plan-id='<%= page_plan.id %>'>
+              <% end %>
+              <td class="page_number"><%= link_to page_plan.page_number, page_path(page_plan.page) %></td>
+                <td class="align-middle"><%= f.check_box :color_page, data: { action: 'change->current-plan#changeBG' } %></td>
+                <td><%= f.text_field :section_name, class: "form-control form-control-sm", data: { target: 'current-plan.section_name' } %></td>
+                <td><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], { include_blank: false }, { class: "form-control form-control-sm", data: { target: 'current-plan.ad_type' } } %></td>
+                <td><%= f.text_field :advertiser, class: "form-control form-control-sm", data: { target: 'current-plan.advertiser' } %>
+                <% if current_user && current_user.role == 'reporter' || current_user.role == 'team_leader' %>
+                <% else %>
+                  <td class="align-middle"><%= f.submit '저장', class: 'btn btn-sm btn-primary' %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% if @front_page_plans.first.page %>
+  <% else %>
+    <div class="text-center">
+      <%= link_to "페이지 생성", update_plan_issue_path(Issue.last.id), method: :get, class: "btn-group btn btn-sm btn-info" %>
+    </div>
+  <% end %>
+</div>

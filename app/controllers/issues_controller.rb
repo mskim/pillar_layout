@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IssuesController < ApplicationController
-  before_action :set_issue, only: %i[show clone_pages edit update current_plan images upload_images ad_boxes ad_images upload_ad_images destroy slide_show assign_reporter send_xml_to_ebiz merge_container_xml print_status change_current]
+  before_action :set_issue, only: %i[show clone_pages edit update current_plan images upload_images ad_boxes ad_images upload_ad_images destroy slide_show assign_reporter send_xml_to_ebiz merge_container_xml print_status change_current all_save]
   before_action :authenticate_user!
   # TODO I added this after getting  'ActionController::InvalidAuthenticityToken' error
   skip_before_action :verify_authenticity_token
