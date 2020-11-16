@@ -10,37 +10,44 @@ export default class extends Controller {
     let ad_types = this.ad_typeTargets;
     let advertisers = this.advertiserTargets;
 
-    let data = new FormData();
-
-    section_names.forEach((section_name) => {
-      let id = section_name.closest("tr").getAttribute("data-page-plan-id");
-      data.append("page_plan[section_name]", section_name.value);
-      Rails.ajax({
-        url: "/page_plans/:id/update_section_name".replace(":id", id),
-        type: "PATCH",
-        data: data,
-      });
+    // setTimeout(() => {
+    //   Rails.fire(this.formTarget, "submit");
+    // });
+    forms.forEach((form) => {
+      Rails.fire(form, "submit");
     });
 
-    ad_types.forEach((ad_type) => {
-      let id = ad_type.closest("tr").getAttribute("data-page-plan-id");
-      data.append("page_plan[ad_type]", ad_type.value);
-      Rails.ajax({
-        url: "/page_plans/:id/update_ad_type".replace(":id", id),
-        type: "PATCH",
-        data: data,
-      });
-    });
+    // let data = new FormData();
 
-    advertisers.forEach((advertiser) => {
-      let id = advertiser.closest("tr").getAttribute("data-page-plan-id");
-      data.append("page_plan[advertiser]", advertiser.value);
-      Rails.ajax({
-        url: "/page_plans/:id/update_advertiser".replace(":id", id),
-        type: "PATCH",
-        data: data,
-      });
-    });
+    // section_names.forEach((section_name) => {
+    //   let id = section_name.closest("tr").getAttribute("data-page-plan-id");
+    //   data.append("page_plan[section_name]", section_name.value);
+    //   Rails.ajax({
+    //     url: "/page_plans/:id/update_section_name".replace(":id", id),
+    //     type: "PATCH",
+    //     data: data,
+    //   });
+    // });
+
+    // ad_types.forEach((ad_type) => {
+    //   let id = ad_type.closest("tr").getAttribute("data-page-plan-id");
+    //   data.append("page_plan[ad_type]", ad_type.value);
+    //   Rails.ajax({
+    //     url: "/page_plans/:id/update_ad_type".replace(":id", id),
+    //     type: "PATCH",
+    //     data: data,
+    //   });
+    // });
+
+    // advertisers.forEach((advertiser) => {
+    //   let id = advertiser.closest("tr").getAttribute("data-page-plan-id");
+    //   data.append("page_plan[advertiser]", advertiser.value);
+    //   Rails.ajax({
+    //     url: "/page_plans/:id/update_advertiser".replace(":id", id),
+    //     type: "PATCH",
+    //     data: data,
+    //   });
+    // });
   }
 
   changeBG(e) {

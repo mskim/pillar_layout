@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include Pagy::Frontend
+
   def current_issue
     if session[:current_issue] 
       session[:current_issue]
@@ -11,5 +13,4 @@ module ApplicationHelper
   def ko_date
     current_issue.korean_date_string
   end
-
 end

@@ -49,7 +49,9 @@
       <% end %>
     </tbody>
   </table>
-  <%= paginate @page_layouts %>
+  <div class="d-flex justify-content-center">
+  <%= pagy_bootstrap_nav(@pagy).html_safe %>
+  </div>
   <%= button_to '신규 추가', new_page_layout_path, method: :get, class: "btn btn-sm btn-success" %>
   <%= button_to "다운로드 CSV", page_layouts_path(format: "csv"), method: :get, class: "btn-group btn btn-sm btn-warning" , align: "center"%>
 </div>
