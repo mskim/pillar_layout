@@ -6,8 +6,8 @@
       <%= ko_date %>: 면배열표
     <% end %>
   </h3>
-  <div class="d-flex justify-content-center">
-    <div class="col-6">
+  <div class="row">
+    <div class="col-sm-6">
       <table class="table text-center">
         <thead>
           <tr>
@@ -16,11 +16,12 @@
             <th style="width: 20%;">면 이름</th>
             <th>광고</th>
             <th style="width: 20%;">광고주</th>
+            <th>저장</th>
           </tr>
         </thead>
         <tbody>
           <% @front_page_plans.each do |page_plan| %>
-            <%= form_for(page_plan, data: { target: "current-plan.form" }) do |f| %>
+            <%= form_for(page_plan, data: { remote: true, target: "current-plan.form" }) do |f| %>
               <% if page_plan.color_page %>
                 <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
               <% else %>
@@ -31,13 +32,17 @@
                 <td><%= f.text_field :section_name, class: "form-control form-control-sm", data: { target: 'current-plan.section_name' } %></td>
                 <td><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], { include_blank: false }, { class: "form-control form-control-sm", data: { target: 'current-plan.ad_type' } } %></td>
                 <td><%= f.text_field :advertiser, class: "form-control form-control-sm", autocomplete: "off", data: { target: 'current-plan.advertiser' } %>
+                <% if current_user && current_user.role == 'reporter' || current_user.role == 'team_leader' %>
+                <% else %>
+                  <td class="align-middle"><%= f.submit '저장', class: 'btn btn-sm btn-primary', data: { target: "current-plan.submit" } %></td>
+                <% end %>
               </tr>
             <% end %>
           <% end %>
         </tbody>
       </table>
     </div>
-    <div class="col-6">
+    <div class="col-sm-6">
       <table class="table text-center">
         <thead>
           <tr>
@@ -46,11 +51,12 @@
             <th style="width: 20%;">면 이름</th>
             <th>광고</th>
             <th style="width: 20%;">광고주</th>
+            <th>저장</th>
           </tr>
         </thead>
         <tbody>
           <% @back_page_plans.each do |page_plan| %>
-            <%= form_for(page_plan, data: { target: "current-plan.form" }) do |f| %>
+            <%= form_for(page_plan, data: { remote: true, target: "current-plan.form" }) do |f| %>
               <% if page_plan.color_page %>
                 <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
               <% else %>
@@ -61,6 +67,10 @@
                 <td><%= f.text_field :section_name, class: "form-control form-control-sm", data: { target: 'current-plan.section_name' } %></td>
                 <td><%= f.select :ad_type, @available_ads_for_pages[page_plan.page_number - 1 ], { include_blank: false }, { class: "form-control form-control-sm", data: { target: 'current-plan.ad_type' } } %></td>
                 <td><%= f.text_field :advertiser, class: "form-control form-control-sm", autocomplete: "off", data: { target: 'current-plan.advertiser' } %>
+                <% if current_user && current_user.role == 'reporter' || current_user.role == 'team_leader' %>
+                <% else %>
+                  <td class="align-middle"><%= f.submit '저장', class: 'btn btn-sm btn-primary', data: { target: "current-plan.submit" } %></td>
+                <% end %>
               </tr>
             <% end %>
           <% end %>
@@ -74,6 +84,7 @@
       <%= link_to "페이지 생성", update_plan_issue_path(Issue.last.id), method: :get, class: "btn-group btn btn-sm btn-info" %>
     </div>
   <% end %>
+  <!--
   <nav class="navbar fixed-bottom navbar-light bg-light justify-content-center">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -81,4 +92,5 @@
       </li>
     </ul>
   </nav>
+  -->
 </div>
