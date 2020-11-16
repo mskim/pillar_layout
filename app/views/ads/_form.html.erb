@@ -11,32 +11,42 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label '이름' %>
-    <%= f.text_field :name %>
+  <div class="form-inline">
+    <%= f.label '이름: ', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '단' %>
-    <%= f.number_field :column %>
+  <div class="form-inline mt-2">
+    <%= f.label '단:', class: "col-3" %>
+    <div class="col-9">
+      <%= f.number_field :column, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '열' %>
-    <%= f.number_field :row %>
+  <div class="form-inline mt-2">
+    <%= f.label '열:', class: "col-3" %>
+    <div class="col-9">
+      <%= f.number_field :row, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '면의 가로 단' %>
-    <%= f.text_field :page_columns %>
+  <div class="form-inline mt-2">
+    <%= f.label '면의 가로 단:', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :page_columns, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label '매체 아이디' %>
-    <%= f.text_field :publication_id %>
+  <div class="form-inline mt-2">
+    <%= f.label '매체 아이디:', class: "col-3" %>
+    <div class="col-9">
+      <%= f.text_field :publication_id, class: "form-control" %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group mt-2">
+    <%= f.submit "저장", class: "btn btn-primary btn-block" %>
   </div>
 <% end %>

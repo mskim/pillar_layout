@@ -1,18 +1,31 @@
-<%= simple_form_for(@heading_bg_image) do |f| %>
-  <%= f.error_notification %>
-  <div class="form-inputs">
-    <%= f.input :name %>
+<%= form_with(model: @heading_bg_image) do |f| %>
+  <% if @heading_bg_image.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@heading_bg_image.errors.count, "error") %> prohibited this graphic_request from being saved:</h2>
+
+      <ul>
+      <% @heading_bg_image.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :name, "신문사명"%>
+    <%= f.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="form-inputs">
-    <%= f.input :paper_size, as: :select, collection: %W[대판 베르리너 타블로이드] %>  
+  <div class="form-group">
+    <%= f.label :paper_size, "페이퍼 사이즈"%>
+    <%= f.select :paper_size, %W[대판 베르리너 타블로이드], {}, { class: "form-control" } %>  
   </div>
 
-  <div class="form-inputs">
-    <%= f.input :heading_bg_image %>
+  <div class="custom-file mt-3">
+    <%= f.file_field :heading_bg_image, class: "custom-file-input", id: "customFile" %>
+    <%= f.label :heading_bg_image, "파일 선택", class: "custom-file-label", for: "customFile", data: { browse: "첨부파일" } %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group mt-3">
+    <%= f.submit "저장", class: "btn btn-primary btn-block" %>
   </div>
 <% end %>

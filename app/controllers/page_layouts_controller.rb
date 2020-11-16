@@ -4,16 +4,17 @@ class PageLayoutsController < ApplicationController
   # GET /page_layouts
   # GET /page_layouts.json
   def index
-
     if params[:page]
       session[:current_section_pagination] = params[:page]
     end
     @q            = PageLayout.ransack(params[:q])
     @page_layouts = @q.result.order(:updated_at, :ad_type, :page_type, :column).page(params[:page]).reverse_order.per(10) 
-    @page_layouts = PageLayout.all.order(:id)  if request.format == 'csv'
+    # ↓ pagy 작성하기 위해 임시로 주식 달았음(2020.11.15)
+    # @page_layouts = PageLayout.all.order(:id) if request.format == 'csv'
+    @pagy, @page_layouts = pagy(PageLayout.all.order(:id), items: 10)
     respond_to do |format|
       format.html 
-      format.json { render :index}
+      format.json { render :index }
       format.csv { send_data @page_layouts.to_csv }
     end
   end

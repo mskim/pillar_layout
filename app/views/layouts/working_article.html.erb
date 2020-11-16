@@ -185,7 +185,6 @@ $('input[type="text"], textarea').each(function(){
       <script>
         // wire up shown event
         $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
-          console.log("tab shown...");
           localStorage.setItem("activeTab", $(e.target).attr("href"));
         });
 

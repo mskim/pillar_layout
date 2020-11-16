@@ -1,20 +1,22 @@
-
-<!-- p id="notice"><%= notice %></p-->
-
-<p>
-  <strong>Section:</strong>
-  <%= @reporter_group.section %>
-</p>
-
-<p>
-  <strong>Leader:</strong>
-  <%= @reporter_group.leader %>
-</p>
-
-<p>
-  <strong>Page range:</strong>
-  <%= @reporter_group.page_range %>
-</p>
-
-<%= link_to 'Edit', edit_reporter_group_path(@reporter_group) %> |
-<%= link_to 'Back', reporter_groups_path %>
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <p>
+            <span><strong>섹션명:</strong> <%= @reporter_group.section %></span>
+          </p>
+          <p>
+            <span><strong>팀장:</strong> <%= @reporter_group.leader %></span>
+          </p>
+          <p>
+            <span><strong>페이지 범위:</strong> <%= @reporter_group.page_range %></span>
+          </p>
+        </div>
+        <div class="card-footer">
+          <%= link_to '편집', edit_reporter_group_path(@reporter_group), class: "btn btn-primary btn-block" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

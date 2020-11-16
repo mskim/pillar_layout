@@ -1,6 +1,8 @@
-<h1>Editing Page Layout</h1>
-
-<%= render 'form', page_layout: @page_layout %>
-
-<%= link_to 'Show', @page_layout %> |
-<%= link_to 'Back', page_layouts_path %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h1 class="text-center">페이지 레이아웃 편집</h1>
+      <%= render 'form', page_layout: @page_layout %>
+    </div>
+  </div>
+</div>

@@ -7,15 +7,7 @@
     <%= f.input :page_range, label: "페이지 영역" %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="form-group mt-3">
+    <%= f.submit "저장", class: "btn btn-primary btn-block" %>
   </div>
-
-  <!-- 편집화면 상단에 자주쓰는 이전, 저장, 다운 버튼을 항상 보이게 설정 -->
-  <nav class="navbar navbar-default navbar-fixed-bottom">
-  <div class="btn-group" role="group" aria-label="기능">
-    <%= link_to "이전으로", reporter_groups_path, method: :get, class: "btn btn-default btn-sm" %>
-    <%= f.button :submit, class: "btn btn-primary btn-sm", value: "저장"%>
-  </div>
-</nav>
 <% end %>

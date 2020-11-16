@@ -1,7 +1,8 @@
-<div align='center'>
-  <h3>신규 그래픽 의뢰</h3>
-
-  <%= render 'form', graphic_request: @graphic_request %>
-
-  <%= link_to 'Back', graphic_requests_path %>
+<div class="container mt-2">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h3 class="text-center">새로운 그래픽 의뢰</h3>
+      <%= render 'form', graphic_request: @graphic_request %>
+    </div>
+  </div>
 </div>
