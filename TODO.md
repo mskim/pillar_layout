@@ -52,6 +52,10 @@
   - send pdf news to subscribers
   - do english hyphenation
   - implement proof reading
+  
+2020_11_16
+  - allow overlap column as full width
+  - fix adjustin height of bottom article witn kind is image
 
 2020_11_7
   - static_article
