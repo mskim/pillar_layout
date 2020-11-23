@@ -67,6 +67,7 @@ class Pillar < ApplicationRecord
     box_rect = new_layout.last
     h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
+    set_article_default_height_in_lines
     page_ref.generate_pdf_with_time_stamp
   end
   
@@ -90,6 +91,7 @@ class Pillar < ApplicationRecord
         w.change_article(box_rect)
       end
     end
+    set_article_default_height_in_lines
     page_ref.generate_pdf_with_time_stamp
   end
 
@@ -215,6 +217,27 @@ class Pillar < ApplicationRecord
     grid_y * page_ref.grid_height + page_ref.top_margin
   end
 
+  def y_in_lines
+    if top_position?
+      grid_y*7 + page_ref.page_heading_margin_in_lines
+    else
+      grid_y*7 
+    end
+  end
+
+  def front_page?
+    page_ref.page_number == 1
+  end
+
+  def height_in_lines
+    if front_page? && top_position?
+      (row)*7 - 3
+    elsif top_position?
+      row*7 - y_in_lines
+    else
+      row*7
+    end
+  end
   # svg_y should take page_heading margin into consideration
   def svg_y
     grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
@@ -275,16 +298,6 @@ class Pillar < ApplicationRecord
   def rect
     [grid_x, grid_y, column, row]
   end
-
-  def to_svg_with_jpg
-    svg = <<~EOF
-      <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{page_width} #{page_height}' >
-        <rect fill='gray' x='0' y='0' width='#{page_width}' height='#{page_height}' />
-        <rect fill='white' x='#{x}' y='#{y}' width='#{width}' height='#{height}' />
-        #{box_svg_with_jpg}
-      </svg>
-    EOF
-  end
   
   def page_heading_height
     page_ref.heading_space
@@ -293,10 +306,10 @@ class Pillar < ApplicationRecord
   def box_svg_with_jpg
     box_element_svg = "<g transform='translate(#{x},#{y})' >\n"
     y_pos = 0
-    y_pos = page_heading_height if top_position?
+    # y_pos = page_heading_height if top_position?
     working_articles.each do |article|
       box_element_svg += article.box_svg(y_pos)
-      y_pos += article.height
+      y_pos += article.height if article.attached_type.nil?
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -463,6 +476,7 @@ class Pillar < ApplicationRecord
         h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
         WorkingArticle.where(h).first_or_create
       end
+      set_article_default_height_in_lines
     end
   end
 
@@ -527,16 +541,16 @@ class Pillar < ApplicationRecord
       w.update(column:new_column)
       w.generate_pdf_with_time_stamp
     end
-    h           = {}
-    h[:attached_type] = "drop"
+    h                     = {}
+    h[:attached_type]     = "drop"
     h[:attached_position] = "우"
-    h[:grid_x]  = column - column_width_in_grid
-    h[:grid_y]  = working_articles[starting_article_order - 1].grid_y
-    h[:column]  = column_width_in_grid
-    h[:row]     = row - h[:grid_y]
-    h[:pillar]  = self
-    h[:page_id] = page_ref.id
-    h[:pillar_order]    = "#{order}_D"
+    h[:grid_x]            = column - column_width_in_grid
+    h[:grid_y]            = root_articles[starting_article_order - 1].grid_y
+    h[:column]            = column_width_in_grid
+    h[:row]               = row - h[:grid_y]
+    h[:pillar]            = self
+    h[:page_id]           = page_ref.id
+    h[:pillar_order]      = "#{order}_#{starting_article_order}_D"
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
     page_ref.generate_pdf_with_time_stamp
@@ -640,15 +654,12 @@ class Pillar < ApplicationRecord
 
   def revert_all_extended_lines(options={})
     working_articles.each do |w|
-      next unless w.extended_line_count != 0
-      w.extended_line_count = 0
-      w.save
+      next if w.extended_line_count == 0
+      w.update(extended_line_count: 0)
       w.generate_pdf_with_time_stamp
     end
-    unless options[:generate_page]
-    else
-      page_ref.generate_pdf_with_time_stamp
-    end
+    page_ref.generate_pdf_with_time_stamp
+
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
@@ -662,19 +673,27 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp unless options[:generate_page]
   end
 
-  def height_in_lines
-    row*7
+  def min_height_sum_of_below_articles(following_articles)
+    following_articles.map{|a| a.min_height_in_lines}.reduce(:+)
   end
 
   # we want to allow at least minimim of row height for each article
-  # SO, depending on order we should caluclate max lines for the gievin article.
+  # So, depending on order we should caluclate max lines for the gievin article.
   def max_height_in_lines(article)
     article_count = root_articles.length
     y_position = 0
-    y_position = page_ref.heading_space if top_position?
-    sorted_root_working_articles.each_with_index do |w, i|
+    # y_position = page_ref.page_heading_margin_in_lines if top_position?
+    # room = height_in_lines - y_position
+    # check if any member is kind of "사진"
+    # if member is "사진" keep the height of it
+    # TODO
+    articles = sorted_root_working_articles
+    articles.each_with_index do |w, i|
       if article == w
-        return height_in_lines - 7*(article_count - (i + 1))
+        rest_length = articles.length - (i+1)
+        following_articles = articles.slice((i+1),rest_length)
+        min_sum = following_articles.map{|a| a.min_height_in_lines}.reduce(:+)
+        return height_in_lines - (y_position + min_sum)
       end
       y_position += w.height_in_lines
     end
@@ -694,6 +713,34 @@ class Pillar < ApplicationRecord
     working_articles.sort_by{|w| w.pillar_order}
   end
 
+  def root_articles_height_sum_for_bottom
+    article_height_in_lines_sum = 0
+    root_articles = sorted_root_working_articles
+    bottom_article = root_articles.last
+    root_articles.each do |w|
+      puts "#{w.pillar_order}:#{w.height_in_lines}"
+      next if w == bottom_article
+      article_height_in_lines_sum += w.height_in_lines
+    end
+    puts article_height_in_lines_sum
+    article_height_in_lines_sum
+  end
+
+  def bottom_article_room_in_lines
+    height_in_lines - root_articles_height_sum_for_bottom
+  end
+
+  def extended_line_count_sum_for_bottom
+    extended_sum = 0
+    root_articles = sorted_root_working_articles
+    bottom_article = root_articles.last
+    root_articles.each do |w|
+      extended_sum += w.update_extended_line_count_from_layout_result(extended_sum)
+      next if w == bottom_article
+    end
+    extended_sum
+  end
+
   def prev_article(article)
     sorted = sorted_all_working_articles
     return article if sorted.first == article
@@ -709,5 +756,25 @@ class Pillar < ApplicationRecord
     sorted.each_with_index do |sorted_article, i|
       return sorted[i + 1] if sorted_article == article
     end
+  end
+
+  def root_articles_count
+    root_articles.length
+  end
+
+  def default_height_in_lines
+    count = root_articles_count
+    h_in_lines = height_in_lines/count
+    remainder = height_in_lines % count
+    return h_in_lines, remainder
+  end
+
+  def default_article_heights
+    root_articles.map{|w| w.default_height_in_lines}
+  end
+
+  def set_article_default_height_in_lines
+    default_heights = default_article_heights
+    root_articles.each_with_index{|w, i| w.update(base_height_in_lines: default_heights[i])}
   end
 end

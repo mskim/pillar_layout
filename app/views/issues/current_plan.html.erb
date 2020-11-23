@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <% @front_page_plans.each do |page_plan| %>
-            <%= form_for(page_plan, data: { remote: true, target: "current-plan.form" }) do |f| %>
+            <%= form_for(page_plan, data: { target: "current-plan.form" }) do |f| %>
               <% if page_plan.color_page %>
                 <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
               <% else %>
@@ -56,7 +56,7 @@
         </thead>
         <tbody>
           <% @back_page_plans.each do |page_plan| %>
-            <%= form_for(page_plan, data: { remote: true, target: "current-plan.form" }) do |f| %>
+            <%= form_for(page_plan, data: { target: "current-plan.form" }) do |f| %>
               <% if page_plan.color_page %>
                 <tr class='bg-pink' data-page-plan-id='<%= page_plan.id %>'>
               <% else %>

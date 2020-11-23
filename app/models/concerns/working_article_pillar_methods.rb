@@ -151,7 +151,18 @@ module WorkingArticlePillarMethods
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
     else
       text_font_size = 50
+      # TODO hanlde overlap, drop, divide
+      case attached_type
+      when "divide"
+        y_position = parent.y
+      when "drop"
+        starting_article_order = pillar_order.split("_")[1].to_i
+        y_position = pillar.root_articles[starting_article_order - 1].y
+      when "overlap"
+        y_position = parent.y + (parent.height - height)
+      end
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2 }' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
+
     end
     # TODO this is a hack to make it work need to find out why i need this
     # link box does not seen to get effected by the g transform ??
@@ -162,5 +173,37 @@ module WorkingArticlePillarMethods
   def max_height_in_lines
     pillar.max_height_in_lines(self)
   end
+
+  def min_height_in_lines
+    14
+    # if kind == '사진'
+    #   height_in_lines
+    # else
+    #   7
+    # end
+  end
+
+  def drop_height_in_lines
+    pillar.height_in_lines - y_in_lines
+  end
+
+  def order_from_pillar_order
+    pillar_order.split("_")[1]
+  end
+
+  def default_height_in_lines
+    return parent.default_height_in_lines  if attached_type == '나눔'
+    return parent.drop_height_in_lines  if attached_type == '내림'
+    return 7  if attached_type == '쪽기사'
+    lines, remainder = pillar.default_height_in_lines
+    if remainder == 0
+      lines
+    elsif order_from_pillar_order.to_i <= remainder
+      lines + 1
+    else
+      lines
+    end
+  end
+
 end
 

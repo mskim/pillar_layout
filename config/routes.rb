@@ -262,11 +262,6 @@ Rails.application.routes.draw do
 
   resources :working_articles do
     member do
-      get 'autofit_by_height'
-      get 'autofit_by_height_plus'
-      get 'autofit_with_sibllings'
-      get 'autofit_with_sibllings_plus'
-      get 'autofit_by_image_size'
       get 'download_pdf'
       patch 'upload_images'
       patch 'upload_graphics'

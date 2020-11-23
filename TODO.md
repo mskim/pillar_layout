@@ -52,6 +52,28 @@
   - send pdf news to subscribers
   - do english hyphenation
   - implement proof reading
+
+2020_11_21
+  - do the layout with y_in_lines, and height_in_lines
+    def default_height_in_lines
+    pillar
+    def set_article_default_height_in_lines
+    end
+
+    display default, extended_line_count
+
+2020_11_18
+    def default_height_in_lines
+      pillar.default_article_height_in_lines(self)
+
+2020_11_17
+  - 1면 넘침 표시 나 버그 수정
+  - 사진기사시 행 추가 메뉴 추가
+  - 쪽기사 가로 전체 나누기
+  
+  - 인터넷 시대에 신문을 효율적으로 제작 하기 위한 솔루션
+  - 30년전 조직과 편집 도구로 신문사를 운영 하십니까?
+  - 신문사 환경을 개선을 하려고 하지만 대안이 없다고요?
   
 2020_11_16
   - allow overlap column as full width
@@ -84,6 +106,10 @@
     자동 행조절
     모두 자동 행조절
     --------
+
+2020_11_23
+  - add base_height_in_linnes in working_article init
+  - attached  svg label
 
 2020_11_5
   - fix when adding lines, pushed is no longer used

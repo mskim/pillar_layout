@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_09_053813) do
+ActiveRecord::Schema.define(version: 2020_11_21_062456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1032,6 +1032,7 @@ ActiveRecord::Schema.define(version: 2020_11_09_053813) do
     t.string "attached_type"
     t.string "attached_position"
     t.integer "drop_floor", default: 0
+    t.integer "base_height_in_lines"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"

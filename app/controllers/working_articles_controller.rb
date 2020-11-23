@@ -504,36 +504,6 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
-  def autofit_by_height
-    set_working_article
-    @working_article.autofit_by_height
-    redirect_to @working_article
-  end
-
-  def autofit_by_height_plus
-    set_working_article
-    @working_article.autofit_by_height(enough_space: true)
-    redirect_to @working_article
-  end
-
-  def autofit_by_image_size
-    set_working_article
-    @working_article.autofit_by_image_size
-    redirect_to @working_article
-  end
-
-  def autofit_with_sibllings
-    set_working_article
-    @working_article.autofit_with_sibllings
-    redirect_to @working_article
-  end
-
-  def autofit_with_sibllings_plus
-    set_working_article
-    @working_article.autofit_with_sibllings(enough_space: true)
-    redirect_to @working_article
-  end
-
   def create_new_proof
     proof_image_url = @working_article.create_proof_image
     Proof.create(working_article_id: @working_article.id, image_url: proof_image_url)

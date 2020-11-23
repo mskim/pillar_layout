@@ -13,22 +13,6 @@
  module WorkingArticleAutofit
   extend ActiveSupport::Concern
 
-  def auto_size_image(options={})
-    target_image = options[:image] if options[:image]
-    unless target_image
-      target_image = images.first
-    end
-    return unless target_image
-    image_column = target_image.column
-    if empty_lines_count
-      size_to_extend = empty_lines_count/image_column
-      puts "size_to_extend:#{size_to_extend}"
-    elsif overflow_line_count
-      size_to_reduce = overflow_line_count/image_column
-      puts "size_to_reduce:#{size_to_reduce}"
-    end
-  end
-
   def read_news_box_height
     article_info[:column_line_count]
   end
@@ -123,49 +107,4 @@
       extend_line(proposed_reduce)
     end
   end
-
-  def autofit_with_sibllings(options={})
-    autofit_by_height(options)
-    sybs = siblings
-    sybs.each do |syb|
-      sub_opt                       = {}
-      sub_opt[:enough_space]        = true if options[:enough_space] == true
-      sub_opt[:update_config_file]  = false
-      syb.autofit_by_height(sub_opt)
-    end
-    page.save_config_file
-    page.generate_pdf_with_time_stamp
-  end
-
-  def autofit_by_image_size(options={})
-    if overflow?
-      if images.length > 0
-        image = images.first
-        proposed_image_reduce = overflow_lines/image.column
-      end
-    elsif underflow?
-      if images.length > 0
-        image = images.first
-        proposed_image_extemd = empty_lines_count/image.column
-      elsif empty_lines_count > 28 && (column > 3 || row > 3)
-        # create 2x2
-        create_image_place_holder(2,2)
-      elsif empty_lines_count > 14 
-        if column >= 2
-        # create 2x1
-          create_image_place_holder(2,1)
-        else
-          create_image_place_holder(1,2)
-        end
-
-      elsif empty_lines_count > 7
-        create_image_place_holder(1,1)
-      end
-      generate_pdf_with_time_stamp    
-      page.generate_pdf_with_time_stamp    
-    end
-  end
-  # old stuff ++++++++++++++++++ 
-
-
  end

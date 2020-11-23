@@ -104,6 +104,8 @@ module WorkingArticleAttachment
       h[:attached_position] = attached_position
       h[:on_right_edge]     = child_right_edge
       h[:on_left_edge]      = child_left_edge
+      h[:base_height_in_lines] = base_height_in_lines
+      h[:extended_line_count]  = extended_line_count
       # h = {page_id:page.id, pillar:pillar,  pillar_order: new_pillar_order, grid_x:child_grid_x , grid_y: grid_y, column: child_column, row: row, attached_type: attached_type, attached_position: attached_position}
       w = self.children.create(h)
       w.generate_pdf_with_time_stamp

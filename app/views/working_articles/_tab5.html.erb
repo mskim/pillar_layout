@@ -18,7 +18,8 @@
         <% if @working_article.pillar_bottom? && !@working_article.single_child?%>
           기사 편집: 맨 아래 박스 줄인 행수(<%= @working_article.extended_line_count %>)
         <% else %>
-          기사 편집: 추가 행수(<%= @working_article.extended_line_count %>)
+          기본행수(<%= @working_article.base_height_in_lines %>)
+          추가 행수(<%= @working_article.extended_line_count %>)
         <% end %>
       </h6>
       <div class="card-body bg-gray">

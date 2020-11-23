@@ -221,12 +221,7 @@ class AdBox < ApplicationRecord
   def generate_pdf_with_time_stamp
     delete_old_files
     stamp_time
-    if NEWS_LAYOUT_ENGINE == 'ruby'
-      save_ad_box_pdf
-    else
-      save_layout
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article .  -time_stamp=#{@time_stamp}"
-    end
+    save_ad_box_pdf
   end
 
   def make_ad_box_path

@@ -292,12 +292,6 @@ class PageHeading < ApplicationRecord
   end
 
   def generate_pdf
-    # if NEWS_LAYOUT_ENGINE == 'ruby'
-      # save_page_heading_pdf
-    # else
-    #   save_layout
-    #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
-    # end
     page_heading_object = eval(layout_content)
     page_heading_object.save_pdf_with_ruby(pdf_path)
   end
