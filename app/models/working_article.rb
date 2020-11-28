@@ -336,10 +336,6 @@ class WorkingArticle < ApplicationRecord
   end
 
   def update_story_content(story)
-    # update content with new story content
-    # params['working_article']['title'] = @working_article.filter_to_title(params['working_article']['title'])
-    # params['working_article']['subtitle'] = @working_article.filter_to_title(params['working_article']['subtitle'])
-    # params['working_article']['body'] = @working_article.filter_to_markdown(params['w
     self.reporter = story.reporter
     if story.subject_head
       self.subject_head = filter_to_title(story.subject_head)
@@ -350,7 +346,6 @@ class WorkingArticle < ApplicationRecord
     self.price          = story.price if story.price
     self.by_line        = story.by_line if story.by_line
     self.category_code  = story.category_code if story.category_code
-    # self.subcategory_code = story.subcategory_code if story.subcategory_code
     self.quote = story.quote if story.quote
     self.save
     save_article
@@ -401,17 +396,10 @@ class WorkingArticle < ApplicationRecord
 
   
   def delete_attached_floats
-  # has_many :images, dependent: :delete_all
-  # has_many :graphics, dependent: :delete_all
-  # has_many :group_images, dependent: :delete_all
-  # has_many :story_category
-  # has_many :story_subcategory
-  # has_one :story
     images.all.each {|i| i.destroy}
     graphics.all.each {|i| i.destroy}
     group_image.destroy if group_image
     story.destroy if story
-      
   end
 
 
@@ -452,9 +440,7 @@ class WorkingArticle < ApplicationRecord
     end
     save_article_pdf(h)
     pdf_working_article_ending = Time.now
-    # page.generate_pdf_with_time_stamp unless options[:no_page_pdf]
     pdf_page_ending = Time.now
-    # puts "++++++ pdf with page time: #{pdf_page_ending - pdf_starting} "
   end 
   alias gen_pdf generate_pdf_with_time_stamp
 
@@ -473,16 +459,11 @@ class WorkingArticle < ApplicationRecord
     layout_string = layout_rb(layout_options)
     save_hash[:layout_rb]         = layout_string
     save_hash[:time_stamp]        = options[:time_stamp]
-    new_extended_line_count       = 0
-
-    #TODO RLayout::NewsBoxMaker.new(save_hash) should return article_info hash
-    # from this we should get adjusted_line_count, overflow_text, overflow_line_count
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
-    new_extended_line_count       = new_box_marker.adjusted_line_count
-    
-    if options[:adjustable_height]
-      self.extended_line_count    = new_extended_line_count
-      self.save
+    new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
+    new_extended_line_count       = new_height_in_lines - base_height_in_lines
+    update(extended_line_count:new_extended_line_count)
+    if extended_line_count != new_extended_line_count
       if attached_type == 'overlap'
         parent.update(overlap:overlap_rect)
       end
@@ -537,24 +518,11 @@ class WorkingArticle < ApplicationRecord
     pillar.available_bottom_space
   end
 
-  # auto adjust height and relayout bottom article
-  # if bottom reached minimun height, 
-  # bubble up to shorten the heights until followings articles 
-  # fit
-
   # set height_in_lines, extended_line_count
   def auto_adjust_height
     # return if locked
     before_extended_line_count = extended_line_count
-    # get max height
-    # TODO: check if there is room to grow
-    # puts "pillar_order:#{pillar_order} : height_in_lines#{height_in_lines}:max_height_in_lines#{max_height_in_lines} "
-    # if height_in_lines == max_height_in_lines
-    #   return
-    # elsif height_in_lines > max_height_in_lines
-    #   generate_pdf_with_time_stamp(fixed_height_in_lines: max_height_in_lines)
-    #   return
-    # end
+    pillar.update_y_in_lines
     generate_pdf_with_time_stamp(adjustable_height: true)
     after_extended_line_count = extended_line_count
     if has_children? && (before_extended_line_count != after_extended_line_count)
@@ -567,18 +535,8 @@ class WorkingArticle < ApplicationRecord
     return if changed_height_in_lines == 0
     # height has changed
     bottom_article = pillar.bottom_article
-    bottom_article_room_in_lines = bottom_article.height_in_lines - bottom_article.min_height_in_lines
-    
-    if changed_height_in_lines > bottom_article_room_in_lines
-      # bottom alone has not enough to room to accomodate the change
-      # we need to fix the heights of articles avode the bottom
-      adjust_heights_of_following_articles_from_bottom(self, bottom_article_room_in_lines)
-    else
-      # pillar.update_article_height
-      # bottom alone has enough to room to accomodate the change
-      bottom_article.update_pushed_line
-      page.generate_pdf_with_time_stamp
-    end
+    bottom_article.update_bottom_height
+    page.generate_pdf_with_time_stamp
   end
 
   def adjust_heights_of_following_articles_from_bottom(article, lines_to_reduce)
@@ -601,7 +559,7 @@ class WorkingArticle < ApplicationRecord
         w.generate_pdf_with_time_stamp(fixed_height_in_lines: new_height_in_lines)
         remaining -= reduceable
       end
-      bottom_article.update_pushed_line
+      bottom_article.update_bottom_height
     end
 
   end
@@ -616,7 +574,7 @@ class WorkingArticle < ApplicationRecord
       next if w == bottom_article
       w.generate_pdf_with_time_stamp(adjustable_height: true)
     end
-    bottom_article.update_pushed_line
+    bottom_article.update_bottom_height
     page.generate_pdf_with_time_stamp
   end
 
@@ -640,28 +598,49 @@ class WorkingArticle < ApplicationRecord
       children.first.update(extended_line_count: extended_line_count)
       children.first.generate_pdf_with_time_stamp
     end
-    bottom_article.update_pushed_line
+    bottom_article.update_bottom_height
     page.generate_pdf_with_time_stamp
   end
 
+  def above_the_bottom_height_in_lines_sum
+
+  end
+
   # called to update heigth of bottom pillar article
-  def update_pushed_line
+  def update_bottom_height
     bottom_room_in_lines = pillar.bottom_article_room_in_lines
-    # update(extended_line_count: - extended_sum)
-    # puts "++++++ bottom_room_in_lines:#{bottom_room_in_lines}"
-    # bottom_height = bottom_room_in_lines*body_line_height
+    y_in_lines = pillar.height_in_lines - bottom_room_in_lines
+    update(y_in_lines: y_in_lines)
+    bottom_room_in_lines = 14 if bottom_room_in_lines < 14
     generate_pdf_with_time_stamp(fixed_height_in_lines: bottom_room_in_lines)
+    article_info = YAML::load_file(article_into_path)
+    new_height_in_lines = article_info[:height_in_lines]
+    new_extended_line_count = new_height_in_lines - base_height_in_lines
+    update(extended_line_count: new_extended_line_count)
+    # TODO
+    # bottom_top = pillar.height_in_lines - new_height_in_lines
+    # if bottom_top < article_from_bottom(1)
+    # end
+
+    # if new_height_in_lines > bottom_room_in_lines
+    #   # bottom alone has not enough to room to accomodate the change
+    #   # we need to fix the heights of articles avode the bottom
+    #   adjust_heights_of_following_articles_from_bottom(self, bottom_article_room_in_lines)
+    # else
+    #   # pillar.update_article_height
+    #   # bottom alone has enough to room to accomodate the change
+    # end
     page.generate_pdf_with_time_stamp
   end
 
   def update_extended_line_count_from_layout_result(extended_sum)
     article_info = YAML::load_file(article_into_path)
     layout_result = article_info[:extended_line_count]
-    y_in_lines = row*7 + extended_sum
-    if top_position?
-      y_in_lines = page_heading_margin_in_lines
-    end
-    update(extended_line_count: layout_result, y_in_lines:y_in_lines) #if layout_result != self.extended_line_count
+    # y_in_lines = row*7 + extended_sum
+    # if top_position?
+    #   y_in_lines = 0
+    # end
+    update(extended_line_count: layout_result) 
     layout_result
   end
 
@@ -683,7 +662,7 @@ class WorkingArticle < ApplicationRecord
       children.first.update(extended_line_count: extended_line_count)
       children.first.generate_pdf_with_time_stamp
     end
-    bottom_article.update_pushed_line
+    bottom_article.update_bottom_height
     page.generate_pdf_with_time_stamp
   end
 
@@ -941,9 +920,9 @@ class WorkingArticle < ApplicationRecord
 
   def y
     y_position = grid_y * grid_height
-    if top_position?
-      y_position += page_heading_margin_in_lines * body_line_height
-    end
+    # if top_position?
+    #   y_position += page_heading_margin_in_lines * body_line_height
+    # end
     y_position
   end
 
@@ -1581,29 +1560,6 @@ class WorkingArticle < ApplicationRecord
     pillar.pillar_siblings_of(self)
   end
 
-  def following_pillar_siblings
-    pillar.following_pillar_siblings_of(self)
-  end
-
-  # divide working_article horizontally
-  def h_cut
-    actions                       = [node_order, 'h*1']
-    new_pillar_order              = next_pillar_order
-    changing_row                  = row / 2
-    new_grid_y                    = grid_y + changing_row
-    new_row                       = row - changing_row
-    update(row: changing_row)
-    generate_pdf_with_time_stamp(no_update_pdf_chain: true)
-    h = { page: page, pillar: pillar, pillar_order: new_pillar_order.to_s, grid_x: 0, grid_y: new_grid_y, column: column, row: new_row }
-    w = WorkingArticle.where(h).first_or_create
-    following_pillar_siblings.each do |w|
-      w.bumpup_pillar_order_by(1)
-    end
-    # update pillar_config file and working_article grid_y and row after cut
-    pillar.update_working_article_cut(actions)
-    w.generate_pdf_with_time_stamp
-  end
-
   def layout_with_node_path
     [grid_x, grid_y, column, row, pillar_order.split('_')].unshift.join('_')
   end
@@ -1671,17 +1627,26 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
-
-  def fillup_text
+  def sample_fillup_text
     para_text =<<~EOF
-    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
+    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다.
     
-    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 
-
     EOF
-    sampel_text = para_text * grid_area
-    update(body: sampel_text)
-    generate_pdf_with_time_stamp
+  end
+
+  def fillup_text(options={})
+    sample_text = sample_fillup_text * grid_area
+    update(body: sample_text)
+    generate_pdf_with_time_stamp 
+    unless options[:no_page_update]
+      page.generate_pdf_with_time_stamp
+    end
+  end
+
+  def fillup_text_all
+    pillar.working_articles.each do |w|
+      w.fillup_text(no_page_update: true)
+    end
     page.generate_pdf_with_time_stamp
   end
 

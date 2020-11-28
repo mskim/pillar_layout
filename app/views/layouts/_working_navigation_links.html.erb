@@ -173,6 +173,8 @@
         <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
         <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
+        <%= link_to '빈공간 모두 체우기', fillup_text_all_working_article_path, class: "dropdown-item" %>
+
       </div>
       </div>
     </li>
@@ -198,6 +200,9 @@
         <% end %>
         <div class="dropdown-divider"></div>
         <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
+        <div class="dropdown-divider"></div>
+        <%= link_to '하단 높이 조절', update_bottom_height_working_article_path, class: "dropdown-item" %>
+
 
       </div>
     </li>
@@ -246,6 +251,7 @@
       <% end %>
       <div class="dropdown-divider"></div>
       <%= link_to '빈공간 체우기', fillup_text_working_article_path, class: "dropdown-item" %>
+      <%= link_to '빈공간 모두 체우기', fillup_text_all_working_article_path, class: "dropdown-item" %>
 
       </div>
     </li>

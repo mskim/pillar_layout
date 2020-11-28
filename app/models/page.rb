@@ -176,9 +176,6 @@ class Page < ApplicationRecord
       wa_right_edge = wa.grid_x + wa.column
       wa.grid_y == grid_bottom && wa.grid_x >= grid_x && wa_right_edge <= grid_right_edge && wa != article
     end
-    # siblings_array += image_boxes.select do |image_box|
-    #   image_box.grid_y == grid_bottom && wa.grid_x >= grid_x && wa != article
-    # end
   end
 
   def bottom_article?(article)

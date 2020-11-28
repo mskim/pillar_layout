@@ -4,7 +4,7 @@ namespace :style do
   desc 'set all default article height_in_lines '
   task :set_default_height =>:environment do
     Page.all.each do |p|
-      p.pillars.each{|pil| pil.set_article_default_height_in_lines}
+      p.pillars.each{|pil| pil.set_article_defaults}
     end
   end
 

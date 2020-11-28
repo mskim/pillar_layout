@@ -49,7 +49,6 @@ class Pillar < ApplicationRecord
   end
 
   def add_article
-
     # check if it is addable?
     self.box_count    +=  1
     self.save
@@ -67,7 +66,7 @@ class Pillar < ApplicationRecord
     box_rect = new_layout.last
     h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
-    set_article_default_height_in_lines
+    set_article_defaults
     page_ref.generate_pdf_with_time_stamp
   end
   
@@ -91,17 +90,13 @@ class Pillar < ApplicationRecord
         w.change_article(box_rect)
       end
     end
-    set_article_default_height_in_lines
+    set_article_defaults
     page_ref.generate_pdf_with_time_stamp
   end
 
   def pillar_siblings_of(article)
     article_pillar_order_depth = article.pillar_order.split("_").length
     article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}.sort_by{|a| a.pillar_order}
-  end
-
-  def following_pillar_siblings_of(article)
-    working_articles.select{|a| a.pillar_order > article.pillar_order}
   end
 
   def bottom_article
@@ -121,29 +116,8 @@ class Pillar < ApplicationRecord
 
   def extened_line_sum
     working_articles.reload
-    root_articles = working_articles.select{|w| !w.parent && w.attached_type.nil?}
-    root_articles.map{|w| w.extended_line_count}.reduce(:+)
-    #TODO
-    # working_articles.select{|w| !w.parent && w.attached_type.nil?}.sum{:extended_line_count}
-  end
-
-  def extened_line_sum_for_previous_root_articles(bordering_y)
-    working_articles.reload
-    sum = 0
-    root_articles = working_articles.select{|w| !w.parent && w.attached_type.nil?}
-    amount =root_articles.select{|w| w.grid_y < bordering_y}.map{|w| w.extended_line_count}.reduce(:+)
-    sum += amount if amount
-    # working_articles.select{|w| w.grid_y < bordering_y}.sum{:extended_line_count}
-  end
-
-  # update pillar_config file and working_article grid_y and row after cut
-  def update_working_article_cut(cut_action)
-    layout_node.add_action(cut_action)
-    new_layouts = layout_with_pillar_path
-    sorted_working_articles = working_articles
-    new_layouts.each_with_index do |new_layout, i|
-      sorted_working_articles[i].update(grid_x: new_layout[0], grid_y:new_layout[1], column:new_layout[2], row:new_layout[3])
-    end
+    articles = sorted_root_working_articles
+    articles.map{|w| w.extended_line_count}.reduce(:+)
   end
 
   def story_count
@@ -476,7 +450,7 @@ class Pillar < ApplicationRecord
         h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
         WorkingArticle.where(h).first_or_create
       end
-      set_article_default_height_in_lines
+      set_article_defaults
     end
   end
 
@@ -659,17 +633,17 @@ class Pillar < ApplicationRecord
       w.generate_pdf_with_time_stamp
     end
     page_ref.generate_pdf_with_time_stamp
-
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
   def auto_adjust_height_all(options={})
+    update_y_in_lines
     working_articles.sort_by{|w| w.pillar_order}.each do |w|
       next if w == bottom_article
       w.generate_pdf_with_time_stamp(adjustable_height: true)
     end
-    bottom_article.update_pushed_line
+    bottom_article.update_bottom_height
     page_ref.generate_pdf_with_time_stamp unless options[:generate_page]
   end
 
@@ -681,22 +655,43 @@ class Pillar < ApplicationRecord
   # So, depending on order we should caluclate max lines for the gievin article.
   def max_height_in_lines(article)
     article_count = root_articles.length
-    y_position = 0
-    # y_position = page_ref.page_heading_margin_in_lines if top_position?
-    # room = height_in_lines - y_position
-    # check if any member is kind of "사진"
-    # if member is "사진" keep the height of it
-    # TODO
-    articles = sorted_root_working_articles
-    articles.each_with_index do |w, i|
-      if article == w
-        rest_length = articles.length - (i+1)
-        following_articles = articles.slice((i+1),rest_length)
-        min_sum = following_articles.map{|a| a.min_height_in_lines}.reduce(:+)
-        return height_in_lines - (y_position + min_sum)
-      end
-      y_position += w.height_in_lines
+    article_order = article.order_from_pillar_order
+    following_count = article_count - article_order
+    following_min_sum = following_count*14
+    puts "article_order:#{article_order}"
+    puts "article.y_in_lines:#{article.y_in_lines}"
+    puts "following_min_sum:#{following_min_sum}"
+    puts "height_in_lines:#{height_in_lines}"
+    max_lines = height_in_lines -  (article.y_in_lines + following_min_sum)
+  end
+
+  def update_y_in_lines
+    current_y = 0
+    root_articles.each do |w|
+      current_height_in_lines = w.height_in_lines
+      w.update(y_in_lines: current_y)
+      current_y += current_height_in_lines
     end
+  end
+
+  def y_in_lines_array
+    root_articles.map{|w| w.y_in_lines}
+  end
+
+  def height_in_lines_array
+    root_articles.map{|w| w.height_in_lines}
+  end
+
+  def max_height_in_lines_array
+    root_articles.map{|w| max_height_in_lines(w)}
+  end
+
+  def height_in_lines_sum
+    height_in_lines_array.reduce(:+)
+  end
+
+  def root_article_ids
+    root_articles.map{|w| w.id}
   end
 
   def root_articles
@@ -718,27 +713,15 @@ class Pillar < ApplicationRecord
     root_articles = sorted_root_working_articles
     bottom_article = root_articles.last
     root_articles.each do |w|
-      puts "#{w.pillar_order}:#{w.height_in_lines}"
       next if w == bottom_article
       article_height_in_lines_sum += w.height_in_lines
     end
-    puts article_height_in_lines_sum
+    puts "article_height_in_lines_sum:#{article_height_in_lines_sum}"
     article_height_in_lines_sum
   end
 
   def bottom_article_room_in_lines
     height_in_lines - root_articles_height_sum_for_bottom
-  end
-
-  def extended_line_count_sum_for_bottom
-    extended_sum = 0
-    root_articles = sorted_root_working_articles
-    bottom_article = root_articles.last
-    root_articles.each do |w|
-      extended_sum += w.update_extended_line_count_from_layout_result(extended_sum)
-      next if w == bottom_article
-    end
-    extended_sum
   end
 
   def prev_article(article)
@@ -773,8 +756,15 @@ class Pillar < ApplicationRecord
     root_articles.map{|w| w.default_height_in_lines}
   end
 
-  def set_article_default_height_in_lines
+  # set default y_in_lines, height_in_lines
+  def set_article_defaults
     default_heights = default_article_heights
-    root_articles.each_with_index{|w, i| w.update(base_height_in_lines: default_heights[i])}
+    currnet_y_in_lines = 0
+    root_articles.each_with_index do |w, i|
+      current_height = default_heights[i]
+      w.update(base_height_in_lines: current_height, y_in_lines:currnet_y_in_lines, extended_line_count: 0)
+      currnet_y_in_lines += current_height
+    end
   end
+
 end

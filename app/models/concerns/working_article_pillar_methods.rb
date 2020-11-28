@@ -188,7 +188,7 @@ module WorkingArticlePillarMethods
   end
 
   def order_from_pillar_order
-    pillar_order.split("_")[1]
+    pillar_order.split("_")[1].to_i
   end
 
   def default_height_in_lines
@@ -198,7 +198,7 @@ module WorkingArticlePillarMethods
     lines, remainder = pillar.default_height_in_lines
     if remainder == 0
       lines
-    elsif order_from_pillar_order.to_i <= remainder
+    elsif order_from_pillar_order <= remainder
       lines + 1
     else
       lines

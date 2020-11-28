@@ -57,7 +57,7 @@
   - do the layout with y_in_lines, and height_in_lines
     def default_height_in_lines
     pillar
-    def set_article_default_height_in_lines
+    def set_article_defaults
     end
 
     display default, extended_line_count
@@ -106,6 +106,9 @@
     자동 행조절
     모두 자동 행조절
     --------
+
+2020_11_24
+  - do not use layout
 
 2020_11_23
   - add base_height_in_linnes in working_article init

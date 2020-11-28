@@ -342,6 +342,11 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
+  def update_bottom_height
+    set_working_article
+    @working_article.update_bottom_height
+    redirect_to @working_article
+  end
   # revert_all_extened_lines_working_article_path
   def revert_all_extended_lines
     set_working_article
@@ -581,6 +586,12 @@ class WorkingArticlesController < ApplicationController
   def fillup_text
     set_working_article
     @working_article.fillup_text
+    redirect_to @working_article
+  end
+
+  def fillup_text_all
+    set_working_article
+    @working_article.fillup_text_all
     redirect_to @working_article
   end
 

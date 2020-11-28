@@ -269,6 +269,7 @@ Rails.application.routes.draw do
       get 'add_image'
       get 'auto_adjust_height'
       get 'auto_adjust_height_all'
+      get 'update_bottom_height'
       get 'revert_all_extended_lines'
       get 'extend_zero'
       get 'extend_one'
@@ -316,6 +317,7 @@ Rails.application.routes.draw do
       get 'add_default_drop'
       get 'split_drop'
       get 'fillup_text'
+      get 'fillup_text_all'
       get 'new_annotation'
       get 'show_html'
     end
