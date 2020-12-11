@@ -490,28 +490,6 @@ class Page < ApplicationRecord
     system "cd #{page_heading_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
   end
 
-  def copy_section_template(section)
-    old_article_count = working_articles.length
-    new_aricle_count  = section.story_count
-    copy_config_file
-    copy_section_pdf
-    new_aricle_count.times do |i|
-      source = section.path + "/#{i + 1}"
-      article_folder = path + "/#{i + 1}"
-      # if artile folder is empty, copy the whole article template folder
-      if File.exist?(article_folder)
-        layout_template = source + '/layout.rb'
-        system("cp  #{layout_template} #{article_folder}/")
-      else
-        FileUtils.mkdir_p article_folder
-        system("cp -r #{source}/ #{article_folder}/")
-        # if there are current article, copy layout.rb from article template
-      end
-    end
-    copy_ad_folder(section)
-    copy_heading
-  end
-
   def copy_ad_folder(section)
     ad_folder = section.path + '/ad'
     system("cp  -r #{ad_folder} #{path}") if File.exist? ad_folder
@@ -524,27 +502,6 @@ class Page < ApplicationRecord
     heading_atts[:page_id]        = id
     heading_atts[:date]           = date
     result                        = PageHeading.where(heading_atts).first_or_create
-  end
-
-  def change_heading
-    section = Section.find(template_id)
-    FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
-    source = section.page_heading_path
-    target = page_heading_path
-    layout_erb_path = page_heading_path + '/layout.erb'
-    # unless File.exist? layout_erb_path
-    system "cp -R #{source}/ #{target}/"
-    # end
-    layout_erb_content = File.open(layout_erb_path, 'r', &:read)
-    erb = ERB.new(layout_erb_content)
-    @date = korean_date_string
-    # @section_name       = section_name
-    @section_name = put_space_between_chars(section_name)
-    @page_number = page_number
-    layout_content = erb.result(binding)
-    layout_rb_path = page_heading_path + '/layout.rb'
-    File.open(layout_rb_path, 'w') { |f| f.write layout_content }
-    system "cd #{page_heading_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
   end
 
   def save_as_default

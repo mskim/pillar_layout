@@ -73,6 +73,7 @@ class Publication < ApplicationRecord
     '정책',
     '기획',
     '오피니언',
+    'SECTIONS',
   ]
 
   def path
@@ -255,7 +256,7 @@ class Publication < ApplicationRecord
     case page_number
     when 1
       front_page_heading_margin
-    when 18, 19, 22,23
+    when 18, 19, 21, 22,23
       inner_page_heading_height + 1
     else
       inner_page_heading_height

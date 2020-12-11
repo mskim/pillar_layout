@@ -350,6 +350,7 @@ Rails.application.routes.draw do
       get 'seventh_group'
       get 'eighth_group'
       get 'nineth_group'
+      get 'tenth_group'
       get 'ad_group'
       get 'spread'
 

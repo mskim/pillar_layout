@@ -127,7 +127,7 @@ class PageHeading < ApplicationRecord
   def heading_height
     if page_number == 1
       publication.front_page_heading_height_in_pt
-    elsif page_number == 22 || page_number == 23
+    elsif page_number == 21 || page_number == 22 || page_number == 23
       publication.opinion_page_heading_height_in_pt
     else
       publication.inner_page_heading_height_in_pt
@@ -160,6 +160,10 @@ class PageHeading < ApplicationRecord
 
   def heading_ad_full_path
     path + "/images/heading_ad.pdf"
+  end
+
+  def p21_page_image_full_path
+    path + "/images/21_bg.pdf"
   end
 
   def p22_page_image_full_path
@@ -210,7 +214,6 @@ class PageHeading < ApplicationRecord
   def even_content
     page_heading_width  = publication.page_heading_width
     page_heading_height = publication.inner_page_heading_height_in_pt
-    # date                = '2017년 5월 11일 목요일'    
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
@@ -230,10 +233,27 @@ class PageHeading < ApplicationRecord
     page_heading_erb.result(binding)
   end
 
+  def p21_content
+    page_heading_width  = publication.page_heading_width
+    page_heading_height = publication.opinion_page_heading_height_in_pt
+    date                = page.korean_date_string #'2017년 5월 11일 목요일'
+    page_number         = page.page_number
+    section_name        = page.display_name || page.section_name
+    section_name_with_space        = put_space_between_chars(section_name)
+    template=<<~EOF
+    RLayout::Container.new(width: 1028.9763779528, height: 55.613048314961, layout_direction: 'horinoztal') do
+      image(image_path: '#{p21_page_image_full_path}', x: 0, y: 0, width: 1028.9763779528, height: 55.613048314961, fit_type: 0)
+      text('<%= date %>', x: 50.5693, y: 8.88,  width: 200, height: 12, font: 'KoPubDotumPL', text_color: "CMYK=0,0,0,100", tracking: -0.7, font_size: 10.5, text_alignment: 'left')
+      text('23', x: 988.81, y: -4.97, tracking: -0.2, text_alignment: 'center', fill_color: 'clear', font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 40, height: 44)
+    end
+    EOF
+    page_heading_erb = ERB.new(template)
+    page_heading_erb.result(binding)
+  end
+
   def p22_content
     page_heading_width  = publication.page_heading_width
-    page_heading_height = publication.inner_page_heading_height_in_pt
-    # date                = '2017년 5월 11일 목요일'    
+    page_heading_height = publication.opinion_page_heading_height_in_pt
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.section_name
@@ -251,8 +271,7 @@ class PageHeading < ApplicationRecord
 
   def p23_content
     page_heading_width  = publication.page_heading_width
-    page_heading_height = publication.inner_page_heading_height_in_pt
-    # date                = '2017년 5월 11일 목요일'    
+    page_heading_height = publication.opinion_page_heading_height_in_pt
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
@@ -276,6 +295,8 @@ class PageHeading < ApplicationRecord
   def layout_content
     if page_number == 1
       return front_page_content
+    elsif page_number == 21
+      return p21_content
     elsif page_number == 22
       return p22_content
     elsif page_number == 23
@@ -296,11 +317,4 @@ class PageHeading < ApplicationRecord
     page_heading_object.save_pdf_with_ruby(pdf_path)
   end
 
-  # def save_page_heading_pdf
-  #   save_hash                     = {}
-  #   save_hash[:article_path]      = path
-  #   save_hash[:layout_rb]         = layout_content
-  #   # use Container instead NewsBoxMaker
-  #   RLayout::NewsBoxMaker.new(save_hash)
-  # end
 end

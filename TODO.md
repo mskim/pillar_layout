@@ -416,7 +416,7 @@ puts "·".ord.to_s(16) # \u00b7
   - 그룹 이미지
   - 내림 하단 구현
 
-  - 기사 체우기
+  - 기사 채우기
     - 빈줄수에 따라 샘플 단락 추가  
     - 기사박스 메뉴에 추가(admin user)
   
@@ -672,6 +672,35 @@ Did you mean?  token_string):
 
   - 2020_4_28 기자이름 영문일때 우측 space
   - 메인가사 자동 설정
+
+2020_12_12
+
+2020-12-10
+  - default_issue_plan.rb
+  ['글로벌포커스', "6x15_5단통_3"], 
+  ['오피니언', "6x15_5단통_3"], 
+  ['오피니언', "6x15_5단통_3"], 
+  ['전면광고', "6x15_15단통_0", true]
+
+-in seed
+  - SECTIONS
+    add 글로벌포커스 as tenth_item
+  - in publication.rb
+    SECTIONS
+    add 글로벌포커스 as tenth_item
+
+  - page_heading 
+    be_image
+  - congig file generation heading height in lines 4
+  - issues_controller
+    tenth_group
+  - router
+
+  - navi view
+    tenth_group_issue_path
+    tenth_group.html.erb
+    page.rb def config
+    h['page_heading_margin_in_lines']   = 4 if page_number == 21
 
 2020_4_27
   - fix v_split at 2 from right

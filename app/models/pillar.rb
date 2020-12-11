@@ -34,7 +34,6 @@ class Pillar < ApplicationRecord
   after_create :create_layout
   include RectUtils
 
-
   def max_pushed_line_count
     (row - working_articles.length)*7
   end

@@ -362,7 +362,6 @@ class Issue < ApplicationRecord
   end
 
   def make_pages
-    # binding.pry
     page_plans.sort_by(&:page_number).each_with_index do |page_plan, i|
       if page_plan.page
         if page_plan.need_update?
