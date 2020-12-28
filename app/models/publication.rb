@@ -73,7 +73,7 @@ class Publication < ApplicationRecord
     '정책',
     '기획',
     '오피니언',
-    'SECTIONS',
+    '글로벌포커스',
   ]
 
   def path

@@ -56,7 +56,13 @@ class PagePlan < ApplicationRecord
 
   def team_leader
     # puts "++++++++ section_name:#{section_name}"
-    ReporterGroup.where(section: section_name).first.leader
+    # ReporterGroup.where(section: section_name).first.leader
+    g = ReporterGroup.where(section: section_name).first
+    if g
+      ReporterGroup.where(section: section_name).first.leader
+    else
+      "남봉우"
+    end
   end
 
   def reporters_of_group

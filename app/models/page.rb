@@ -477,14 +477,8 @@ class Page < ApplicationRecord
     FileUtils.mkdir_p(page_heading_path) unless File.exist?(page_heading_path)
     source = issue.publication.heading_path + "/#{heading_page_number}"
     target = page_heading_path
-    layout_erb_path = page_heading_path + '/layout.erb'
     system "cp -R #{source}/ #{target}/"
-    layout_erb_content = File.open(layout_erb_path, 'r', &:read)
-    erb = ERB.new(layout_erb_content)
-    @date = korean_date_string
-    @section_name = put_space_between_chars(section_name)
-    @page_number = page_number
-    layout_content = erb.result(binding)
+    layout_content = page_headinng.layout_content
     layout_rb_path = page_heading_path + '/layout.rb'
     File.open(layout_rb_path, 'w') { |f| f.write layout_content }
     system "cd #{page_heading_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."

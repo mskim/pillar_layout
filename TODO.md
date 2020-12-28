@@ -53,6 +53,76 @@
   - do english hyphenation
   - implement proof reading
 
+
+
+2020-12-27
+  - install text_style.yml
+  - install newsman.app
+  - default_issue_plan.rb
+  ['글로벌포커스', "6x15_5단통_3"], 
+  ['오피니언', "6x15_5단통_3"], 
+  ['오피니언', "6x15_5단통_3"], 
+  ['전면광고', "6x15_15단통_0", true]
+-in seed
+  - SECTIONS
+    add 글로벌포커스 as tenth_item
+in publication.rb
+    SECTIONS
+    add 글로벌포커스 as tenth_item
+  def page_heading_margin_in_lines(page_number)
+    case page_number
+    when 1
+      front_page_heading_margin
+    when 18, 19, 21, 22,23
+      inner_page_heading_height + 1
+    else
+      inner_page_heading_height
+    end
+  end
+  - page_heading 
+    bg_image
+  - page congif file 
+    generation heading height in lines 4
+    layout
+    21 page layout
+    def p21_content
+    def layout_content
+issues_controller
+    tenth_group
+  - router
+
+  - navi view
+    _navigation_links.html.erb
+    -page_navigarion_link
+    - working_navigation_link
+    tenth_group_issue_path
+  
+    tenth_group_issue_path
+
+    tenth_group.html.erb
+    page.rb def config
+    h['page_heading_margin_in_lines']   = 4 if page_number == 21
+
+  in page_plan
+
+  def team_leader
+    # puts "++++++++ section_name:#{section_name}"
+    g = ReporterGroup.where(section: section_name).first
+    if g
+      ReporterGroup.where(section: section_name).first.leader
+    else
+      "남봉우"
+    end
+  end
+
+  fix xml_generation add page 21 to page array
+
+  in page
+    def copy_heading
+      layout_content = page_headinng.layout_content
+    def change_heading
+      layout_content = page_headinng.layout_content
+
 2020_11_21
   - do the layout with y_in_lines, and height_in_lines
     def default_height_in_lines
@@ -673,52 +743,6 @@ Did you mean?  token_string):
   - 2020_4_28 기자이름 영문일때 우측 space
   - 메인가사 자동 설정
 
-2020_12_12
-
-2020-12-10
-  - default_issue_plan.rb
-  ['글로벌포커스', "6x15_5단통_3"], 
-  ['오피니언', "6x15_5단통_3"], 
-  ['오피니언', "6x15_5단통_3"], 
-  ['전면광고', "6x15_15단통_0", true]
-
--in seed
-  - SECTIONS
-    add 글로벌포커스 as tenth_item
-  - in publication.rb
-    SECTIONS
-    add 글로벌포커스 as tenth_item
-
-  - page_heading 
-    be_image
-  - congig file generation heading height in lines 4
-  - issues_controller
-    tenth_group
-  - router
-
-  - navi view
-    tenth_group_issue_path
-    tenth_group.html.erb
-    page.rb def config
-    h['page_heading_margin_in_lines']   = 4 if page_number == 21
-
-2020_4_27
-  - fix v_split at 2 from right
-  - fix pillar#remove_article
-    - update back to 2_2, when  2_2_2 is deleted
-  
-  - fix split_box 에 기사 추가?
-  - add 기사 after, before
-  
-2020_4_26
-  - add node_layout_id:integer  to working_article
-  - media_plan
-      news
-      Forum
-      section_plan
-      ad_booking
-  - cms
-      my_story
 
 2020_4_23
   - 사진 기사 박스 일때 테두리 두께 

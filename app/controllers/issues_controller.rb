@@ -204,7 +204,7 @@ class IssuesController < ApplicationController
     session[:current_group] = 'eighth_group'
   end
 
-  # 글로벌 포커스
+  # 오피니언
   def nineth_group
     set_issue
     group = @issue.publication.sections[8]
@@ -212,7 +212,7 @@ class IssuesController < ApplicationController
     session[:current_group] = 'nineth_group'
   end
 
-  # 오피니언
+  # 글로벌 포커스
   def tenth_group
     set_issue
     group = @issue.publication.sections[9]

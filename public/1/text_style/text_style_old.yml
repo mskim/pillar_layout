@@ -272,25 +272,6 @@ title_main:
   markup: ''
   graphic_attributes: ''
   publication_id: 1
-title_main21:
-  korean_name: 제목_메인21
-  category:
-  font_family: KoPub바탕체_Pro Bold
-  font: KoPubBatangPB
-  font_size: 42.0
-  text_color: CMYK=0,0,0,100
-  alignment: left
-  tracking: -2
-  space_width: 10.0
-  scale: 100.0
-  text_line_spacing: 5
-  space_before_in_lines: -0.5
-  space_after_in_lines: 2
-  text_height_in_lines: 4
-  box_attributes: ''
-  markup: ''
-  graphic_attributes: ''
-  publication_id: 1
 title_4_5:
   korean_name: 제목_4-5단
   category:
