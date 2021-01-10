@@ -53,7 +53,9 @@
   - do english hyphenation
   - implement proof reading
 
-
+2021-02-10
+  - system test
+  - bench mark rake tesk
 
 2020-12-27
   - install text_style.yml

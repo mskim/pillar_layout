@@ -1,6 +1,20 @@
 namespace :style do
   require 'csv'
   
+  desc 'issue_gen'
+  task :issue_pdf_test =>:environment do
+    starting = Time.now
+    i = Issue.last
+    i.pages.all.each do |p|
+      p.working_articles.each do |w|
+        w.generate_pdf_with_time_stamp
+      end
+    end
+    ending = Time.now
+    puts "it took #{ending - starting}"
+  end
+
+
   desc 'set all default article height_in_lines '
   task :set_default_height =>:environment do
     Page.all.each do |p|
