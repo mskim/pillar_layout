@@ -47,16 +47,16 @@ wire_service:
 
 development:
   <<: *default
-  database: style_guide_development
+  database: pillar_layout_development
   username: <%= ENV['USER'] %>
   
 test:
   <<: *default
-  database: style_guide__test
+  database: pillar_layout__test
   username: <%= ENV['USER'] %>
 
 # production:
 #   <<: *default
-#   database: style_guide_production
+#   database: pillar_layout_production
 #   username: <%= ENV['USER'] %>
 

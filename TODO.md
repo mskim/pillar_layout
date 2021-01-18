@@ -53,6 +53,27 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-19
+  - chnage publication folder to slug instead id
+
+
+2021-02-17
+  - generate_pdf
+    - when adjustable_height: true go full height
+    - when fixed_height: fix the height at given   height
+    - in all cases min_height is always 14 lines
+
+2021-02-17
+  - add max_height_in_lines to working_article
+  - change database name to pillar_layout
+  
+2021-02-12
+  - offline editing
+  - Rakefile to update PDF
+
+2021-02-11
+  - pillar max_height_allowed heigth for working_article from file_system
+
 2021-02-10
   - system test
   - bench mark rake tesk

@@ -80,6 +80,10 @@ class Publication < ApplicationRecord
     "#{Rails.root}/public/#{id}"
   end
 
+  def url
+    "/#{id}"
+  end
+
   def images_path
     "#{Rails.root}/public/images"
   end

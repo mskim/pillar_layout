@@ -634,40 +634,93 @@ class Pillar < ApplicationRecord
     page_ref.generate_pdf_with_time_stamp
   end
 
-  # auto adjust height of all ariticles in pillar and relayout bottom article
-  # set height_in_lines, extended_line_count
-  def auto_adjust_height_all(options={})
+  def following_root_articles(article)
+    article_index = root_articles.index(article)
+    root_articles[article_index..-1]
+  end
+  # auto_adjust_height starting from given article
+  def auto_adjust_height_starting_from(article)
+    following_article = following_root_articles(article)
     update_y_in_lines
-    working_articles.sort_by{|w| w.pillar_order}.each do |w|
-      next if w == bottom_article
+    following_article.each do |w|
       w.generate_pdf_with_time_stamp(adjustable_height: true)
     end
-    bottom_article.update_bottom_height
-    page_ref.generate_pdf_with_time_stamp unless options[:generate_page]
+    adjust_articles_to_fit_pillar
   end
 
-  def min_height_sum_of_below_articles(following_articles)
-    following_articles.map{|a| a.min_height_in_lines}.reduce(:+)
+  # auto adjust height of all ariticles in pillar and relayout bottom article
+  # set height_in_lines, extended_line_count
+
+  # steps
+  # 1. generate all root articles with full height
+  # 2. call adjust_articles_to_fit_pillar
+  def auto_adjust_height_all(options={})
+    update_y_in_lines
+    root_articles.each do |w|
+      w.generate_pdf_with_time_stamp(adjustable_height: true)
+    end
+    adjust_articles_to_fit_pillar
   end
 
-  # we want to allow at least minimim of row height for each article
-  # So, depending on order we should caluclate max lines for the gievin article.
-  def max_height_in_lines(article)
-    article_count = root_articles.length
-    article_order = article.order_from_pillar_order
-    following_count = article_count - article_order
-    following_min_sum = following_count*14
-    puts "article_order:#{article_order}"
-    puts "article.y_in_lines:#{article.y_in_lines}"
-    puts "following_min_sum:#{following_min_sum}"
-    puts "height_in_lines:#{height_in_lines}"
-    max_lines = height_in_lines -  (article.y_in_lines + following_min_sum)
+  # adjust_articles_to_fit_pillar
+  # adjust heights from bottom until it fits
+  def adjust_articles_to_fit_pillar
+    heights_array          = height_in_lines_array
+    height_in_lines_sum    = heights_array.reduce(:+)
+    differnce              = height_in_lines_sum - height_in_lines
+    if differnce != 0
+      # get adjusted_heights_array to fit
+      new_heights_array    = adjusted_heights_array(heights_array)
+      # puts new_heights_array.reduce(:+)
+      root_articles.each_with_index do |article, i|
+        new_height = new_heights_array[i]
+        if article.read_height_in_lines != new_height
+          article.generate_pdf_with_time_stamp(fixed_height_in_lines: new_height)
+        end
+      end
+    end
+  end
+
+  def adjusted_heights_array(current_heights)
+    adjusted_heights = current_heights.dup
+    diffenence      = current_heights.reduce(:+) - height_in_lines
+    if diffenence > 0
+      reminaing_overflow = diffenence
+      current_heights.reverse.each_with_index do |article_height, i|
+        if reminaing_overflow == 0 
+          break
+        elsif article_height > 14
+          room = article_height - 14
+          if room >= reminaing_overflow
+            room = reminaing_overflow
+            adjusted_heights[-(i+1)] = article_height - room
+            break
+          end
+          reminaing_overflow -= room
+          adjusted_heights[-(i+1)] = article_height - room
+        end
+      end
+    else
+      underflow = diffenence
+      # grow bottom article by difference
+      adjusted_heights[-1] += underflow
+    end
+    adjusted_heights
+  end
+  
+  # read from disk
+  def height_in_lines_array
+    root_articles.map{|w| w.read_height_in_lines}
+  end
+
+  def sum_of_root_articles_line_height
+    height_in_lines_array.reduce(:+)
   end
 
   def update_y_in_lines
     current_y = 0
     root_articles.each do |w|
-      current_height_in_lines = w.height_in_lines
+      current_height_in_lines = w.read_height_in_lines
       w.update(y_in_lines: current_y)
       current_y += current_height_in_lines
     end
@@ -675,14 +728,6 @@ class Pillar < ApplicationRecord
 
   def y_in_lines_array
     root_articles.map{|w| w.y_in_lines}
-  end
-
-  def height_in_lines_array
-    root_articles.map{|w| w.height_in_lines}
-  end
-
-  def max_height_in_lines_array
-    root_articles.map{|w| max_height_in_lines(w)}
   end
 
   def height_in_lines_sum
@@ -697,6 +742,14 @@ class Pillar < ApplicationRecord
     working_articles.select{|w| w.parent == nil}
   end
 
+  def root_articles_count
+    root_articles.length
+  end
+
+  def bottom_root_article
+    w = root_articles.sort_by{|w| w.pillar_order}.last
+  end
+  
   # only the sorted top level roots
   def sorted_root_working_articles
     root_articles.sort_by{|w| w.pillar_order}

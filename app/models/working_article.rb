@@ -394,14 +394,12 @@ class WorkingArticle < ApplicationRecord
     system("rm -rf #{path}")
   end
 
-  
   def delete_attached_floats
     images.all.each {|i| i.destroy}
     graphics.all.each {|i| i.destroy}
     group_image.destroy if group_image
     story.destroy if story
   end
-
 
   def stamped_pdf_file
     path + "/story#{@time_stamp}.pdf"
@@ -419,6 +417,11 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def read_height_in_lines
+    article_info = YAML::load_file(article_into_path)
+    article_info[:height_in_lines].to_i
+  end
+
   def generate_pdf_with_time_stamp(options = {})
     unless File.exist?(path)
       # prevent generating article pdf before page and article folder is created
@@ -426,39 +429,26 @@ class WorkingArticle < ApplicationRecord
       return 
     end
     puts "generate_pdf... #{path}"
-    pdf_starting = Time.now
+    # pdf_starting = Time.now
     delete_old_files
-    stamp_time
-    h = {}
-    h[:time_stamp] = @time_stamp
-    if options[:adjustable_height]
-      h[:adjustable_height] = true
-      h[:max_height_in_lines] = max_height_in_lines
-    end
-    if options[:fixed_height_in_lines]
-      h[:fixed_height_in_lines] = options[:fixed_height_in_lines]
-    end
-    save_article_pdf(h)
+    save_article_pdf(options)
     pdf_working_article_ending = Time.now
-    pdf_page_ending = Time.now
+    # pdf_page_ending = Time.now
   end 
   alias gen_pdf generate_pdf_with_time_stamp
 
   def save_article_pdf(options = {})
     make_article_path
-    save_hash                 = {}
-    save_hash[:article_path]  = path
-    save_hash[:story_md]      = story_md
-    layout_options            = {}
+    stamp_time
+    save_hash                     = options
+    save_hash[:time_stamp]        = @time_stamp
+    # save_hash[:max_height_in_lines] = max_height_in_lines if options[:adjustable_height]
+    save_hash[:article_path]      = path
+    save_hash[:story_md]          = story_md
+    layout_options                = {}
     layout_options[:fixed_height_in_lines]  = options[:fixed_height_in_lines]
-    if options[:adjustable_height]
-      layout_options[:max_height_in_lines] = max_height_in_lines
-      layout_options[:min_height_in_lines] = min_height_in_lines
-      layout_options[:adjustable_height] = true
-    end
-    layout_string = layout_rb(layout_options)
-    save_hash[:layout_rb]         = layout_string
-    save_hash[:time_stamp]        = options[:time_stamp]
+    layout_options[:min_height_in_lines] = min_height_in_lines
+    save_hash[:layout_rb]         = layout_rb(layout_options)
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
     new_extended_line_count       = new_height_in_lines - base_height_in_lines
@@ -518,64 +508,17 @@ class WorkingArticle < ApplicationRecord
     pillar.available_bottom_space
   end
 
-  # set height_in_lines, extended_line_count
+  # auto_adjust_height
   def auto_adjust_height
-    # return if locked
-    before_extended_line_count = extended_line_count
-    pillar.update_y_in_lines
-    generate_pdf_with_time_stamp(adjustable_height: true)
-    after_extended_line_count = extended_line_count
-    if has_children? && (before_extended_line_count != after_extended_line_count)
-      # update child height
-      children.first.update(extended_line_count: extended_line_count)
-      children.first.generate_pdf_with_time_stamp
-    end
-    changed_height_in_lines = after_extended_line_count - before_extended_line_count
-    # height has not changed
-    return if changed_height_in_lines == 0
-    # height has changed
-    bottom_article = pillar.bottom_article
-    bottom_article.update_bottom_height
-    page.generate_pdf_with_time_stamp
-  end
-
-  def adjust_heights_of_following_articles_from_bottom(article, lines_to_reduce)
-    remaining = lines_to_reduce
-    articles = pillar.sorted_root_working_articles
-    bottom_article = articles.last
-    articles.reverse.each_with_index do |w, i|
-      return if article == w
-      next if w = bottom_article
-      min_allowed = w.min_height_in_lines
-      reduceable = w.height_in_lines - min_allowed
-      if reduceable >= remaining
-        new_height_in_lines = w.height_in_lines - remaining
-        w.generate_pdf_with_time_stamp(fixed_height_in_lines: new_height_in_lines)
-        return
-      elsif w.height_in_lines == w.min_height_in_lines
-        next
-      else
-        new_height_in_lines = w.height_in_lines - reduceable
-        w.generate_pdf_with_time_stamp(fixed_height_in_lines: new_height_in_lines)
-        remaining -= reduceable
-      end
-      bottom_article.update_bottom_height
-    end
-
+    pillar.auto_adjust_height_starting_from(self)
+    pillar.page_ref.generate_pdf_with_time_stamp 
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
   def auto_adjust_height_all
-    articles = pillar.sorted_root_working_articles
-
-    bottom_article = articles.last
-    articles.each do |w|
-      next if w == bottom_article
-      w.generate_pdf_with_time_stamp(adjustable_height: true)
-    end
-    bottom_article.update_bottom_height
-    page.generate_pdf_with_time_stamp
+    pillar.auto_adjust_height_all
+    pillar.page_ref.generate_pdf_with_time_stamp 
   end
 
   # used for 글줄기 모두 0 행 복구
@@ -602,10 +545,6 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
-  def above_the_bottom_height_in_lines_sum
-
-  end
-
   # called to update heigth of bottom pillar article
   def update_bottom_height
     bottom_room_in_lines = pillar.bottom_article_room_in_lines
@@ -617,31 +556,7 @@ class WorkingArticle < ApplicationRecord
     new_height_in_lines = article_info[:height_in_lines]
     new_extended_line_count = new_height_in_lines - base_height_in_lines
     update(extended_line_count: new_extended_line_count)
-    # TODO
-    # bottom_top = pillar.height_in_lines - new_height_in_lines
-    # if bottom_top < article_from_bottom(1)
-    # end
-
-    # if new_height_in_lines > bottom_room_in_lines
-    #   # bottom alone has not enough to room to accomodate the change
-    #   # we need to fix the heights of articles avode the bottom
-    #   adjust_heights_of_following_articles_from_bottom(self, bottom_article_room_in_lines)
-    # else
-    #   # pillar.update_article_height
-    #   # bottom alone has enough to room to accomodate the change
-    # end
     page.generate_pdf_with_time_stamp
-  end
-
-  def update_extended_line_count_from_layout_result(extended_sum)
-    article_info = YAML::load_file(article_into_path)
-    layout_result = article_info[:extended_line_count]
-    # y_in_lines = row*7 + extended_sum
-    # if top_position?
-    #   y_in_lines = 0
-    # end
-    update(extended_line_count: layout_result) 
-    layout_result
   end
 
   # adds extended_line_count with new line_count
@@ -995,19 +910,6 @@ class WorkingArticle < ApplicationRecord
     h[:stroke_width]                  = 0.3 if kind == '사설' || kind == 'editorial'
     h[:column]                        = column
     h[:height_in_lines]               = height_in_lines
-
-    # TODO following might not be needed
-    # +++++++++++++
-    # h[:row]                           = row
-    # if extended_line_count
-    #   h[:extended_line_count]           = self.extended_line_count
-    # end
-    # # if it has a parent  
-    # if parent
-    #   h[:extended_line_count]           = parent.extended_line_count
-    # end
-    # # +++++++++++++
-
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter
@@ -1022,11 +924,8 @@ class WorkingArticle < ApplicationRecord
       h[:empty_first_column]          = true
       h[:adjustable_height]           = false
     end
-    # TODO do we need top_position?
     h[:top_position]                  = top_position?
-    # h[:page_heading_margin_in_lines]  = publication.page_heading_margin_in_lines(page.page_number)
     h[:bottom_article]                = page.bottom_article?(self)
-
     if boxed_subtitle_type && boxed_subtitle_type > 0
       h[:boxed_subtitle_type]         = boxed_subtitle_type
     end
@@ -1085,8 +984,6 @@ class WorkingArticle < ApplicationRecord
 
   def graphic_layout
     content = ''
-    # graphics.each do |graphic|
-    # sort graphics by order
     graphics.sort_by(&:order).each do |graphic|
       content += "  news_image(#{graphic.graphic_layout_hash})\n"
     end
@@ -1099,7 +996,6 @@ class WorkingArticle < ApplicationRecord
 
   def quote_layout
     quote_hash = {}
-    # quote_hash[:quote]            = quote
     quote_hash[:position]         = quote_position || 1
     quote_hash[:x_grid]           = quote_x_grid
     quote_hash[:column]           = quote_box_size || 1
@@ -1111,17 +1007,14 @@ class WorkingArticle < ApplicationRecord
   end
 
   def layout_rb(options={})
-    # h = h.to_s.gsub("{", "").gsub("}", "")
     h = layout_options
     h.merge!(options)
-    h[:height_in_lines]     = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
-    h[:max_height_in_lines]  = h[:max_height_in_lines] if h[:max_height_in_lines]
+    h[:height_in_lines]       = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
     if kind == '사진'
       if first_image = images.first
         h[:draw_frame] = false if first_image && first_image.draw_frame == false
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
         image_hash = image_options
-        # image_hash[:fit_type] = 3 # keep ratio
         image_hash[:expand] = %i[width height]
         content += "  news_image(#{image_hash})\n"
         content += "end\n"
@@ -1131,18 +1024,12 @@ class WorkingArticle < ApplicationRecord
         end
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
         image_hash = first_graphic.graphic_layout_hash
-        # image_hash[:fit_type] = 3 # keep ratio
         image_hash[:expand] = %i[width height]
         content += "  news_image(#{image_hash})\n"
         content += "end\n"
       else
         h[:draw_frame] = true
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
-        # # image_hash[:fit_type] = 3 # keep ratio
-        # image_hash= {}
-        # image_hash[:expand]     = [:width, :height]
-        # image_hash[:image_path] = nil
-        # content += "  news_image(#{image_hash})\n"
         content += "end\n"
       end
     elsif kind == '만평'
@@ -1539,21 +1426,6 @@ class WorkingArticle < ApplicationRecord
     a.shift
     r = a.join('_')
     r
-  end
-
-  def bumpup_pillar_order_by(count)
-    a = pillar_order.split('_')
-    new_order = a.last.to_i + count
-    a[-1] = new_order
-    new_pillar_order = a.join('_')
-    update(pillar_order: new_pillar_order)
-  end
-
-  def next_pillar_order
-    a = pillar_order.split('_')
-    new_order = a.last.to_i + 1
-    a[-1] = new_order
-    new_pillar_order = a.join('_')
   end
 
   def pillar_siblings

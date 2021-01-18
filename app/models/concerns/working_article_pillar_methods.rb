@@ -176,11 +176,6 @@ module WorkingArticlePillarMethods
 
   def min_height_in_lines
     14
-    # if kind == '사진'
-    #   height_in_lines
-    # else
-    #   7
-    # end
   end
 
   def drop_height_in_lines
@@ -188,7 +183,7 @@ module WorkingArticlePillarMethods
   end
 
   def order_from_pillar_order
-    pillar_order.split("_")[1].to_i
+    pillar_order.split("_")[1].to_i - 1
   end
 
   def default_height_in_lines
@@ -198,7 +193,7 @@ module WorkingArticlePillarMethods
     lines, remainder = pillar.default_height_in_lines
     if remainder == 0
       lines
-    elsif order_from_pillar_order <= remainder
+    elsif order_from_pillar_order + 1 <= remainder
       lines + 1
     else
       lines
