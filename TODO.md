@@ -53,28 +53,44 @@
   - do english hyphenation
   - implement proof reading
 
-2021-02-19
+2021-01-31
+  allow designer to fix article layout
+  - article_kind table
+    - name, 기사, 부고/인사, 기고, 사설, 박스기고, 사진, 만평, 
+    - sidearticle_line_draw_sides
+    - input_fields
+    - bottoms_space
+    - caption_title
+    - caption
+    - source
+  - page_heading_kind table
+    - page_number, 1,2,21,22,23,100,101
+    - bg_image
+    - layout_erb
+
+
+2021-01-19
   - chnage publication folder to slug instead id
 
 
-2021-02-17
+2021-01-17
   - generate_pdf
     - when adjustable_height: true go full height
     - when fixed_height: fix the height at given   height
     - in all cases min_height is always 14 lines
 
-2021-02-17
+2021-01-17
   - add max_height_in_lines to working_article
   - change database name to pillar_layout
   
-2021-02-12
+2021-01-12
   - offline editing
   - Rakefile to update PDF
 
-2021-02-11
+2021-01-11
   - pillar max_height_allowed heigth for working_article from file_system
 
-2021-02-10
+2021-01-10
   - system test
   - bench mark rake tesk
 

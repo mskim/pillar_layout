@@ -132,18 +132,8 @@ class Profile < ApplicationRecord
     File.open(layout_path, 'w'){|f| f.write layout_rb}
   end
 
-  # def generate_pdf
-  #   save_layout
-  #   system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
-  # end
-
   def generate_pdf
-    if RUBY_ENGINE !='rubymotion'
-      save_pdf_in_ruby
-    else
-      save_layout
-      system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman rjob #{name}.rb -jpg"
-    end
+    save_pdf_in_ruby
   end
 
   def save_pdf_in_ruby

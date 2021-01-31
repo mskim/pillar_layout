@@ -60,7 +60,7 @@ class Issue < ApplicationRecord
   include IssueGithubWorkflow
   include IssueSaveXml
   include StaticIssue
-
+  include GithubIssue
   # def save_to_web_article
   #   working_articles.each(&:save_to_story)
   # end

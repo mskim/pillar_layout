@@ -38,6 +38,26 @@ body_gothic:
   markup: ''
   graphic_attributes: ''
   publication_id: 1
+body_italic:
+  korean_name: 본문이탈릭
+  italic: 0.15
+  font_family: Shinmoon
+  font: Shinmoon
+  font_size: 9.6
+  text_color: CMYK=0,0,0,100
+  alignment: justified
+  tracking: -0.2
+  space_width: 3.0
+  scale: 100.0
+  first_line_indent: 0
+  text_line_spacing:
+  space_before_in_lines: 1
+  space_after_in_lines:
+  text_height_in_lines:
+  box_attributes: ''
+  markup: ''
+  graphic_attributes: ''
+  publication_id: 1
 running_head:
   korean_name: 본문중제
   category:
@@ -188,6 +208,63 @@ source:
   markup: ''
   graphic_attributes: ''
   publication_id: 1
+comic_title:
+  korean_name: 만평제목
+  category:
+  font_family: KoPub돋움체_Pro Bold
+  font: KoPubDotumPB
+  font_size: 14.0
+  text_color: CMYK=0,0,0,100
+  alignment: left
+  tracking: -0.2
+  space_width: 3
+  scale: 100.0
+  text_line_spacing:
+  space_before_in_lines:
+  space_after_in_lines:
+  text_height_in_lines:
+  box_attributes: ''
+  markup: ''
+  graphic_attributes: ''
+  publication_id: 1
+comic_caption:
+  korean_name: 만평설명
+  category:
+  font_family: KoPub돋움체_Pro Light
+  font: KoPubDotumPL
+  font_size: 12.0
+  text_color: CMYK=0,0,0,100
+  alignment: justified
+  tracking: -0.3
+  space_width: 0
+  scale: 100.0
+  text_line_spacing:
+  space_before_in_lines:
+  space_after_in_lines:
+  text_height_in_lines:
+  box_attributes: ''
+  markup: ''
+  graphic_attributes: ''
+  publication_id: 1
+comic_source:
+  korean_name: 만평출처
+  category:
+  font_family: KoPub돋움체_Pro Light
+  font: KoPubDotumPL
+  font_size: 9.5
+  text_color: CMYK=0,0,0,100
+  alignment: right
+  tracking: -0.2
+  space_width: 2.0
+  scale: 100.0
+  text_line_spacing:
+  space_before_in_lines:
+  space_after_in_lines:
+  text_height_in_lines:
+  box_attributes: ''
+  markup: ''
+  graphic_attributes: ''
+  publication_id: 1
 reporter:
   korean_name: 기자명
   category:
@@ -266,6 +343,25 @@ title_main:
   scale: 100.0
   text_line_spacing: 5
   space_before_in_lines: 0.5
+  space_after_in_lines: 2
+  text_height_in_lines: 4
+  box_attributes: ''
+  markup: ''
+  graphic_attributes: ''
+  publication_id: 1
+title_main21:
+  korean_name: 제목_메인21
+  category:
+  font_family: KoPub바탕체_Pro Bold
+  font: KoPubBatangPB
+  font_size: 42.0
+  text_color: CMYK=0,0,0,100
+  alignment: left
+  tracking: -2
+  space_width: 10.0
+  scale: 100.0
+  text_line_spacing: 5
+  space_before_in_lines: -0.5
   space_after_in_lines: 2
   text_height_in_lines: 4
   box_attributes: ''

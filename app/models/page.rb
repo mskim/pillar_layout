@@ -80,6 +80,8 @@ class Page < ApplicationRecord
   include StorageBackupPage
   include Pdf2jpg
   include StaticPage
+  include GithubPage
+
   # extend FriendlyId
   # friendly_id :friendly_string, :use => [:slugged]
 

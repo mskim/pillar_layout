@@ -37,9 +37,10 @@ class AdBox < ApplicationRecord
   before_create :init_atts
   after_create :setup
   include StorageBackupWorkingArticle
-  # def path
-  #   path + "/ad"
-  # end
+  
+  def path
+    page.path + "/ad"
+  end
 
   def url
     path.sub("#{Rails.root}/public}", "")
@@ -200,7 +201,6 @@ class AdBox < ApplicationRecord
 
   def save_layout
     File.open(layout_path, 'w'){|f| f.write layout_rb}
-    # puts "File.exist?(layout_path):#{File.exist?(layout_path)}"
   end
 
   def stamp_time
@@ -234,18 +234,6 @@ class AdBox < ApplicationRecord
     save_hash[:article_path]      = path
     save_hash[:layout_rb]         = layout_rb
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
-  end
-
-  def generate_pdf
-    save_layout
-    system "cd #{path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
-    update_page_pdf
-  end
-
-  def update_page_pdf
-    page_path = page.path
-    # puts "page_path:#{page_path}"
-    system "cd #{page_path} && /Applications/newsman.app/Contents/MacOS/newsman section ."
   end
 
   def box_svg

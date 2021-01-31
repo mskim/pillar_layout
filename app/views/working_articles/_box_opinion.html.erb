@@ -20,7 +20,7 @@
 
   <div class="form-group">
     <%= f.label :기사종류 %>
-    <%= f.select :kind, ['기사', '사진', '기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
+    <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %>
   </div>
   <% if article.kind ==  '사진'%>
     <p>사진 탭에서 사진 올리세요</p>
@@ -56,6 +56,12 @@
             <%= f.label :기자명 %>
             <%= f.text_field :reporter, class: 'form-control', autocomplete: 'off' %>
           </div>
+
+          <div class="form-grouo">
+            <%= f.label "글쓴이 사진위치" %>
+            <%= f.select :profile_image_position, ['상단 왼쪽', '하단 오른쪽'], {} %>
+          </div>
+
         </div>
       </div>
 

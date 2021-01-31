@@ -122,7 +122,7 @@ end
 # gem 'bullet', group: 'development'
 # gem 'rack-cors', require: 'rack/cors'
 
-gem 'ajax-datatables-rails'
+# gem 'ajax-datatables-rails'
 gem 'jquery-datatables'
 gem 'rails-assets-trix', source: 'https://rails-assets.org'
 

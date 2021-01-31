@@ -17,7 +17,7 @@
           <button name="button" type="submit" class="btn btn-sm btn-primary" data-disable-with="<i class='fa fa-spinner fa-spin'></i> 처리중...">저장</button>
         </div>
         <div class="form-row">
-          <span><small class="font-weight-bold">기사종류 <%= f.select :kind, ['기사', '사진', '기고', '사설', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %> 가격 <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {} %></small></span>
+          <span><small class="font-weight-bold">기사종류 <%= f.select :kind, ['기사', '사진', '기고', '박스기고', '사설', '부고-인사', '특집', '책소개'], {}, {onChange: 'this.form.submit();'} %> 가격 <%= f.select :price, [['무료', 0], ['500원', 20], ['1000원', 30]], {} %></small></span>
         </div>
         <div class="form-row">
           <span><small class="font-weight-bold">테두리 <%= f.select :frame_sides, ['기본', '테두리'], {} %> 테두리 두께 <%= f.select :frame_thickness, [0.3, 2.0], {} %> 테두리 컬러 <%= f.select :frame_color, ['검정', '회색', '자주', '파랑'], {} %></small></span>

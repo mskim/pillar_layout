@@ -1,7 +1,7 @@
 module GithubIssue
   extend ActiveSupport::Concern
 
-  def save_issue_for_github
+  def save_for_github
     pages.each do |p|
       p.save_for_github
     end

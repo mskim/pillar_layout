@@ -33,6 +33,7 @@ class Pillar < ApplicationRecord
   before_create :init_pillar
   after_create :create_layout
   include RectUtils
+  include GithubPillar
 
   def max_pushed_line_count
     (row - working_articles.length)*7
@@ -618,10 +619,10 @@ class Pillar < ApplicationRecord
 
   def layout_map
     h = {}
-    h[:order] = order
-    h[:pillar_rect] = [x,y,width,height]
-    h[:pillar_grid_rect] = [grid_x, grid_y, column, row]
-    h[:article_map] = article_map
+    h[:order]             = order
+    h[:pillar_rect]       = [x,y,width,height]
+    h[:pillar_grid_rect]  = [grid_x, grid_y, column, row]
+    h[:article_map]       = article_map
     h
   end
 

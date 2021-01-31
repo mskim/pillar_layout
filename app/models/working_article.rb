@@ -149,6 +149,7 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleAttachment
   include WorkingArticleAnnotate
   include StaticWorkingArticle
+  include GithubWorkingArticle
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
