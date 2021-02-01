@@ -1,0 +1,19 @@
+<h1>Page Heading Kinds</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-page_heading_kinds" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="publication">Publication</th>
+      <th data-data="page_type">Page type</th>
+      <th data-data="layout_erb">Layout erb</th>
+      <th data-data="height_in_lines">Height in lines</th>
+      <th data-data="bg_image">Bg image</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Page Heading Kind', new_page_heading_kind_path %>

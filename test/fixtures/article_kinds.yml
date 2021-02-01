@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  publication: one
+  name: MyString
+  line_draw_sides: MyText
+  input_fields: MyText
+  bottoms_space_in_lines: 1
+  layout_erb: MyText
+
+two:
+  publication: two
+  name: MyString
+  line_draw_sides: MyText
+  input_fields: MyText
+  bottoms_space_in_lines: 1
+  layout_erb: MyText

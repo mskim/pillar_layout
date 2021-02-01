@@ -1,0 +1,20 @@
+<h1>Article Kinds</h1>
+
+<table class="responsive nowrap table table-hover" id="dttb-article_kinds" data-sort="true" data-source="<%= url_for(format: :json)%>">
+  <thead>
+    <tr>
+      <th data-data="publication">Publication</th>
+      <th data-data="name">Name</th>
+      <th data-data="line_draw_sides">Line draw sides</th>
+      <th data-data="input_fields">Input fields</th>
+      <th data-data="bottoms_space_in_lines">Bottoms space in lines</th>
+      <th data-data="layout_erb">Layout erb</th>
+      <th data-data="url" data-orderable="false" data-class-name="all" data-searchable="false" class="skip-export" width="100px"></th>
+    </tr>
+  </thead>
+
+</table>
+
+<br>
+
+<%= link_to 'New Article Kind', new_article_kind_path %>

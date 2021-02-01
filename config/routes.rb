@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :article_kinds
+  resources :page_heading_kinds
   resources :annotation_removes do
     member do
       patch :move_draggable

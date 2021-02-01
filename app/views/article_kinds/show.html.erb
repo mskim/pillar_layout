@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Publication:</strong>
+  <%= @article_kind.publication_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @article_kind.name %>
+</p>
+
+<p>
+  <strong>Line draw sides:</strong>
+  <%= @article_kind.line_draw_sides %>
+</p>
+
+<p>
+  <strong>Input fields:</strong>
+  <%= @article_kind.input_fields %>
+</p>
+
+<p>
+  <strong>Bottoms space in lines:</strong>
+  <%= @article_kind.bottoms_space_in_lines %>
+</p>
+
+<p>
+  <strong>Layout erb:</strong>
+  <%= @article_kind.layout_erb %>
+</p>
+
+<%= link_to 'Edit', edit_article_kind_path(@article_kind) %> |
+<%= link_to 'Back', article_kinds_path %>

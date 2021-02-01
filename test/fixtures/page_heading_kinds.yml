@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  publication: 
+  page_type: MyString
+  layout_erb: MyText
+  height_in_lines: 1
+  bg_image: MyString
+
+two:
+  publication: 
+  page_type: MyString
+  layout_erb: MyText
+  height_in_lines: 1
+  bg_image: MyString

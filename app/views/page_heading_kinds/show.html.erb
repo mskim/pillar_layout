@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Publication:</strong>
+  <%= @page_heading_kind.publication %>
+</p>
+
+<p>
+  <strong>Page type:</strong>
+  <%= @page_heading_kind.page_type %>
+</p>
+
+<p>
+  <strong>Layout erb:</strong>
+  <%= @page_heading_kind.layout_erb %>
+</p>
+
+<p>
+  <strong>Height in lines:</strong>
+  <%= @page_heading_kind.height_in_lines %>
+</p>
+
+<p>
+  <strong>Bg image:</strong>
+  <%= @page_heading_kind.bg_image %>
+</p>
+
+<%= link_to 'Edit', edit_page_heading_kind_path(@page_heading_kind) %> |
+<%= link_to 'Back', page_heading_kinds_path %>

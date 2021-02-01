@@ -1,0 +1,2 @@
+class PageHeadingKind < ApplicationRecord
+end

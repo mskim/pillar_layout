@@ -388,3 +388,17 @@ toc_text:text
 position:interger # 1..9
 
 
+## article_kinds
+  t.string :name
+  t.text :line_draw_sides
+  t.text :input_fields
+  t.integer :bottoms_space_in_lines
+  t.text :layout_erb
+## page_heading_kinds
+
+  t.refernces :publication
+  t.string :page_type
+  t.text :layout_erb
+  t.integer :height_in_lines
+  t.string :bg_image
+

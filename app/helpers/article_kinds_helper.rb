@@ -1,0 +1,2 @@
+module ArticleKindsHelper
+end

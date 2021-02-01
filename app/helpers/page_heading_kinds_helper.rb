@@ -1,0 +1,2 @@
+module PageHeadingKindsHelper
+end
