@@ -56,6 +56,15 @@ class Image < ApplicationRecord
   # active_storage 버전으로 파일 필드 추가
   has_one_attached :storage_image
 
+  def save_as_page_layout
+    h = {}
+    h[:position]              = position
+    h[:column]                = column
+    h[:row]                   = row
+    h[:x_grid]                = x_grid if x_grid
+    h  
+  end
+
   def info
     h = {}
     h[:position]              = position

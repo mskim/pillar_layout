@@ -3,7 +3,7 @@
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :role => 'form'}) do |f| %>
       <div class="col-md-10">
         <h3 class="display-4 text-center" style="font-size: 35px;">로그인</h3>
-        <%= devise_error_messages! %>
+        <%= render "devise/shared/error_messages", resource: resource %>
         <div class="form-group">
           <%= f.label "이메일주소:" %>
           <%= f.email_field :email, :autofocus => true, class: 'form-control form-control-sm' %>

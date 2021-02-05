@@ -1,0 +1,10 @@
+page_type,"bg_image
+","height_in_lines
+",layout_erb
+1,1_bg.pdf,10, 
+2,even_bg.pdf,3, 
+21,21_bg.pdf,4, 
+22,22_bg.pdf,4, 
+23,23_bg.pdf,4, 
+100,even_bg.pdf,3, 
+101,odd_bg.pdf,3, 

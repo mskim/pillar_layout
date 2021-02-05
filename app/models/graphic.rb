@@ -53,6 +53,15 @@ class Graphic < ApplicationRecord
   # after_save     :pdf_to_jpg
   has_one_attached :storage_graphic
 
+  def save_as_page_layout
+    h = {}
+    h[:position]              = position
+    h[:column]                = column
+    h[:row]                   = row
+    h[:x_grid]                = x_grid if x_grid
+    h  
+  end
+
   def info
     h = {}
     h[:position] = position

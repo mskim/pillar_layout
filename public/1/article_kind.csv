@@ -1,0 +1,11 @@
+name,line_draw_sides,"input_fields
+","bottom_space_in_lines
+","layout_erb
+"
+기사,"[0,0,0,1]","[‘ title‘, ‘ subtitle’, ’body’]",2,
+기고,"[0,0,0,1]","[‘ title‘, ‘ subtitle’, ’body’]",2,
+사설,"[0,0,0,1]","[‘ title‘, ‘ subtitle’, ’body’]",2,
+사진,"[0,0,0,1]","[‘ cation_title’, ‘ caption’, ’source’]",2,
+부고/인사,"[0,0,0,1]","[‘ subject_head’, ’body’]",2,
+박스기고,"[0,0,0,1]","[‘ title‘, ‘ subtitle’, ‘reporter’, ’body’]",2,
+만평,"[0,0,0,0]","[‘ cation_title‘, ’source’]",2,

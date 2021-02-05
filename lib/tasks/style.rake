@@ -1,6 +1,18 @@
 namespace :style do
   require 'csv'
   
+
+  desc 'issue auto adjust layout for all pages'
+  task :issue_adjust =>:environment do
+    starting = Time.now
+    i = Issue.last
+    i.pages.all.each do |p|
+      p.adjust_page_pdf
+    end
+    ending = Time.now
+    puts "it took #{ending - starting}"
+  end
+  
   desc 'issue_gen'
   task :issue_pdf_test =>:environment do
     starting = Time.now

@@ -34,6 +34,21 @@ class Pillar < ApplicationRecord
   after_create :create_layout
   include RectUtils
   include GithubPillar
+  
+  def save_as_page_layout
+    a = [grid_x, grid_y, column, row, root_articles.length]
+    article_atts = []
+    h = {}
+    working_articles.each_with_index do |w, i|
+      # use 1 based, not 0 based for easy of use
+      atts = w.save_as_page_layout(i + 1)
+      article_atts << atts if atts != {}
+    end
+    # select non-nil only
+    article_atts = article_atts.select{|e| !e.nil?}
+    a << article_atts if article_atts != []
+    a
+  end
 
   def max_pushed_line_count
     (row - working_articles.length)*7
@@ -438,20 +453,20 @@ class Pillar < ApplicationRecord
 
   def create_articles
     FileUtils.mkdir_p(path) unless File.exist?(path)
-    if box_count == 1
-      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
-      WorkingArticle.where(h).first_or_create
-    # elsif layout_with_pillar_path.first.class == Integer
-    #   # this is case when layout_with_pillar_path is Array of 5 element
-    #   h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
+    # if box_count == 1
+    #   h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
     #   WorkingArticle.where(h).first_or_create
-    else
-      layout_with_pillar_path.each_with_index do |box|
-        h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
-        WorkingArticle.where(h).first_or_create
-      end
-      set_article_defaults
+    # # elsif layout_with_pillar_path.first.class == Integer
+    # #   # this is case when layout_with_pillar_path is Array of 5 element
+    # #   h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
+    # #   WorkingArticle.where(h).first_or_create
+    # else
+    layout_with_pillar_path.each_with_index do |box|
+      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+      WorkingArticle.where(h).first_or_create
     end
+    set_article_defaults
+    # end
   end
 
   def init_pillar

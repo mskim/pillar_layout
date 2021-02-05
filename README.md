@@ -402,3 +402,20 @@ position:interger # 1..9
   t.integer :height_in_lines
   t.string :bg_image
 
+
+## PrepArticle
+  - publication
+  - date
+  - section
+  - page_number
+  - pillar_order
+  - kind
+  - title
+  - subtitle
+  - reporter
+  - email
+  - quote
+  - body
+  - image
+  - graphic
+  - char_count

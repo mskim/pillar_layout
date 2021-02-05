@@ -53,6 +53,10 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-04
+  - add sidekick and let it run as rlayout process in parallel
+  
+
 2021-01-31
   allow designer to fix article layout
   - article_kind table

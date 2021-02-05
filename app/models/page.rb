@@ -81,12 +81,28 @@ class Page < ApplicationRecord
   include Pdf2jpg
   include StaticPage
   include GithubPage
-
   # extend FriendlyId
   # friendly_id :friendly_string, :use => [:slugged]
 
   DAYS_IN_KOREAN = %w[일요일 월요일 화요일 수요일 목요일 금요일 토요일].freeze
   DAYS_IN_ENGLISH = Date::DAYNAMES
+
+  # page_type,column,layout
+  # we want to save page as a page_layout record with article_kind info
+  # so that it can be used to create page with same article_kinds next time
+  # we should also add like field, so that it gets picked up as first choice
+  # example
+  # 1,7,"[[0, 1, 5, 9, 2], [5, 1, 2, 9, 3, {1: '만평'}], '5단통']"
+  def save_as_page_layout
+    info = [page_number, column, pillars_save_as_page_layout]
+    info
+  end
+
+  def pillars_save_as_page_layout
+    pillars.map do |pil|
+      pil.save_as_page_layout
+    end
+  end
 
   def friendly_string
     "#{date}_#{page_number}"
@@ -563,11 +579,9 @@ class Page < ApplicationRecord
     RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
   end
 
-  def regenerate_pdf
-    generate_heading_pdf
-    working_articles.each(&:generate_pdf)
-    ad_boxes.each(&:generate_pdf)
-    PageWorker.perform_async(path, nil)
+  def adjust_page_pdf
+    stamp_time
+    RLayout::NewsPageAuto.new(page_path: path, time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
   end
 
   def site_path

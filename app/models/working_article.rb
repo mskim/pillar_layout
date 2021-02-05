@@ -160,6 +160,38 @@ class WorkingArticle < ApplicationRecord
   #   page.friendly_string
   # end
 
+  def save_as_page_layout(position)
+    atts = {}
+    if kind == '기사' || kind == nil
+      if images.length > 0 || graphics.length > 0
+        binding.pry
+        atts[:kind]     =  기사
+        atts[:images]   = images_as_page_layout if images.length > 0 
+        atts[:graphics] =  images_as_page_layout if graphics.length > 0 
+      end
+    else
+      atts[:kind]       =  kind
+      atts[:images]     = images_as_page_layout if images.length > 0 
+      atts[:graphics]   = images_as_page_layout if graphics.length > 0 
+    end
+    h = {}
+    h[position] = atts unless atts == {}
+    return nil if h == {}
+    h
+  end
+
+  def images_as_page_layout
+    images.map do |i|
+      i.save_as_page_layout
+    end
+  end
+
+  def graphics_as_page_layout
+    graphics.map do |g|
+      g.save_as_page_layout
+    end
+  end
+
   # when working_article is split, we need to bumped up folder names
 
   def page
@@ -423,6 +455,16 @@ class WorkingArticle < ApplicationRecord
     article_info[:height_in_lines].to_i
   end
 
+
+  # def generate_pdf_with_time_stamp(options = {})
+  #   save_article
+  #   delete_old_files
+  #   stamp_time
+  #   options[:time_stamp]        = @time_stamp
+  #   ArticleRubyWorker.perform_async(path, options)
+  #   wait_for_stamped_pdf
+  # end
+
   def generate_pdf_with_time_stamp(options = {})
     unless File.exist?(path)
       # prevent generating article pdf before page and article folder is created
@@ -433,7 +475,7 @@ class WorkingArticle < ApplicationRecord
     # pdf_starting = Time.now
     delete_old_files
     save_article_pdf(options)
-    pdf_working_article_ending = Time.now
+    # pdf_working_article_ending = Time.now
     # pdf_page_ending = Time.now
   end 
   alias gen_pdf generate_pdf_with_time_stamp
@@ -441,15 +483,16 @@ class WorkingArticle < ApplicationRecord
   def save_article_pdf(options = {})
     make_article_path
     stamp_time
+    save_article
     save_hash                     = options
     save_hash[:time_stamp]        = @time_stamp
     # save_hash[:max_height_in_lines] = max_height_in_lines if options[:adjustable_height]
     save_hash[:article_path]      = path
-    save_hash[:story_md]          = story_md
+    # save_hash[:story_md]          = story_md
     layout_options                = {}
     layout_options[:fixed_height_in_lines]  = options[:fixed_height_in_lines]
     layout_options[:min_height_in_lines] = min_height_in_lines
-    save_hash[:layout_rb]         = layout_rb(layout_options)
+    # save_hash[:layout_rb]         = layout_rb(layout_options)
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
     new_extended_line_count       = new_height_in_lines - base_height_in_lines
