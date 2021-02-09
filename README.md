@@ -404,7 +404,7 @@ position:interger # 1..9
 
 
 ## PrepArticle
-  - publication
+  - publication:references
   - date
   - section
   - page_number
@@ -415,7 +415,7 @@ position:interger # 1..9
   - reporter
   - email
   - quote
-  - body
-  - image
-  - graphic
-  - char_count
+  - body:text
+  - image:text
+  - graphic:text
+  - char_count:integer

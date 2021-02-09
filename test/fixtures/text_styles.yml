@@ -3,28 +3,29 @@
 # Table name: text_styles
 #
 #  id                    :integer          not null, primary key
-#  korean_name           :string
-#  english               :string
-#  category              :string
-#  font_family           :string
-#  font                  :string
-#  font_size             :float
-#  text_color            :string
 #  alignment             :string
-#  tracking              :float
-#  space_width           :float
-#  scale                 :float
-#  text_line_spacing     :float
-#  space_before_in_lines :integer
-#  space_after_in_lines  :integer
-#  text_height_in_lines  :integer
 #  box_attributes        :text
-#  markup                :string
+#  category              :string
+#  english               :string
+#  first_line_indent     :float
+#  font                  :string
+#  font_family           :string
+#  font_size             :float
 #  graphic_attributes    :text
-#  publication_id        :integer
+#  italic                :float
+#  korean_name           :string
+#  markup                :string
+#  scale                 :float
+#  space_after_in_lines  :integer
+#  space_before_in_lines :integer
+#  space_width           :float
+#  text_color            :string
+#  text_height_in_lines  :integer
+#  text_line_spacing     :float
+#  tracking              :float
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  first_line_indent     :float
+#  publication_id        :integer
 #
 # Indexes
 #

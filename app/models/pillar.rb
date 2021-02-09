@@ -462,7 +462,9 @@ class Pillar < ApplicationRecord
     # #   WorkingArticle.where(h).first_or_create
     # else
     layout_with_pillar_path.each_with_index do |box|
-      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box[4]}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+      box_count = box[4]
+      box_count = 1 if box[4] == ""
+      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box_count}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
       WorkingArticle.where(h).first_or_create
     end
     set_article_defaults
@@ -667,26 +669,38 @@ class Pillar < ApplicationRecord
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
 
+  def auto_adjust_height_all
+    pillar_path = path
+    result = RLayout::NewsPillar.new(pillar_path: pillar_path)
+    update_working_article_heights
+    true
+  end
+
+  def update_working_article_heights
+    root_articles.each_with_index do |root_article, i|
+      root_article.update_height_in_lines
+    end
+  end
+  
   # steps
   # 1. generate all root articles with full height
   # 2. call adjust_articles_to_fit_pillar
-  def auto_adjust_height_all(options={})
-    update_y_in_lines
-    root_articles.each do |w|
-      w.generate_pdf_with_time_stamp(adjustable_height: true)
-    end
-    adjust_articles_to_fit_pillar
-  end
+  # def auto_adjust_height_all
+  #   update_y_in_lines
+  #   root_articles.each do |w|
+  #     w.generate_pdf_with_time_stamp(adjustable_height: true)
+  #   end
+  #   adjust_articles_to_fit_pillar
+  # end
+
 
   # adjust_articles_to_fit_pillar
   # adjust heights from bottom until it fits
   def adjust_articles_to_fit_pillar
-    heights_array          = height_in_lines_array
-    height_in_lines_sum    = heights_array.reduce(:+)
-    differnce              = height_in_lines_sum - height_in_lines
+    differnce   = height_in_lines_sum - height_in_lines
     if differnce != 0
       # get adjusted_heights_array to fit
-      new_heights_array    = adjusted_heights_array(heights_array)
+      new_heights_array    = adjusted_heights_array
       # puts new_heights_array.reduce(:+)
       root_articles.each_with_index do |article, i|
         new_height = new_heights_array[i]
@@ -697,7 +711,8 @@ class Pillar < ApplicationRecord
     end
   end
 
-  def adjusted_heights_array(current_heights)
+  def adjusted_heights_array
+    current_heights = height_in_lines_array
     adjusted_heights = current_heights.dup
     diffenence      = current_heights.reduce(:+) - height_in_lines
     if diffenence > 0

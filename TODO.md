@@ -53,9 +53,19 @@
   - do english hyphenation
   - implement proof reading
 
-2021-02-04
-  - add sidekick and let it run as rlayout process in parallel
-  
+2021-02-09
+  - fix page to_svg
+    update working_article heigh_in_lines from disk after generating pdf
+    use corrent working_article heigh_in_lines
+
+2021-02-07
+  - page_layout parsing ???
+    - add hash with kind to box
+
+
+<!-- 2021-02-04
+  - add sidekick and let it run as rlayout process in parallel -->
+
 
 2021-01-31
   allow designer to fix article layout

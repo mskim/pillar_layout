@@ -891,6 +891,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.string "font_family"
     t.string "font"
     t.float "font_size"
+    t.float "italic"
     t.string "text_color"
     t.string "alignment"
     t.float "tracking"

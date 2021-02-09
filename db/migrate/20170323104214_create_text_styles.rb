@@ -7,6 +7,7 @@ class CreateTextStyles < ActiveRecord::Migration[5.0]
       t.string :font_family
       t.string :font
       t.float :font_size
+      t.float :italic
       t.string :text_color
       t.string :alignment
       t.float :tracking

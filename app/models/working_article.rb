@@ -455,6 +455,17 @@ class WorkingArticle < ApplicationRecord
     article_info[:height_in_lines].to_i
   end
 
+  def update_height_in_lines
+    new_height_in_lines     = read_height_in_lines
+    new_extended_line_count = new_height_in_lines - base_height_in_lines
+    if extended_line_count != new_extended_line_count
+      update(extended_line_count: new_extended_line_count)
+    end
+    # TODO update attached
+  end
+
+
+
 
   # def generate_pdf_with_time_stamp(options = {})
   #   save_article
@@ -467,16 +478,12 @@ class WorkingArticle < ApplicationRecord
 
   def generate_pdf_with_time_stamp(options = {})
     unless File.exist?(path)
-      # prevent generating article pdf before page and article folder is created
       puts "article folder is not created !!!"
       return 
     end
     puts "generate_pdf... #{path}"
-    # pdf_starting = Time.now
     delete_old_files
     save_article_pdf(options)
-    # pdf_working_article_ending = Time.now
-    # pdf_page_ending = Time.now
   end 
   alias gen_pdf generate_pdf_with_time_stamp
 
@@ -486,13 +493,8 @@ class WorkingArticle < ApplicationRecord
     save_article
     save_hash                     = options
     save_hash[:time_stamp]        = @time_stamp
-    # save_hash[:max_height_in_lines] = max_height_in_lines if options[:adjustable_height]
     save_hash[:article_path]      = path
-    # save_hash[:story_md]          = story_md
-    layout_options                = {}
-    layout_options[:fixed_height_in_lines]  = options[:fixed_height_in_lines]
-    layout_options[:min_height_in_lines] = min_height_in_lines
-    # save_hash[:layout_rb]         = layout_rb(layout_options)
+    # save_hash[:fixed_height_in_lines] = options[:fixed_height_in_lines]
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
     new_extended_line_count       = new_height_in_lines - base_height_in_lines
@@ -519,13 +521,11 @@ class WorkingArticle < ApplicationRecord
   end
 
   def siblings
-    # page.siblings(self)
     pillar.pillar_siblings_of(self)
   end
 
   def character_count
     return 0 unless body
-
     body.length
   end
 
