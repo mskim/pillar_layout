@@ -186,7 +186,6 @@ Rails.application.routes.draw do
   resources :profiles
   resources :holidays
   resources :reporters
-  resources :article_plans
   resources :reporter_groups
   resources :opinion_writers
   resources :heading_bg_images do
