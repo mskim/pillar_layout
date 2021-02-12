@@ -298,7 +298,8 @@ class Pillar < ApplicationRecord
     # y_pos = page_heading_height if top_position?
     working_articles.each do |article|
       box_element_svg += article.box_svg(y_pos)
-      y_pos += article.height if article.attached_type.nil?
+      # y_pos += article.height if article.attached_type.nil?
+      y_pos += article.read_height if article.attached_type.nil?
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -656,6 +657,7 @@ class Pillar < ApplicationRecord
     article_index = root_articles.index(article)
     root_articles[article_index..-1]
   end
+
   # auto_adjust_height starting from given article
   def auto_adjust_height_starting_from(article)
     following_article = following_root_articles(article)
@@ -666,12 +668,25 @@ class Pillar < ApplicationRecord
     adjust_articles_to_fit_pillar
   end
 
+  def stamp_time
+    t = Time.now
+    h = t.hour
+    @time_stamp = "#{t.day.to_s.rjust(2, '0')}#{t.hour.to_s.rjust(2, '0')}#{t.min.to_s.rjust(2, '0')}#{t.sec.to_s.rjust(2, '0')}"
+  end
+
+  def touch_articles
+    working_articles.all.each do |w|
+      w.touch_story_md
+    end
+  end
+
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
 
   def auto_adjust_height_all
-    pillar_path = path
-    result = RLayout::NewsPillar.new(pillar_path: pillar_path)
+    pillar_path               = path
+    stamp_time
+    result = RLayout::NewsPillar.new(pillar_path: pillar_path, time_stamp: @time_stamp)
     update_working_article_heights
     true
   end
@@ -681,7 +696,7 @@ class Pillar < ApplicationRecord
       root_article.update_height_in_lines
     end
   end
-  
+
   # steps
   # 1. generate all root articles with full height
   # 2. call adjust_articles_to_fit_pillar

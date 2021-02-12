@@ -164,7 +164,6 @@ class WorkingArticle < ApplicationRecord
     atts = {}
     if kind == '기사' || kind == nil
       if images.length > 0 || graphics.length > 0
-        binding.pry
         atts[:kind]     =  기사
         atts[:images]   = images_as_page_layout if images.length > 0 
         atts[:graphics] =  images_as_page_layout if graphics.length > 0 
@@ -450,6 +449,11 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def read_height
+    article_info = YAML::load_file(article_into_path)
+    article_info[:image_height]
+  end
+
   def read_height_in_lines
     article_info = YAML::load_file(article_into_path)
     article_info[:height_in_lines].to_i
@@ -489,10 +493,10 @@ class WorkingArticle < ApplicationRecord
 
   def save_article_pdf(options = {})
     make_article_path
-    stamp_time
+    # stamp_time
     save_article
     save_hash                     = options
-    save_hash[:time_stamp]        = @time_stamp
+    save_hash[:time_stamp]        = true
     save_hash[:article_path]      = path
     # save_hash[:fixed_height_in_lines] = options[:fixed_height_in_lines]
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)

@@ -81,6 +81,7 @@ class Page < ApplicationRecord
   include Pdf2jpg
   include StaticPage
   include GithubPage
+  include PageAutoAdjust
   # extend FriendlyId
   # friendly_id :friendly_string, :use => [:slugged]
 
@@ -675,7 +676,7 @@ class Page < ApplicationRecord
   end
 
   def to_svg_html_with_jpg
-    svg = <<~EOF
+    svg =<<~EOF
       <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 #{doc_width} #{doc_height}' >
         <rect fill='white' x='0' y='0' width='#{doc_width}' height='#{doc_height}' />
         #{box_svg_html_with_jpg}

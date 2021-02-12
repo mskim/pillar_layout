@@ -53,10 +53,21 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-12
+  - 미리 제작
+  - 나의기사
+  - 섹션기사
+  - 미리보기
+
 2021-02-09
   - fix page to_svg
     update working_article heigh_in_lines from disk after generating pdf
     use corrent working_article heigh_in_lines
+    add timestamp to auto_adjust_all
+    article_info
+      remove adjustable_height:true when fixed_height overflow
+      draw overflow line with red
+      put time_stamp
 
 2021-02-07
   - page_layout parsing ???
