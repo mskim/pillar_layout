@@ -53,6 +53,10 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-13
+  - clean up tables
+    remove article_plan
+    
 2021-02-12
   - 미리 제작
   - 나의기사
