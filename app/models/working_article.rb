@@ -1476,10 +1476,6 @@ class WorkingArticle < ApplicationRecord
     r
   end
 
-  def pillar_siblings
-    pillar.pillar_siblings_of(self)
-  end
-
   def layout_with_node_path
     [grid_x, grid_y, column, row, pillar_order.split('_')].unshift.join('_')
   end

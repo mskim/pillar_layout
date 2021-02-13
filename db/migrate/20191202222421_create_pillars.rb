@@ -8,12 +8,11 @@ class CreatePillars < ActiveRecord::Migration[5.2]
       t.integer :row
       t.integer :order
       t.integer :box_count
-      # t.integer :layout_node_id
-      # t.text :layout_with_pillar_path
-      # t.text :layout
+      t.text :layout_with_pillar_path
       t.string :profile
-      t.references :page_ref, polymophic: true
-      t.string :page_ref_type
+      t.references :page
+      # t.references :page_ref, polymophic: true
+      # t.string :page_ref_type
 
       t.timestamps
     end

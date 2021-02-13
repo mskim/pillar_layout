@@ -36,16 +36,6 @@ end
   #   end
   # end
 
-  # box with actions
-  # LayoutNode.all.each do |node|
-  #   Action.all.each do |a|
-  #     node = LayoutNode.where(column: node.column, row: node.row).create
-  #     puts "+++++#{node.column}x#{node.row}"
-  #     puts "++++++a.actions:#{a.actions}"
-  #     node.set_actions(a.actions)
-  #   end
-  # end
-
 
 section_names = [
   '1면',

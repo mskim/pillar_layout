@@ -90,7 +90,6 @@ Rails.application.routes.draw do
 
     root to: 'users#index'
   end
-  resources :actions
   resources :layout_nodes
   resources :page_layouts do
     member do

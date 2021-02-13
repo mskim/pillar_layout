@@ -25,11 +25,12 @@
 #
 
 class Pillar < ApplicationRecord
-  belongs_to :page_ref, polymorphic: true
+  # belongs_to :page_ref, polymorphic: true
+  belongs_to :page
   # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
   has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
 
-  has_one :layout_node
+  # has_one :layout_node
   before_create :init_pillar
   after_create :create_layout
   include RectUtils
@@ -423,8 +424,22 @@ class Pillar < ApplicationRecord
     end
     LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).first_or_create
     layout_node.set_actions
+
+    # make layout_with_pillar_path
+
   end
 
+  # TODO remove this 
+  def layout_with_pillar_path
+    layout_node.layout_with_pillar_path
+  end
+
+  def update_layout_with_pillar_path
+    # TODO
+  end
+
+  # TODO remove this 
+  # use update_layout_with_pillar_path
   def create_new_layout_node
     # box_count = 1 if box_count.nil? || box_count < 1
     if box_count > 1
@@ -445,23 +460,12 @@ class Pillar < ApplicationRecord
       self.grid_x = new_layout[3]
       self.save
     end
+    # TODO do not use layout_node
     layout_node.update_layout_node(new_layout)
-  end
-
-  def layout_with_pillar_path
-    layout_node.layout_with_pillar_path
   end
 
   def create_articles
     FileUtils.mkdir_p(path) unless File.exist?(path)
-    # if box_count == 1
-    #   h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}", order: 1, grid_x: 0, grid_y: 0, column: column, row: row }
-    #   WorkingArticle.where(h).first_or_create
-    # # elsif layout_with_pillar_path.first.class == Integer
-    # #   # this is case when layout_with_pillar_path is Array of 5 element
-    # #   h = { page: page_ref, pillar: self, order: "#{order}_#{layout_with_pillar_path[4]}", grid_x: layout_with_pillar_path[0], grid_y: layout_with_pillar_path[1], column: layout_with_pillar_path[2], row: layout_with_pillar_path[3] }
-    # #   WorkingArticle.where(h).first_or_create
-    # else
     layout_with_pillar_path.each_with_index do |box|
       box_count = box[4]
       box_count = 1 if box[4] == ""

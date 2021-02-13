@@ -32,7 +32,7 @@
 
 
 class PageLayout < ApplicationRecord
-  has_many :pillars, as: :page_ref
+  # has_many :pillars, as: :page_ref
   has_one :ad
   before_create :init_page_layout
   after_create :create_pillars

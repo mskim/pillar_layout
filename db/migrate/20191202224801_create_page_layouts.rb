@@ -14,6 +14,7 @@ class CreatePageLayouts < ActiveRecord::Migration[5.2]
       t.float :margin
       t.text :layout
       t.text :layout_with_pillar_path
+      t.text :pillars
       t.integer :like
 
       t.timestamps
