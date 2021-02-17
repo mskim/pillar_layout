@@ -18,6 +18,7 @@
 #  margin                  :float
 #  page_type               :integer
 #  pillar_count            :integer
+#  pillars                 :text
 #  row                     :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -32,14 +33,13 @@
 
 
 class PageLayout < ApplicationRecord
-  # has_many :pillars, as: :page_ref
   has_one :ad
   before_create :init_page_layout
   after_create :create_pillars
 
   # serialize :layout, Array
   serialize :layout_with_pillar_path, Array
-  serialize :undo, Array
+  serialize :pillars, Array # array of pillar info Hash
   include RectUtils
 
   def page_number
@@ -65,7 +65,7 @@ class PageLayout < ApplicationRecord
   def pillar_profile
     s = ''
     pillars.each do |p|
-      s += p.column.to_s + '/'
+      s += p[:column].to_s + '/'
     end
     s
   end
@@ -80,7 +80,7 @@ class PageLayout < ApplicationRecord
     h[:row]               = row
     h[:column]            = column
     h[:box_count]         = box_count
-    h[:layout_with_pillar_path] = leaf_node_layout_with_pillar_path
+    h[:layout_with_pillar_path] = layout_with_pillar_path
     h
   end
 
@@ -135,42 +135,7 @@ class PageLayout < ApplicationRecord
   # end
 
   def story_count
-    pillars.map(&:story_count).reduce(:+)
-  end
-
-  def create_pillar_from_layout
-     layout_array.each_with_index do |item, i|
-      # if item.first.class == String
-      if item.class == String
-        self.ad_type = item
-        save
-      elsif item.length == 5
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4]).first_or_create
-      elsif item.length == 4
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1).first_or_create
-      end
-    end
-  end
-
-  def update_pillar_from_layout
-
-    # check if 
-    # create_new_page_layout
-
-
-    # article_layouts =  layout_array.select{|item| item.class == Array}
-    # if article_layouts.length > pillars.length
-    #   # TODO
-    #   # create new pillars
-    # elsif article_layouts.length == pillars.length
-    #   layout_with_out_ad.each_with_index do |item, i|
-    #     pipllar = pillars[i]
-    #     pipllar.update_pillar(item)
-    #   end
-    # else
-    #   # TODO
-    #   # delte some pillars
-    # end
+    pillars.select{|p| p.class == Array}.length
   end
 
   def body_line_height
@@ -229,16 +194,22 @@ class PageLayout < ApplicationRecord
       </svg>
     EOF
   end
-
+ 
   def pillars_svg
     pillar_colors_array = [ 'yellow','red', 'blue',  'green',   'purple']
     s = ''
     pillars.each_with_index do |pillar, i|
       fill_color = pillar_colors_array[i]
-      pillar_x_offset = pillar.grid_x
-      pillar_y_offset = pillar.grid_y
-      pillar.layout_with_pillar_path.each do |r|
-        s += "<rect fill='#{fill_color}' stroke='black' stroke-width='2' opacity='0.3' x='#{(r[0] +  pillar_x_offset)* svg_grid_width}' y='#{(r[1] + pillar_y_offset)* svg_grid_height}' width='#{r[2] * svg_grid_width}' height='#{r[3] * svg_grid_height}' />\n"
+      pillar_x_offset = pillar[:grid_x]
+      pillar_y_offset = pillar[:grid_y]
+      box_count       = pillar[:box_count]
+      x_position      = pillar_x_offset
+      y_position      = pillar_y_offset
+      box_width       = pillar[:column]
+      box_height      = pillar[:row]/box_count.to_f
+      box_count.times do |j|
+        s += "<rect fill='#{fill_color}' stroke='black' stroke-width='2' opacity='0.3' x='#{(pillar_x_offset)*svg_grid_width}' y='#{y_position*svg_grid_height}' width='#{box_width * svg_grid_width}' height='#{box_height * svg_grid_height}' />\n"
+        y_position += box_height
       end
     end
     s
@@ -283,6 +254,68 @@ class PageLayout < ApplicationRecord
     YAML::load(layout)
   end
 
+  # h[:grid_x] = item[0]
+  # h[:grid_y] = item[1]
+  # h[:column] = item[2]
+  # h[:row]    = item[3]
+  # h[:box_count]  = item[4]
+  def update_layout_with_pillar_path
+    layout_with_pillar_path = []
+    pillars.each do |pillar|
+      row = pillar[:row]
+      story_count = pillar[:box_count]
+      pillar_boxes = []
+      box_height = row/story_count
+      remainer = row % story_count
+      y_position = 0
+      story_count.times do |i|
+        box = []
+        box[0] = 0
+        box[1] = y_position
+        box[2] = pillar[:column]
+        box[3] = box_height
+        box[3] += 1 if i < remainer # add remaining height at the top
+        box[4] = "#{i+1}"
+        pillar_boxes << box
+        y_position += box[3]
+      end
+      layout_with_pillar_path += pillar_boxes
+    end
+    update(layout_with_pillar_path:layout_with_pillar_path)
+    layout_with_pillar_path
+  end
+
+  def create_pillar_from_layout
+    pillars_array = []
+    layout_array.each_with_index do |item, i|
+      # if item.first.class == String
+      if item.class == String
+        self.ad_type = item
+        save
+      elsif item.length == 5
+        h = {}
+        h[:grid_x] = item[0]
+        h[:grid_y] = item[1]
+        h[:column] = item[2]
+        h[:row]    = item[3]
+        h[:box_count]  = item[4]
+        h[:order]  = i + 1
+        pillars_array << h
+      elsif item.length == 4
+        h = {}
+        h[:grid_x] = item[0]
+        h[:grid_y] = item[1]
+        h[:column] = item[2]
+        h[:row]    = item[3]
+        h[:box_count]  = 1
+        h[:order]  = i + 1
+        pillars_array << h
+      end
+    end
+    update(pillars:pillars_array, pillar_count:pillars_array.length)
+
+  end
+
   private
 
   def init_page_layout
@@ -299,6 +332,6 @@ class PageLayout < ApplicationRecord
 
   def create_pillars
     create_pillar_from_layout
-    update(pillar_count: pillars.count)
+    update_layout_with_pillar_path
   end
 end

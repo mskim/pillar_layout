@@ -56,6 +56,9 @@
 2021-02-13
   - clean up tables
     remove article_plan
+    remove yh_*
+    remove actions, node_layout
+    pillar page:references
     
 2021-02-12
   - 미리 제작

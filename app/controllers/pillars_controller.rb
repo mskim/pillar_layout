@@ -67,7 +67,7 @@ class PillarsController < ApplicationController
     node        = LayoutNode.find(new_choice)
     new_layout  = node.layout_with_pillar_path
     @pillar.change_layout(new_layout)
-    redirect_to @pillar.page_ref
+    redirect_to @pillar.page
   end
 
   private

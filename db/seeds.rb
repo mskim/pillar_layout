@@ -4,7 +4,6 @@ require 'yaml'
 
 page_layout_csv_path = "#{Rails.root}/public/1/page_layout.csv"
 csv_text = File.read(page_layout_csv_path)
-puts csv_text
 csv = CSV.parse(csv_text)
 keys  = csv.shift
 keys.map!{|e| e.to_sym}
@@ -18,23 +17,6 @@ csv.each_with_index do |row, i|
     s = PageLayout.where(row_h).first_or_create!
   end
 end
-
-
-  # add actions to db
-  # action_yml_path = "#{Rails.root}/public/action.yml"
-  # action_hash = YAML.load_file(action_yml_path)
-  # action_hash.each do |k, v|
-  #   h = { name: k, actions: v }
-  #   Action.where(h).first_or_create!
-  # end
-
-
-  # get the size that were used in PageLayout only
-  # PageLayout.all.each do |pl|
-  #   pl.pillars.each do |pillar|
-  #     LayoutNode.where(column: pillar.column, row: pillar.row).first_or_create
-  #   end
-  # end
 
 
 section_names = [

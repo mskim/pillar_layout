@@ -11,8 +11,6 @@ class CreatePillars < ActiveRecord::Migration[5.2]
       t.text :layout_with_pillar_path
       t.string :profile
       t.references :page
-      # t.references :page_ref, polymophic: true
-      # t.string :page_ref_type
 
       t.timestamps
     end

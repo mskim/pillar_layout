@@ -4,28 +4,27 @@
 #
 # Table name: pillars
 #
-#  id               :bigint           not null, primary key
-#  box_count        :integer
-#  column           :integer
-#  direction        :string
-#  grid_x           :integer
-#  grid_y           :integer
-#  has_drop_article :boolean
-#  order            :integer
-#  page_ref_type    :string
-#  profile          :string
-#  row              :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  page_ref_id      :bigint
+#  id                      :bigint           not null, primary key
+#  box_count               :integer
+#  column                  :integer
+#  direction               :string
+#  grid_x                  :integer
+#  grid_y                  :integer
+#  has_drop_article        :boolean
+#  layout_with_pillar_path :text
+#  order                   :integer
+#  profile                 :string
+#  row                     :integer
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  page_id                 :bigint
 #
 # Indexes
 #
-#  index_pillars_on_page_ref_id  (page_ref_id)
+#  index_pillars_on_page_id  (page_id)
 #
 
 class Pillar < ApplicationRecord
-  # belongs_to :page_ref, polymorphic: true
   belongs_to :page
   # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
   has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
@@ -35,7 +34,8 @@ class Pillar < ApplicationRecord
   after_create :create_layout
   include RectUtils
   include GithubPillar
-  
+  serialize :layout_with_pillar_path, Array
+
   def save_as_page_layout
     a = [grid_x, grid_y, column, row, root_articles.length]
     article_atts = []
@@ -68,9 +68,10 @@ class Pillar < ApplicationRecord
     # check if it is addable?
     self.box_count    +=  1
     self.save
-    layout_node.add_v_child
-    layout_node.update_layout_with_pillar_path
-    new_layout = layout_node.layout_with_pillar_path.dup
+    # layout_node.add_v_child
+    # layout_node.update_layout_with_pillar_path
+    # new_layout = layout_node.layout_with_pillar_path.dup
+    update_layout_with_pillar_path
     working_articles.each_with_index do |w, i|
       if new_layout[i]
         box_rect      = new_layout[i]
@@ -80,34 +81,35 @@ class Pillar < ApplicationRecord
     end
     working_articles_count = working_articles.length
     box_rect = new_layout.last
-    h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+    h = { page: page, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
     set_article_defaults
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
   
   def remove_article(article)
     self.box_count    -=  1
     self.save
     # layout_node.remove_last_child
-    layout_node_order = article.layout_node_order
-    article.delete_folder
-    article.destroy
-    layout_node.remove_child(layout_node_order)
-    layout_node.update_layout_with_pillar_path
-    new_layout = layout_node.layout_with_pillar_path.dup
+    # layout_node_order = article.layout_node_order
+    # article.delete_folder
+    # article.destroy
+    # layout_node.remove_child(layout_node_order)
+    # layout_node.update_layout_with_pillar_path
+    # new_layout = layout_node.layout_with_pillar_path.dup
+    update_layout_with_pillar_path
     working_articles.reload
     working_articles.each_with_index do |w, i|
       if new_layout[i]
         box_rect      = new_layout[i]
-        p_order       = box_rect[4]
-        new_order       = "#{order}_#{p_order}"
-        box_rect[4]= new_order
+        # p_order       = box_rect[4]
+        # new_order       = "#{order}_#{p_order}"
+        # box_rect[4]= new_order
         w.change_article(box_rect)
       end
     end
     set_article_defaults
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
   def pillar_siblings_of(article)
@@ -141,23 +143,23 @@ class Pillar < ApplicationRecord
   end
 
   def path
-    if page_ref.class == Page
-      page_ref.path + "/#{order}"
+    if page.class == Page
+      page.path + "/#{order}"
     else
       "#{Rails.root}/public/pillar/#{column}/#{row}/#{box_count}/#{id}"
     end
   end
 
   def publication_id
-    page_ref.publication_id
+    page.publication_id
   end
 
   def date
-    page_ref.date.to_s
+    page.date.to_s
   end
 
   def page_number
-    page_ref.page_number
+    page.page_number
   end
 
   def url
@@ -178,7 +180,7 @@ class Pillar < ApplicationRecord
 
   def top_position?
     return true if grid_y == 0 
-    return true if grid_y == 1 && page_ref.page_number == 1
+    return true if grid_y == 1 && page.page_number == 1
     false
   end
 
@@ -187,36 +189,36 @@ class Pillar < ApplicationRecord
   end
 
   def on_right_edge?
-    return true if grid_x + column == page_ref.column
+    return true if grid_x + column == page.column
   end
 
   def heading_space
-      page_ref.heading_space
+      page.heading_space
   end
 
   def flipped_origin
-    [page_ref.left_margin + grid_x*page_ref.grid_width, page_ref.height - height - y]
+    [page.left_margin + grid_x*page.grid_width, page.height - height - y]
   end
 
   def x
-    grid_x * page_ref.grid_width  + page_ref.left_margin
+    grid_x * page.grid_width  + page.left_margin
   end
 
   # y should not take page_heading margin, since this will be taken care of by working_article
   def y
-    grid_y * page_ref.grid_height + page_ref.top_margin
+    grid_y * page.grid_height + page.top_margin
   end
 
   def y_in_lines
     if top_position?
-      grid_y*7 + page_ref.page_heading_margin_in_lines
+      grid_y*7 + page.page_heading_margin_in_lines
     else
       grid_y*7 
     end
   end
 
   def front_page?
-    page_ref.page_number == 1
+    page.page_number == 1
   end
 
   def height_in_lines
@@ -230,29 +232,29 @@ class Pillar < ApplicationRecord
   end
   # svg_y should take page_heading margin into consideration
   def svg_y
-    grid_y * page_ref.grid_height + page_ref.heading_space + page_ref.top_margin
+    grid_y * page.grid_height + page.heading_space + page.top_margin
   end
 
   def width
-    column * page_ref.grid_width
+    column * page.grid_width
   end
 
   def height
-    if page_ref.page_number == 1 && grid_y == 1
-      row * page_ref.grid_height - heading_space
+    if page.page_number == 1 && grid_y == 1
+      row * page.grid_height - heading_space
     elsif grid_y == 0
-      row * page_ref.grid_height - heading_space
+      row * page.grid_height - heading_space
     else
-      row * page_ref.grid_height - heading_space
+      row * page.grid_height - heading_space
     end
   end
 
   def page_width
-    page_ref.width
+    page.width
   end
 
   def page_height
-    page_ref.height
+    page.height
   end
 
   def self.to_csv(options = {})
@@ -282,7 +284,7 @@ class Pillar < ApplicationRecord
   def choices
     # ad svg
     nodes = LayoutNode.where(column: column, row: row).sort_by(&:box_count)
-    nodes.map { |n| [n, n.page_embeded_svg(page_ref.column, grid_x, grid_y)] }
+    nodes.map { |n| [n, n.page_embeded_svg(page.column, grid_x, grid_y)] }
   end
 
   def rect
@@ -290,7 +292,7 @@ class Pillar < ApplicationRecord
   end
   
   def page_heading_height
-    page_ref.heading_space
+    page.heading_space
   end
 
   def box_svg_with_jpg
@@ -347,107 +349,93 @@ class Pillar < ApplicationRecord
 
   def change_pillar_layout(new_pillar)
     current_box_count = box_count
-    new_box_count     = new_pillar.box_count
-    new_layout        =  new_pillar.layout_with_pillar_path.dup
-    new_box_count     =  new_layout.length
-    self.grid_x       =  new_pillar.grid_x
-    self.grid_y       =  new_pillar.grid_y
-    self.column       =  new_pillar.column
-    self.row          =  new_pillar.row
-    self.box_count    =  new_pillar.box_count
-    self.order        =  new_pillar.order
+    new_box_count     = new_pillar[:box_count]
+    self.grid_x       = new_pillar[:grid_x]
+    self.grid_y       = new_pillar[:grid_y]
+    self.column       = new_pillar[:column]
+    self.row          = new_pillar[:row]
+    self.box_count    = new_box_count
+    self.order        = new_pillar[:order]
     self.save
-    # delte curreont layout_node
-    layout_node.destroy
-    new_layout_node = create_new_layout_node
-    new_layout_node.reload
-    new_layout        = new_layout_node.layout_with_pillar_path
+    update_layout_with_pillar_path    
     removing_articles = current_box_count - new_box_count
     if removing_articles == 0
       # current and new pillar size are equal
-      working_articles.each_with_index do |w, i|
-        if new_layout[i]
-          box_rect     = new_layout[i]
-          pillar_order = "#{order}_#{i+1}"
-          box_rect[4]  = pillar_order
+      root_articles.each_with_index do |w, i|
+        if new_pillar[i]
+          box_rect     = layout_with_pillar_path[i]
           w.change_article(box_rect)
         end
       end
     elsif removing_articles > 0 # current box is greater than new_layout
-      ordered_working_articles  = working_articles
-      new_layout.each_with_index do |box_rect, i|
-        pillar_order = "#{order}_#{i+1}"
-        box_rect[4]  = pillar_order
+      ordered_working_articles  = root_articles
+      layout_with_pillar_path.each_with_index do |box_rect, i|
         ordered_working_articles[i].change_article(box_rect)
       end
       # delete working_articles from pillar
       removing_articles.times do
-        w = working_articles.last
+        w = root_articles.last
         if w
           system("rm -rf #{w.path}")
           w.destroy
-          working_articles.reload
+          # root_articles.reload
         end
       end
     elsif removing_articles < 0 # removing_articles < 0 add articles
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
-      working_articles.each_with_index do |w, i|
-        if new_layout[i]
-          box_rect = new_layout[i]
-          pillar_order = "#{order}_#{i+1}"
-          box_rect[4]  = pillar_order
+      root_articles.each_with_index do |w, i|
+        if layout_with_pillar_path[i]
+          box_rect = layout_with_pillar_path[i]
           w.change_article(box_rect)
         end
       end
-      working_articles_count = working_articles.length
+      working_articles_count = root_articles.length
       # add working_articles to pillar
       (-removing_articles).times do |i|
-        box_rect = new_layout[working_articles_count + i]
+        box_rect = layout_with_pillar_path[working_articles_count + i]
         if box_rect
-          h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{working_articles_count + i + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+          h = { page: page, pillar: self, pillar_order: box_rect[4], grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
           w = WorkingArticle.where(h).first_or_create
         end
       end
-
     end
   end
 
   def create_layout
-    create_layout_node
-    create_articles if page_ref.class == Page
+    update_layout_with_pillar_path
+    create_articles # if page.class == Page
   end
-  
-  def create_layout_node
-    # box_count = 1 if box_count.nil? || box_count < 1
-    if box_count > 1
-      actions = ["h*#{box_count - 1}"]
-    end
-    LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).first_or_create
-    layout_node.set_actions
-
-    # make layout_with_pillar_path
-
-  end
-
-  # TODO remove this 
-  def layout_with_pillar_path
-    layout_node.layout_with_pillar_path
-  end
-
+  # 
+  # first: [[0, 0, 5, 5, "1_2"], [0, 5, 5, 4, "1_2"]]
+  # second: [[0, 0, 2, 3, "2_1"], [0, 3, 2, 3, "2_2"], [0, 6, 2, 3, "2_3"]]
   def update_layout_with_pillar_path
-    # TODO
+    layout_with_pillar_path = []
+    box_height = row/story_count
+    remainer = row % story_count
+    story_count.times do |i|
+      box = []
+      box[0] = 0
+      box[1] = grid_y
+      box[2] = column
+      box[3] = box_height
+      box[3] += 1 if i < remainer # add remaining height at the top
+      box[4] = "#{order}_#{i+1}"
+      layout_with_pillar_path << box
+    end
+    update(layout_with_pillar_path: layout_with_pillar_path)
   end
 
   # TODO remove this 
   # use update_layout_with_pillar_path
   def create_new_layout_node
-    # box_count = 1 if box_count.nil? || box_count < 1
-    if box_count > 1
-      actions = ["h*#{box_count - 1}"]
-    end
-    new_layout_node = LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).create!
-    new_layout_node.set_actions
-    new_layout_node
+    # # box_count = 1 if box_count.nil? || box_count < 1
+    # if box_count > 1
+    #   actions = ["h*#{box_count - 1}"]
+    # end
+    # new_layout_node = LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).create!
+    # new_layout_node.set_actions
+    # new_layout_node
+    update_layout_with_pillar_path
   end
 
   # this is called from page_layout, when page_layout has changed
@@ -469,7 +457,7 @@ class Pillar < ApplicationRecord
     layout_with_pillar_path.each_with_index do |box|
       box_count = box[4]
       box_count = 1 if box[4] == ""
-      h = { page_id: page_ref.id, pillar: self, pillar_order: "#{order}_#{box_count}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+      h = { page: page, pillar: self, pillar_order: "#{order}_#{box_count}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
       WorkingArticle.where(h).first_or_create
     end
     set_article_defaults
@@ -477,7 +465,7 @@ class Pillar < ApplicationRecord
   end
 
   def init_pillar
-    self.profile = "#{page_ref.column}_#{column}_#{row}_#{box_count}"
+    self.profile = "#{page.column}_#{column}_#{row}_#{box_count}"
   end
 
   def delete_folder
@@ -490,7 +478,7 @@ class Pillar < ApplicationRecord
   end
 
   def save_to_sample
-    return unless page_ref.class == Page
+    return unless page.class == Page
     target_folder = "#{Rails.root}/public/1/pillar_sample/#{profile}"
     unless File.exist?(source_folder) 
       FileUtils.cp(path, target_folder)
@@ -545,11 +533,11 @@ class Pillar < ApplicationRecord
     h[:column]            = column_width_in_grid
     h[:row]               = row - h[:grid_y]
     h[:pillar]            = self
-    h[:page_id]           = page_ref.id
+    h[:page]              = page
     h[:pillar_order]      = "#{order}_#{starting_article_order}_D"
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
@@ -573,11 +561,11 @@ class Pillar < ApplicationRecord
     h[:column]  = column_width_in_grid
     h[:row]     = row - h[:grid_y]
     h[:pillar]  = self
-    h[:page_id] = page_ref.id
+    h[:page]    = page
     h[:pillar_order]    = "#{order}_L"
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
   # get articles that are affected following drop_starting_article
@@ -630,7 +618,7 @@ class Pillar < ApplicationRecord
         w.generate_pdf_with_time_stamp
       end
     end
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
   
   def article_map
@@ -654,7 +642,7 @@ class Pillar < ApplicationRecord
       w.update(extended_line_count: 0)
       w.generate_pdf_with_time_stamp
     end
-    page_ref.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp
   end
 
   def following_root_articles(article)
@@ -687,7 +675,7 @@ class Pillar < ApplicationRecord
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
 
-  def auto_adjust_height_all
+  def auto_adjust_height_all(options={})
     pillar_path               = path
     stamp_time
     result = RLayout::NewsPillar.new(pillar_path: pillar_path, time_stamp: @time_stamp)

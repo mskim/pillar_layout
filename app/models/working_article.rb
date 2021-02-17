@@ -194,7 +194,7 @@ class WorkingArticle < ApplicationRecord
   # when working_article is split, we need to bumped up folder names
 
   def page
-    pillar.page_ref if pillar
+    pillar.page if pillar
   end
 
   def save_to_story
@@ -559,14 +559,14 @@ class WorkingArticle < ApplicationRecord
   # auto_adjust_height
   def auto_adjust_height
     pillar.auto_adjust_height_starting_from(self)
-    pillar.page_ref.generate_pdf_with_time_stamp 
+    pillar.page.generate_pdf_with_time_stamp 
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
   def auto_adjust_height_all
     pillar.auto_adjust_height_all
-    pillar.page_ref.generate_pdf_with_time_stamp 
+    pillar.page.generate_pdf_with_time_stamp 
   end
 
   # used for 글줄기 모두 0 행 복구
@@ -1525,7 +1525,7 @@ class WorkingArticle < ApplicationRecord
 
   def on_right_edge?
     if attached_type.nil?
-      pillar.grid_x + column == pillar.page_ref.column
+      pillar.grid_x + column == pillar.page.column
     elsif attached_type= 'divide' || attached_type= 'drop'
       if pillar.on_right_edge? && attached_position == '우'
         true
@@ -1569,9 +1569,9 @@ class WorkingArticle < ApplicationRecord
   private
 
   def init_article
-    self.grid_width           = pillar.page_ref.grid_width
-    self.grid_height          = pillar.page_ref.grid_height
-    self.is_front_page        = true if pillar.page_ref.is_front_page?
+    self.grid_width           = pillar.page.grid_width
+    self.grid_height          = pillar.page.grid_height
+    self.is_front_page        = true if pillar.page.is_front_page?
     self.on_left_edge         = true if on_left_edge?
     self.on_right_edge        = true if on_right_edge?
     self.column               = 4 unless column
@@ -1581,7 +1581,7 @@ class WorkingArticle < ApplicationRecord
       self.top_story = true
     end
     self.extended_line_count  = 0
-    self.page_heading_margin_in_lines = pillar.page_ref.page_heading_margin_in_lines
+    self.page_heading_margin_in_lines = pillar.page.page_heading_margin_in_lines
     if kind == '부고-인사'
       self.subject_head         = '부고' 
       self.reporter             = '홍길동' unless reporter
@@ -1590,14 +1590,14 @@ class WorkingArticle < ApplicationRecord
       self.title                = "여기는 #{pillar_order} 제목." if column <= 2
       self.subtitle             = '여기는 부제목 입니다.' unless subtitle
       self.reporter             = '홍길동' unless reporter
-      self.profile              = "#{pillar.page_ref.column}_#{column}x#{row}"
+      self.profile              = "#{pillar.page.column}_#{column}x#{row}"
     end
     if self.top_story?
       self.profile            = "#{self.profile}_top-story"           
     elsif pillar.top_position? && grid_y == 0
       self.profile            = "#{self.profile}_top-position"        
     else
-      self.profile            = "#{pillar.page_ref.column}_#{column}x#{row}_middle"
+      self.profile            = "#{pillar.page.column}_#{column}x#{row}_middle"
     end
     body_text                 = ""
     unit_text                 = '여기는 본문입니다. ' 

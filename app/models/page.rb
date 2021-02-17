@@ -65,7 +65,7 @@ class Page < ApplicationRecord
   has_one :page_heading
 
   # has_many
-  has_many :pillars, :as =>:page_ref,  :dependent => :delete_all #:dependent=> :destroy
+  has_many :pillars,  :dependent => :delete_all #:dependent=> :destroy
   has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
   has_many :ad_boxes
 
@@ -577,7 +577,8 @@ class Page < ApplicationRecord
   def generate_pdf_with_time_stamp
     delete_old_files
     stamp_time
-    RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
+    # RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
+    RLayout::NewsPageAuto.new(page_path: path, time_stamp: @time_stamp)
   end
 
   def adjust_page_pdf
@@ -812,9 +813,9 @@ class Page < ApplicationRecord
       # elsif item.first[4].class == Hash
       #   create_layout_node_with_overlap(layout:item)
       elsif item.length == 5
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4], direction:'vertical').first_or_create
+        Pillar.where(page: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: item[4], direction:'vertical').first_or_create
       elsif item.length == 4
-        Pillar.where(page_ref: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1, direction:'vertical').first_or_create
+        Pillar.where(page: self, grid_x: item[0], grid_y: item[1], column: item[2], row: item[3], order: i + 1, box_count: 1, direction:'vertical').first_or_create
       end
     end
   end
@@ -850,7 +851,6 @@ class Page < ApplicationRecord
     self.layout      = eval(new_page_layout.layout)
     self.template_id = new_layout_id
     save
-
     # New page layout and current one has equal number of pillars
     if pillars.length == new_page_layout.pillars.length
       pillars.each_with_index do |p, i|
@@ -877,7 +877,7 @@ class Page < ApplicationRecord
         if i < pillars.length
           pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
-          Pillar.where(page_ref: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
+          Pillar.where(page: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
         end
       end
     end

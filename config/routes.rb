@@ -90,7 +90,6 @@ Rails.application.routes.draw do
 
     root to: 'users#index'
   end
-  resources :layout_nodes
   resources :page_layouts do
     member do
       get 'duplicate'
@@ -141,11 +140,7 @@ Rails.application.routes.draw do
       get 'taken'
     end
   end
-  resources :yh_articles, except: [:edit] do
-    member do
-      get 'taken'
-    end
-  end
+
   resources :combo_ads
   resources :reporter_images do
     member do

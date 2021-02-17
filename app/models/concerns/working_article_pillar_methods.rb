@@ -132,13 +132,13 @@ module WorkingArticlePillarMethods
     self.pillar_order       = box_info[4]
     #TODO add article_kind, default = 기사, 기고, 박스기고, 사설, 만평, 사진, 부고/인사
     self.grid_width         = page.grid_width if page_column_changed
-    self.is_front_page      = true if pillar.page_ref.is_front_page?
+    self.is_front_page      = true if page.is_front_page?
     self.on_left_edge       = true if pillar.on_left_edge? && grid_x == 0
-    self.on_right_edge      = true if pillar.on_right_edge? && pillar.grid_x + column  == pillar.page_ref.column
+    self.on_right_edge      = true if pillar.on_right_edge? # && pillar.grid_x + column  == pillar.page.column
     self.extended_line_count = 0
-
     self.save
     create_article_folder
+    save_article
     generate_pdf_with_time_stamp(no_page_pdf: true)
   end
 

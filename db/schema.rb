@@ -25,13 +25,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
-  create_table "actions", force: :cascade do |t|
-    t.string "name"
-    t.text "actions"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -233,33 +226,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.index ["publication_id"], name: "index_article_kinds_on_publication_id"
   end
 
-  create_table "article_plans", force: :cascade do |t|
-    t.bigint "page_plan_id"
-    t.string "reporter"
-    t.integer "order"
-    t.string "title"
-    t.string "char_count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["page_plan_id"], name: "index_article_plans_on_page_plan_id"
-  end
-
-  create_table "body_lines", force: :cascade do |t|
-    t.integer "order"
-    t.float "x"
-    t.float "y"
-    t.float "width"
-    t.float "height"
-    t.integer "coulumn"
-    t.integer "line_number"
-    t.text "tokens"
-    t.integer "kind"
-    t.bigint "working_article_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["working_article_id"], name: "index_body_lines_on_working_article_id"
-  end
-
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "ancestry"
@@ -454,27 +420,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.index ["slug"], name: "index_issues_on_slug", unique: true
   end
 
-  create_table "layout_nodes", force: :cascade do |t|
-    t.string "direction"
-    t.string "ancestry"
-    t.integer "grid_x"
-    t.integer "grid_y"
-    t.integer "column"
-    t.integer "row"
-    t.string "profile"
-    t.string "node_kind"
-    t.integer "order"
-    t.string "tag"
-    t.boolean "selected"
-    t.text "actions"
-    t.text "layout_with_pillar_path"
-    t.integer "box_count"
-    t.bigint "pillar_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["pillar_id"], name: "index_layout_nodes_on_pillar_id"
-  end
-
   create_table "member_images", force: :cascade do |t|
     t.string "title"
     t.string "caption"
@@ -537,6 +482,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.float "margin"
     t.text "layout"
     t.text "layout_with_pillar_path"
+    t.text "pillars"
     t.integer "like"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -612,13 +558,13 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.integer "row"
     t.integer "order"
     t.integer "box_count"
+    t.text "layout_with_pillar_path"
     t.string "profile"
-    t.bigint "page_ref_id"
-    t.string "page_ref_type"
+    t.bigint "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "has_drop_article"
-    t.index ["page_ref_id"], name: "index_pillars_on_page_ref_id"
+    t.index ["page_id"], name: "index_pillars_on_page_id"
   end
 
   create_table "posts", id: :serial, force: :cascade do |t|
@@ -1063,140 +1009,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.index ["slug"], name: "index_working_articles_on_slug", unique: true
   end
 
-  create_table "yh_articles", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.string "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.text "body"
-    t.string "writer"
-    t.integer "char_count"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "category_name"
-    t.string "category_code"
-  end
-
-  create_table "yh_graphics", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.time "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.string "comment"
-    t.string "body"
-    t.string "picture"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "yh_photo_fr_ynas", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.time "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.string "comment"
-    t.string "body"
-    t.string "picture"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "yh_photo_trs", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.time "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.string "comment"
-    t.string "body"
-    t.string "picture"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "yh_pictures", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.time "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.string "comment"
-    t.string "body"
-    t.string "picture"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "yh_prs", force: :cascade do |t|
-    t.string "action"
-    t.string "service_type"
-    t.string "content_id"
-    t.date "date"
-    t.time "time"
-    t.string "urgency"
-    t.string "category"
-    t.string "class_code"
-    t.string "attriubute_code"
-    t.string "source"
-    t.string "credit"
-    t.string "region"
-    t.string "title"
-    t.string "comment"
-    t.string "body"
-    t.string "appenddata"
-    t.string "taken_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ad_bookings", "publications"
   add_foreign_key "ad_plans", "ad_bookings"
@@ -1212,8 +1024,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
   add_foreign_key "annotations", "working_articles"
   add_foreign_key "announcements", "publications"
   add_foreign_key "article_kinds", "publications"
-  add_foreign_key "article_plans", "page_plans"
-  add_foreign_key "body_lines", "working_articles"
   add_foreign_key "comments", "proofs"
   add_foreign_key "graphic_requests", "users"
   add_foreign_key "graphics", "working_articles"
