@@ -123,8 +123,9 @@ module WorkingArticlePillarMethods
     page_column_changed = true if grid_width.to_i != page.grid_width.to_i
     # return if pillar change is not effecting this article, save time 
     return if (box_info == current_info) && !page_column_changed
+    # TODO
+    # clear_old_files
 
-    clear_old_files
     self.grid_x             = box_info[0]
     self.grid_y             = box_info[1]
     self.column             = box_info[2]
@@ -152,7 +153,6 @@ module WorkingArticlePillarMethods
 
   def box_svg(y_position)
     height = read_height
-    binding.pry unless height
     if pillar_order.split("_").length <= 2
       text_font_size = 100
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"

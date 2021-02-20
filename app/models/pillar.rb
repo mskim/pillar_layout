@@ -364,6 +364,9 @@ class Pillar < ApplicationRecord
     elsif removing_articles > 0 # current box is greater than new_layout
       ordered_working_articles  = root_articles
       layout_with_pillar_path.each_with_index do |box_rect, i|
+        p_order     = box_rect[4]
+        new_order   = "#{order}_#{p_order}"
+        box_rect[4] = new_order
         ordered_working_articles[i].change_article(box_rect)
       end
       # delete working_articles from pillar
@@ -391,11 +394,15 @@ class Pillar < ApplicationRecord
       (-removing_articles).times do |i|
         box_rect = layout_with_pillar_path[working_articles_count + i]
         if box_rect
-          h = { page: page, pillar: self, pillar_order: box_rect[4], grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
+          p_order            = box_rect[4]
+          new_pillar_order   = "#{order}_#{p_order}"
+          # box_rect[4] = new_order
+          h = { page: page, pillar: self, pillar_order: new_pillar_order, grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
           w = WorkingArticle.where(h).first_or_create
         end
       end
     end
+    working_articles.reload
   end
 
   def create_layout

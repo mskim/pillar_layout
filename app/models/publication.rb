@@ -279,7 +279,6 @@ class Publication < ApplicationRecord
     (inner_page_heading_height + 1)*body_line_height
   end
 
-
   def layout_rb
     h = {}
     h[:width]       = width
@@ -350,5 +349,13 @@ class Publication < ApplicationRecord
   def generate_sample_pdf
     save_sample_page_layout_rb
     system "cd #{sample_page_path} && /Applications/newsman.app/Contents/MacOS/newsman article ."
+  end
+
+  def main_server_info
+    h = {}
+    h[:ip] = ""
+    h[:user] = ""
+    h[:password] = ""
+    h
   end
 end
