@@ -8,7 +8,6 @@ csv = CSV.parse(csv_text)
 keys  = csv.shift
 keys.map!{|e| e.to_sym}
 csv.each_with_index do |row, i|
-  row[2] = row[2]
   row_h = Hash[keys.zip row]
   s = PageLayout.where(row_h).first
   if s
@@ -76,7 +75,7 @@ h[:cms_server_url]                  = 'http:://localhost:3001'
 p.update(h)
 p.copy_text_style_to_shared_location
 
-issue_date = Date.new(2017,5,30)
+issue_date = Date.new(2021,1,29)
 # create ad_bookins for 5 days
 ad_date = issue_date
 5.times do

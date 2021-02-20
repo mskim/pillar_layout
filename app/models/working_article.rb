@@ -11,7 +11,6 @@
 #  announcement_text            :string
 #  attached_position            :string
 #  attached_type                :string
-#  base_height_in_lines         :integer
 #  body                         :text
 #  bottom_line                  :integer          default(0)
 #  boxed_subtitle_text          :string
@@ -159,6 +158,9 @@ class WorkingArticle < ApplicationRecord
   # def page_friendly_string
   #   page.friendly_string
   # end
+  def base_height_in_lines
+    row*7
+  end
 
   def save_as_page_layout(position)
     atts = {}
@@ -397,6 +399,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def save_article
+    puts path
     make_article_path
     save_layout
     # puts "id:#{id}"
@@ -558,8 +561,9 @@ class WorkingArticle < ApplicationRecord
 
   # auto_adjust_height
   def auto_adjust_height
-    pillar.auto_adjust_height_starting_from(self)
-    pillar.page.generate_pdf_with_time_stamp 
+    # pillar.auto_adjust_height_starting_from(self)
+    # pillar.page.generate_pdf_with_time_stamp 
+    auto_adjust_height_all
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
@@ -1503,6 +1507,13 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def copy_to_sample
+    unless File.exist?(sample_path)
+      FileUtils.mkdir_p(sample_path)
+      system("cp -r #{path}/* #{sample_path}")
+    end
+  end
+
   def on_left_edge?
     if attached_type.nil?
       pillar.grid_x == 0 && grid_x == 0
@@ -1576,7 +1587,6 @@ class WorkingArticle < ApplicationRecord
     self.on_right_edge        = true if on_right_edge?
     self.column               = 4 unless column
     self.row                  = 4 unless row
-    self.base_height_in_lines = base_height_in_lines || self.row*7
     if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
       self.top_story = true
     end

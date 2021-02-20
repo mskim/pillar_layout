@@ -13,11 +13,15 @@
 #  char_count         :integer
 #  date               :date
 #  for_front_page     :boolean
+#  graphic_info       :text
 #  group              :string
+#  image_info         :text
 #  image_name         :string
 #  kind               :string
 #  order              :integer
+#  page_number        :integer
 #  path               :string
+#  pillar_order       :string
 #  price              :float
 #  published          :boolean
 #  quote              :string

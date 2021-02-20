@@ -4,49 +4,6 @@ Rails app for creating style guide for newspaper publication
 
 ## Tables
 
-### paragraph
-  working_article:references
-  name
-  order:integer
-  para_text:text
-  tokens:text
-  
-### column
-  working_article:references
-  order:integer
-  column_type
-  x:float
-  y:float
-  width:float
-  height:float
-
-### body_line
-  working_article:references
-  paragraph:references
-  column:integer
-  order:integer
-  string 
-  x:float
-  y:float
-  width:float
-  height:float
-  line_type
-  text_area_x
-  text_area_width
-  <!-- next_line:integer -->
-
-<!-- ### token
-  order:integer
-  paragraph:references
-  line_fragment:references
-  token_type
-  string
-  width_array:text
-  x:float
-  y:float
-  width:float
-  height:float -->
-
 ### reporter_image
 
 ### reporter_graphic
@@ -119,21 +76,6 @@ Rails app for creating style guide for newspaper publication
   section_names
   page_columns
 
-### section
-  profile
-  column
-  row
-  ad_type
-  is_front_page
-  story_count
-  page_number
-  section_name
-  layout
-  color_page
-
-  #--------
-  issue_id
-
 ### ad
   name
   korean_name
@@ -141,21 +83,6 @@ Rails app for creating style guide for newspaper publication
   column
   row
 
-### image_template
-  parent_column:integer
-  parent_row:integer
-  column:integer
-  row:integer
-  height_adjustment_in_lines
-  image_path
-  caption
-  caption_title
-  position      # top_right, bottom_right, top_midddle, middle_middle, full_height
-
-  <!-- top_offset_in_lines:integer
-  bottom_offset_in_lines:integer -->
-  profile
-  parent_id:integer
 
 ### text_style
   reference
@@ -319,7 +246,6 @@ date
   table_style_id:integer
   
 
-
 ## table_style
   - name
   - heading_level:integer
@@ -386,6 +312,15 @@ body text goes here.
 title
 toc_text:text
 position:interger # 1..9
+
+
+## story
+image_info : text
+image_info : text
+page_number :integer
+pillar_order
+
+
 
 
 ## article_kinds

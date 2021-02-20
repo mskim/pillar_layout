@@ -574,16 +574,19 @@ class Page < ApplicationRecord
     FileUtils.cp(section_jpg, stamped_jpg)
   end
 
-  def generate_pdf_with_time_stamp
+  def generate_pdf_with_time_stamp(options={})
     delete_old_files
-    stamp_time
+    # stamp_time
     # RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
-    RLayout::NewsPageAuto.new(page_path: path, time_stamp: @time_stamp)
+    h = options
+    h[:page_path] = path
+    h[:time_stamp] = true
+    RLayout::NewsPageAuto.new(h)
   end
 
   def adjust_page_pdf
     stamp_time
-    RLayout::NewsPageAuto.new(page_path: path, time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
+    RLayout::NewsPageAuto.new(page_path: path, time_stamp: true, jpg: true, config_hash:config_hash)
   end
 
   def site_path

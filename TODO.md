@@ -53,6 +53,19 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-19
+  - fix change page_layout
+  
+  - update working_article height after change_page_layout
+  - make it without webpack for Heroku
+  - free Internet Website for Newspeper Seminar
+
+2021-02-13
+  - drop, cut, overlap
+  - 1_1_DL, 2_1_CL, 2_1_OL
+  - 2_1_DR, 2_1_CR, 2_1_OR
+  - attachment folders are created as sub folder of root articles
+
 2021-02-13
   - clean up tables
     remove article_plan

@@ -1,6 +1,19 @@
 namespace :style do
   require 'csv'
-  
+
+  desc 'copy working_articles samples'
+  task :copy_to_sample =>:environment do
+    WorkingArticle.all.each do |w|
+      w.copy_to_sample
+    end
+  end
+
+  desc 'save_article all working_articles'
+  task :save_article =>:environment do
+    WorkingArticle.all.each do |w|
+      w.save_article
+    end
+  end
 
   desc 'issue auto adjust layout for all pages'
   task :issue_adjust =>:environment do
@@ -40,15 +53,6 @@ namespace :style do
       p.save_config_file
     end
   end
-
-  desc 'generate_pdf_with_time_stamp working_article '
-  task :save_article =>:environment do
-    WorkingArticle.all.each do |w|
-      w.save_article
-    end
-  end
-
-
 
   desc 'copy article pdf to sample folder'
   task :article_copy_to_sample =>:environment do
@@ -317,14 +321,6 @@ namespace :style do
     puts "update pdf for all articles"
     Article.all.each do |article|
       article.update_pdf
-    end
-  end
-
-  desc "save all articles"
-  task :save_article =>:environment do
-    puts "save articles"
-    Article.all.each do |article|
-      article.save_article
     end
   end
 

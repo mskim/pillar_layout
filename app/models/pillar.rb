@@ -68,9 +68,7 @@ class Pillar < ApplicationRecord
     # check if it is addable?
     self.box_count    +=  1
     self.save
-    # layout_node.add_v_child
-    # layout_node.update_layout_with_pillar_path
-    # new_layout = layout_node.layout_with_pillar_path.dup
+
     update_layout_with_pillar_path
     working_articles.each_with_index do |w, i|
       if new_layout[i]
@@ -84,27 +82,20 @@ class Pillar < ApplicationRecord
     h = { page: page, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
     set_article_defaults
-    page.generate_pdf_with_time_stamp
+    page.generate_pdf_with_time_stamp(relayout:true)
   end
   
   def remove_article(article)
     self.box_count    -=  1
     self.save
-    # layout_node.remove_last_child
-    # layout_node_order = article.layout_node_order
-    # article.delete_folder
-    # article.destroy
-    # layout_node.remove_child(layout_node_order)
-    # layout_node.update_layout_with_pillar_path
-    # new_layout = layout_node.layout_with_pillar_path.dup
     update_layout_with_pillar_path
     working_articles.reload
     working_articles.each_with_index do |w, i|
       if new_layout[i]
         box_rect      = new_layout[i]
-        # p_order       = box_rect[4]
-        # new_order       = "#{order}_#{p_order}"
-        # box_rect[4]= new_order
+        p_order     = box_rect[4]
+        new_order   = "#{order}_#{p_order}"
+        box_rect[4] = new_order
         w.change_article(box_rect)
       end
     end
@@ -363,7 +354,10 @@ class Pillar < ApplicationRecord
       # current and new pillar size are equal
       root_articles.each_with_index do |w, i|
         if new_pillar[i]
-          box_rect     = layout_with_pillar_path[i]
+          box_rect    = layout_with_pillar_path[i]
+          p_order     = box_rect[4]
+          new_order   = "#{order}_#{p_order}"
+          box_rect[4] = new_order
           w.change_article(box_rect)
         end
       end
@@ -385,7 +379,10 @@ class Pillar < ApplicationRecord
       # update remaininng working_articles current sizes are less than the new_pillar, create some 
       root_articles.each_with_index do |w, i|
         if layout_with_pillar_path[i]
-          box_rect = layout_with_pillar_path[i]
+          box_rect    = layout_with_pillar_path[i]
+          p_order     = box_rect[4]
+          new_order   = "#{order}_#{p_order}"
+          box_rect[4] = new_order
           w.change_article(box_rect)
         end
       end
@@ -406,8 +403,8 @@ class Pillar < ApplicationRecord
     create_articles # if page.class == Page
   end
   # 
-  # first: [[0, 0, 5, 5, "1_2"], [0, 5, 5, 4, "1_2"]]
-  # second: [[0, 0, 2, 3, "2_1"], [0, 3, 2, 3, "2_2"], [0, 6, 2, 3, "2_3"]]
+  # first: [[0, 0, 5, 5, "1"], [0, 5, 5, 4, "2"]]
+  # second: [[0, 0, 2, 3, "1"], [0, 3, 2, 3, "2"], [0, 6, 2, 3, "3"]]
   def update_layout_with_pillar_path
     layout_with_pillar_path = []
     box_height = row/story_count
@@ -419,23 +416,10 @@ class Pillar < ApplicationRecord
       box[2] = column
       box[3] = box_height
       box[3] += 1 if i < remainer # add remaining height at the top
-      box[4] = "#{order}_#{i+1}"
+      box[4] = "#{i+1}"
       layout_with_pillar_path << box
     end
     update(layout_with_pillar_path: layout_with_pillar_path)
-  end
-
-  # TODO remove this 
-  # use update_layout_with_pillar_path
-  def create_new_layout_node
-    # # box_count = 1 if box_count.nil? || box_count < 1
-    # if box_count > 1
-    #   actions = ["h*#{box_count - 1}"]
-    # end
-    # new_layout_node = LayoutNode.where(pillar: self, column: column, row: row, box_count:box_count, actions: actions).create!
-    # new_layout_node.set_actions
-    # new_layout_node
-    update_layout_with_pillar_path
   end
 
   # this is called from page_layout, when page_layout has changed
@@ -751,7 +735,7 @@ class Pillar < ApplicationRecord
     root_articles.map{|w| w.read_height_in_lines}
   end
 
-  def sum_of_root_articles_line_height
+  def height_in_lines_sum
     height_in_lines_array.reduce(:+)
   end
 
@@ -766,10 +750,6 @@ class Pillar < ApplicationRecord
 
   def y_in_lines_array
     root_articles.map{|w| w.y_in_lines}
-  end
-
-  def height_in_lines_sum
-    height_in_lines_array.reduce(:+)
   end
 
   def root_article_ids
@@ -852,7 +832,7 @@ class Pillar < ApplicationRecord
     currnet_y_in_lines = 0
     root_articles.each_with_index do |w, i|
       current_height = default_heights[i]
-      w.update(base_height_in_lines: current_height, y_in_lines:currnet_y_in_lines, extended_line_count: 0)
+      w.update(y_in_lines:currnet_y_in_lines, extended_line_count: 0)
       currnet_y_in_lines += current_height
     end
   end

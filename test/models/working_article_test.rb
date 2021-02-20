@@ -9,7 +9,6 @@
 #  announcement_text            :string
 #  attached_position            :string
 #  attached_type                :string
-#  base_height_in_lines         :integer
 #  body                         :text
 #  bottom_line                  :integer          default(0)
 #  boxed_subtitle_text          :string

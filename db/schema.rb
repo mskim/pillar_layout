@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_01_072911) do
+ActiveRecord::Schema.define(version: 2021_02_19_011851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -775,6 +775,10 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.string "category_name"
     t.string "story_type", default: "0"
     t.boolean "selected_for_web"
+    t.integer "page_number"
+    t.string "pillar_order"
+    t.text "image_info"
+    t.text "graphic_info"
     t.index ["user_id"], name: "index_stories_on_user_id"
     t.index ["working_article_id"], name: "index_stories_on_working_article_id"
   end
@@ -1002,7 +1006,6 @@ ActiveRecord::Schema.define(version: 2021_02_01_072911) do
     t.string "attached_type"
     t.string "attached_position"
     t.integer "drop_floor", default: 0
-    t.integer "base_height_in_lines"
     t.index ["article_id"], name: "index_working_articles_on_article_id"
     t.index ["page_id"], name: "index_working_articles_on_page_id"
     t.index ["pillar_id"], name: "index_working_articles_on_pillar_id"
