@@ -621,6 +621,7 @@ class Pillar < ApplicationRecord
   def layout_map
     h = {}
     h[:order]             = order
+    h[:height_in_lines]   = height_in_lines
     h[:pillar_rect]       = [x,y,width,height]
     h[:pillar_grid_rect]  = [grid_x, grid_y, column, row]
     h[:article_map]       = article_map
@@ -669,7 +670,7 @@ class Pillar < ApplicationRecord
   def auto_adjust_height_all(options={})
     pillar_path               = path
     stamp_time
-    result = RLayout::NewsPillar.new(pillar_path: pillar_path, time_stamp: @time_stamp)
+    result = RLayout::NewsPillar.new(pillar_path: pillar_path, height_in_lines: height_in_lines, relayout: true, time_stamp: @time_stamp)
     update_working_article_heights
     true
   end

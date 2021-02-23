@@ -576,17 +576,10 @@ class Page < ApplicationRecord
 
   def generate_pdf_with_time_stamp(options={})
     delete_old_files
-    # stamp_time
-    # RLayout::NewsPage.new(time_stamp: @time_stamp, jpg: true, config_hash:config_hash)
     h = options
     h[:page_path] = path
     h[:time_stamp] = true
-    RLayout::NewsPageAuto.new(h)
-  end
-
-  def adjust_page_pdf
-    stamp_time
-    RLayout::NewsPageAuto.new(page_path: path, time_stamp: true, jpg: true, config_hash:config_hash)
+    RLayout::NewsPage.new(h)
   end
 
   def site_path
@@ -1023,11 +1016,14 @@ class Page < ApplicationRecord
     end
   end
 
-  def auto_adjust_all_pillars
-    pillars.each do |p|
-      p.auto_adjust_height_all(generate_page:false)
-    end
-    generate_pdf_with_time_stamp
+  def auto_adjust
+    save_config_file
+    h = {}
+    h[:page_path] = path
+    h[:relayout]  = true
+    h[:time_stamp] = true
+    result        = RLayout::NewsPage.new(h)
+    true
   end
 
   def revert_expanded_lines_all_pillars

@@ -193,7 +193,8 @@
         <%= link_to '빈공간 채우기', fillup_text_working_article_path, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
         <%= link_to '하단 높이 조절', update_bottom_height_working_article_path, class: "dropdown-item" %>
-
+        <div class="dropdown-divider"></div>
+        <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
 
       </div>
     </li>
@@ -214,7 +215,6 @@
       <div class="dropdown-divider"></div>
       <% if @working_article.auto_adjustble? %>
         <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
-        <%= link_to '글기둥 기사 모두 자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
       <% end %>
 

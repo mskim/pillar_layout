@@ -20,7 +20,7 @@ namespace :style do
     starting = Time.now
     i = Issue.last
     i.pages.all.each do |p|
-      p.adjust_page_pdf
+      p.auto_adjust
     end
     ending = Time.now
     puts "it took #{ending - starting}"
