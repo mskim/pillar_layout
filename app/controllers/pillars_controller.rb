@@ -1,5 +1,5 @@
 class PillarsController < ApplicationController
-  before_action :set_pillar, only: [:show, :edit, :update, :destroy, :change_layout]
+  before_action :set_pillar, only: [:show, :edit, :update, :destroy, :change_layout, :add_article, :remove_last_article]
 
   # GET /pillars
   # GET /pillars.json
@@ -68,6 +68,18 @@ class PillarsController < ApplicationController
     new_layout  = node.layout_with_pillar_path
     @pillar.change_layout(new_layout)
     redirect_to @pillar.page
+  end
+
+  def add_article
+    @page = @pillar.page
+    @pillar.add_article
+    redirect_to @page
+  end
+
+  def remove_last_article
+    @page = @pillar.page
+    @pillar.remove_last_article
+    redirect_to @page
   end
 
   private

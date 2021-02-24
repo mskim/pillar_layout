@@ -161,7 +161,7 @@
           <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
           <%= link_to '모두 자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
         <% end %>
-        <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+        <%= link_to '기사 삭제', remove_last_article_pillar_path(@working_article.pillar), method: :patch, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
         <%= link_to '빈공간 채우기', fillup_text_working_article_path, class: "dropdown-item" %>
         <%= link_to '빈공간 모두 채우기', fillup_text_all_working_article_path, class: "dropdown-item" %>
@@ -183,11 +183,11 @@
 
         <% if @working_article.addable?%>
           <div class="dropdown-divider"></div>
-          <%= link_to '기사 추가', add_article_working_article_path, class: "dropdown-item" %>
+          <%= link_to '기사 추가', add_article_pillar_path(@working_article.pillar), method: :patch ,class: "dropdown-item" %>
         <% end %>
         <% if @working_article.pillar.working_articles.count > 1  %>
           <div class="dropdown-divider"></div>
-          <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+          <%= link_to '기사 삭제', remove_last_article_pillar_path(@working_article.pillar), method: :patch, class: "dropdown-item" %>
         <% end %>
         <div class="dropdown-divider"></div>
         <%= link_to '빈공간 채우기', fillup_text_working_article_path, class: "dropdown-item" %>
@@ -224,7 +224,7 @@
         <%= link_to '기사박스 나누기', divide_at_default_working_article_path(@working_article), class: "dropdown-item" %>
       <% end %>
       <% if @working_article.delete_able? %>
-          <%= link_to '기사 삭제', remove_article_working_article_path(@working_article), class: "dropdown-item" %>
+        <%= link_to '기사 삭제', remove_last_article_pillar_path(@working_article.pillar), method: :patch, class: "dropdown-item" %>
       <% end %>
       <% if !@working_article.pillar.has_drop_article? %>
         <div class="dropdown-divider"></div>

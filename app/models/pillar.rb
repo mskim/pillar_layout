@@ -64,44 +64,62 @@ class Pillar < ApplicationRecord
     end
   end
 
-  def add_article
-    # check if it is addable?
-    self.box_count    +=  1
-    self.save
+  def max_root_article_count
+    (row/2).to_i
+  end
 
-    update_layout_with_pillar_path
-    working_articles.each_with_index do |w, i|
-      if new_layout[i]
-        box_rect      = new_layout[i]
-        box_rect[4]   = w.pillar_order
-        w.change_article(box_rect)
-      end
-    end
-    working_articles_count = working_articles.length
-    box_rect = new_layout.last
+  def addable?
+    box_count < max_root_article_count
+  end
+
+  def add_article
+    return unless addable?
+    working_articles_count = root_articles.length
+    box_rect = layout_with_pillar_path.last
     h = { page: page, pillar: self, pillar_order: "#{order}_#{working_articles_count + 1}", grid_x: box_rect[0], grid_y: box_rect[1], column: box_rect[2], row: box_rect[3] }
     w = WorkingArticle.where(h).first_or_create
-    set_article_defaults
-    page.generate_pdf_with_time_stamp(relayout:true)
-  end
-  
-  def remove_article(article)
-    self.box_count    -=  1
-    self.save
+    new_box_count = box_count + 1
+    update(box_count: new_box_count)
     update_layout_with_pillar_path
-    working_articles.reload
-    working_articles.each_with_index do |w, i|
-      if new_layout[i]
-        box_rect      = new_layout[i]
-        p_order     = box_rect[4]
-        new_order   = "#{order}_#{p_order}"
-        box_rect[4] = new_order
-        w.change_article(box_rect)
-      end
-    end
     set_article_defaults
+    page.save_config_file
+    auto_adjust_height_all
     page.generate_pdf_with_time_stamp
+    true
   end
+
+  def removeable?
+    box_count > 1
+  end
+
+  def remove_last_article
+    return unless removeable?
+    last_article = root_articles.last
+    last_article.delete_working_article
+    working_articles.reload
+    new_box_count = box_count - 1
+    update(box_count: new_box_count)
+    update_layout_with_pillar_path
+    set_article_defaults
+    page.save_config_file
+    auto_adjust_height_all
+    page.generate_pdf_with_time_stamp
+    true
+  end
+
+  # def remove_article(article)
+  #   return unless removeable?
+  #   article.delete_working_article
+  #   working_articles.reload
+  #   new_box_count = box_count - 1
+  #   update(box_count: new_box_count)
+  #   update_layout_with_pillar_path
+  #   set_article_defaults
+  #   auto_adjust_height_all
+  #   page.save_config_file
+  #   page.generate_pdf_with_time_stamp
+  #   true
+  # end
 
   def pillar_siblings_of(article)
     article_pillar_order_depth = article.pillar_order.split("_").length
@@ -129,16 +147,12 @@ class Pillar < ApplicationRecord
     articles.map{|w| w.extended_line_count}.reduce(:+)
   end
 
-  def story_count
-    box_count
+  def root_article_count
+    root_articles.length
   end
 
   def path
-    if page.class == Page
-      page.path + "/#{order}"
-    else
-      "#{Rails.root}/public/pillar/#{column}/#{row}/#{box_count}/#{id}"
-    end
+    page.path + "/#{order}"
   end
 
   def publication_id
@@ -270,12 +284,6 @@ class Pillar < ApplicationRecord
 
   def v_scale
     5
-  end
-
-  def choices
-    # ad svg
-    nodes = LayoutNode.where(column: column, row: row).sort_by(&:box_count)
-    nodes.map { |n| [n, n.page_embeded_svg(page.column, grid_x, grid_y)] }
   end
 
   def rect
@@ -414,9 +422,9 @@ class Pillar < ApplicationRecord
   # second: [[0, 0, 2, 3, "1"], [0, 3, 2, 3, "2"], [0, 6, 2, 3, "3"]]
   def update_layout_with_pillar_path
     layout_with_pillar_path = []
-    box_height = row/story_count
-    remainer = row % story_count
-    story_count.times do |i|
+    box_height  = row/box_count
+    remainer    = row % box_count
+    box_count.times do |i|
       box = []
       box[0] = 0
       box[1] = grid_y
@@ -589,9 +597,7 @@ class Pillar < ApplicationRecord
 
   def delete_working_articles
     working_articles.all.each do |w|
-        w.delete_folder
-        w.delete_attached_floats
-        w.destroy
+      w.delte_working_article
     end
   end
 
@@ -681,18 +687,6 @@ class Pillar < ApplicationRecord
     end
   end
 
-  # steps
-  # 1. generate all root articles with full height
-  # 2. call adjust_articles_to_fit_pillar
-  # def auto_adjust_height_all
-  #   update_y_in_lines
-  #   root_articles.each do |w|
-  #     w.generate_pdf_with_time_stamp(adjustable_height: true)
-  #   end
-  #   adjust_articles_to_fit_pillar
-  # end
-
-
   # adjust_articles_to_fit_pillar
   # adjust heights from bottom until it fits
   def adjust_articles_to_fit_pillar
@@ -730,10 +724,10 @@ class Pillar < ApplicationRecord
           adjusted_heights[-(i+1)] = article_height - room
         end
       end
-    else
-      underflow = diffenence
+    elsif diffenence < 0
+      # underflow = diffenence
       # grow bottom article by difference
-      adjusted_heights[-1] += underflow
+      adjusted_heights[-1] += -diffenence
     end
     adjusted_heights
   end

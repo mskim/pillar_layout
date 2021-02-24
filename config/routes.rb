@@ -97,7 +97,9 @@ Rails.application.routes.draw do
   end
   resources :pillars do
     member do
-      patch :change_layout
+      # patch :change_layout
+      patch :add_article
+      patch :remove_last_article
     end
   end
   resources :comments
@@ -301,8 +303,10 @@ Rails.application.routes.draw do
       get 'select_reporter_graphic'
       get 'create_new_proof'
       get 'divide_at_default'
-      get 'add_article'
-      get 'remove_article'
+      # get 'add_article'
+      # get 'remove_article'
+      get 'remove_attached_article'
+      
       get 'add_overlap'
       get 'add_overlap_one'
       get 'delete_overlap'

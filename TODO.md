@@ -53,12 +53,20 @@
   - do english hyphenation
   - implement proof reading
 
-2021-02-20
+2021-02-23
+  - delete article, add article
+  - add cut, add drop, add overlap
   
   - drop, cut, overlap
   - 1_1_DL, 2_1_CL, 2_1_OL
   - 2_1_DR, 2_1_CR, 2_1_OR
   - attachment folders are created as sub folder of root articles
+
+2021-02-25
+  - fix controller calling method twice by changet the get method to method: :patch add_article, remove_last_article
+
+2021-02-23
+
   - 자동행조절 
     - pillar 전체, bottom 에서 도 가능
 

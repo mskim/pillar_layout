@@ -425,6 +425,12 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def delete_working_article
+    delete_folder
+    delete_attached_floats
+    destroy
+  end
+
   def delete_folder
     system("rm -rf #{path}")
   end
@@ -634,7 +640,9 @@ class WorkingArticle < ApplicationRecord
   end
 
   def pillar_bottom?
-    max_grid_y == pillar.row
+    pillar.bottom_article == self
+    # pillar.pillar_bottom?(self)
+    # max_grid_y == pillar.row
   end
 
   def max_grid_x

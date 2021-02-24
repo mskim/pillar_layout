@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WorkingArticlesController < ApplicationController
-  before_action :set_working_article, only: %i[show edit update destroy download_pdf upload_images upload_graphics zoom_preview change_story update_story assign_reporter add_image]
+  before_action :set_working_article, only: %i[show edit update destroy download_pdf upload_images upload_graphics zoom_preview change_story update_story assign_reporter add_image add_article remove_article]
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token
 
@@ -521,21 +521,20 @@ class WorkingArticlesController < ApplicationController
     redirect_to @working_article
   end
 
-  def add_article
-    set_working_article
-    @working_article.pillar.add_article
-    redirect_to @working_article
-  end
+  # def add_article
+  #   @page = @working_article.page
+  #   @working_article.pillar.add_article
+  #   redirect_to @page
+  # end
 
-  def remove_article
-    set_working_article
+  def remove_attached_article
     @page = @working_article.page
     if @working_article.attached_type =~ /drop/
       @working_article.remove_drop
     elsif @working_article.has_parent?
       @working_article.parent.remove_attached_article   
-    else
-      @working_article.pillar.remove_article(@working_article)
+    # else
+    #   @working_article.pillar.remove_article(@working_article)
     end
     redirect_to @page
   end
