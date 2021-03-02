@@ -107,20 +107,6 @@ class Pillar < ApplicationRecord
     true
   end
 
-  # def remove_article(article)
-  #   return unless removeable?
-  #   article.delete_working_article
-  #   working_articles.reload
-  #   new_box_count = box_count - 1
-  #   update(box_count: new_box_count)
-  #   update_layout_with_pillar_path
-  #   set_article_defaults
-  #   auto_adjust_height_all
-  #   page.save_config_file
-  #   page.generate_pdf_with_time_stamp
-  #   true
-  # end
-
   def pillar_siblings_of(article)
     article_pillar_order_depth = article.pillar_order.split("_").length
     article_siblings = working_articles.select{|w| w.pillar_order.split("_").length == article_pillar_order_depth}.sort_by{|a| a.pillar_order}
@@ -643,27 +629,6 @@ class Pillar < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
-  def following_root_articles(article)
-    article_index = root_articles.index(article)
-    root_articles[article_index..-1]
-  end
-
-  # auto_adjust_height starting from given article
-  def auto_adjust_height_starting_from(article)
-    following_article = following_root_articles(article)
-    update_y_in_lines
-    following_article.each do |w|
-      w.generate_pdf_with_time_stamp(adjustable_height: true)
-    end
-    adjust_articles_to_fit_pillar
-  end
-
-  def stamp_time
-    t = Time.now
-    h = t.hour
-    @time_stamp = "#{t.day.to_s.rjust(2, '0')}#{t.hour.to_s.rjust(2, '0')}#{t.min.to_s.rjust(2, '0')}#{t.sec.to_s.rjust(2, '0')}"
-  end
-
   def touch_articles
     working_articles.all.each do |w|
       w.touch_story_md
@@ -672,66 +637,19 @@ class Pillar < ApplicationRecord
 
   # auto adjust height of all ariticles in pillar and relayout bottom article
   # set height_in_lines, extended_line_count
-
   def auto_adjust_height_all(options={})
     pillar_path               = path
-    stamp_time
-    result = RLayout::NewsPillar.new(pillar_path: pillar_path, height_in_lines: height_in_lines, relayout: true, time_stamp: @time_stamp)
+    result = RLayout::NewsPillar.new(pillar_path: pillar_path, height_in_lines: height_in_lines, relayout: true)
     update_working_article_heights
     true
   end
 
   def update_working_article_heights
     root_articles.each_with_index do |root_article, i|
-      root_article.update_height_in_lines
+      root_article.update_height_in_lines_from_pdf
     end
   end
 
-  # adjust_articles_to_fit_pillar
-  # adjust heights from bottom until it fits
-  def adjust_articles_to_fit_pillar
-    differnce   = height_in_lines_sum - height_in_lines
-    if differnce != 0
-      # get adjusted_heights_array to fit
-      new_heights_array    = adjusted_heights_array
-      # puts new_heights_array.reduce(:+)
-      root_articles.each_with_index do |article, i|
-        new_height = new_heights_array[i]
-        if article.read_height_in_lines != new_height
-          article.generate_pdf_with_time_stamp(fixed_height_in_lines: new_height)
-        end
-      end
-    end
-  end
-
-  def adjusted_heights_array
-    current_heights = height_in_lines_array
-    adjusted_heights = current_heights.dup
-    diffenence      = current_heights.reduce(:+) - height_in_lines
-    if diffenence > 0
-      reminaing_overflow = diffenence
-      current_heights.reverse.each_with_index do |article_height, i|
-        if reminaing_overflow == 0 
-          break
-        elsif article_height > 14
-          room = article_height - 14
-          if room >= reminaing_overflow
-            room = reminaing_overflow
-            adjusted_heights[-(i+1)] = article_height - room
-            break
-          end
-          reminaing_overflow -= room
-          adjusted_heights[-(i+1)] = article_height - room
-        end
-      end
-    elsif diffenence < 0
-      # underflow = diffenence
-      # grow bottom article by difference
-      adjusted_heights[-1] += -diffenence
-    end
-    adjusted_heights
-  end
-  
   # read from disk
   def height_in_lines_array
     root_articles.map{|w| w.read_height_in_lines}

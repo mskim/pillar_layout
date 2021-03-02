@@ -158,8 +158,7 @@
           <%= link_to '2행 줄이기', reduce_two_working_article_path, class: "dropdown-item" %>
           <%= link_to '3행 줄이기', reduce_three_working_article_path, class: "dropdown-item" %>
           <div class="dropdown-divider"></div>
-          <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
-          <%= link_to '모두 자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
+          <%= link_to '자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
         <% end %>
         <%= link_to '기사 삭제', remove_last_article_pillar_path(@working_article.pillar), method: :patch, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
@@ -194,7 +193,7 @@
         <div class="dropdown-divider"></div>
         <%= link_to '하단 높이 조절', update_bottom_height_working_article_path, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
-        <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
+        <%= link_to '자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
 
       </div>
     </li>
@@ -214,7 +213,7 @@
       <%= link_to '3행 줄이기', reduce_three_working_article_path, class: "dropdown-item" %>
       <div class="dropdown-divider"></div>
       <% if @working_article.auto_adjustble? %>
-        <%= link_to '자동 행 조절', auto_adjust_height_working_article_path, class: "dropdown-item" %>
+        <%= link_to '자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
       <% end %>
 

@@ -328,13 +328,6 @@ class WorkingArticlesController < ApplicationController
     # code
   end
 
-  # auto adjust article height
-  def auto_adjust_height
-    set_working_article
-    @working_article.auto_adjust_height
-    redirect_to @working_article
-  end
-
   # auto adjust article height for all articlds in same pillar
   def auto_adjust_height_all
     set_working_article

@@ -53,6 +53,12 @@
   - do english hyphenation
   - implement proof reading
 
+2021-02-26
+  - add script:text to reporter, opinion so that designer can edit the layout
+
+2021-02-25
+  - push to github
+
 2021-02-23
   - delete article, add article
   - add cut, add drop, add overlap

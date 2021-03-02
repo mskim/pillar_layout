@@ -468,7 +468,7 @@ class WorkingArticle < ApplicationRecord
     article_info[:height_in_lines].to_i
   end
 
-  def update_height_in_lines
+  def update_height_in_lines_from_pdf
     new_height_in_lines     = read_height_in_lines
     new_extended_line_count = new_height_in_lines - base_height_in_lines
     if extended_line_count != new_extended_line_count
@@ -507,7 +507,7 @@ class WorkingArticle < ApplicationRecord
     save_hash                     = options
     save_hash[:time_stamp]        = true
     save_hash[:article_path]      = path
-    # save_hash[:fixed_height_in_lines] = options[:fixed_height_in_lines]
+    save_hash[:height_in_lines]   = options[:fixed_height_in_lines]
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
     new_extended_line_count       = new_height_in_lines - base_height_in_lines
@@ -563,13 +563,6 @@ class WorkingArticle < ApplicationRecord
 
   def available_bottom_space
     pillar.available_bottom_space
-  end
-
-  # auto_adjust_height
-  def auto_adjust_height
-    # pillar.auto_adjust_height_starting_from(self)
-    # pillar.page.generate_pdf_with_time_stamp 
-    auto_adjust_height_all
   end
 
   # auto adjust height of all ariticles in pillar and relayout bottom article

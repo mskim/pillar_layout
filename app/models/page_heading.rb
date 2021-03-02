@@ -176,7 +176,6 @@ class PageHeading < ApplicationRecord
 
   def front_page_content
     page_heading_width  = publication.page_heading_width
-    heading_ad_image_path = path + "/1/heading/images/#{issue.date.to_s}"
     first_page=<<~EOF
     RLayout::Container.new(width: #{page_heading_width}, height: #{publication.front_page_heading_height_in_pt}, layout_direction: 'horinoztal') do
       image(image_path: '#{background_image_full_path}', x:0, y:0, width: #{page_heading_width}, height: 139.0326207874)

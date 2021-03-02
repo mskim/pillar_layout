@@ -73,6 +73,16 @@ class PublicationsController < ApplicationController
 
   end
 
+  def remove_last_issue
+    if Issue.count > 1
+      i = Issue.last
+      i.remove_folder
+      i.destroy 
+    end
+    @issue = Issue.last
+    redirect_to @issue
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_publication

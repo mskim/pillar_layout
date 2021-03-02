@@ -628,6 +628,10 @@ class Issue < ApplicationRecord
     pages.select{|p| p.edition == 'B' || p.edition == 'C'}.length > 0
   end
 
+  def remove_folder
+    system("rm -rf #{path}")
+  end
+  
   private
 
   def read_issue_plan

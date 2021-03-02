@@ -263,7 +263,6 @@ Rails.application.routes.draw do
       patch 'upload_graphics'
       patch 'assign_reporter'
       get 'add_image'
-      get 'auto_adjust_height'
       get 'auto_adjust_height_all'
       get 'update_bottom_height'
       get 'revert_all_extended_lines'
@@ -375,6 +374,7 @@ Rails.application.routes.draw do
       get 'edit_static_pages'
       get 'preview_static'
       get 'download_static'
+
     end
 
     collection do
@@ -472,6 +472,7 @@ Rails.application.routes.draw do
   resources :publications do
     member do
       get 'download_pdf'
+      get 'remove_last_issue'
     end
   end
   resources :text_styles do
