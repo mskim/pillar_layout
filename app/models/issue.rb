@@ -87,7 +87,7 @@ class Issue < ApplicationRecord
   end
 
   def default_issue_plan_path
-    "#{Rails.root}/public/#{publication_id}/default_issue_plan2.rb"
+    "#{Rails.root}/public/#{publication_id}/default_issue_plan.rb"
   end
 
   def set_color_page
@@ -216,12 +216,9 @@ class Issue < ApplicationRecord
       default_plans = excel_info[:issue_plan]
       default_plans.each_with_index do |page_array, i|
         page_hash = {}
-        page_hash[:issue_id] = id
-        # puts "page_hash[:section_name]:#{page_hash[:section_name]}"
+        page_hash[:issue_id]     = id
         page_hash[:dead_line]    = page_array[0]
         page_hash[:page_number]  = i + 1
-        # ad display_name to page_plan
-        # parse the data
         page_hash[:section_name] = page_array[2]
         # TODO parse ad_data into know values
         if page_array[3]
@@ -375,19 +372,9 @@ class Issue < ApplicationRecord
         end
         next
       else
-        # create new page
-        # page_type
-        # 1 first page only
-        # 100 even pages
-        # 101 odd pages
-        # 11 or with any other  specific page number
-        # 22 with specific page number
-        # 23 with specific page number
         page_number = i + 1
-        # look for right template
         # first look for page_number and ad_type specified template
         ad_type = page_plan.ad_type.unicode_normalize
-
         template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
         # If not found, look for odd even  tempate
         unless template

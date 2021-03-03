@@ -1043,6 +1043,7 @@ class Page < ApplicationRecord
     self.article_line_thickness = publication.article_line_thickness
     self.page_heading_margin_in_lines = publication.page_heading_margin_in_lines(page_number)
     self.row                    = 15
+    self.column                 = column || 7
     self.grid_width             = publication.grid_width(column)
     self.grid_height            = publication.grid_height
     self.lines_per_grid         = publication.lines_per_grid
