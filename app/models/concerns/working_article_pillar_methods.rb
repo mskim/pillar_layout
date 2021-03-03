@@ -193,19 +193,5 @@ module WorkingArticlePillarMethods
     pillar_order.split("_")[1].to_i - 1
   end
 
-  def default_height_in_lines
-    return parent.default_height_in_lines  if attached_type == '나눔'
-    return parent.drop_height_in_lines  if attached_type == '내림'
-    return 7  if attached_type == '쪽기사'
-    lines, remainder = pillar.default_height_in_lines
-    if remainder == 0
-      lines
-    elsif order_from_pillar_order + 1 <= remainder
-      lines + 1
-    else
-      lines
-    end
-  end
-
 end
 

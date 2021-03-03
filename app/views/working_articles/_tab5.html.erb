@@ -16,9 +16,9 @@
     <div class="card">
       <h6 class="card-header bg-transparent pt-2 pb-2">
         <% if @working_article.pillar_bottom? && !@working_article.single_child?%>
-          맨 아래 박스 기본:<%= @working_article.base_height_in_lines %>/기사행수:<%= @working_article.height_in_lines %> / 줄인 행수(<%= @working_article.extended_line_count %>)
+          맨 아래 박스 기본:<%= @working_article.default_height_in_lines %>/기사행수:<%= @working_article.height_in_lines %> / 줄인 행수(<%= @working_article.extended_line_count %>)
         <% else %>
-          기본행수(<%= @working_article.base_height_in_lines %>)/
+          기본행수(<%= @working_article.default_height_in_lines %>)/
           행수(<%= @working_article.height_in_lines %>)/
           추가 행수(<%= @working_article.extended_line_count %>)
         <% end %>

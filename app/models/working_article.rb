@@ -158,8 +158,14 @@ class WorkingArticle < ApplicationRecord
   # def page_friendly_string
   #   page.friendly_string
   # end
-  def base_height_in_lines
-    row*7
+
+  def default_height_in_lines
+    # for root article
+    return pillar.default_article_height_in_lines[order] if parent.nil?
+    # for attached types
+    return parent.default_height_in_lines   if attached_type == '나눔'
+    return parent.drop_height_in_lines      if attached_type == '내림'
+    return 7                                if attached_type == '쪽기사'
   end
 
   def save_as_page_layout(position)
@@ -398,10 +404,9 @@ class WorkingArticle < ApplicationRecord
     FileUtils.mkdir_p(path) unless File.exist?(path)
   end
 
-  def save_article
-    puts path
+  def save_article(options={})
     make_article_path
-    save_layout
+    save_layout(options)
     # puts "id:#{id}"
     save_story unless kind == '사진'
   end
@@ -470,7 +475,7 @@ class WorkingArticle < ApplicationRecord
 
   def update_height_in_lines_from_pdf
     new_height_in_lines     = read_height_in_lines
-    new_extended_line_count = new_height_in_lines - base_height_in_lines
+    new_extended_line_count = new_height_in_lines - default_height_in_lines
     if extended_line_count != new_extended_line_count
       update(extended_line_count: new_extended_line_count)
     end
@@ -502,15 +507,17 @@ class WorkingArticle < ApplicationRecord
 
   def save_article_pdf(options = {})
     make_article_path
-    # stamp_time
-    save_article
-    save_hash                     = options
+    save_article(options)
+    # save_hash                     = options
+    save_hash                     = {}
     save_hash[:time_stamp]        = true
     save_hash[:article_path]      = path
-    save_hash[:height_in_lines]   = options[:fixed_height_in_lines]
+    # save_hash[:height_in_lines]   = default_height_in_lines
+    # binding.pry if pillar_order == "3_5"
+    # save_hash[:fixed_height_in_lines]   = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
-    new_extended_line_count       = new_height_in_lines - base_height_in_lines
+    new_extended_line_count       = new_height_in_lines - default_height_in_lines
     update(extended_line_count:new_extended_line_count)
     if extended_line_count != new_extended_line_count
       if attached_type == 'overlap'
@@ -602,10 +609,10 @@ class WorkingArticle < ApplicationRecord
     y_in_lines = pillar.height_in_lines - bottom_room_in_lines
     update(y_in_lines: y_in_lines)
     bottom_room_in_lines = 14 if bottom_room_in_lines < 14
-    generate_pdf_with_time_stamp(fixed_height_in_lines: bottom_room_in_lines)
+    generate_pdf_with_time_stamp(height_in_lines: bottom_room_in_lines)
     article_info = YAML::load_file(article_into_path)
     new_height_in_lines = article_info[:height_in_lines]
-    new_extended_line_count = new_height_in_lines - base_height_in_lines
+    new_extended_line_count = new_height_in_lines - default_height_in_lines
     update(extended_line_count: new_extended_line_count)
     page.generate_pdf_with_time_stamp
   end
@@ -902,7 +909,7 @@ class WorkingArticle < ApplicationRecord
     # h = row * grid_height
     # h -= page_heading_margin_in_lines * body_line_height if top_position?
     # h += extended_line_count * body_line_height
-    h = (base_height_in_lines + extended_line_count)* body_line_height
+    h = (default_height_in_lines + extended_line_count)* body_line_height
     h
   end
 
@@ -936,7 +943,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def height_in_lines
-    base_height_in_lines + extended_line_count
+    default_height_in_lines + extended_line_count
   end
 
   def layout_options
@@ -1062,7 +1069,7 @@ class WorkingArticle < ApplicationRecord
   def layout_rb(options={})
     h = layout_options
     h.merge!(options)
-    h[:height_in_lines]       = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
+    h[:height_in_lines] = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
     if kind == '사진'
       if first_image = images.first
         h[:draw_frame] = false if first_image && first_image.draw_frame == false
@@ -1208,8 +1215,8 @@ class WorkingArticle < ApplicationRecord
     File.open(story_path, 'r', &:read)
   end
 
-  def save_layout
-    layout = layout_rb
+  def save_layout(options={})
+    layout = layout_rb(options)
     File.open(layout_path, 'w') { |f| f.write layout }
   end
 
@@ -1591,7 +1598,7 @@ class WorkingArticle < ApplicationRecord
     if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
       self.top_story = true
     end
-    self.extended_line_count  = 0
+    self.extended_line_count  = extended_line_count || 0
     self.page_heading_margin_in_lines = pillar.page.page_heading_margin_in_lines
     if kind == '부고-인사'
       self.subject_head         = '부고' 

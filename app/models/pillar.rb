@@ -221,6 +221,21 @@ class Pillar < ApplicationRecord
       row*7
     end
   end
+
+  # array of default root articles height in lines
+  # box_count: root articles count
+  def default_article_height_in_lines
+    equal_div_lines = (height_in_lines/box_count).round
+    remainder   = height_in_lines % box_count
+    lines_array = []
+    box_count.times do |i|
+      box_height_in_lines = equal_div_lines
+      box_height_in_lines += 1 if i < remainder
+      lines_array << box_height_in_lines
+    end
+    lines_array
+  end
+
   # svg_y should take page_heading margin into consideration
   def svg_y
     grid_y * page.grid_height + page.heading_space + page.top_margin
@@ -437,12 +452,14 @@ class Pillar < ApplicationRecord
     layout_node.update_layout_node(new_layout)
   end
 
+  # working_article order is 0 based
+  # pillar order is 1 based
   def create_articles
     FileUtils.mkdir_p(path) unless File.exist?(path)
-    layout_with_pillar_path.each_with_index do |box|
+    layout_with_pillar_path.each_with_index do |box, i|
       box_count = box[4]
       box_count = 1 if box[4] == ""
-      h = { page: page, pillar: self, pillar_order: "#{order}_#{box_count}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
+      h = { page: page, pillar: self, order: i, pillar_order: "#{order}_#{box_count}", grid_x: box[0], grid_y: box[1], column: box[2], row: box[3] }
       WorkingArticle.where(h).first_or_create
     end
     set_article_defaults
@@ -621,8 +638,8 @@ class Pillar < ApplicationRecord
   end
 
   def revert_all_extended_lines(options={})
-    working_articles.each do |w|
-      next if w.extended_line_count == 0
+    default_lines = default_article_height_in_lines
+    root_articles.each_with_index do |w, i|
       w.update(extended_line_count: 0)
       w.generate_pdf_with_time_stamp
     end
@@ -735,20 +752,16 @@ class Pillar < ApplicationRecord
     root_articles.length
   end
 
-  def default_height_in_lines
-    count = root_articles_count
-    h_in_lines = height_in_lines/count
-    remainder = height_in_lines % count
-    return h_in_lines, remainder
-  end
-
-  def default_article_heights
-    root_articles.map{|w| w.default_height_in_lines}
-  end
+  # def default_height_in_lines
+  #   count = root_articles_count
+  #   h_in_lines = height_in_lines/count
+  #   remainder = height_in_lines % count
+  #   return h_in_lines, remainder
+  # end
 
   # set default y_in_lines, height_in_lines
   def set_article_defaults
-    default_heights = default_article_heights
+    default_heights = default_article_height_in_lines
     currnet_y_in_lines = 0
     root_articles.each_with_index do |w, i|
       current_height = default_heights[i]
