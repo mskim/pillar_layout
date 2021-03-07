@@ -26,15 +26,9 @@
   - upload Excel file for issue plan 
   - issue_set-up.rb file preset article types, by day_week, page, pillar_order  
   days = %W[mon tue wed thur fri]
-  set_up =[
-            [days[0..5], '22','1-1', '기고'],
-            [days[0..5], '22','1-2', '기고'],
-            [days[0..5], '22','1-3', '사설'],
-            [days[5..5], '22','1-1', '기고'],
-            [days[0..5], '23','1-1', '기고'],
-            [days[0..5], '23','1-2', '사설'],
+
     - do the layout in rails
-      goal is to edit content by components and update olny changed parts,
+      goal is to edit content by components and update only changed parts,
       instead of relayout the whole aricle from scrach.
           - get token width 
           - create Style in TextStyles,  so that every user can share, since we are using 
@@ -45,13 +39,50 @@
     - graphic
     - announcement
     - group_image
-    # TODO find font_wapper from font name
+  # TODO find font_wapper from font name
     - use Redis for speed improvement
     - use TablePlus for taking data from 213 to apply to 177
 
   - send pdf news to subscribers
   - do english hyphenation
   - implement proof reading
+
+2021-03-06
+  - fix drop
+    - fix change
+    - no split drop support
+    - remove drop
+
+  - fix overlap
+    - fix change
+    - remove overlap
+    - fix overlap when saving layout_rb 
+      - overflow red position
+      - overflow top space 
+      - don't allow auto_adjust_height for 'overlap'
+      
+  - make nav menu items into partials
+
+2021-03-05
+  - fix divide
+    좌, 우 selection not working
+    단 그기 grid_x position error
+    
+2021-03-04
+  - divide
+    - save page config file for new article_map
+    - fix divde_at_default column value, x position
+  - rake task for creating text_fitting_amount.yml
+      key: value
+      pg_col-column-lines: text_count
+
+      6_4_23: 1200
+      6_4_20: 1100
+      6_2_20: 600
+
+
+    find fitting text amount for articles and save as 
+    text_data_for_size
 
 2021-02-26
   - add script:text to reporter, opinion so that designer can edit the layout

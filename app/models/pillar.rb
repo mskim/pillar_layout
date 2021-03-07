@@ -82,8 +82,8 @@ class Pillar < ApplicationRecord
     update(box_count: new_box_count)
     update_layout_with_pillar_path
     set_article_defaults
-    page.save_config_file
     auto_adjust_height_all
+    page.save_config_file
     page.generate_pdf_with_time_stamp
     true
   end
@@ -301,8 +301,7 @@ class Pillar < ApplicationRecord
     # y_pos = page_heading_height if top_position?
     working_articles.each do |article|
       box_element_svg += article.box_svg(y_pos)
-      # y_pos += article.height if article.attached_type.nil?
-      y_pos += article.read_height if article.attached_type.nil?
+      y_pos += article.read_height if article.is_root?
     end
     box_element_svg += '</g>'
     box_element_svg
@@ -507,23 +506,22 @@ class Pillar < ApplicationRecord
     false
   end
   
-  def add_default_drop(starting_article_order = 1)
+  def add_default_drop(parent_article_order)
     default_column = 1
     default_column = 2 if column > 4
-    add_right_drop(default_column, starting_article_order)
+    add_right_drop(default_column, parent_article_order)
   end
-
 
   # create aritcle on the left side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
-  def add_right_drop(column_width_in_grid, starting_article_order=1)
+  def add_right_drop(column_width_in_grid, parent_article_order)
     return if column_width_in_grid >= column - 1
     return if has_drop_article?
-    # update(has_drop_article: true)
     # update all existing articles column
+    parent_article = root_articles[parent_article_order]
     new_column = column - column_width_in_grid
     working_articles.each_with_index do |w, i|
-      next if i < starting_article_order - 1
+      next if i < parent_article_order
       w.update(column:new_column)
       w.generate_pdf_with_time_stamp
     end
@@ -531,54 +529,29 @@ class Pillar < ApplicationRecord
     h[:attached_type]     = "drop"
     h[:attached_position] = "우"
     h[:grid_x]            = column - column_width_in_grid
-    h[:grid_y]            = root_articles[starting_article_order - 1].grid_y
+    h[:grid_y]            = parent_article.grid_y
     h[:column]            = column_width_in_grid
     h[:row]               = row - h[:grid_y]
     h[:pillar]            = self
     h[:page]              = page
-    h[:pillar_order]      = "#{order}_#{starting_article_order}_D"
-    w = WorkingArticle.create(h)
+    h[:pillar_order]      = "#{order}_#{parent_article_order+1}_D"
+    w = parent_article.children.create(h)
     w.generate_pdf_with_time_stamp
-    page.generate_pdf_with_time_stamp
-  end
-
-  # create aritcle on the left side which spans from top of current article to the bottom on pillar
-  # if current article is not the top article, lock all article above the currnt one.
-  def add_left_drop(column_width_in_grid, starting_article_order=1)
-    return if column_width_in_grid >= column - 1
-    return if has_drop_article?
-    update(has_drop_article: true)
-    new_column = column - column_width_in_grid
-    # update all existing articles grid_x and column
-    working_articles.each_with_index do |w, i|
-      next if i < starting_article_order - 1
-      w.update(grid_x:column_width_in_grid, column:new_column)
-      w.generate_pdf_with_time_stamp
-    end
-    h           = {}
-    h[:attached_type] = "drop"
-    h[:attached_position] = "좌"
-    h[:grid_x]  = 0
-    h[:grid_y]  = working_articles[starting_row_index].grid_y
-    h[:column]  = column_width_in_grid
-    h[:row]     = row - h[:grid_y]
-    h[:pillar]  = self
-    h[:page]    = page
-    h[:pillar_order]    = "#{order}_L"
-    w = WorkingArticle.create(h)
-    w.generate_pdf_with_time_stamp
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 
   # get articles that are affected following drop_starting_article
   def drop_affected_articles(drop_starting_article)
-    working_articles.select do |w| 
+    root_articles.select do |w| 
       w.grid_y >= drop_starting_article.grid_y && w.attached_type !~ /^drop/
     end
   end
 
+
   def change_drop_value(drop_article, old_side, old_column)
-    drop_column_changed = false
+    drop_column_changed = true if old_column != drop_article.column
+    drop_side_changed   = true if old_side != drop_article.attached_position
     new_article_column = column - drop_article.column
     drop_column = drop_article.column
     # position has changed
@@ -590,37 +563,26 @@ class Pillar < ApplicationRecord
       drop_side = '우'
       drop_article.update(grid_x:new_article_column)
     end
-
+    # generate_pdf if drop_column_changed
+    if drop_column_changed
+      drop_article.reload
+      drop_article.generate_pdf_with_time_stamp
+    end
     # update drop_childen if drop_article.has_children?
-    drop_article.change_drop_childen if drop_article.has_children?
+    # drop_article.change_drop_childen if drop_article.has_children?
     drop_affected_articles(drop_article).each do |affected_article|
       affected_article.adjust_room_for_drop(drop_side, drop_column)
     end
+    page.save_config_file
+    page.generate_pdf_with_time_stamp
   end
 
   def delete_working_articles
     working_articles.all.each do |w|
-      w.delte_working_article
+      w.delete_working_article
     end
   end
 
-  # remove drop and its children
-  def remove_drop
-    return unless has_drop_article?
-    update(has_drop_article: false)
-    working_articles.each do |w|
-      if w.attached_type == 'drop'
-        w.delete_drop_childen if w.has_children?
-        w.delete_folder
-        w.destroy
-      elsif w.column != column
-        w.update(grid_x:0, column:column)
-        w.generate_pdf_with_time_stamp
-      end
-    end
-    page.generate_pdf_with_time_stamp
-  end
-  
   def article_map
     working_articles.sort_by{|w| w.pillar_order}.map do |w|
       w.layout_map
@@ -643,6 +605,7 @@ class Pillar < ApplicationRecord
       w.update(extended_line_count: 0)
       w.generate_pdf_with_time_stamp
     end
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 
@@ -694,7 +657,7 @@ class Pillar < ApplicationRecord
   end
 
   def root_articles
-    working_articles.select{|w| w.parent == nil}
+    working_articles.select{|w| w.is_root?}
   end
 
   def root_articles_count
@@ -751,13 +714,6 @@ class Pillar < ApplicationRecord
   def root_articles_count
     root_articles.length
   end
-
-  # def default_height_in_lines
-  #   count = root_articles_count
-  #   h_in_lines = height_in_lines/count
-  #   remainder = height_in_lines % count
-  #   return h_in_lines, remainder
-  # end
 
   # set default y_in_lines, height_in_lines
   def set_article_defaults

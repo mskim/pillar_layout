@@ -144,9 +144,9 @@
     <li class="dropdown nav-item">
       <div class="dropdown-toggle nav-link" data-toggle="dropdown">기사박스<span class="caret"></span></div>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <% if @working_article.drop_splitable?%>
-          <%= link_to '내림기사 나누기', split_drop_working_article_path(@working_article), class: "dropdown-item" %>
-        <% elsif @working_article.attached_type == 'overlap'%>
+        <%# <% if @working_article.drop_splitable?%>
+          <%# <%= link_to '내림기사 나누기', split_drop_working_article_path(@working_article), class: "dropdown-item" %>
+        <% if @working_article.attached_type == 'overlap'%>
           <%= link_to '1행 추가', extend_one_working_article_path, class: "dropdown-item" %>
           <%= link_to '2행 추가', extend_two_working_article_path, class: "dropdown-item" %>
           <%= link_to '3행 추가', extend_three_working_article_path, class: "dropdown-item" %>
@@ -160,11 +160,9 @@
           <div class="dropdown-divider"></div>
           <%= link_to '자동 행 조절', auto_adjust_height_all_working_article_path, class: "dropdown-item" %>
         <% end %>
-        <%= link_to '기사 삭제', remove_last_article_pillar_path(@working_article.pillar), method: :patch, class: "dropdown-item" %>
+        <%= link_to '첨부 기사 삭제', remove_attached_article_working_article_path(@working_article), method: :patch, class: "dropdown-item" %>
         <div class="dropdown-divider"></div>
         <%= link_to '빈공간 채우기', fillup_text_working_article_path, class: "dropdown-item" %>
-        <%= link_to '빈공간 모두 채우기', fillup_text_all_working_article_path, class: "dropdown-item" %>
-
       </div>
       </div>
     </li>

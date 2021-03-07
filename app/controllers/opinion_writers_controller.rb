@@ -9,7 +9,6 @@ class OpinionWritersController < ApplicationController
     @opinion_writers = @q.result
     @opinion_writers = OpinionWriter.all  if request.format == 'csv'
     
-
     respond_to do |format|
       format.html
       format.csv do

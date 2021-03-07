@@ -67,6 +67,7 @@ module WorkingArticleAttachment
       default_child_column = -2
     end
     divide_at(default_child_column)
+
   end
 
   def divide_at(cut_index)
@@ -90,6 +91,7 @@ module WorkingArticleAttachment
         child_right_edge  = false
         child_left_edge   = true if on_left_edge
       end
+      self.reload # without this, keep getting wrong column values
       generate_pdf_with_time_stamp
       new_pillar_order = pillar_order + "_1"
       h = {}
@@ -104,11 +106,12 @@ module WorkingArticleAttachment
       h[:attached_position] = attached_position
       h[:on_right_edge]     = child_right_edge
       h[:on_left_edge]      = child_left_edge
-      h[:default_height_in_lines] = default_height_in_lines
+      # h[:default_height_in_lines] = default_height_in_lines
       h[:extended_line_count]  = extended_line_count
       # h = {page_id:page.id, pillar:pillar,  pillar_order: new_pillar_order, grid_x:child_grid_x , grid_y: grid_y, column: child_column, row: row, attached_type: attached_type, attached_position: attached_position}
       w = self.children.create(h)
       w.generate_pdf_with_time_stamp
+      page.save_config_file
       page.generate_pdf_with_time_stamp
     else
       puts "already has child!!!"
@@ -130,42 +133,57 @@ module WorkingArticleAttachment
     end
     generate_pdf_with_time_stamp
     parent.generate_pdf_with_time_stamp
+    page.save_config_file
   end
 
-  # remove attached article, right_divide, left_divide, overlap
-  def remove_attached_article
-    if has_children?
-      pillar.box_count    -=  1
-      pillar.save
-      last_child = children.last
-      child_attached_type = last_child.attached_type
-      child_attached_position = last_child.attached_position
-      last_child.delete_folder
-      last_child.destroy
-      case child_attached_type
-      when 'divide'
-        if child_attached_position == '우'
-          update(column:pillar.column)
-        else
-          update(grid_x:0, column:pillar.column)
-        end
-      when 'overlap'
-        update(overlap:[])
-      # when 'drop'
-      #   if child_attached_position == '우'
-      #     update(column:pillar.column)
-      #   else
-      #     update(grid_x:0, column:pillar.column)
-      #   end
-      when 'drop_children'
-        # this is when split_drop is removed from
-        new_row = pillar.row - grid_y
-        update(row:new_row)
-      end
-      generate_pdf_with_time_stamp
-      page.generate_pdf_with_time_stamp
+  def remove_divide(attached_divide)
+    attached_divide.delete_working_article
+    if child_attached_position == '우'
+      update(column:pillar.column)
+    else
+      update(grid_x:0, column:pillar.column)
     end
+    generate_pdf_with_time_stamp
+    page.save_config_file
+    page.generate_pdf_with_time_stamp
   end
+
+
+  # # remove attached article, right_divide, left_divide, overlap
+  # def remove_attached_article
+  #   if has_children?
+  #     pillar.box_count    -=  1
+  #     pillar.save
+  #     last_child = children.last
+  #     child_attached_type = last_child.attached_type
+  #     child_attached_position = last_child.attached_position
+  #     last_child.delete_folder
+  #     last_child.destroy
+  #     case child_attached_type
+  #     when 'divide'
+  #       if child_attached_position == '우'
+  #         update(column:pillar.column)
+  #       else
+  #         update(grid_x:0, column:pillar.column)
+  #       end
+  #     when 'overlap'
+  #       update(overlap:[])
+  #     # when 'drop'
+  #     #   if child_attached_position == '우'
+  #     #     update(column:pillar.column)
+  #     #   else
+  #     #     update(grid_x:0, column:pillar.column)
+  #     #   end
+  #     when 'drop_children'
+  #       # this is when split_drop is removed from
+  #       new_row = pillar.row - grid_y
+  #       update(row:new_row)
+  #     end
+  #     generate_pdf_with_time_stamp
+  #     page.save_config_file
+  #     page.generate_pdf_with_time_stamp
+  #   end
+  # end
 
   
   ########## overlap ################
@@ -202,6 +220,11 @@ module WorkingArticleAttachment
     (1..overlap_rows).to_a
   end
 
+  def add_overlap
+    # add_overlap_one_by_one
+    add_overlap_one_by_two # default size is 1x2
+  end
+
   def add_overlap_one_by_one
     position = 9
     overlap_column    = 1
@@ -211,17 +234,10 @@ module WorkingArticleAttachment
   end
 
   def add_overlap_one_by_two
-    position = 9
     overlap_column    = 1
     overlap_row       = 2
     position          = '우'
     create_overlap(position, overlap_column, overlap_row)
-  end
-
-  def add_overlap
-    # add_overlap_one_by_one
-    add_overlap_one_by_two
-    
   end
 
   def create_overlap(child_position, child_column, child_row)
@@ -230,15 +246,29 @@ module WorkingArticleAttachment
       child_grid_x  = grid_x
     elsif child_position == '우'
       child_grid_x  =  grid_x + column - child_column
-    else
-      child_position = 9
-      child_grid_x  =  grid_x + column - child_column
+    # else
+    #   child_position = 8
+    #   child_grid_x  =  grid_x + column - child_column
     end
     child_grid_y    = grid_y + row - child_row
-    h = {kind:'부고-인사', page_id:page.id, pillar:pillar,  pillar_order: child_pillar_order, attached_type:'overlap', attached_position: attached_position, grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row, attached_position:child_position }
+    h               = {}
+    h[:kind]        = '부고-인사'
+    h[:page_id]     = page.id
+    h[:pillar]      = pillar
+    h[:pillar_order] = child_pillar_order
+    h[:attached_type] = 'overlap'
+    # h[:attached_position] = attached_position
+    h[:grid_x]      = child_grid_x
+    h[:grid_y]      = child_grid_y
+    h[:column]      = child_column
+    h[:row]         = child_row
+    h[:attached_position] = child_position
+    # h = {kind:'부고-인사', page_id:page.id, pillar:pillar,  pillar_order: child_pillar_order, attached_type:'overlap', attached_position: attached_position, grid_x:child_grid_x , grid_y: child_grid_y, column: child_column, row: child_row, attached_position:child_position }
     created_overlap = self.children.create(h)
-    update(overlap:created_overlap.rect_with_order)
+    # update(overlap:created_overlap.rect_with_order)
+    update(overlap:created_overlap.overlap_rect)
     generate_pdf_with_time_stamp
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 
@@ -259,6 +289,14 @@ module WorkingArticleAttachment
     generate_pdf_with_time_stamp
     parent.update(overlap:rect_with_order)
     parent.generate_pdf_with_time_stamp
+    page.save_config_file
+    page.generate_pdf_with_time_stamp
+  end
+
+  def remove_overlap(attached_overlap)
+    attached_overlap.delete_working_article
+    generate_pdf_with_time_stamp
+    page.save_config_file
     page.generate_pdf_with_time_stamp
   end
 
@@ -281,12 +319,12 @@ module WorkingArticleAttachment
     column > 2 
   end
 
-  def drop_starting_order
-    pillar_order.split('_')[1].to_i
-  end
+  # def drop_starting_order
+  #   pillar_order.split('_')[1].to_i
+  # end
 
   def add_default_drop
-    pillar.add_default_drop(drop_starting_order)
+    pillar.add_default_drop(order)
   end
 
   def adjust_room_for_drop(drop_side, drop_column)
@@ -312,12 +350,12 @@ module WorkingArticleAttachment
     end
   end
 
-  def change_drop_childen
-    children.each do |child|
-      child.update(grid_x: grid_x, column:column)
-      child.generate_pdf_with_time_stamp
-    end
-  end
+  # def change_drop_childen
+  #   children.each do |child|
+  #     child.update(grid_x: grid_x, column:column)
+  #     child.generate_pdf_with_time_stamp
+  #   end
+  # end
 
   # create aritcle on the right side which spans from top of current article to the bottom on pillar
   # if current article is not the top article, lock all article above the currnt one.
@@ -325,18 +363,16 @@ module WorkingArticleAttachment
     pillar.add_right_drop(column_width_in_grid, drop_starting_index)
   end
 
-  # create aritcle on the left side which spans from top of current article to the bottom on pillar
-  # if current article is not the top article, lock all article above the currnt one.
-  def add_left_drop(column_width_in_grid)
-    pillar.add_left_drop(column_width_in_grid, drop_starting_index)
-  end
-
-  def remove_drop
-    if attached_type == 'drop'
-      pillar.remove_drop
-    elsif attached_type == 'drop_children'
-      parent.remove_drop_child(self)
+  def remove_drop(attached_drop)
+    attached_drop.delete_working_article
+    update(grid_x:0, column:pillar.column)
+    generate_pdf_with_time_stamp
+    pillar.drop_affected_articles(self).each do |drop_affected|
+      drop_affected.update(grid_x:0, column:pillar.column)
+      drop_affected.generate_pdf_with_time_stamp
     end
+    page.save_config_file
+    page.generate_pdf_with_time_stamp
   end
 
   def drop_splitable?
@@ -400,32 +436,8 @@ module WorkingArticleAttachment
     created_drop_split = self.children.create(h)
     w = WorkingArticle.create(h)
     w.generate_pdf_with_time_stamp
+    page.save_config_file
     page.generate_pdf_with_time_stamp  
-  end
-
-  # remove given child and update the rest
-  def remove_drop_child(removing_child)
-    current_children_count  = children.count - 1
-    removing_child.delete_folder
-    removing_child.destroy
-    current_row_total       = row + children.sum{|child| child.row}
-    child_row               = current_row_total/(current_children_count + 1)
-    changing_row            += 1 if  (current_row_total % (current_children_count + 1)) > 0
-    update(row:changing_row)
-    if current_children_count > 0
-      childre.each do |child|
-        child.update(row:child_row)
-        child.generate_pdf_with_time_stamp
-      end
-    end
-  end
-
-  # delete all children before deleteing itself
-  def delete_drop_childen
-    children.each do |child|
-      child.delete_folder
-      child.destroy
-    end
   end
 
 end

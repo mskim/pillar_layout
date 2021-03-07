@@ -149,6 +149,7 @@ class WorkingArticle < ApplicationRecord
   include WorkingArticleAnnotate
   include StaticWorkingArticle
   include GithubWorkingArticle
+  include WorkingArticleFillupText
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
@@ -161,11 +162,17 @@ class WorkingArticle < ApplicationRecord
 
   def default_height_in_lines
     # for root article
-    return pillar.default_article_height_in_lines[order] if parent.nil?
+    if attached_type.nil?
+      # return pillar.default_article_height_in_lines[order] 
+      row*7
+    elsif attached_type == '나눔' || attached_type == 'divide'
     # for attached types
-    return parent.default_height_in_lines   if attached_type == '나눔'
-    return parent.drop_height_in_lines      if attached_type == '내림'
-    return 7                                if attached_type == '쪽기사'
+      return parent.default_height_in_lines 
+    elsif attached_type == '내림' || attached_type == 'drop'
+      return parent.drop_height_in_lines      
+    elsif attached_type == '쪽기사' || attached_type == 'overlap'
+      return 14 
+    end
   end
 
   def save_as_page_layout(position)
@@ -407,7 +414,6 @@ class WorkingArticle < ApplicationRecord
   def save_article(options={})
     make_article_path
     save_layout(options)
-    # puts "id:#{id}"
     save_story unless kind == '사진'
   end
 
@@ -469,6 +475,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def read_height_in_lines
+    return nil unless File.exist?(article_into_path)
     article_info = YAML::load_file(article_into_path)
     article_info[:height_in_lines].to_i
   end
@@ -512,9 +519,6 @@ class WorkingArticle < ApplicationRecord
     save_hash                     = {}
     save_hash[:time_stamp]        = true
     save_hash[:article_path]      = path
-    # save_hash[:height_in_lines]   = default_height_in_lines
-    # binding.pry if pillar_order == "3_5"
-    # save_hash[:fixed_height_in_lines]   = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
     new_height_in_lines           = new_box_marker.new_height_in_lines.to_i
     new_extended_line_count       = new_height_in_lines - default_height_in_lines
@@ -800,7 +804,6 @@ class WorkingArticle < ApplicationRecord
 
   def publication
     page.issue.publication
-    # Publication.first
   end
 
   def opinion_pdf_path
@@ -894,11 +897,15 @@ class WorkingArticle < ApplicationRecord
   end
 
   def y
-    y_position = grid_y * grid_height
-    # if top_position?
-    #   y_position += page_heading_margin_in_lines * body_line_height
-    # end
-    y_position
+    # TODO: fix this use 
+    if parent
+      parent.y_in_lines*body_line_height
+    end
+    if y_in_lines
+      y_in_lines*body_line_height
+    else
+      grid_y*grid_height
+    end
   end
 
   def width
@@ -909,8 +916,9 @@ class WorkingArticle < ApplicationRecord
     # h = row * grid_height
     # h -= page_heading_margin_in_lines * body_line_height if top_position?
     # h += extended_line_count * body_line_height
-    h = (default_height_in_lines + extended_line_count)* body_line_height
-    h
+    read_height
+    # h = (default_height_in_lines + extended_line_count)* body_line_height
+    # h
   end
 
   def top_position?
@@ -943,7 +951,18 @@ class WorkingArticle < ApplicationRecord
   end
 
   def height_in_lines
-    default_height_in_lines + extended_line_count
+    #????
+    # default_height_in_lines + extended_line_count
+    if attached_type == 'overlap'
+      return   row*7 + extended_line_count
+    elsif attached_type == 'divide'
+      parent.read_height_in_lines
+    elsif attached_type == 'drop'
+      pillar.height_in_lines - parent.y_in_line
+    end
+    read = read_height_in_lines
+    return read  if read
+    row*7
   end
 
   def layout_options
@@ -969,11 +988,13 @@ class WorkingArticle < ApplicationRecord
     h[:page_number]                   = page_number
     h[:stroke_width]                  = 0.3 if kind == '사설' || kind == 'editorial'
     h[:column]                        = column
+    h[:row]                           = row
     h[:height_in_lines]               = height_in_lines
     h[:grid_width]                    = grid_width
     h[:grid_height]                   = grid_height
     h[:gutter]                        = gutter
     h[:on_left_edge]                  = on_left_edge?
+    h[:on_left_edge]                  = true if 'attached_type' == 'overlap'
     h[:on_right_edge]                 = on_right_edge?
     h[:is_front_page]                 = is_front_page
     h[:top_story]                     = top_story?
@@ -1008,16 +1029,30 @@ class WorkingArticle < ApplicationRecord
     h[:article_line_draw_sides]       = [0, 0, 0, 1] # publication.article_line_draw_sides
     h[:draw_divider]                  = false # publication.draw_divider
     if has_overlap?
-      overlap_rect = children.first.overlap_rect
-      overlap_rect[0] -= grid_x
-      overlap_rect[1] -= grid_y
-      h[:overlap]     = overlap_rect
-      puts "******** h[:overlap]:#{h[:overlap]}"
+      h[:overlap]             = overlap_of_child
     elsif attached_type == 'overlap'
-      h[:extended_line_count]           = extended_line_count
+      h[:height_in_lines]     = height_in_lines
+      if attached_position == '우'
+        h[:on_left_edge]        = true
+        h[:on_right_edge]       = false
+      else
+        h[:on_left_edge]        = false
+        h[:on_right_edge]       = true
+      end
     end
     h[:embedded]      = embedded  if embedded
     h
+  end
+
+  def overlap_child
+    children.select{|c| c.attached_type=='overlap'}.first
+  end
+
+  def overlap_of_child
+    child_overlap_rect    = overlap_child.overlap_rect
+    child_overlap_rect[0] -= grid_x
+    child_overlap_rect[1] -= grid_y
+    child_overlap_rect
   end
 
   def has_overlap?
@@ -1560,29 +1595,6 @@ class WorkingArticle < ApplicationRecord
     else
       false
     end
-  end
-
-  def sample_fillup_text
-    para_text =<<~EOF
-    여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다. 여기는 본문 입니다.
-    
-    EOF
-  end
-
-  def fillup_text(options={})
-    sample_text = sample_fillup_text * grid_area
-    update(body: sample_text)
-    generate_pdf_with_time_stamp 
-    unless options[:no_page_update]
-      page.generate_pdf_with_time_stamp
-    end
-  end
-
-  def fillup_text_all
-    pillar.working_articles.each do |w|
-      w.fillup_text(no_page_update: true)
-    end
-    page.generate_pdf_with_time_stamp
   end
 
   private

@@ -186,6 +186,7 @@ module WorkingArticlePillarMethods
   end
 
   def drop_height_in_lines
+    y_in_lines = grid_y*7 unless y_in_lines
     pillar.height_in_lines - y_in_lines
   end
 

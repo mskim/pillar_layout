@@ -95,7 +95,6 @@ can be created from top article box
   - expand vertically to bottom
 
   add_right_drop(column) 우측 내림기사 추가
-  add_left_drop(column)  좌측 내림기사 추가
   delete_drop
 
 ## pillar layout for 
