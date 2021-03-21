@@ -419,7 +419,7 @@ DEPENDENCIES
   ancestry
   annotate
   bootsnap
-  bootstrap (~> 4.4, >= 4.4.1)
+  bootstrap (~> 4.6)
   bootstrap-kaminari-views
   bootstrap3-datetimepicker-rails (~> 4.14.30)
   bootstrap4-kaminari-views

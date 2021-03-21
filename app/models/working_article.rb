@@ -1039,6 +1039,7 @@ class WorkingArticle < ApplicationRecord
         h[:on_left_edge]        = false
         h[:on_right_edge]       = true
       end
+      h[:article_line_draw_sides]       = [0, 1, 0, 0] # publication.article_line_draw_sides
     end
     h[:embedded]      = embedded  if embedded
     h

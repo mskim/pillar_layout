@@ -47,6 +47,29 @@
   - do english hyphenation
   - implement proof reading
 
+2021-03-21
+  - fix bug, first page page_heading date location
+  - bottom image location, move up by bottom space
+
+2021-03-07
+  - rails engine news_edit gem
+    - publication
+    - issue
+    - page
+    - article
+    - page_template
+    - ad
+    - ad_box
+    - page_heading
+    - text_style
+    - profile
+
+  - write test before extracting it as gem
+
+2021-03-07
+  - 박스광고_6x15
+  - 박스광고_6x5
+
 2021-03-06
   - fix drop
     - fix change
@@ -60,7 +83,10 @@
       - overflow red position
       - overflow top space 
       - don't allow auto_adjust_height for 'overlap'
-      
+    - fix overflow mark drawing position
+      - add empty placeholder float on top of overlap article
+      - draw line from the overlap on the top, not the parent
+
   - make nav menu items into partials
 
 2021-03-05
