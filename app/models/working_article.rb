@@ -998,7 +998,7 @@ class WorkingArticle < ApplicationRecord
     h[:on_right_edge]                 = on_right_edge?
     h[:is_front_page]                 = is_front_page
     h[:top_story]                     = top_story?
-    if kind == 'opinion' || kind == '기고' || kind == 'editorial' || kind == '사설'
+    if kind == 'opinion' || kind == '기고' || kind == 'editorial' || kind == '사설' || kind == '박스기사'
       h[:top_story]                     = false
     end
     if kind == '기고' && row >= 10
