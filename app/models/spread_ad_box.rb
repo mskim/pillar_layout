@@ -36,7 +36,7 @@ class SpreadAdBox < ApplicationRecord
     ad_image_hash[:layout_expand]                  = [:width, :height]
     ad_image_hash[:page_heading_margin_in_lines]   = page_heading_margin_in_lines
     content=<<~EOF
-    RLayout::NewsAdBox.new(is_ad_box: true, width: #{width}, heigth: #{height}) do
+    RLayout::NewsAdBox.new(is_ad_box: true, width: #{width}, height: #{height}) do
       image(#{ad_image_hash})
     end
     EOF

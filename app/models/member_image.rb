@@ -16,25 +16,43 @@
 #
 
 class MemberImage < ApplicationRecord
-  # before_create :set_new_order
-
+  before_create :set_new_order
   # CarrierWave
   # mount_uploader :member_img, MemberImgUploader
   belongs_to :group_image
 
   # has_one_attached :image_attach
   # TODO chnage to this has_one_attached :storage_member_image
+  # has_one_attached :storage_member_image
 
   # 사진순서 중복제거 검증
   # validates_uniqueness_of :order
 
-  def modal_title
-    title.split(' ').join('')
+  def image_path
+    if storage_member_image.attached?
+      ActiveStorage::Blob.service.send(:path_for, storage_member_image.key)
+    end
   end
+
+  def member_storage_image
+    if group_image.group_images.length + 1 >= order
+      group_image.group_images[order-1] 
+    else
+      group_image.group_images.first
+    end
+  end
+
+  def image_ext
+    File.extname(storage_member_image.blob[:filename]) if storage_image.attached?
+  end
+
+  # def modal_title
+  #   title.split(' ').join('')
+  # end
 
   def re_order_images(changing_image)
     position = changing_image.order
-    working_article.member_images.sort_by{|i| i.order}.each_with_index do |member_image, i|
+    group_image.member_images.sort_by{|i| i.order}.each_with_index do |member_image, i|
     # changing_image 보다 뒤에 것 들 order += 1
       if member_image.order < position
       elsif member_image.order == position

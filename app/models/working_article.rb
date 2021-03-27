@@ -607,7 +607,7 @@ class WorkingArticle < ApplicationRecord
     page.generate_pdf_with_time_stamp
   end
 
-  # called to update heigth of bottom pillar article
+  # called to update height of bottom pillar article
   def update_bottom_height
     bottom_room_in_lines = pillar.bottom_article_room_in_lines
     y_in_lines = pillar.height_in_lines - bottom_room_in_lines

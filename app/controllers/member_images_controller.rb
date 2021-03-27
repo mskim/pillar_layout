@@ -43,7 +43,7 @@ class MemberImagesController < ApplicationController
   def update
     respond_to do |format|
       if @member_image.update(member_image_params)
-        format.html { redirect_to @member_image.working_article, notice: 'Member image was successfully updated.' }
+        format.html { redirect_to @member_image.group_image.working_article, notice: 'Member image was successfully updated.' }
         format.json { render :show, status: :ok, location: @member_image }
       else
         format.html { render :edit }

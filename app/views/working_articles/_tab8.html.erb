@@ -31,7 +31,7 @@
   </div>
   <div class="col-md-5">
     <% if @group_image %>
-      <% @group_image.member_images.each do |member_image| %>
+      <% @group_image.member_images.sort_by{|m| m.order}.each do |member_image| %>
         <div class="card mb-3">
           <div class="card-header text-white bg-secondary text-center font-weight-bold">
             멤버 이미지
@@ -51,20 +51,12 @@
                 </ul>
               </div>
             <% end %>
-              <%= image_tag @group_image.group_images[member_image.order], :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
-              <%= f.label "첨부파일"%>
-              <div class="custom-file">
-                <%= f.file_field :member_img, as: :file, label: "이미지 첨부파일", label_html: { class: "custom-file-label" }, wrapper: false, input_html: { class: "custom-file-input" } %>
-              </div>
+              <%= image_tag member_image.member_storage_image, :width => "100%", :height => "200px", style: "object-fit: contain; height: 15em !important;", id: "preview" %>
+
               <div class="form-group mt-1">
-                <%= f.text_field :title, label: "제목:", placeholder: "제목을 입력해주세요", class: "form-control form-control-sm" %>
+                <%= f.text_area :caption, label: "사진설명:", placeholder: "설명을 입력해주세요", class: "form-control form-control-sm" %>
               </div>
-              <div class="form-group mt-1">
-                <%= f.text_area :caption, label: "설명:", placeholder: "설명을 입력해주세요", class: "form-control form-control-sm" %>
-              </div>
-              <div class="form-group mt-1">
-                <%= f.text_field :source, label: "출처:", placeholder: "출처를 입력해주세요", class: "form-control form-control-sm" %>
-              </div>
+ 
               <div class="form-group mt-1">
                 <%= f.number_field :order, label: "사진순서:", placeholder: "사진순서를 숫자로 입력해주세요", class: "form-control form-control-sm" %>
               </div>

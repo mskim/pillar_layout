@@ -65,8 +65,8 @@
           <div class="card-group">
             <% @member_images.each do |member| %>
               <div class="card border order-<%= member.order %> rounded-0">
-                <% if member.image_attach.attached? %>
-                  <%= image_tag member.image_attach, class: "card-img-top rounded-0", alt: "#{member.title} 사진" %>
+                <% if member.storage_member_image %>
+                  <%= image_tag member.storage_member_image, class: "card-img-top rounded-0", alt: "#{member.title} 사진" %>
                 <% end %>
                 <div class="card-body">
                   <h5 class="card-title"><%= member.title %></h5>

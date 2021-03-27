@@ -37,6 +37,10 @@ class GroupImage < ApplicationRecord
     working_article.path + "/images/group_image.pdf"
   end
 
+  def images_folder
+    working_article.path + "/images"
+  end
+
   def pdf_url
     working_article.url + "/images/group_image.pdf"
   end
@@ -45,7 +49,7 @@ class GroupImage < ApplicationRecord
     File.exist?(pdf_path)
   end
 
-  def image_paths
+  def member_image_paths
     if group_images.attached?
       group_images.map do |image|
         ActiveStorage::Blob.service.send(:path_for, image.key)
@@ -53,26 +57,20 @@ class GroupImage < ApplicationRecord
     end
   end
 
+  def member_captions
+    member_images.map{|m| m.caption}
+  end
+
   def create_member_images
     if group_images.attached?
       group_images.each_with_index do |image, i|
         image_path = ActiveStorage::Blob.service.send(:path_for, image.key)
-        MemberImage.create(group_image_id: self.id, member_img: image_path, order: i)
+        if i >= member_images.count 
+          MemberImage.where(group_image_id: self.id, member_img: image_path, order: i).first_or_create
+        end
       end
     end
   end
-
-  # def layout_hash
-  #   h = {}
-  #   h[:image_path]        = pdf_path
-  #   h[:image_ext]         = "pdf"
-  #   h[:column]            = column
-  #   h[:row]               = row
-  #   h[:position]          = position.to_i
-  #   h[:extra_height_in_lines] = extra_height_in_lines || 0
-  #   h[:is_float]          = true
-  #   h
-  # end
 
   def layout_hash
     h = {}
@@ -110,7 +108,6 @@ class GroupImage < ApplicationRecord
     h
   end
 
-
   def member_images_info
     member_images.map{|member| member.info_hash}
   end
@@ -141,27 +138,31 @@ class GroupImage < ApplicationRecord
 
   def group_image_layout_hash
     h = {}
-    h[:image_path]        = pdf_path
-    h[:column]            = column
+    h[:image_path]          = pdf_path
+    h[:column]              = column
     h[:row]                 = row
+    # h[:direction]           = direction
     h[:extended_line_count] = extended_line_count if extended_line_count != 0
     h
   end
 
   def layout_rb
-    layout=<<~EOF
-    RLayout::Container.new(width:#{width}, heigth:#{height}, layout_direction:'horizontal') do
-      #{member_images_layout}
-      relayout!
+    dir = 'horizontal'
+    if direction != '가로'
+      dir = 'vertical'
     end
+    # full_path_array = member_image_paths
+    layout=<<~EOF
+    RLayout::NewsGroupImage.new(width:#{width}, height:#{height}, image_items_full_path:#{member_image_paths}, layout_direction:'#{dir}')
     EOF
   end
 
   def generate_pdf
     FileUtils.mkdir_p(File.dirname(pdf_path)) unless File.exist?(File.dirname(pdf_path))
     group_image = eval(layout_rb)
-    group_image.save_pdf_with_ruby(pdf_path)
+    group_image.save_pdf(pdf_path)
     working_article.generate_pdf_with_time_stamp
+    working_article.page.generate_pdf_with_time_stamp
   end
 
   def save_default

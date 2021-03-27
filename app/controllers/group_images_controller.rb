@@ -47,7 +47,7 @@ class GroupImagesController < ApplicationController
   def update
     respond_to do |format|
       if @group_image.update(group_image_params)
-        @group_image.create_member_images
+        # @group_image.create_member_images
         @group_image.generate_pdf
         format.html { redirect_to @group_image.working_article, notice: 'Group image was successfully updated.' }
         format.json { render :show, status: :ok, location: @group_image }

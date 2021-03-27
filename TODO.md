@@ -47,6 +47,11 @@
   - do english hyphenation
   - implement proof reading
 
+2021-03-27
+  - member_image caption, remove file_field, tilte, source
+  - add delete button
+  - add options[:captions] to group_image
+
 2021-03-21
   - fix bug, first page page_heading date location
   - bottom image location, move up by bottom space
@@ -207,7 +212,7 @@
   - Rakefile to update PDF
 
 2021-01-11
-  - pillar max_height_allowed heigth for working_article from file_system
+  - pillar max_height_allowed height for working_article from file_system
 
 2021-01-10
   - system test
@@ -376,7 +381,7 @@ issues_controller
 2020_10_10
   - NewsPage
     - fix page drawing twice
-    - read heigth from article_info 
+    - read height from article_info 
       - save :attached_type in layout_rb attached_type shuld be added to article_info 
     - fix attachments drawing
       - get attachemt's parent x,y
