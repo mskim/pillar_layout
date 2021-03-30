@@ -489,18 +489,6 @@ class WorkingArticle < ApplicationRecord
     # TODO update attached
   end
 
-
-
-
-  # def generate_pdf_with_time_stamp(options = {})
-  #   save_article
-  #   delete_old_files
-  #   stamp_time
-  #   options[:time_stamp]        = @time_stamp
-  #   ArticleRubyWorker.perform_async(path, options)
-  #   wait_for_stamped_pdf
-  # end
-
   def generate_pdf_with_time_stamp(options = {})
     unless File.exist?(path)
       puts "article folder is not created !!!"
@@ -515,7 +503,6 @@ class WorkingArticle < ApplicationRecord
   def save_article_pdf(options = {})
     make_article_path
     save_article(options)
-    # save_hash                     = options
     save_hash                     = {}
     save_hash[:time_stamp]        = true
     save_hash[:article_path]      = path
@@ -1087,7 +1074,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def group_image_layout
-    "  news_image(#{group_image.group_image_layout_hash})\n"
+    "  news_float(#{group_image.group_image_layout_hash})\n"
   end
 
   def quote_layout

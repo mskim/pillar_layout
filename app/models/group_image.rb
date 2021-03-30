@@ -120,8 +120,12 @@ class GroupImage < ApplicationRecord
     s
   end
 
+  def gutter
+    working_article.gutter
+  end
+  
   def width
-    column*working_article.grid_width
+    column*working_article.grid_width - gutter
   end
 
   def height
@@ -136,13 +140,20 @@ class GroupImage < ApplicationRecord
     h
   end
 
+  # TODO: handle group_caption
   def group_image_layout_hash
     h = {}
-    h[:image_path]          = pdf_path
-    h[:column]              = column
-    h[:row]                 = row
-    # h[:direction]           = direction
-    h[:extended_line_count] = extended_line_count if extended_line_count != 0
+    h[:image_path]            = pdf_path
+    h[:position]              = position
+    h[:column]                = column
+    h[:row]                   = row
+    h[:width]                 = width
+    h[:height]                = height 
+    # h[:x]                     = working_article.width - h[:width]
+    # h[:y]                     = working_article.height - h[:height]
+    if extended_line_count && extended_line_count != 0
+      h[:height]            += extended_line_count*body_line_height
+    end
     h
   end
 
@@ -153,7 +164,7 @@ class GroupImage < ApplicationRecord
     end
     # full_path_array = member_image_paths
     layout=<<~EOF
-    RLayout::NewsGroupImage.new(width:#{width}, height:#{height}, image_items_full_path:#{member_image_paths}, layout_direction:'#{dir}')
+    RLayout::GroupImage.new(width:#{width}, height:#{height}, image_items_full_path:#{member_image_paths}, image_item_captions:#{member_captions}, layout_direction:'#{dir}')
     EOF
   end
 

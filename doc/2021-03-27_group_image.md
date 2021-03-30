@@ -33,3 +33,10 @@ There seems to be a problem!
 When group_image is placed with in article, 
 it has to be placed with fit_type of ignoring width to height ratio
 or chopped on right or left side.
+
+solution?
+we may have to layout member images and captions at the time of layout,
+after deciding the size of the group_image and member_images.
+meaning, not to make group_image before hand and placing as single image,
+like we are doing 
+
