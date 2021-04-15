@@ -233,6 +233,7 @@ class AdBox < ApplicationRecord
     save_hash                     = {}
     save_hash[:article_path]      = path
     save_hash[:layout_rb]         = layout_rb
+    save_layout
     new_box_marker                = RLayout::NewsBoxMaker.new(save_hash)
   end
 

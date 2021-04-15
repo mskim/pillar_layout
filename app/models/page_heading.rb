@@ -193,7 +193,7 @@ class PageHeading < ApplicationRecord
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
     section_width       = 400
-    section_x           = 1028.9763779528/2 - section_width/2
+    section_x           = page_heading_width/2 - section_width/2
     section_name_with_space        = put_space_between_chars(section_name)
 
     odd=<<~EOF
@@ -217,7 +217,7 @@ class PageHeading < ApplicationRecord
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
     section_width       = 400
-    section_x           = 1028.9763779528/2 - section_width/2
+    section_x           = page_heading_width/2 - section_width/2
     section_name_with_space        = put_space_between_chars(section_name)
     even=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
