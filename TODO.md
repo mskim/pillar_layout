@@ -47,6 +47,21 @@
   - do english hyphenation
   - implement proof reading
 
+2021-04-16
+  - fix page_heading
+    - wrong font, alignmeny, text underline 
+    
+2021-04-15
+  - save_page as template
+    copy page content to template folder
+  - load_page_template
+    load content from file system
+
+  - issue no 1. as sand_box
+    save and load files to disk
+    
+  - upload templates to github
+
 2021-03-27
   - member_image caption, remove file_field, tilte, source
   - add delete button

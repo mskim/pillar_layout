@@ -192,17 +192,20 @@ class PageHeading < ApplicationRecord
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
-    section_width       = 400
+    section_width       = 100
     section_x           = page_heading_width/2 - section_width/2
+    page_num_width      = 50
+    page_num_x          = page_heading_width - 50
+    date_width          = 100
+    odd_date_x          = page_heading_width - page_num_width - date_width
     section_name_with_space        = put_space_between_chars(section_name)
-
     odd=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
       image(image_path: '#{odd_page_image_full_path}', width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
-      t = text('<%= section_name_with_space %>', font_size: 20.5,x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
+      t = text('<%= section_name_with_space %>', font_size: 20.5,x: <%= section_x %>, y: 0.5, width: 100, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', text_alignment: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
-      text('<%= date %>', tracking: -0.7, x: 779.213, y: 12.16,  width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'right', fill_color:'clear')
-      text('<%= page_number %>', tracking: -0.2, x: 974.69, y: -6.47, font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color:'clear', text_alignment: 'right')
+      text('<%= date %>', tracking: -0.7, x: <%= odd_date_x %>, y: 12.16,  width: #{date_width}, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'right', text_fit_type: 'normal', fill_color:'clear')
+      text('<%= page_number %>', tracking: -0.2, x: #{page_num_x}, y: -6.47, font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color:'clear', text_alignment: 'right')
     end
   EOF
     page_heading_erb = ERB.new(odd)
@@ -216,15 +219,15 @@ class PageHeading < ApplicationRecord
     date                = page.korean_date_string #'2017년 5월 11일 목요일'
     page_number         = page.page_number
     section_name        = page.display_name || page.section_name
-    section_width       = 400
+    section_width       = 100
     section_x           = page_heading_width/2 - section_width/2
     section_name_with_space        = put_space_between_chars(section_name)
     even=<<~EOF
     RLayout::Container.new(width: 1028.9763779528, height: 41.70978623622, layout_direction: 'horinoztal') do
       image(image_path: '#{even_page_image_full_path}', x: 0, y: 0, width: 1028.9763779528, height: 41.70978623622, fit_type: 0)
-      t = text('<%= section_name_with_space %>', font_size: 20.5, x: <%= section_x %>, y: 0.5, width: <%= section_width %>, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
+      t = text('<%= section_name_with_space %>', font_size: 20.5, x: <%= section_x %>, y: 0.5, width: 100, font: 'KoPubBatangPM', text_color: "CMYK=0,0,0,100", fill_color:'clear', text_fit_type: 'fit_box_to_text', anchor_type: 'center')
       line(x: t.x, y:27.6, width: t.width, stroke_width: 2, height:0, storke_color:"CMYK=0,0,0,100")
-      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44, fill_color: 'clear')
+      text('<%= page_number %>', tracking: -0.2, x: 0, y: -6.47, font: 'KoPubDotumPL', font_size: 36, text_color: "CMYK=0,0,0,100", width: 50, height: 44,  fill_color: 'clear')
       text('<%= date %>', tracking: -0.7, x: 50, y: 12.16, width: 200, font: 'KoPubDotumPL', font_size: 10.5, text_color: "CMYK=0,0,0,100", text_alignment: 'left', fill_color: 'clear')
     end
     EOF
