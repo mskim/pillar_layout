@@ -378,8 +378,9 @@ class Pillar < ApplicationRecord
         ordered_working_articles[i].change_article(box_rect)
       end
       # delete working_articles from pillar
+      reversed_root_articles = root_articles.reverse
       removing_articles.times do
-        w = root_articles.last
+        w = reversed_root_articles.shift
         if w
           system("rm -rf #{w.path}")
           w.destroy

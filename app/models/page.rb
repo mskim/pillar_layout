@@ -873,7 +873,7 @@ class Page < ApplicationRecord
         if i < pillars.length
           pillars[i].change_pillar_layout(new_page_layout.pillars[i])
         else
-          Pillar.where(page: self, grid_x: layout_pillar.grid_x, grid_y: layout_pillar.grid_y, column: layout_pillar.column, row: layout_pillar.row, order: i + 1, box_count:layout_pillar.box_count).first_or_create!
+          Pillar.where(page: self, grid_x: layout_pillar[:grid_x], grid_y: layout_pillar[:grid_y], column: layout_pillar[:column], row: layout_pillar[:row], order: i + 1, box_count:layout_pillar[:box_count]).first_or_create!
         end
       end
     end
