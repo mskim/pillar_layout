@@ -24,6 +24,7 @@
 
 # /public/1/section/*
 /public/1/issue/*
+/public/1/page_library/*
 /public/uploads/*
 coverage
 /public/1/.DS_Store
