@@ -82,6 +82,7 @@ class Page < ApplicationRecord
   include StaticPage
   include GithubPage
   include PageAutoAdjust
+  include PageLibrary
   # extend FriendlyId
   # friendly_id :friendly_string, :use => [:slugged]
 
@@ -119,6 +120,10 @@ class Page < ApplicationRecord
 
   def heading_space
     page_heading_margin_in_lines * body_line_height
+  end
+
+  def page_fullpath
+    path
   end
 
   def path
@@ -403,14 +408,22 @@ class Page < ApplicationRecord
     ad_boxes.first.ad_box_rect
   end
 
+  def ad_image_path
+    return nil if ad_boxes.length == 0
+    ad_boxes.first.image_path
+  end
+
   def config_hash
     h = {}
+    h[:version]                        = "2.0"
+    h[:template_id]                    = template_id
     h[:section_name]                   = section_name
     h[:section_path]                   = path
     h[:page_heading_margin_in_lines]   = page_heading_margin_in_lines
     h[:heading_space]                  = heading_space
     h[:ad_type]                        = ad_type || 'no_ad'
     h[:ad_box_rect]                    = ad_box_rect
+    h[:ad_image_path]                  = ad_image_path
     h[:is_front_page]                  = is_front_page?
     h[:page_columns]                   = column
     h[:grid_size]                      = [grid_width, grid_height]
@@ -425,7 +438,6 @@ class Page < ApplicationRecord
     h[:article_line_thickness]         = article_line_thickness
     h[:draw_divider]                   = draw_divider
     # h[:draw_divider]                   = true if page_number != 22 || page_number != 23
-    h[:ad_box_rect]                    = ad_box_rect
     h[:pillar_map]                     = pillar_map
     h
   end
@@ -734,13 +746,13 @@ class Page < ApplicationRecord
     tempalate
   end
 
-  def save_as_template
-    s = Section.create(page_info_hash)
-    puts "s.id:#{s.id}"
-    # FileUtils.mkdir_p(page_template_folder) unless File.exist?(page_template_folder)
-    # File.open(page_template_path, 'w'){|f| f.write page_info_yml}
-    s.id
-  end
+  # def save_as_template
+  #   s = Section.create(page_info_hash)
+  #   puts "s.id:#{s.id}"
+  #   # FileUtils.mkdir_p(page_template_folder) unless File.exist?(page_template_folder)
+  #   # File.open(page_template_path, 'w'){|f| f.write page_info_yml}
+  #   s.id
+  # end
 
   def download_path
     path + '_download'

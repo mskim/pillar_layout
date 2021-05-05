@@ -370,6 +370,7 @@ Rails.application.routes.draw do
       get 'edit_static_pages'
       get 'preview_static'
       get 'download_static'
+      get 'sand_box'
 
     end
 
@@ -380,7 +381,9 @@ Rails.application.routes.draw do
 
   resources :pages do
     member do
-      get 'save_as_template'
+      get 'save_page_library'
+      get 'remove_page_library'
+      patch 'load_page_library'
       get 'download_pdf'
       get 'dropbox'
       get 'change_template'

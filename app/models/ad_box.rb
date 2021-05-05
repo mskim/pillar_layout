@@ -52,6 +52,16 @@ class AdBox < ApplicationRecord
     end
   end
 
+  def set_image_path(new_image_path)
+    # url = URI.parse("https://your-url.com/abc.mp3")
+    # filename = File.basename(url.path)
+    # file = URI.open(url)
+    # user = User.first
+    # user.avatar.attach(io: file, filename: filename)
+    filename = File.basename(new_image_path)
+    self.storage_ad_image.attach(io: File.open(new_image_path, 'rb'), filename: filename)
+  end
+
   def image_ext
     File.extname(storage_ad_image.blob[:filename])
   end

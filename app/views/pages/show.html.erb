@@ -24,6 +24,22 @@
           </div>
         <% end %>
       </div>      
+      <div class="container-fluid" style="margin-bottom: 5rem;">
+        <div class="row justify-content-left">
+            <% @page.library_pages_jpg_url.each_with_index do |archived_page_image, i| %>
+            <div class="col-xs-6 col-md-3">
+              <div class="card mb-2 shadow">
+                <%= image_tag archived_page_image, style: "width: 100%;", class: "border border-secondary"%>
+                <%= link_to "저장 페이지 적용:(#{i + 1})", load_page_library_page_path(@page, new_choice: i + 1), method: :patch, class: "btn btn-sm btn-warning text-center rounded-0" %>
+                <%= link_to "저장 페이지 삭제", remove_page_library_page_path(@page, remove_order: i + 1), class: "btn btn-sm btn-danger text-center rounded-0" %>
+                <!-- %= raw page.to_svg_with_jpg % -->
+              </div>
+            </div>
+            <!-- true -->
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+

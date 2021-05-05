@@ -47,6 +47,38 @@
   - do english hyphenation
   - implement proof reading
 
+2021-05-05
+  - hypenation
+    - add englishing hyphenation login
+    - add number hyphenation logoc
+
+2021-05-04
+  - AdBox set_image_path
+    set image attachement to ActiveStorage
+
+2021-05-03
+  - fix load page_library
+  - save layout_yaml save image_path, graphic_path, group_image_path
+  - load page_heading
+  - load ad_box
+  - do not use has_attachement
+
+
+2021-04-30
+  - 사전제작 이슈, menu_item
+  - library_path add ad_type
+  - reorder library file names when delelting
+  
+2021-04-29
+  - 21,22,23, pre-configure kind
+  - set first archive of page as default
+  - change order of archive, move_right, move_left
+
+2021-04-28
+  - make file system based
+  - convert layout.rb to layout.yml
+  - add version to config.yml
+
 2021-04-16
   - fix page_heading
     - wrong font, alignmeny, text underline 

@@ -1,0 +1,85 @@
+---
+:version: '2.0'
+:template_id: 54
+:section_name: 글로벌포커스
+:section_path: "/Users/mskim/Development/pillar_layout/public/1/issue/2021-01-29/21"
+:page_heading_margin_in_lines: 4
+:heading_space: 55.613048368953116
+:ad_type: 5단통
+:ad_box_rect:
+- 0.0
+- 973.2283464566796
+- 1028.9763779527418
+- 486.6141732283398
+:is_front_page: false
+:page_columns: 6
+:grid_size:
+- 171.49606299212363
+- 97.32283464566795
+:lines_per_grid: 7.0
+:width: 1114.0157480314808
+:height: 1544.8818897637584
+:left_margin: 42.5196850393695
+:top_margin: 42.5196850393695
+:right_margin: 42.5196850393695
+:bottom_margin: 42.5196850393695
+:gutter: 12.755905511810848
+:article_line_thickness: 0.3
+:draw_divider:
+:pillar_map:
+- :order: 1
+  :height_in_lines: 66
+  :pillar_rect:
+  - 42.5196850393695
+  - 42.5196850393695
+  - 685.9842519684945
+  - 917.6152980877264
+  :pillar_grid_rect:
+  - 0
+  - 0
+  - 4
+  - 10
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 0.0
+    - 685.9842519684945
+    - 291.96850393700385
+    :pdf_path: "/1/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 458.8076490438632
+    - 685.9842519684945
+    - 291.96850393700385
+    :pdf_path: "/1/2/story.pdf"
+- :order: 2
+  :height_in_lines: 66
+  :pillar_rect:
+  - 728.503937007864
+  - 42.5196850393695
+  - 342.99212598424725
+  - 917.6152980877264
+  :pillar_grid_rect:
+  - 4
+  - 0
+  - 2
+  - 10
+  :article_map:
+  - :pdf_rect:
+    - 0.0
+    - 0.0
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/1/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 0.0
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/2/story.pdf"
+  - :pdf_rect:
+    - 0.0
+    - 0.0
+    - 342.99212598424725
+    - 291.96850393700385
+    :pdf_path: "/2/3/story.pdf"

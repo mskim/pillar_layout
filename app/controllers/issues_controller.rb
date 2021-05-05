@@ -425,6 +425,18 @@ class IssuesController < ApplicationController
     end
   end
 
+  # goto first issue, 
+  def sand_box
+    @issue = Issue.first
+    session[:current_issue] = @issue
+    @pages = @issue.pages.order(:id, 'desc')
+    @pages = @issue.pages
+    respond_to do |format|
+      format.html {redirect_to @issue}
+      format.json { render @issue }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

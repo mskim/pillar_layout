@@ -150,6 +150,7 @@ class WorkingArticle < ApplicationRecord
   include StaticWorkingArticle
   include GithubWorkingArticle
   include WorkingArticleFillupText
+  include PageLibraryWorkingArticle
   serialize :overlap, Array # rect array
                             
   # extend FriendlyId
@@ -320,6 +321,10 @@ class WorkingArticle < ApplicationRecord
 
   def layout_path
     path + '/layout.rb'
+  end
+
+  def layout_yaml_path
+    path + '/layout.yml'
   end
 
   def story_path
@@ -955,7 +960,7 @@ class WorkingArticle < ApplicationRecord
   def layout_options
     h = {}
     h[:kind]                          = kind if kind
-    h[:has_attachment]                = has_children?
+    # h[:has_attachment]                = has_children?
     h[:attached_type]                 = attached_type if attached_type
     h[:adjustable_height]             = adjustable_height?
     h[:subtitle_type] = subtitle_type || '1단' unless kind == '사진'
@@ -1043,6 +1048,9 @@ class WorkingArticle < ApplicationRecord
     child_overlap_rect
   end
 
+  # has_children? is ancestry method
+  # is_root? is ancestry method
+
   def has_overlap?
     has_children? && children.map{|c| c.attached_type}.include?('overlap')
   end
@@ -1065,6 +1073,12 @@ class WorkingArticle < ApplicationRecord
     content
   end
 
+  def image_layout_hash
+    images.sort_by(&:order).map do |image|
+      image.image_layout_hash
+    end
+  end
+
   def graphic_layout
     content = ''
     graphics.sort_by(&:order).each do |graphic|
@@ -1073,8 +1087,18 @@ class WorkingArticle < ApplicationRecord
     content
   end
 
+  def graphic_layout_hash
+    graphics.sort_by(&:order).map do |graphic|
+      graphic.graphic_layout_hash
+    end
+  end
+
   def group_image_layout
     "  news_float(#{group_image.group_image_layout_hash})\n"
+  end
+
+  def group_image_layout_hash
+    group_image.group_image_layout_hash
   end
 
   def quote_layout
@@ -1087,6 +1111,18 @@ class WorkingArticle < ApplicationRecord
     quote_hash[:text_alignment]   = quote_alignment || 'left'
     quote_hash[:line_type]        = quote_line_type || '상하'
     "  news_quote(#{quote_hash})\n"
+  end
+
+  def quote_layout_hash
+    quote_hash = {}
+    quote_hash[:position]         = quote_position || 1
+    quote_hash[:x_grid]           = quote_x_grid
+    quote_hash[:column]           = quote_box_size || 1
+    quote_hash[:row]              = 1
+    quote_hash[:v_extra_space]    = quote_v_extra_space
+    quote_hash[:text_alignment]   = quote_alignment || 'left'
+    quote_hash[:line_type]        = quote_line_type || '상하'
+    quote_hash
   end
 
   def layout_rb(options={})
@@ -1153,6 +1189,72 @@ class WorkingArticle < ApplicationRecord
       content += "end\n"
     end
     content
+  end
+
+  # use layout_yml instead of layout_rb
+  # since layout_rb relies on eval, using yml will be more language neutral
+  def layout_yaml(options={})
+    h = layout_options
+    h.merge!(options) if options !={}
+    h[:pillar_order]    = pillar_order
+    h[:grid_x]          = grid_x
+    h[:grid_y]          = grid_y
+    h[:column]          = column
+    h[:row]             = row
+    h[:grid_width]      = grid_width
+    h[:grid_height]     = grid_height
+    h[:height_in_lines] = options[:fixed_height_in_lines] if options[:fixed_height_in_lines]
+    if kind == '사진'
+      if first_image = images.first
+        h[:draw_frame] = false if first_image && first_image.draw_frame == false
+        h[:klass] = "NewsImageBox"
+        h[:image_options] = image_options
+      elsif first_graphic = graphics.first
+        if first_graphic && first_graphic.draw_frame == false
+          h[:draw_frame]  = false
+        end
+        h[:klass]         = "NewsImageBox"
+        h[:image_options] = image_options
+      else
+        h[:draw_frame] = true
+        h[:klass] = "NewsImageBox"
+      end
+    elsif kind == '만평'
+      h[:klass]             = NewsComicBox
+      h[:image_options]     = image_options
+      if image_hash = image_options
+        h[:image_options]   = image_options
+      end
+    elsif kind == '사설' || kind == 'editorial'
+      h[:article_line_draw_sides]   = [0,1,0,0]
+      h[:klass]                     = "NewsArticleBox"
+      h[:image_options]             = editorial_image_options
+
+    elsif kind == '기고' || kind == 'opinion'
+      h[:empty_first_column]        = true if row >= 10
+      h[:profile_image_position]    = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
+      h[:article_line_draw_sides]   = [0,1,0,1]
+      h[:klass] = "NewsArticleBox"
+      if profile_image_position && profile_image_position ==  "하단 오른쪽"#
+        h[:profile_options] = opinion_profile_lower_right_options
+      else
+        h[:profile_options] = opinion_profile_options
+      end
+      if images.length > 0
+        h[:image_options] = image_layout_hash
+      end
+      if graphics.length > 0
+        h[:graphic_options] = graphic_layout_hash
+      end
+    else
+      h[:profile_image_position]    = profile_image_position if profile_image_position && profile_image_position ==  "하단 오른쪽"
+      h[:article_line_draw_sides]   = [0,1,0,1]
+      h[:klass]                     = "NewsArticleBox"
+      h[:image_options]             = image_layout_hash unless images.empty?
+      h[:graphic_options]           = graphic_layout_hash unless graphics.empty?
+      h[:group_image_options]       = group_image_layout_hash if group_image && group_image.ready?
+    end
+    h.to_yaml
   end
 
   def pdf_path_from_page
@@ -1241,6 +1343,10 @@ class WorkingArticle < ApplicationRecord
   def save_layout(options={})
     layout = layout_rb(options)
     File.open(layout_path, 'w') { |f| f.write layout }
+  end
+
+  def save_layout_yaml
+    File.open(layout_yaml_path, 'w') { |f| f.write layout_yaml }
   end
 
   def library_images
@@ -1585,16 +1691,41 @@ class WorkingArticle < ApplicationRecord
     end
   end
 
+  def self.read_layout_yaml_from_disk(layout_yaml_path)
+    layout_hash       = YAML::load_file(layout_yaml_path).dup
+    
+    layout_hash.delete(:has_attachment)
+    layout_hash.delete(:adjustable_height)
+    layout_hash.delete(:height_in_lines)
+    layout_hash.delete(:height_in_lines)
+    layout_hash.delete(:bottom_article)
+    layout_hash.delete(:article_bottom_spaces_in_lines)
+    layout_hash.delete(:article_line_thickness)
+    layout_hash.delete(:article_line_draw_sides)
+    layout_hash.delete(:draw_divider)
+    layout_hash.delete(:klass)
+
+    
+    article_info_path = layout_yaml_path.sub("layout.yml", "article_info.yml")
+    article_info_hash = YAML::load_file(article_info_path).dup
+    extended_line_count = article_info_hash[:extended_line_count]
+    layout_hash[:extended_line_count] = extended_line_count
+    layout_hash
+  end
+
   private
 
   def init_article
+
     self.grid_width           = pillar.page.grid_width
     self.grid_height          = pillar.page.grid_height
     self.is_front_page        = true if pillar.page.is_front_page?
-    self.on_left_edge         = true if on_left_edge?
-    self.on_right_edge        = true if on_right_edge?
+    self.grid_x               = 0 unless grid_x
+    self.grid_y               = 0 unless grid_y
     self.column               = 4 unless column
     self.row                  = 4 unless row
+    self.on_left_edge         = true if on_left_edge?
+    self.on_right_edge        = true if on_right_edge?
     if column > 2 && (pillar_order == '1' || pillar_order == '1_1')
       self.top_story = true
     end

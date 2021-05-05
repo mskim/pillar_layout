@@ -1,0 +1,2 @@
+RLayout::NewsArticleBox.new({:kind=>"부고-인사", :has_attachment=>false, :attached_type=>"overlap", :adjustable_height=>false, :subtitle_type=>"1단", :page_number=>22, :column=>1, :row=>2, :height_in_lines=>14, :grid_width=>171.49606299212363, :grid_height=>97.32283464566795, :gutter=>12.755905511810848, :on_left_edge=>false, :on_right_edge=>false, :is_front_page=>nil, :top_story=>false, :top_position=>false, :bottom_article=>false, :article_bottom_spaces_in_lines=>2, :article_line_thickness=>0.3, :article_line_draw_sides=>[0, 1, 0, 1], :draw_divider=>false}) do
+end

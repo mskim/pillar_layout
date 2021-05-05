@@ -154,3 +154,4 @@ gem 'acts_as_tenant'
 gem 'kramdown'
 gem 'sidekiq', '~> 6.1', '>= 6.1.3'
 gem 'sucker_punch', '~> 2.1', '>= 2.1.2'
+# gem "standard", group: [:development, :test]

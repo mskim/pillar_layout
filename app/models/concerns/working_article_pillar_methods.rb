@@ -155,7 +155,12 @@ module WorkingArticlePillarMethods
     height = read_height
     if pillar_order.split("_").length <= 2
       text_font_size = 100
+
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2}' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
+      page_margin = 42
+      # ???????
+      svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x - page_margin}' y='#{y_position - page_margin}' width='#{width}' height='#{height}' /></a>\n"
+    
     else
       text_font_size = 50
       # TODO hanlde overlap, drop, divide
@@ -169,12 +174,11 @@ module WorkingArticlePillarMethods
         y_position = parent.y + (parent.height - height)
       end
       svg = "<text fill-opacity='0.5' fill='#777' y='#{y_position + height/2}' stroke-width='0' ><tspan font-size='#{text_font_size}' x='#{x + width/2 - text_font_size/2 }' text-anchor='middle'>#{pillar_order}</tspan><tspan font-size='10' y='#{y + height/2}' text-anchor='middle' dy='40'> </tspan></text>"
-
+      page_margin = 42
+      # ???????
+      svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x - page_margin}' y='#{y_position - page_margin}' width='#{width}' height='#{height}' /></a>\n"
     end
-    # TODO this is a hack to make it work need to find out why i need this
-    # link box does not seen to get effected by the g transform ??
-    page_margin = 42
-    svg += "<a xlink:href='/working_articles/#{id}'><rect class='rectfill' stroke='black' stroke-width='0' fill-opacity='0.0' x='#{x - page_margin}' y='#{y_position - page_margin}' width='#{width}' height='#{height}' /></a>\n"
+
   end
 
   def max_height_in_lines

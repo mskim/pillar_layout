@@ -24,3 +24,6 @@
 
 <%= button_to "전체 자동 행 조절", auto_adjust_page_path, method: :get, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-danger" %>
 <%= button_to "전체 0 행 복구", revert_all_extended_lines_page_path, method: :get, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-success" %>
+<br/>
+<br/>
+<%= button_to "페이지 저장", save_page_library_page_path, method: :get, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> 처리중..."}, class: "btn btn-md btn-warning" %>

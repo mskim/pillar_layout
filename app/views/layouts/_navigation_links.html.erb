@@ -81,6 +81,8 @@
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       <%= link_to '지난호 보기', issues_path, class: "dropdown-item" %>
       <div class="dropdown-divider"></div>
+      <%= link_to '미리 제작하기 ', sand_box_issue_path(1), class: "dropdown-item" %>
+      <div class="dropdown-divider"></div>
       <%= link_to '기사 제목/본문 검색', working_articles_path, class: "dropdown-item" %>
       <%= link_to '페이지 검색', pages_path, class: "dropdown-item" %>
     </div>

@@ -28,12 +28,13 @@ class Pillar < ApplicationRecord
   belongs_to :page
   # has_many :working_articles,  :dependent => :delete_all #:dependent=> :destroy,
   has_many :working_articles, -> { order(pillar_order: :asc) }, dependent: :delete_all
-
   # has_one :layout_node
   before_create :init_pillar
   after_create :create_layout
   include RectUtils
   include GithubPillar
+  include PageLibraryPillar
+
   serialize :layout_with_pillar_path, Array
 
   def save_as_page_layout

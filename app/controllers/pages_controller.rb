@@ -129,10 +129,32 @@ class PagesController < ApplicationController
     render :assign_stories
   end
 
-  def save_as_template
+  # def save_as_template
+  #   set_page
+  #   id = @page.save_as_template
+  #   redirect_to @page, notice: "현 페이지를 템플렛 페이지로 저장 하였습니다. id:#{id}"
+  # end
+
+  def save_page_library
     set_page
-    id = @page.save_as_template
-    redirect_to @page, notice: "현 페이지를 템플렛 페이지로 저장 하였습니다. id:#{id}"
+    id = @page.save_page_library
+    redirect_to @page, notice: "현 페이지를 저장 하였습니다. id:#{id}"
+  end
+
+  def load_page_library
+    set_page
+    new_library  = params[:new_choice].to_i
+    @page.load_page_library(new_library)
+    redirect_to @page
+  end
+
+  def remove_page_library
+    
+    set_page
+    remove_order  = params[:remove_order].to_i
+    @page.remove_page_library(remove_order)
+    redirect_to @page
+
   end
 
   # TOOD chnage page_layout
