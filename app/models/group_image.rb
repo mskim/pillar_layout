@@ -187,6 +187,9 @@ class GroupImage < ApplicationRecord
     if working_article.column > 3
       self.column = 4 unless column
       self.row    = 1 unless row
+      self.position               = 3 unless position
+      self.fit_type               = 3 unless fit_type # '최적' '상하', '좌우', '욱여넣기'
+  
     else 
       self.column = working_article.column unless column
       self.row    = 1 unless row

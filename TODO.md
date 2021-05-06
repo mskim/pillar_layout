@@ -48,13 +48,15 @@
   - implement proof reading
 
 2021-05-05
+  - create working_article, floats from page_library
+    images, graphics, group_image 
+
   - hypenation
     - add englishing hyphenation login
     - add number hyphenation logoc
 
 2021-05-04
   - AdBox set_image_path
-    set image attachement to ActiveStorage
 
 2021-05-03
   - fix load page_library

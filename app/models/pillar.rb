@@ -372,6 +372,7 @@ class Pillar < ApplicationRecord
       end
     elsif removing_articles > 0 # current box is greater than new_layout
       ordered_working_articles  = root_articles
+      #
       layout_with_pillar_path.each_with_index do |box_rect, i|
         p_order     = box_rect[4]
         new_order   = "#{order}_#{p_order}"

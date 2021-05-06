@@ -17,9 +17,9 @@ module PageLibraryWorkingArticle
     self.extended_line_count = article_info_hash[:extended_line_count]
     self.save
     update_story_from_disk
-    update_image_from_disk
-    update_graphic_from_disk
-    update_group_graphic_from_disk
+    update_image_from_disk(layout_hash[:image_options])               if layout_hash[:image_options]
+    update_graphic_from_disk(layout_hash[:graphic_options])           if layout_hash[:graphic_options]
+    update_group_graphic_from_disk(layout_hash[:group_image_options]) if layout_hash[:group_image_options]
 
   end
 
@@ -44,16 +44,60 @@ module PageLibraryWorkingArticle
 
   end
 
-  def update_image_from_disk
-
+  def update_image_from_disk(image_options)
+    image_options.each_with_index do |image_option, i|
+      h = {}
+      h[:working_article]     = self
+      h[:order]               = i + 1
+      # find or create n-th image
+      img = Image.where(h).first_or_create
+      h = {}
+      h[:position]            = image_option[:position]
+      h[:column]              = image_option[:column]
+      h[:row]                 = image_option[:row]
+      h[:fit_type]            = image_option[:fit_type]
+      h[:extra_height_in_lines]= image_option[:extra_height_in_lines]
+      # update new options
+      img.update(h)
+      # set active_storate image path
+      img.set_storge_image_path(image_option[:image_path])
+    end
   end
 
-  def update_graphic_from_disk
-
+  def update_graphic_from_disk(graphic_options)
+    graphic_options.each_with_index do |graphic_option, i|
+      h = {}
+      h[:working_article]     = self
+      h[:order]               = i + 1
+      # find or create n-th graphic
+      graphic = Graphic.where(h).first_or_create
+      h = {}
+      h[:position]            = graphic_option[:position]
+      h[:column]              = graphic_option[:column]
+      h[:row]                 = graphic_option[:row]
+      h[:fit_type]            = graphic_option[:fit_type]
+      h[:extra_height_in_lines]= graphic_option[:extra_height_in_lines]
+      # update new options
+      graphic.update(h)
+      graphic.set_storage_image_path(graphic_option[:image_path])
+      
+    end
   end
 
-  def update_group_graphic_from_disk
-
+  def update_group_graphic_from_disk(group_image_options)
+    group_image_options.each_with_index do |group_image_option, i|
+      h = {}
+      h[:working_article]     = self
+      # h[:image_path]          = group_image_option[:image_path]
+      h[:position]            = group_image_option[:position]
+      h[:column]              = group_image_option[:column]
+      h[:row]                 = group_image_option[:row]
+      h[:fit_type]            = group_image_option[:fit_type]
+      h[:extra_height_in_lines]= group_image_option[:extra_height_in_lines]
+      #TODO: set ActiveStorage image
+      g_image = GroupImage.where(h).first_or_create
+      # g_image.set_storage_image_path(group_image_option[:image_path])
+    end  
   end
 
 end

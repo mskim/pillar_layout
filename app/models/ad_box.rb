@@ -58,6 +58,7 @@ class AdBox < ApplicationRecord
     # file = URI.open(url)
     # user = User.first
     # user.avatar.attach(io: file, filename: filename)
+    return unless new_image_path
     filename = File.basename(new_image_path)
     self.storage_ad_image.attach(io: File.open(new_image_path, 'rb'), filename: filename)
   end

@@ -861,7 +861,7 @@ class WorkingArticle < ApplicationRecord
   end
 
   def image_options
-    images.first.image_layout_hash
+    images.first.image_layout_hash if images.length > 0
   end
 
   def image_box_options
@@ -1133,7 +1133,7 @@ class WorkingArticle < ApplicationRecord
       if first_image = images.first
         h[:draw_frame] = false if first_image && first_image.draw_frame == false
         content = "RLayout::NewsImageBox.new(#{h}) do\n"
-        image_hash = image_options
+        image_hash = image_options 
         image_hash[:expand] = %i[width height]
         content += "  news_image(#{image_hash})\n"
         content += "end\n"
@@ -1434,27 +1434,27 @@ class WorkingArticle < ApplicationRecord
 
   def group_name
     code = case page.section_name
-           when '1면'
-             'first_group'
-           when '정치'
-             'second_group'
-           when '자치행정'
-             'third_group'
-           when '국제통일'
-             'fourth_group'
-           when '금융'
-             'fifth_group'
-           when '산업'
-             'sixth_group'
-           when '기획'
-             'senventh_group'
-           when '정책'
-             'eighth_group'
-           when '오피니언'
-             'nineth_group'
-           else
-             'first_group'
-           end
+    when '1면'
+      'first_group'
+    when '정치'
+      'second_group'
+    when '자치행정'
+      'third_group'
+    when '국제통일'
+      'fourth_group'
+    when '금융'
+      'fifth_group'
+    when '산업'
+      'sixth_group'
+    when '기획'
+      'senventh_group'
+    when '정책'
+      'eighth_group'
+    when '오피니언'
+      'nineth_group'
+    else
+      'first_group'
+    end
   end
 
   def news_class_large_id

@@ -329,13 +329,25 @@ class Graphic < ApplicationRecord
   #  s+= "<strong>#{caption_title}</string>#{caption}" if caption || caption_title
   end
 
+  def set_storage_image_path(new_image_path)
+    # url = URI.parse("https://your-url.com/abc.mp3")
+    # filename = File.basename(url.path)
+    # file = URI.open(url)
+    # user = User.first
+    # user.avatar.attach(io: file, filename: filename)
+    return unless new_image_path
+    filename = File.basename(new_image_path)
+    self.storage_graphic.attach(io: File.open(new_image_path, 'rb'), filename: filename)
+  end
+
   private
 
   def set_default
     self.column                 = 1 unless column
     self.row                    = 2 unless row
-    self.extra_height_in_lines  = 0
-    self.position               = 3
+    self.extra_height_in_lines  = 0 unless extra_height_in_lines
+    self.position               = 3 unless position
+    self.fit_type               = 3 unless fit_type # '최적' '상하', '좌우', '욱여넣기'
 
     if working_article_id
       wa = WorkingArticle.find(working_article_id)

@@ -49,8 +49,7 @@ class Image < ApplicationRecord
   include Rails.application.routes.url_helpers
   belongs_to :issue, optional: true
   belongs_to :working_article, optional: true
-  before_create :set_default
-  mount_uploader :image, ImageUploader
+  # mount_uploader :image, ImageUploader
   before_create  :set_default
   before_save    :save_default_value
   # active_storage 버전으로 파일 필드 추가
@@ -349,14 +348,25 @@ class Image < ApplicationRecord
     end
   end
 
+  def set_storge_image_path(new_image_path)
+    # url = URI.parse("https://your-url.com/abc.mp3")
+    # filename = File.basename(url.path)
+    # file = URI.open(url)
+    # user = User.first
+    # user.avatar.attach(io: file, filename: filename)
+    return unless new_image_path
+    filename = File.basename(new_image_path)
+    self.storage_image.attach(io: File.open(new_image_path, 'rb'), filename: filename)
+  end
+
   private
 
   def set_default
     self.column                 = 3 unless column
     self.row                    = 3 unless row
-    self.extra_height_in_lines  = 0
-    self.position               = 3
-    self.fit_type               = 3 # '최적' '상하', '좌우', '욱여넣기'
+    self.extra_height_in_lines  = 0 unless extra_height_in_lines
+    self.position               = 3 unless position
+    self.fit_type               = 3 unless fit_type # '최적' '상하', '좌우', '욱여넣기'
 
     if working_article_id
       wa = WorkingArticle.find(working_article_id)
@@ -365,6 +375,7 @@ class Image < ApplicationRecord
       self.story_number     = wa.order
       self.used_in_layout   = true
       self.order            = working_article.images.length + 1
+      set_storge_image_path(image_path) if image_path
     elsif image
       parsed_name_array = parse_file_name
       if parsed_name_array.length >= 2
