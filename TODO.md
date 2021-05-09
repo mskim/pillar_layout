@@ -47,6 +47,10 @@
   - do english hyphenation
   - implement proof reading
 
+2021-05-07
+  - dedault_page
+    load from default page, rather than creating new articles, This should speed up new issue.
+
 2021-05-05
   - create working_article, floats from page_library
     images, graphics, group_image 
