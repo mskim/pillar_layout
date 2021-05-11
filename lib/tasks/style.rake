@@ -1,13 +1,6 @@
 namespace :style do
   require 'csv'
 
-  desc 'copy working_articles samples'
-  task :copy_to_sample =>:environment do
-    WorkingArticle.all.each do |w|
-      w.copy_to_sample
-    end
-  end
-
   desc 'save_article all working_articles'
   task :save_article =>:environment do
     WorkingArticle.all.each do |w|
@@ -51,20 +44,6 @@ namespace :style do
   task :save_config =>:environment do
     Page.all.each do |p|
       p.save_config_file
-    end
-  end
-
-  desc 'copy article pdf to sample folder'
-  task :article_copy_to_sample =>:environment do
-    WorkingArticle.all.each do |w|
-      w.copy_to_sample
-    end
-  end
-
-  desc 'copy article pdf to sample folder'
-  task :ad_box_copy_to_sample =>:environment do
-    AdBox.all.each do |ad|
-      ad.copy_to_sample
     end
   end
   

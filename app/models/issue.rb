@@ -129,7 +129,7 @@ class Issue < ApplicationRecord
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
-    copy_from_sample
+    # copy_from_sample
     unless File.directory?(issue_images_path)
       system "mkdir -p #{issue_images_path}"
     end
@@ -140,9 +140,9 @@ class Issue < ApplicationRecord
     "#{Rails.root}/public/1/sample/issue"
   end
 
-  def copy_from_sample
-    system("cp -r #{sample_path}/ #{path}/")
-  end
+  # def copy_from_sample
+  #   system("cp -r #{sample_path}/ #{path}/")
+  # end
 
   DAYS_IN_KOREAN = %w[(일) (월) (화) (수) (목) (금) (토)].freeze
 
@@ -159,9 +159,9 @@ class Issue < ApplicationRecord
     "#{date.month}월 #{date.day}일 #{issue_week_day_in_korean} #{number}호"
   end
 
-  def section_path
-    "#{Rails.root}/public/#{publication_id}/section"
-  end
+  # def section_path
+  #   "#{Rails.root}/public/#{publication_id}/section"
+  # end
 
   def eval_issue_plan
     eval(plan)
@@ -373,55 +373,69 @@ class Issue < ApplicationRecord
         next
       else
         page_number = i + 1
-        # first look for page_number and ad_type specified template
         ad_type = page_plan.ad_type.unicode_normalize
-        template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
-        # If not found, look for odd even  tempate
-        unless template
-          page_type = page_number.odd? ? '101' : '102'
-          template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
+        # first look for default in page_library folder if libray exist?
+        page_library_root_path      = "#{Rails.root}/public/#{publication.id}/page_library"
+        default_page_library_foder  = page_library_root_path + "/default/#{page_number}/#{ad_type}"
+        if File.exist?(default_page_library_foder)
+          # load page_library
+          h = {}
+          h[:issue_id]      = id
+          h[:page_plan_id]  = page_plan.id
+          h[:page_number]   = page_plan.page_number
+          h[:section_name]  = page_plan.section_name
+          h[:ad_type]       = page_plan.ad_type
+          p                 = Page.create!(h)
+        else
+          # look for page_number and ad_type specified template
+          template = PageLayout.where(page_type: page_number, ad_type: ad_type).first
+          # If not found, look for odd even  tempate
           unless template
-            page_type = '100'
+            page_type = page_number.odd? ? '101' : '102'
             template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
+            unless template
+              page_type = '100'
+              template = PageLayout.where(page_type: page_type, ad_type: page_plan.ad_type).first
+            end
           end
-        end
-        if template
-          h = {}
-          h[:issue_id]      = id
-          h[:page_plan_id]  = page_plan.id
-          h[:page_number]   = page_plan.page_number
-          h[:section_name]  = page_plan.section_name
-          h[:template_id]   = template.id
-          h[:ad_type]       = page_plan.ad_type
-          h[:column] = template.column
-          h[:color_page]    = page_plan.color_page
-          p                 = Page.create!(h)
-          page_plan.page    = p
-          page_plan.dirty   = false
-          page_plan.save
-        end
-        unless template
-          # if thing is found, go for ad_type only
-          template ||= PageLayout.where(ad_type: page_plan.ad_type).first
-        end
-        unless template
-          # if still thing is found, go '광고없음' as last resort!!!
-          ad_type = '광고없음'.unicode_normalize
-          template = PageLayout.where(ad_type: ad_type).first
-          # template = PageLayout.where(ad_type: 'NO_AD').first
-          h = {}
-          h[:issue_id]      = id
-          h[:page_plan_id]  = page_plan.id
-          h[:page_number]   = page_plan.page_number
-          h[:section_name]  = page_plan.section_name
-          h[:template_id]   = template.id
-          h[:ad_type]       = page_plan.ad_type
-          h[:color_page]    = page_plan.color_page
-          p                 = Page.create!(h)
-          page_plan.page    = p
-          page_plan.dirty   = false
-          page_plan.save
-          puts "we need PageLayout for #{page_plan.ad_type}!!!!!"
+          if template
+            h = {}
+            h[:issue_id]      = id
+            h[:page_plan_id]  = page_plan.id
+            h[:page_number]   = page_plan.page_number
+            h[:section_name]  = page_plan.section_name
+            h[:template_id]   = template.id
+            h[:ad_type]       = page_plan.ad_type
+            h[:column] = template.column
+            h[:color_page]    = page_plan.color_page
+            p                 = Page.create!(h)
+            page_plan.page    = p
+            page_plan.dirty   = false
+            page_plan.save
+          end
+          unless template
+            # if thing is found, go for ad_type only
+            template ||= PageLayout.where(ad_type: page_plan.ad_type).first
+          end
+          unless template
+            # if still thing is found, go '광고없음' as last resort!!!
+            ad_type = '광고없음'.unicode_normalize
+            template = PageLayout.where(ad_type: ad_type).first
+            # template = PageLayout.where(ad_type: 'NO_AD').first
+            h = {}
+            h[:issue_id]      = id
+            h[:page_plan_id]  = page_plan.id
+            h[:page_number]   = page_plan.page_number
+            h[:section_name]  = page_plan.section_name
+            h[:template_id]   = template.id
+            h[:ad_type]       = page_plan.ad_type
+            h[:color_page]    = page_plan.color_page
+            p                 = Page.create!(h)
+            page_plan.page    = p
+            page_plan.dirty   = false
+            page_plan.save
+            puts "we need PageLayout for #{page_plan.ad_type}!!!!!"
+          end
         end
       end
     end
@@ -570,6 +584,12 @@ class Issue < ApplicationRecord
   def change_publication_template_first_page(source_path)
     current_publication_template_first_page_image_path = 
     FileUtils.cp(source_path, publication.first_page_bg_image_path)
+  end
+
+  def save_all_pages_as_default_page_library
+    pages.all.each do |page|
+      page.save_as_default_page_library
+    end
   end
 
   #########################################

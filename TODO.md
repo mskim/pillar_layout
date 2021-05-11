@@ -50,6 +50,7 @@
 2021-05-07
   - dedault_page
     load from default page, rather than creating new articles, This should speed up new issue.
+      - create page_heading, ad_box
 
 2021-05-05
   - create working_article, floats from page_library

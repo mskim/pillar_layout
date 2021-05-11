@@ -80,6 +80,14 @@ class Publication < ApplicationRecord
     "#{Rails.root}/public/#{id}"
   end
 
+  def page_library_path
+    path + "/page_library"
+  end
+
+  def page_library_default_path
+    path + "/page_library/default"
+  end
+
   def url
     "/#{id}"
   end
@@ -113,6 +121,7 @@ class Publication < ApplicationRecord
 
   def setup
     system "mkdir -p #{path}" unless File.directory?(path)
+    system "mkdir -p #{page_library_default_path}" unless File.directory?(page_library_default_path)
   end
 
   def publication_info_folder

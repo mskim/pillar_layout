@@ -21,7 +21,10 @@ module PageLibrary
   end
 
   def library_pages_jpg_url
-    library_pages_jpg.map{|p| p.gsub("#{Rails.root}/public", "")}
+    library_pages_jpg.map do |p| 
+      return nil unless p
+      p.gsub("#{Rails.root}/public", "")
+    end
   end
 
   def save_page_library
@@ -57,24 +60,21 @@ module PageLibrary
     load_ad_from_disk
   end
 
+
   def copy_library_to_page_folder(library_order)
     library_path = library_page_folder + "/#{library_order}"
     # first clear current page folder 
     system "rm -r #{path}/*"
     system "cp -R #{library_path}/* #{path}/"
-
   end
 
   def read_config_hash
-    config_hash = YAML::load_file(config_yml_path)
+    @config_hash = YAML::load_file(config_yml_path)
   end
 
   def load_config_from_disk
-    @config_hash = read_config_hash
+    read_config_hash
     version = @config_hash[:version]
-    # if version == "2.0"
-    # else
-    # end
     self.page_number                  = page_number   
     self.template_id                  = @config_hash[:template_id]   
     self.section_name                 = @config_hash[:section_name]   
@@ -94,9 +94,9 @@ module PageLibrary
     self.article_line_thickness       = @config_hash[:article_line_thickness]
     self.draw_divider                 = @config_hash[:draw_divider]
     self.save
-
     load_pillars(@config_hash[:pillar_map])
-    load_page_heading_from_disk
+    create_heading
+    create_ad_box
     load_ad_from_disk
   end
 
@@ -127,19 +127,43 @@ module PageLibrary
           Pillar.where(h).first_or_create
         end
       end
-
     end
-  end
-
-  def load_page_heading_from_disk
-
   end
 
   def load_ad_from_disk
-    current_ad_box = ad_boxes.first
-    if current_ad_box != ad_type
-      current_ad_box.change_ad_box_layout(ad_type, column)
-      current_ad_box.set_image_path(@config_hash[:ad_image_path])
-    end
+    update(ad_type: @config_hash[:ad_type])
+    ad_image_path   = @config_hash[:ad_image_path]
+    ad_box = create_ad_box
+    ad_box.set_image_path(ad_image_path) if ad_image_path
   end
+
+  ############## default_page_library 
+  # default page library is save by page_number and ad_type
+
+  def default_page_library_folder
+    page_library_root_path + "/default/#{page_number}/#{ad_type}"
+  end
+
+  def save_as_default_page_library
+    save_config_file
+    working_articles.each{|w| w.save_layout_yaml}
+    FileUtils.mkdir_p(default_page_library_folder) unless File.exist?(default_page_library_folder)
+    #clear current folder content first
+    system "rm -rf #{default_page_library_folder}/*"
+    system("cp -R #{path}/* #{default_page_library_folder}/")
+  end
+
+  def load_default_page_library
+    copy_from_default_page_library_to_page_folder
+    load_config_from_disk
+    create_heading
+    load_ad_from_disk
+  end
+
+  def copy_from_default_page_library_to_page_folder
+    # first clear current page folder 
+    system "rm -r #{path}/*"
+    system "cp -R #{default_page_library_folder}/* #{path}/"
+  end
+
 end

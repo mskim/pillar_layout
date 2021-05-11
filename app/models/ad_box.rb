@@ -557,15 +557,6 @@ EOF
     "#{Rails.root}/public/1/sample/ad_box/#{page.column}/#{ad_type}"
   end
   
-  def copy_to_sample
-    return if ad_type == "광고없음"
-    unless File.exist?(sample_path)
-      FileUtils.mkdir_p(sample_path) unless File.exist?(sample_path)
-      command = "cp -r #{path}/* #{sample_path}"
-      system("#{command}")
-    end
-  end
-
   def copy_from_sample
     return if ad_type == "광고없음"
     if File.exist?(pdf_path)

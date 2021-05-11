@@ -793,21 +793,26 @@ class Page < ApplicationRecord
     end
   end
 
-  def copy_ready_made_from_sample
-    source = "#{Rails.root}/public/1/sample/issue/#{page_number}"
-    if File.exist?(pdf_path)
-    elsif File.exist?(source)
-      system("cp -r #{source} #{path}/")
-    end
-  end
+  # def copy_ready_made_from_sample
+  #   source = "#{Rails.root}/public/1/sample/issue/#{page_number}"
+  #   if File.exist?(pdf_path)
+  #   elsif File.exist?(source)
+  #     system("cp -r #{source} #{path}/")
+  #   end
+  # end
 
   def setup
     system "mkdir -p #{path}" unless File.exist?(path)
-    create_heading
-    create_pillars
-    copy_ready_made_from_sample
-    save_config_file
-    generate_pdf_with_time_stamp unless File.exist?(pdf_path)
+    # if we have default_page_library_folder load it.
+    if File.exist?(default_page_library_folder)
+      load_default_page_library 
+    else
+      create_heading
+      create_pillars
+      # copy_ready_made_from_sample
+      save_config_file
+      generate_pdf_with_time_stamp unless File.exist?(pdf_path)
+    end
   end
 
   def create_pillars
@@ -929,7 +934,7 @@ class Page < ApplicationRecord
     choices
   end
 
-  def create_ad_box
+  def create_ad_box(options={})
     info = {page_id: self.id, order:1, ad_type: ad_type}
     case ad_type
     when '15단통'
@@ -999,7 +1004,7 @@ class Page < ApplicationRecord
     else
       return
     end
-    AdBox.create(info)
+    AdBox.where(info).first_or_create
   end
 
   def position_list
@@ -1072,7 +1077,7 @@ class Page < ApplicationRecord
       self.ad_type                = ad_type
       self.width                  = publication.width * 2 + publication.left_margin * 2 + publication.right_margin * 2
       self.section_name           = '양면광고'
-    else
+    elsif template_id
       template                    = PageLayout.find(template_id) # case when page_template is given
       self.layout                 = eval(template.layout)
       self.column                 = template.column

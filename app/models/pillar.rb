@@ -417,8 +417,16 @@ class Pillar < ApplicationRecord
   end
 
   def create_layout
-    update_layout_with_pillar_path
-    create_articles # if page.class == Page
+    # if pillar path exist? load from disk
+    if File.exist?(path)
+      config_file   = page.read_config_hash
+      pilla_map     = config_file[:pillar_map]
+      article_map  = pilla_map[order-1][:article_map]
+      load_articles(article_map)
+    else
+      update_layout_with_pillar_path
+      create_articles # if page.class == Page
+    end
   end
   # 
   # first: [[0, 0, 5, 5, "1"], [0, 5, 5, 4, "2"]]

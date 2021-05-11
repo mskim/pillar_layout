@@ -1625,29 +1625,10 @@ class WorkingArticle < ApplicationRecord
     "#{Rails.root}/public/1/sample/article/#{profile.split("_").join("/")}"
   end
 
-  def copy_to_sample
-    unless File.exist?(sample_path)
-      FileUtils.mkdir_p(sample_path) unless File.exist?(sample_path)
-      command = "cp -r #{path}/* #{sample_path}"
-      system("#{command}")
-    end
-  end
-
   def copy_from_sample
     if File.exist?(pdf_path)
     else
-      if File.exist?(sample_path)
-        system("cp -r #{sample_path}/* #{path}")
-      else
-        generate_pdf_with_time_stamp
-      end
-    end
-  end
-
-  def copy_to_sample
-    unless File.exist?(sample_path)
-      FileUtils.mkdir_p(sample_path)
-      system("cp -r #{path}/* #{sample_path}")
+      generate_pdf_with_time_stamp
     end
   end
 
