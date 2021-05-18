@@ -1,6 +1,18 @@
 namespace :style do
   require 'csv'
 
+  desc 'remove all issues that are 60 days or older'
+  task :remove_old_issues =>:environment do
+    Issue.all.each do |i|
+      target_date = Date.today.days_ago(60) 
+      if i.date < target_date
+        # except the first issue which is used for sandbox
+        next if i = Issue.first
+        puts "removing a issue at #{i.date}"
+      end
+    end
+  end
+
   desc 'save_article all working_articles'
   task :save_article =>:environment do
     WorkingArticle.all.each do |w|

@@ -56,7 +56,6 @@ module PageLibrary
   def load_page_library(library_order)
     copy_library_to_page_folder(library_order)
     load_config_from_disk
-    load_page_heading_from_disk
     load_ad_from_disk
   end
 
